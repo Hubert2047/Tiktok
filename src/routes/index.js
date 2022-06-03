@@ -1,9 +1,9 @@
+import DefaultLayout from '~/layouts/DefaultLayout'
+import SidebarLayout from '~/layouts/SidebarLayout'
 import Following from '~/pages/Following'
 import Home from '~/pages/Home'
 import Profile from '~/pages/Profile'
 import Upload from '~/pages/Upload'
-import DefaultLayout from '~/Layouts/DefaultLayout'
-import SidebarLayout from '~/Layouts/SidebarLayout'
 
 const publicRoutes = [
     { path: '/', page: Home, layout: SidebarLayout },

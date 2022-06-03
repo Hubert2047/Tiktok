@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    height: var(--default-header-height);
+    width: 100%;
+    background-color: var(--white-color);
+    box-shadow: var(--box-shadow-sm);
+}
+.inner {
+    height: 100%;
+    width: 100%;
+    max-width: 120rem;
+    margin: 0 auto;
+    background-color: #ccc;
+}
