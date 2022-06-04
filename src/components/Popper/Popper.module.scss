@@ -1,0 +1,8 @@
+.wrapper {
+    flex-direction: column;
+    width: 100%;
+    padding-top: 1rem;
+    box-shadow: var(--box-shadow-md);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+}

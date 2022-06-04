@@ -1,0 +1,13 @@
+.wrapper {
+}
+.item {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.6rem;
+    padding: 1rem 1.5rem;
+    color: var(--text-color);
+    background-color: var(--color-white);
+    &:hover {
+        background-color: var(--hover-bg-color);
+    }
+}
