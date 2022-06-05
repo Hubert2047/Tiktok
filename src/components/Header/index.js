@@ -1,9 +1,13 @@
-import Tippy from '@tippyjs/react/headless'
+import Tippy from '@tippyjs/react'
+import HeadlessTippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import { BiDotsVerticalRounded } from 'react-icons/bi'
+import { Fragment } from 'react'
+import { BiDotsVerticalRounded, BiMessageAltMinus } from 'react-icons/bi'
 import { BsKeyboard, BsSearch } from 'react-icons/bs'
+import { CgProfile, CgLogOut } from 'react-icons/cg'
 import { IoIosCloseCircleOutline, IoIosHelpCircleOutline, IoMdAdd } from 'react-icons/io'
-import { RiCharacterRecognitionFill, RiLoader2Line } from 'react-icons/ri'
+import { IoPaperPlaneSharp } from 'react-icons/io5'
+import { RiCharacterRecognitionFill, RiLoader2Line, RiSettings5Line } from 'react-icons/ri'
 import 'tippy.js/dist/tippy.css'
 import images from '~/assets/images'
 import Button from '~/components/Button'
@@ -13,13 +17,67 @@ import UserSuggest from '~/components/UserSuggest'
 import styles from './Header.module.scss'
 
 const clsx = classNames.bind(styles)
-const MENU_ITEM = [
-    { title: 'English', icon: <RiCharacterRecognitionFill /> },
-    { title: 'Feedback and help', icon: <IoIosHelpCircleOutline /> },
-    { title: 'Keyboard shortcuts', icon: <BsKeyboard /> },
+const UNLOGIN_MENU_ITEM = [
+    {
+        data: [
+            {
+                title: 'English',
+                icon: <RiCharacterRecognitionFill />,
+                children: {
+                    title: 'languages',
+                    data: [
+                        { title: 'English' },
+                        { title: 'VietNam' },
+                        { title: 'Chinese' },
+                        { title: 'Cebuano (Pilipinas)' },
+                    ],
+                },
+            },
+            { title: 'Feedback and help', icon: <IoIosHelpCircleOutline />, to: './' },
+            { title: 'Keyboard shortcuts', icon: <BsKeyboard /> },
+        ],
+    },
+]
+const LOGIN_MENU_ITEM = [
+    {
+        data: [
+            { title: 'View profile', icon: <CgProfile />, to: './' },
+            { title: 'Setting', icon: <RiSettings5Line />, to: './' },
+            ...UNLOGIN_MENU_ITEM[0].data,
+            { title: 'Log out', icon: <CgLogOut />, to: './', separate: true },
+        ],
+    },
 ]
 function Header() {
     const [searchResults, setSearchResults] = [1]
+    const currentUser = true
+    const unLoginUI = (
+        <Fragment>
+            <Button to='./' type='btn-grey' size='size-md' icon={<IoMdAdd />} title='Upload'></Button>
+            <Button to='./' type='btn-primary' size='size-md' title='Log in'></Button>
+            <Menu menu={UNLOGIN_MENU_ITEM}>
+                <BiDotsVerticalRounded className={clsx('icon')} />
+            </Menu>
+        </Fragment>
+    )
+    const loginUI = (
+        <Fragment>
+            <Button to='./' type='btn-grey' size='size-md' icon={<IoMdAdd />} title='Upload'></Button>
+            <Tippy content='Message' delay={[0, 50]} trigger='click'>
+                <button className={clsx('btn', 'd-flex')}>
+                    <IoPaperPlaneSharp className={clsx('icon')} />
+                </button>
+            </Tippy>
+            <Tippy content='Inbox' delay={[0, 50]}>
+                <button className={clsx('btn', 'd-flex')}>
+                    <BiMessageAltMinus className={clsx('icon')} />
+                </button>
+            </Tippy>
+            <Menu menu={LOGIN_MENU_ITEM}>
+                <img src={images.avatar} alt='avatar' className={clsx('avatar')} />
+            </Menu>
+        </Fragment>
+    )
     const user = {
         id: 1,
         img: '',
@@ -27,7 +85,7 @@ function Header() {
         desc: '',
     }
     return (
-        <div className={clsx('wrapper')}>
+        <header className={clsx('wrapper')}>
             <div className={clsx('inner', 'd-flex')}>
                 {/* logo */}
                 <div className={clsx('logo')}>
@@ -35,7 +93,7 @@ function Header() {
                 </div>
                 {/* search */}
                 {/* headless of Tippy */}
-                <Tippy
+                <HeadlessTippy
                     interactive={true}
                     render={(attrs) => (
                         <div className={clsx('search-result')} tabIndex='-1' {...attrs}>
@@ -61,17 +119,11 @@ function Header() {
                             <BsSearch className={clsx('search-icon')} />
                         </button>
                     </div>
-                </Tippy>
+                </HeadlessTippy>
                 {/* action */}
-                <div className={clsx('right-container', 'd-flex')}>
-                    <Button to='./' type='btn-grey' size='size-md' icon={<IoMdAdd />} title='Upload'></Button>
-                    <Button to='./' type='btn-primary' size='size-md' title='Log in'></Button>
-                    <Menu menu={MENU_ITEM}>
-                        <BiDotsVerticalRounded className={clsx('seemore-icon')} />
-                    </Menu>
-                </div>
+                <div className={clsx('right-container', 'd-flex')}>{currentUser ? loginUI : unLoginUI}</div>
             </div>
-        </div>
+        </header>
     )
 }
 

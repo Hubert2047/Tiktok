@@ -1,13 +1,16 @@
-.wrapper {
-}
 .item {
-    display: flex;
     justify-content: flex-start;
     font-size: 1.6rem;
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.6rem;
     color: var(--text-color);
     background-color: var(--color-white);
+    font-weight: 300;
+    font-family: 'IBM Plex Sans', sans-serif;
+    border-radius: 0;
     &:hover {
         background-color: var(--hover-bg-color);
     }
+}
+.separate {
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
 }

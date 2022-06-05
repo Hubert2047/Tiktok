@@ -1,6 +1,7 @@
 @import '~@csstools/normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&display=swap');
 :root {
+    //color
     --primary-color: #fe2c55;
     --white-color: #ffffff;
     --grey-color: #f1f1f2;
@@ -8,7 +9,11 @@
     --hover-bg-color: rgba(22, 24, 35, 0.03);
     --black-color: #161823;
     --blue-color: rgb(32, 213, 236);
+    //fefault layout
+    --PC-max-width: 115rem;
+    --default-layout-horizontal-space: 2rem;
     --default-header-height: 6rem;
+    //unit
     --box-shadow-sm: 0px 1px 1px rgb(0 0 0 / 12%);
     --box-shadow-md: rgb(0 0 0 / 12%) 0px 2px 12px;
     --border-radius-bigest: 50px;
@@ -24,16 +29,19 @@
 html {
     font-size: 62.5%;
 }
+
 body {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1.6rem;
     line-height: 1.2;
+    color: var(--text-color);
     text-rendering: optimizeSpeed;
 }
 input,
 button {
     outline: none;
     border: none;
+    background-color: transparent;
 }
 a {
     text-decoration: none;
@@ -43,4 +51,14 @@ a {
 }
 .d-flex {
     display: flex;
+}
+//custom tippy
+body {
+    .tippy-box {
+        background-color: rgba(84, 84, 84, 0.92);
+    }
+
+    .tippy-arrow {
+        color: rgba(84, 84, 84, 0.92);
+    }
 }
