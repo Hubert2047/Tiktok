@@ -99,10 +99,11 @@ $default-search-width: 35rem;
 }
 
 .icon {
-    font-size: 2.75rem;
-    color: rgba(22, 24, 35, 0.75);
+    font-size: 2.5rem;
+    color: rgba(22, 24, 35, 1);
 }
 .avatar {
+    align-items: center;
     height: 3.2rem;
     width: 3.2rem;
     border-radius: 50%;
