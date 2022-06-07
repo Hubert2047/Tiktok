@@ -1,15 +1,13 @@
 import Tippy from '@tippyjs/react'
-import HeadlessTippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
 import { Fragment } from 'react'
-import { IoIosCloseCircleOutline, IoMdAdd } from 'react-icons/io'
-import { RiLoader2Line } from 'react-icons/ri'
+import { IoMdAdd } from 'react-icons/io'
+import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import images from '~/assets/images'
 import Button from '~/components/Button'
 import Menu from '~/components/Menu'
-import { PopperWrapper } from '~/components/Popper'
-import UserSuggest from '~/components/UserSuggest'
+import config from '~/config'
 import {
     HelpIcon,
     InboxIcon,
@@ -18,11 +16,11 @@ import {
     LogoutIcon,
     MessengerIcon,
     ProfileIcon,
-    SearchIcon,
     SettingIcon,
     ThreeDotIcon,
 } from '../Icons'
 import Image from '../Image'
+import Search from '../Search'
 import styles from './Header.module.scss'
 
 const clsx = classNames.bind(styles)
@@ -35,6 +33,26 @@ const UNLOGIN_MENU_ITEM = [
                 children: {
                     title: 'languages',
                     data: [
+                        { title: 'English' },
+                        { title: 'VietNam' },
+                        { title: 'Chinese' },
+                        { title: 'Cebuano (Pilipinas)' },
+                        { title: 'English' },
+                        { title: 'VietNam' },
+                        { title: 'Chinese' },
+                        { title: 'Cebuano (Pilipinas)' },
+                        { title: 'English' },
+                        { title: 'VietNam' },
+                        { title: 'Chinese' },
+                        { title: 'Cebuano (Pilipinas)' },
+                        { title: 'English' },
+                        { title: 'VietNam' },
+                        { title: 'Chinese' },
+                        { title: 'Cebuano (Pilipinas)' },
+                        { title: 'English' },
+                        { title: 'VietNam' },
+                        { title: 'Chinese' },
+                        { title: 'Cebuano (Pilipinas)' },
                         { title: 'English' },
                         { title: 'VietNam' },
                         { title: 'Chinese' },
@@ -52,14 +70,13 @@ const LOGIN_MENU_ITEM = [
         data: [
             { title: 'View profile', icon: <ProfileIcon />, to: './' },
             { title: 'Setting', icon: <SettingIcon />, to: './' },
-            ...UNLOGIN_MENU_ITEM[0].data,
+            ...UNLOGIN_MENU_ITEM[0].data, //clone data from unlogin menu
             { title: 'Log out', icon: <LogoutIcon />, to: './', separate: true },
         ],
     },
 ]
 function Header() {
-    const [searchResults, setSearchResults] = [1]
-    const currentUser = false
+    const currentUser = true
     const unLoginUI = (
         <Fragment>
             <Button to='./' type='btn-grey' size='size-md' icon={<IoMdAdd />} title='Upload'></Button>
@@ -87,49 +104,17 @@ function Header() {
             </Menu>
         </Fragment>
     )
-    const user = {
-        id: 1,
-        img: '',
-        title: '',
-        desc: '',
-    }
+
     return (
         <header className={clsx('wrapper')}>
             <div className={clsx('inner', 'd-flex')}>
                 {/* logo */}
-                <div className={clsx('logo')}>
+                <Link to={config.routes.home} className={clsx('logo', 'd-flex')}>
                     <img src={images.logo} alt='logo' />
-                </div>
+                </Link>
                 {/* search */}
                 {/* headless of Tippy */}
-                <HeadlessTippy
-                    interactive={true}
-                    render={(attrs) => (
-                        <div className={clsx('search-result')} tabIndex='-1' {...attrs}>
-                            <PopperWrapper>
-                                <h4 className={clsx('search-title')}>Accounts</h4>
-                                <UserSuggest user={user} />
-                                {/* {searchResults.map?.((user) => {
-                                    console.log(user)
-                                    return <UserSuggest key={user.id} user={user} />
-                                })} */}
-                            </PopperWrapper>
-                        </div>
-                    )}>
-                    <div className={clsx('center-container', 'd-flex')}>
-                        <div className={clsx('search', 'd-flex')}>
-                            <input placeholder='Search accounts and videos' />
-                            <button className={clsx('clear', 'd-flex')}>
-                                <IoIosCloseCircleOutline className={clsx('clear-icon')} />
-                            </button>
-                            <RiLoader2Line className={clsx('load')} />
-                        </div>
-                        <button className={clsx('search-btn', 'd-flex')}>
-                            <SearchIcon />
-                            {/* <BsSearch className={clsx('search-icon')} /> */}
-                        </button>
-                    </div>
-                </HeadlessTippy>
+                <Search />
                 {/* action */}
                 <div className={clsx('right-container', 'd-flex')}>{currentUser ? loginUI : unLoginUI}</div>
             </div>

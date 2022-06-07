@@ -6,7 +6,7 @@ import { PopperWrapper } from '~/components/Popper'
 import styles from './Menu.module.scss'
 import MenuHeader from './MenuHeader'
 const clsx = classNames.bind(styles)
-function Menu({ children, menu = [] }) {
+function Menu({ menu = [], hideOnClick = false, children }) {
     const [menuList, setMenuList] = useState(menu)
     const currentMenu = menuList.at(-1)
 
@@ -42,18 +42,20 @@ function Menu({ children, menu = [] }) {
                 // trigger='click'
                 // animation={true}
                 // visible={true}
+                hideOnClick={hideOnClick}
                 interactive={true}
                 placement='bottom-end'
                 render={(attrs) => (
                     <div className={clsx('menu-list')} tabIndex='-1' {...attrs}>
                         <PopperWrapper className={clsx('menu-container')}>
                             {menuList.length > 1 && <MenuHeader title={currentMenu.title} onBack={handleMenuOnBack} />}
-                            {renderMenu()}
+
+                            <div className={clsx('menu-body')}> {renderMenu()}</div>
                         </PopperWrapper>
                     </div>
                 )}
                 onHide={handleMenuOnHide}>
-                <div>{children}</div>
+                {children}
             </Tippy>
         </div>
     )

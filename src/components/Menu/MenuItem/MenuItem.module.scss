@@ -4,8 +4,8 @@
     padding: 1rem 1.6rem;
     color: var(--text-color);
     background-color: var(--color-white);
-    font-weight: 300;
-    font-family: Proxima, sans-serif;
+    font-weight: 400;
+    font-family: var(--font-family);
     border-radius: 0;
     &:hover {
         background-color: var(--hover-bg-color);

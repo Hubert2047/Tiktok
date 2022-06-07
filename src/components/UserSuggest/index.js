@@ -1,20 +1,21 @@
 import classNames from 'classnames/bind'
 import { HiBadgeCheck } from 'react-icons/hi'
-import images from '~/assets/images'
+import { Link } from 'react-router-dom'
+import Image from '../Image'
 import styles from './UserSuggest.module.scss'
 const clsx = classNames.bind(styles)
 function UserSuggest({ user }) {
     return (
-        <div className={clsx('wrapper', 'd-flex')}>
-            <img className={clsx('img')} alt='avatar' src={user.img || images.defaultAvatar} />
+        <Link to={`/@${user.nickname}`} className={clsx('wrapper', 'd-flex')}>
+            <Image className={clsx('img')} alt='avatar' src={user.avatar} />
             <div className={clsx('content')}>
                 <h4 className={clsx('title', 'd-flex')}>
-                    <span> {user.title || 'Hubert'}</span>
-                    <HiBadgeCheck className={clsx('title-check')} />
+                    <span> {user.full_name}</span>
+                    {user.tick && <HiBadgeCheck className={clsx('title-check')} />}
                 </h4>
-                <p className={clsx('desc')}>{user.desc || '😀 hallo'}</p>
+                <p className={clsx('desc')}>{user.nickname}</p>
             </div>
-        </div>
+        </Link>
     )
 }
 

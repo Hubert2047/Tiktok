@@ -80,7 +80,13 @@ export function SettingIcon({ className, width = '2rem', height = '2rem' }) {
 }
 export function SearchIcon({ className, width = '2.4rem', height = '2.4rem' }) {
     return (
-        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
+        <svg
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 48 48'
+            xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'

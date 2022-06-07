@@ -1,8 +1,10 @@
-$default-search-width: 35rem;
 .wrapper {
+    position: fixed;
+    top: 0;
     height: var(--default-header-height);
     width: 100%;
     box-shadow: var(--box-shadow-sm);
+    background-color: var(--white-color);
 }
 .inner {
     justify-content: space-between;
@@ -16,77 +18,11 @@ $default-search-width: 35rem;
     background-color: var(--white-color);
 }
 .logo {
-    // flex: 1;
-}
-.center-container {
-    width: $default-search-width;
-    gap: 2rem;
-    padding: 1.2rem 1.6rem;
-    background-color: var(--grey-color);
-    border-radius: var(--border-radius-bigest);
-    overflow: hidden;
-    // flex: 3;
+    align-items: center;
 }
 
-.search {
-    align-items: center;
-    flex: 1;
-    margin-right: 0.5rem;
-    input {
-        flex: 1;
-        height: 100%;
-        font-size: 1.6rem;
-        color: var(--black-color);
-        background-color: transparent;
-        font-weight: 300;
-        font-family: 'IBM Plex Sans', sans-serif;
-    }
-}
-.search-title {
-    font-size: 1.5rem;
-    padding: 0.25rem 1.25rem;
-    font-weight: 400;
-    color: rgba(22, 24, 35, 0.5);
-}
-.search-result {
-    width: $default-search-width;
-    max-height: min((100vh - 96px) - 60px, 734px);
-    background-color: var(--white-color);
-    box-shadow: var(--box-shadow-md);
-    overflow: hidden;
-}
-.clear {
-    align-items: center;
-    cursor: pointer;
-}
+//right container
 
-.search-btn {
-    position: relative;
-    align-items: center;
-    padding: 12px 16px;
-    margin: -12px -16px;
-    cursor: pointer;
-    &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 1px;
-        height: 60%;
-        background-color: rgba(22, 24, 35, 0.12);
-        transform: translateY(-50%);
-    }
-    &:hover {
-        background-color: var(--hover-bg-color);
-    }
-}
-.clear-icon {
-    font-size: 1.8rem;
-}
-.search-icon {
-    font-size: 1.8rem;
-    color: rgba(22, 24, 35, 0.34);
-}
 .right-container {
     align-items: center;
     gap: 1.75rem;

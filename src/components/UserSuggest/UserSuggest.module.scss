@@ -8,9 +8,11 @@
 }
 .img {
     height: 4rem;
+    border-radius: 50%;
     aspect-ratio: 1/1;
 }
 .content {
+    color: var(--text-color);
 }
 .title {
     align-items: center;
