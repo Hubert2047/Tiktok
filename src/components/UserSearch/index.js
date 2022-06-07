@@ -2,11 +2,15 @@ import classNames from 'classnames/bind'
 import { HiBadgeCheck } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 import Image from '../Image'
-import styles from './UserSuggest.module.scss'
+import styles from './UserSearch.module.scss'
+import config from '~/config'
+import PropTypes from 'prop-types'
+import UserAvatar from '~/components/UserAvatar'
 const clsx = classNames.bind(styles)
-function UserSuggest({ user }) {
+function UserSearch({ user }) {
     return (
-        <Link to={`/@${user.nickname}`} className={clsx('wrapper', 'd-flex')}>
+        <Link to={config.routes.profile(user.nickname)} className={clsx('wrapper', 'd-flex')}>
+            {/* <UserAvatar className={clsx('img')} alt='avatar' src={user.avatar} /> */}
             <Image className={clsx('img')} alt='avatar' src={user.avatar} />
             <div className={clsx('content')}>
                 <h4 className={clsx('title', 'd-flex')}>
@@ -19,4 +23,12 @@ function UserSuggest({ user }) {
     )
 }
 
-export default UserSuggest
+UserSearch.propTypes = {
+    user: PropTypes.shape({
+        avatar: PropTypes.string,
+        tick: PropTypes.bool,
+        nickname: PropTypes.string,
+        full_name: PropTypes.string,
+    }),
+}
+export default UserSearch

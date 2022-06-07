@@ -7,6 +7,8 @@
     --white-color: #ffffff;
     --grey-color: #f1f1f2;
     --grey-color-1: #c5c6c9;
+    --grey-color-2: rgba(22, 24, 35, 0.5);
+    --grey-color-3: rgba(22, 24, 35, 0.75);
     --text-color: #413f42;
     --hover-bg-color: rgba(22, 24, 35, 0.03);
     --black-color: #161823;
@@ -98,7 +100,7 @@ html *::-webkit-scrollbar {
 }
 html *::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(79, 41, 41, 0.15);
 }
 
 html *::-webkit-scrollbar-track {

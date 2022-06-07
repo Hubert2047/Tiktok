@@ -26,7 +26,7 @@ function Menu({ menu = [], hideOnClick = false, children }) {
     }
     const handleMenuOnHide = function () {
         setMenuList((prev) => {
-            return prev.slice(0, 1)
+            return prev.slice(0, 1) //return back to first array
         })
     }
     const renderMenu = () => {
@@ -37,8 +37,8 @@ function Menu({ menu = [], hideOnClick = false, children }) {
     return (
         <div className={clsx('wrapper')}>
             <Tippy
-                delay={[0, 300]}
-                offset={[7, 11]}
+                delay={[0, 300]} //delay to fade out
+                offset={[7, 11]} //change position
                 // trigger='click'
                 // animation={true}
                 // visible={true}

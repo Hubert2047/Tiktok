@@ -10,7 +10,7 @@ const publicRoutes = [
     { path: config.routes.home, page: Home, layout: SidebarLayout },
     { path: config.routes.following, page: Following, layout: SidebarLayout },
     { path: config.routes.upload, page: Upload, layout: MainLayout },
-    { path: config.routes.profile, page: Profile, layout: SidebarLayout },
+    { path: config.routes.profile(), page: Profile, layout: SidebarLayout },
 ]
 
 export { publicRoutes }

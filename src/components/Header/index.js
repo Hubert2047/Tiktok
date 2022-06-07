@@ -6,80 +6,27 @@ import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import images from '~/assets/images'
 import Button from '~/components/Button'
+import { InboxIcon, MessengerIcon, ThreeDotIcon } from '~/components/Icons'
+import Image from '~/components/Image'
 import Menu from '~/components/Menu'
+import Search from '~/components/Search'
 import config from '~/config'
-import {
-    HelpIcon,
-    InboxIcon,
-    KeyboardIcon,
-    LanguageIcon,
-    LogoutIcon,
-    MessengerIcon,
-    ProfileIcon,
-    SettingIcon,
-    ThreeDotIcon,
-} from '../Icons'
-import Image from '../Image'
-import Search from '../Search'
+import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import styles from './Header.module.scss'
-
 const clsx = classNames.bind(styles)
-const UNLOGIN_MENU_ITEM = [
-    {
-        data: [
-            {
-                title: 'English',
-                icon: <LanguageIcon />,
-                children: {
-                    title: 'languages',
-                    data: [
-                        { title: 'English' },
-                        { title: 'VietNam' },
-                        { title: 'Chinese' },
-                        { title: 'Cebuano (Pilipinas)' },
-                        { title: 'English' },
-                        { title: 'VietNam' },
-                        { title: 'Chinese' },
-                        { title: 'Cebuano (Pilipinas)' },
-                        { title: 'English' },
-                        { title: 'VietNam' },
-                        { title: 'Chinese' },
-                        { title: 'Cebuano (Pilipinas)' },
-                        { title: 'English' },
-                        { title: 'VietNam' },
-                        { title: 'Chinese' },
-                        { title: 'Cebuano (Pilipinas)' },
-                        { title: 'English' },
-                        { title: 'VietNam' },
-                        { title: 'Chinese' },
-                        { title: 'Cebuano (Pilipinas)' },
-                        { title: 'English' },
-                        { title: 'VietNam' },
-                        { title: 'Chinese' },
-                        { title: 'Cebuano (Pilipinas)' },
-                    ],
-                },
-            },
-            { title: 'Feedback and help', icon: <HelpIcon />, to: './' },
-            { title: 'Keyboard shortcuts', icon: <KeyboardIcon /> },
-        ],
-    },
-]
-const LOGIN_MENU_ITEM = [
-    {
-        data: [
-            { title: 'View profile', icon: <ProfileIcon />, to: './' },
-            { title: 'Setting', icon: <SettingIcon />, to: './' },
-            ...UNLOGIN_MENU_ITEM[0].data, //clone data from unlogin menu
-            { title: 'Log out', icon: <LogoutIcon />, to: './', separate: true },
-        ],
-    },
-]
+
 function Header() {
     const currentUser = true
     const unLoginUI = (
         <Fragment>
-            <Button to='./' type='btn-grey' size='size-md' icon={<IoMdAdd />} title='Upload'></Button>
+            <Button
+                to='./'
+                type='btn-grey'
+                size='size-md'
+                icon={<IoMdAdd />}
+                title='Upload'
+                border='border-grey'></Button>
+
             <Button to='./' type='btn-primary' size='size-md' title='Log in'></Button>
             <Menu menu={UNLOGIN_MENU_ITEM}>
                 <ThreeDotIcon className={clsx('icon')} />
@@ -88,7 +35,13 @@ function Header() {
     )
     const loginUI = (
         <Fragment>
-            <Button to='./' type='btn-grey' size='size-md' icon={<IoMdAdd />} title='Upload'></Button>
+            <Button
+                to='./'
+                type='btn-grey'
+                size='size-md'
+                border='border-grey'
+                icon={<IoMdAdd />}
+                title='Upload'></Button>
             <Tippy content='Message' delay={[0, 50]}>
                 <button className={clsx('btn', 'd-flex')}>
                     <MessengerIcon />
@@ -97,6 +50,7 @@ function Header() {
             <Tippy content='Inbox' delay={[0, 50]}>
                 <button className={clsx('btn', 'd-flex')}>
                     <InboxIcon />
+                    <span className={clsx('inbox-notification')}>10</span>
                 </button>
             </Tippy>
             <Menu menu={LOGIN_MENU_ITEM}>
@@ -113,7 +67,6 @@ function Header() {
                     <img src={images.logo} alt='logo' />
                 </Link>
                 {/* search */}
-                {/* headless of Tippy */}
                 <Search />
                 {/* action */}
                 <div className={clsx('right-container', 'd-flex')}>{currentUser ? loginUI : unLoginUI}</div>

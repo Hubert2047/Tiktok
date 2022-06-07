@@ -9,7 +9,9 @@ function SidebarLayout({ children }) {
         <div className={clsx('wrapper')}>
             <Header />
             <div className={clsx('container')}>
-                <Sidebar />
+                <div>
+                    <Sidebar className={clsx('sidebar')} />
+                </div>
                 <div className={clsx('content')}>{children}</div>
             </div>
         </div>

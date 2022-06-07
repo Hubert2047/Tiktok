@@ -1,3 +1,34 @@
 .wrapper {
-    box-shadow: var(--box-shadow-sm);
+    .action-btn {
+        font-size: 1.8rem;
+        justify-content: flex-start;
+        padding-left: 1rem;
+        // margin-left: -1rem;
+        &:hover {
+            background-color: var(--hover-bg-color);
+        }
+        &:last-child {
+            margin-bottom: 0.75rem;
+        }
+    }
+}
+.action {
+}
+//suggest
+.suggest-account {
+}
+
+.suggest-list {
+}
+//footer
+.footer {
+    border-top: 1px solid var(--grey-color);
+    padding: 1.25rem 0;
+}
+
+.copy-right {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    color: var(--grey-color-2);
 }

@@ -4,10 +4,10 @@ import classNames from 'classnames/bind'
 import { useEffect, useRef, useState } from 'react'
 import { BiLoaderCircle } from 'react-icons/bi'
 import { IoIosCloseCircleOutline } from 'react-icons/io'
-import * as apiServices from '~/services'
 import { PopperWrapper } from '~/components/Popper'
-import UserSuggest from '~/components/UserSuggest'
+import UserSearch from '~/components/UserSearch'
 import { useDebounce } from '~/hooks'
+import * as apiServices from '~/services'
 import { SearchIcon } from '../Icons/index'
 import styles from './Search.module.scss'
 const clsx = classNames.bind(styles)
@@ -65,7 +65,7 @@ function Search() {
                     <PopperWrapper>
                         <h4 className={clsx('search-result-title')}>Accounts</h4>
                         {searchResult?.map?.((user) => (
-                            <UserSuggest key={user.id} user={user} />
+                            <UserSearch key={user.id} user={user} />
                         ))}
                     </PopperWrapper>
                 </div>

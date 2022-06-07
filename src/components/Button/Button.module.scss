@@ -11,32 +11,54 @@
 }
 .icon {
     align-items: center;
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
+    font-size: 1.5em;
 }
+
+//styles
+
 .btn-primary {
-    color: var(--white-color);
-    background-color: var(--primary-color);
     &:hover {
         background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #fe2c55;
     }
 }
 .btn-grey {
-    color: var(--black-color);
-    border: 1px solid rgba(22, 24, 35, 0.12);
     &:hover {
         background-color: var(--hover-bg-color);
     }
-}
-.btn-outline {
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
 }
 .btn-rounded {
     border: 1px solid var(--grey-color);
     border-radius: var(--border-radius-bigest);
 }
+// .btn-outline {
+//     // border: 1px solid var(--primary-color);
+// }
+
+//background-color
+.bg-primary {
+    background-color: var(--primary-color);
+}
+
+//color
+.color-primary {
+    color: var(--primary-color);
+}
+.color-white {
+    color: var(--white-color);
+}
+.color-black {
+    color: var(--black-color);
+}
+
+//border
+.border-primary {
+    border: 1px solid var(--primary-color);
+}
+.border-grey {
+    border: 1px solid rgba(22, 24, 35, 0.12);
+}
+
+//size
 .size-sm {
     height: 2.8rem;
     width: 8.8rem;

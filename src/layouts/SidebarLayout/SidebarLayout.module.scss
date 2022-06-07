@@ -1,11 +1,30 @@
 .wrapper {
+    --sidebar-width: 35rem;
 }
 .container {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: var(--sidebar-width) 1fr;
     gap: 1rem;
     max-width: var(--PC-max-width);
     margin: 0 auto;
-    padding: var(--default-layout-horizontal-space);
     margin-top: var(--default-header-height);
+}
+.sidebar {
+    position: fixed;
+    top: var(--default-header-height);
+    bottom: 0;
+    z-index: 9;
+    width: var(--sidebar-width);
+    padding: 1.75rem 0.8rem;
+    background-color: var(--white-color);
+    transition: all 0.5s linear;
+    overflow: scroll;
+    overflow: overlay;
+    &:hover::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar {
+        border-radius: 0;
+        width: 0px;
+    }
 }
