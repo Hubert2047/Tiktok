@@ -1,7 +1,7 @@
 const profile = function (route) {
-    return route ? `/@:${route}`:'/@:route'
+    return route ? `/@:${route}` : '/@:route'
 }
-export const PROFILE_ROUTE='full_name'
+export const PROFILE_ROUTE = 'full_name'
 const routes = {
     home: '/',
     following: '/following',

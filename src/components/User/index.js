@@ -8,10 +8,7 @@ const clsx = classNames.bind(styles)
 const User = forwardRef(({ user }, ref) => {
     return (
         <div ref={ref} className={clsx('wrapper', 'd-flex')}>
-            <UserAvatar
-                className={clsx('avatar')}
-               user={user}
-            />
+            <UserAvatar className={clsx('avatar')} user={user} />
             {/* <Image className={clsx('avatar', { online: user.isLive })} src={user.avatar} alt={'user'} /> */}
             <UserName user={user} />
         </div>

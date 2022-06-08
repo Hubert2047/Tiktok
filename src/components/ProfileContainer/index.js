@@ -18,11 +18,7 @@ function ProfileContainer({ user, children }) {
             render={(attrs) => (
                 <div className={clsx('wrapper', 'd-flex')} tabIndex='-1' {...attrs}>
                     <div className={clsx('header', 'd-flex')}>
-                        <UserAvatar
-                            user={user}
-                            className={clsx('img')}
-                         
-                        />
+                        <UserAvatar user={user} className={clsx('img')} />
                         {/* <Image src={user.avatar} alt={'avatar'} className={clsx('img')} /> */}
                         <Button
                             size='size-md'
