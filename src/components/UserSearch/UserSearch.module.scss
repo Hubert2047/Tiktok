@@ -1,0 +1,29 @@
+.wrapper {
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    &:hover {
+        background-color: var(--hover-bg-color);
+    }
+}
+.img {
+    height: 4rem;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+}
+.content {
+    color: var(--text-color);
+}
+.title {
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+.title-check {
+    color: var(--blue-color);
+}
+.desc {
+    font-size: 1.4rem;
+    color: var(--grey-color-2);
+}

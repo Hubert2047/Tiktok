@@ -1,0 +1,17 @@
+.wrapper {
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    //     margin-left: -0.5rem;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    &:hover {
+        background-color: var(--hover-bg-color);
+    }
+}
+
+.avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}

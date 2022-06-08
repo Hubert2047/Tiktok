@@ -1,0 +1,22 @@
+.wrapper {
+    align-items: flex-start;
+    flex-direction: column;
+    cursor: pointer;
+}
+.name-box {
+    align-items: center;
+    gap: 0.25rem;
+}
+.check-icon {
+    fill: var(--blue-color);
+}
+.name {
+    font-weight: 600;
+    color:var(--grey-color-3)
+    
+}
+.nickname {
+    color: var(--grey-color-2);
+    font-weight: 400;
+    font-size: 1.25rem;
+}
