@@ -1,6 +1,5 @@
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import Image from '~/components/Image'
 import UserName from '~/components/UserName'
 import Button from '../Button'
 import UserAvatar from '../UserAvatar'

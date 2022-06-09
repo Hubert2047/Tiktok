@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind'
+import GetApp from '~/components/GetApp'
 import Header from '~/components/Header'
 import Sidebar from '~/components/Sidebar'
 import styles from './SidebarLayout.module.scss'
@@ -12,7 +13,10 @@ function SidebarLayout({ children }) {
                 <div>
                     <Sidebar className={clsx('sidebar')} />
                 </div>
-                <div className={clsx('content')}>{children}</div>
+                <div className={clsx('content')}>
+                    {children}
+                    <GetApp />
+                </div>
             </div>
         </div>
     )

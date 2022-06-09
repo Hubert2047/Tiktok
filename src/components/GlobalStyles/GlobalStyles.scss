@@ -66,6 +66,13 @@ a {
 .d-flex {
     display: flex;
 }
+.d-grid {
+    display: grid;
+}
+.grid-center {
+    display: grid;
+    place-items: center;
+}
 //fonts
 @font-face {
     font-family: Proxima;

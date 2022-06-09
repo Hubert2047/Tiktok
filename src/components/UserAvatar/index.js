@@ -7,7 +7,7 @@ const clsx = classNames.bind(styles)
 function UserAvatar({ user, className }) {
     return (
         <Link to={config.routes.profile(user[config.PROFILE_ROUTE])} className={clsx('wrapper')}>
-            <Image src={user.avatar} alt={'avatar'} className={clsx(className, { isLive: user.isLive })} />
+            <Image src={user.avatar} alt={'avatar'} className={clsx('avatar', className, { isLive: user.isLive })} />
         </Link>
     )
 }

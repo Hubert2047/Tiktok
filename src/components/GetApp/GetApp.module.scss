@@ -1,0 +1,26 @@
+.wrapper {
+    position: fixed;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    bottom: 0.75rem;
+    right: 2.4rem;
+    transition: all 0.25s linear;
+    transform: translateY(60%);
+}
+.show-btn {
+    transform: translateY(0);
+}
+.get-app-btn {
+    font-size: 1.4rem;
+    height: 3.2rem;
+    width: 9rem;
+    color: var(--grey-color-2);
+    box-shadow: var(--box-shadow-sm-round);
+    font-weight: 600;
+}
+.scroll-btn {
+    width: 3.2rem;
+    height: 3.2rem;
+}

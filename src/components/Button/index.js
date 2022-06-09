@@ -32,7 +32,7 @@ function Button({ to, href, type, size, icon, bg, color, border, title, classNam
     return (
         <Comp className={classes} {...props}>
             {icon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}
-            <span className={clsx('title')}>{title}</span>
+            {title && <span className={clsx('title')}>{title}</span>}
         </Comp>
     )
 }

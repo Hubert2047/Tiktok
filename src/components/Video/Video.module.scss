@@ -1,0 +1,33 @@
+.wrapper {
+    align-items: flex-end;
+    gap: 1.5rem;
+}
+.video-box {
+    position: relative;
+    &:hover .report-box {
+        display: flex;
+        opacity: 1;
+    }
+}
+.video {
+    width: 100%;
+    max-height: 45rem;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+}
+
+.report-box {
+    display: none;
+    position: absolute;
+    z-index: 5;
+    top: 5%;
+    right: 10%;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 1.6rem;
+    padding: 0.5rem;
+    opacity: 0;
+    color: var(--white-color);
+    transition: all 1.25s ease;
+    cursor: pointer;
+}

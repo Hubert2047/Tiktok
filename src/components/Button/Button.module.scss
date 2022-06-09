@@ -16,6 +16,18 @@
     align-items: center;
     font-size: 1.5em;
 }
+//size
+.size-sm {
+    height: 2.8rem;
+    width: 8.8rem;
+}
+.size-md {
+    height: 3.6rem;
+    width: 10rem;
+}
+.size-big {
+    height: 4.8rem;
+}
 
 //styles
 
@@ -30,8 +42,10 @@
     }
 }
 .btn-rounded {
-    border: 1px solid var(--grey-color);
     border-radius: var(--border-radius-bigest);
+}
+.btn-all-rounded {
+    border-radius: 50%;
 }
 // .btn-outline {
 //     // border: 1px solid var(--primary-color);
@@ -59,17 +73,4 @@
 }
 .border-grey {
     border: 1px solid rgba(22, 24, 35, 0.12);
-}
-
-//size
-.size-sm {
-    height: 2.8rem;
-    width: 8.8rem;
-}
-.size-md {
-    height: 3.6rem;
-    width: 10rem;
-}
-.size-big {
-    height: 4.8rem;
 }
