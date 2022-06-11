@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, memo } from 'react'
 import images from '~/assets/images'
 import styles from './Image.module.scss'
 const Image = forwardRef(({ src, alt, className, fallbackImage = images.defaultImage, ...props }, ref) => {

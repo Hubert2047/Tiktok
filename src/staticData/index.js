@@ -1,5 +1,24 @@
 import 'tippy.js/dist/tippy.css'
-import { HelpIcon, KeyboardIcon, LanguageIcon, LogoutIcon, ProfileIcon, SettingIcon } from '~/components/Icons'
+import {
+    Blocktcon,
+    CopyLinkIcon,
+    EmbedIcon,
+    FaceBookIcon,
+    HelpIcon,
+    KeyboardIcon,
+    LanguageIcon,
+    LinkedInIcon,
+    LogoutIcon,
+    MessengerIcon,
+    Pinterestcon,
+    ProfileIcon,
+    ReditIcon,
+    ReportIcon,
+    SettingIcon,
+    TeleGramIcon,
+    TwitterIcon,
+    WhatsAppIcon,
+} from '~/components/Icons'
 
 export const discovers = [
     {
@@ -53,7 +72,7 @@ export const discovers = [
 export const floowingUsers = [
     {
         id: 1,
-        avatar: 'https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/cecb376e20a5ecb89516762f29e152fb~c5_100x100.jpeg?x-expires=1654786800&x-signature=BwIUuWyGyoh4br76GBhii%2BFL0uQ%3D',
+        avatar: 'https://tse1.mm.bing.net/th?id=OIP.DA2u6Ioeunl7aZ8z_sVsaQHaLH&pid=Api&P=0&w=111&h=167',
         full_name: 'tonyun_',
         nickname: '云☁️',
         isLive: true,
@@ -63,7 +82,7 @@ export const floowingUsers = [
     },
     {
         id: 2,
-        avatar: 'https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/596d5503f84e277f330e05f480d77036.jpeg?x-expires=1654786800&x-signature=70fQsZhMVXSekMYxYMwELrLX4iI%3D',
+        avatar: 'https://tse1.mm.bing.net/th?id=OIP.ZzzqnND4nfYyd_zqtB11agHaKI&pid=Api&P=0&w=120&h=164',
         full_name: 'haryluthfi21____',
         nickname: '💥 💫🍃 21- 𝕁𝕦ℕ𝕚- 90🍃💫',
         isLive: true,
@@ -73,7 +92,7 @@ export const floowingUsers = [
     },
     {
         id: 3,
-        avatar: 'https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/d5272da1aa6823116b61a061d9acb473.jpeg?x-expires=1654786800&x-signature=RUdXVdIlg53dJbQcAKSPmkMQRU4%3D',
+        avatar: 'https://tse1.mm.bing.net/th?id=OIP.OiJlx3T6DTV6fQvYZi2o_QHaFj&pid=Api&P=0&w=220&h=165',
         full_name: 'cia.hartono',
         nickname: 'Cia☁️🐝',
         isLive: false,
@@ -83,7 +102,7 @@ export const floowingUsers = [
     },
     {
         id: 4,
-        avatar: 'https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/d9fe657b9f966af846bd1b1265f9f9fe~c5_100x100.jpeg?x-expires=1654786800&x-signature=zjL6MbMvFTxPB%2FAj4nD9bNAnfGM%3D',
+        avatar: 'https://tse2.mm.bing.net/th?id=OIP.oEgh_fWsj_w188uN_vszmAHaEK&pid=Api&P=0&w=306&h=172',
         full_name: 'shanwei153',
         nickname: 'Sharon🇹🇼',
         isLive: true,
@@ -93,7 +112,7 @@ export const floowingUsers = [
     },
     {
         id: 5,
-        avatar: 'https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/af819567cc765c0ecd68ef39c9ddac92~c5_100x100.jpeg?x-expires=1654786800&x-signature=7nWGitLaIJdoeKENBP5RGmodd2g%3D',
+        avatar: 'https://tse1.mm.bing.net/th?id=OIP.sliJZnPcIPGGOD6gsTYoSwHaLH&pid=Api&P=0&w=125&h=188',
         full_name: 'musingxer',
         nickname: '木星人MuSingxer 🌟',
         isLive: false,
@@ -103,7 +122,7 @@ export const floowingUsers = [
     },
     {
         id: 6,
-        avatar: 'https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/e7a084ab3c565142f5bfe2196ca68785.jpeg?x-expires=1654786800&x-signature=zqiqCX4Gf9KpwGn6aJDbkd9eZNA%3D',
+        avatar: 'https://tse3.mm.bing.net/th?id=OIP._wb8OGvRl-ii6qB3cpUFKAHaLH&pid=Api&P=0&w=127&h=191',
         full_name: 'neneko.n',
         nickname: '✨ Neneko ✨',
         isLive: true,
@@ -113,7 +132,7 @@ export const floowingUsers = [
     },
     {
         id: 7,
-        avatar: 'https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/c233133ca639393d13947c420ec84ff3~c5_100x100.jpeg?x-expires=1654786800&x-signature=oBrh807Y%2F9Hd%2FBoe5Jz%2FXg8Tpe4%3D',
+        avatar: 'https://tse3.mm.bing.net/th?id=OIP.Jofr-i0jvWPTQJgd2wwj7AHaHa&pid=Api&P=0&w=173&h=173',
         full_name: 'janie.lin',
         nickname: '泥泥Janie🇹🇼🇯🇵ˣ🇲🇾',
         isLive: false,
@@ -123,7 +142,7 @@ export const floowingUsers = [
     },
     {
         id: 8,
-        avatar: 'https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/f2446d9f9ed29a0e04e963f7dda71fdd~c5_100x100.jpeg?x-expires=1654786800&x-signature=b2o7NXstM2qRUgOLHHox2i%2FJPYA%3D',
+        avatar: 'https://tse2.mm.bing.net/th?id=OIP.YVKi1hHEvXrnQpPfrErnugHaE8&pid=Api&P=0&w=251&h=167',
         full_name: 'junya1gou.jr',
         nickname: 'junya jr.&Mask🎭/こじゅんや',
         isLive: true,
@@ -253,7 +272,7 @@ export const LOGIN_MENU_ITEM = [
         ],
     },
 ]
-
+//footer
 export const footerData = [
     {
         id: 1,
@@ -284,5 +303,86 @@ export const footerData = [
             { id: 4, title: 'Privacy' },
             { id: 5, title: 'Creator Portal' },
         ],
+    },
+]
+// share icon
+
+export const shareItems = [
+    {
+        data: [
+            { id: 1, title: 'Embed Profile', icon: <EmbedIcon /> },
+            { id: 2, title: 'Share to whatsApp', icon: <WhatsAppIcon /> },
+            { id: 3, title: 'Share to Facebook', icon: <FaceBookIcon /> },
+            { id: 4, title: 'Share to Twitter', icon: <TwitterIcon /> },
+            { id: 5, title: 'Copy Link', icon: <CopyLinkIcon /> },
+            { id: 6, title: 'Share to Telegram', icon: <TeleGramIcon /> },
+            { id: 9, title: 'Share to LinkIn', icon: <LinkedInIcon /> },
+            { id: 7, title: 'Share to Reddit', icon: <ReditIcon /> },
+            { id: 8, title: 'Share to Pinterest', icon: <Pinterestcon /> },
+        ],
+    },
+]
+export const profileActions = [
+    {
+        data: [
+            { id: 1, title: 'Send message', icon: <MessengerIcon height='1.6rem' width='1.6rem' /> },
+            { id: 1, title: 'Report', icon: <ReportIcon height='1.6rem' width='1.6rem' /> },
+            { id: 1, title: 'Block', icon: <Blocktcon height='1.6rem' width='1.6rem' /> },
+        ],
+    },
+]
+
+export const movies = [
+    {
+        id: 1,
+        title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
+        poster: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/image%2Fchinese-song-1.jpeg?alt=media&token=f6ae69ca-ebc1-492d-b279-9adcb479bbba',
+        playCount: `12K`,
+        src: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/videos%2Fchinses-song-1.mp4?alt=media&token=5e678fb3-3826-41ea-b9ec-c74cc1646c1e',
+    },
+    {
+        id: 2,
+        title: 'Tag that guy when u listen to this song.',
+        poster: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/image%2Fchinese-song-2.jpeg?alt=media&token=ad86b49d-7069-4d23-a7fa-c50faad98362',
+        playCount: `11.3K`,
+        src: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/videos%2Fchinese-song-2.mp4?alt=media&token=e4674739-96e4-4f52-9cc7-9efa6208c4b4',
+    },
+    {
+        id: 3,
+        title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
+        poster: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/image%2Fchinese-song-3.jpeg?alt=media&token=175070d9-ccb7-49da-a03b-ae2070161d64',
+        playCount: `123K`,
+        src: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/videos%2Fchinese-song-3.mp4?alt=media&token=e943f3d9-3694-4530-85d4-16f77637a996',
+    },
+    {
+        id: 4,
+        title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
+        poster: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/image%2Fchinse-song-4.jpeg?alt=media&token=826d2332-3a03-40a5-8175-27b781bf5a2c',
+        playCount: `19.2K`,
+        src: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/videos%2Fchinses-song-4.mp4?alt=media&token=33894452-810d-4e04-8b37-6bb89291f1c2',
+    },
+    {
+        id: 5,
+        title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
+        poster: 'https://p16-sign-va.tiktokcdn.com/obj/tos-useast2a-p-0037-aiso/b51e787568874c3eb67146c8e9c49311_1654792396?x-expires=1654963200&x-signature=DyuicNq%2FKficg%2BndjXNyPJwqpuk%3D',
+        playCount: `16.3K`,
+    },
+    {
+        id: 6,
+        title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
+        poster: 'https://p16-sign-va.tiktokcdn.com/obj/tos-useast2a-p-0037-aiso/ef70db265fe04aafb16db3d9cd41c5c3?x-expires=1654963200&x-signature=tHD6pNnAcx5%2BnbviG38kHrgIsRw%3D',
+        playCount: `123M`,
+    },
+    {
+        id: 7,
+        title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
+        poster: 'https://p16-sign-va.tiktokcdn.com/obj/tos-useast2a-p-0037-aiso/d89d618e4ecf4405ac2933547762a9df_1654597217?x-expires=1654963200&x-signature=FzTgL4%2B%2BBbNgiPVuA1NoMOxSSkU%3D',
+        playCount: `12K`,
+    },
+    {
+        id: 8,
+        title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
+        poster: 'https://p16-sign-va.tiktokcdn.com/obj/tos-useast2a-p-0037-aiso/e92f26033f5146bd812cb6fb011b4696?x-expires=1654963200&x-signature=WwIxZTEPG5hXhWQqc9zNtbTXSxM%3D',
+        playCount: `1.3K`,
     },
 ]

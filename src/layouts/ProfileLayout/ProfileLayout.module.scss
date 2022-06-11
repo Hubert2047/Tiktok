@@ -1,18 +1,15 @@
 .wrapper {
-    --sidebar-width: 35rem;
-}
-.header {
-    max-width: var(--PC-max-width);
-    margin: 0 auto;
+    --sidebar-width: 24rem;
 }
 .container {
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr;
     gap: 1rem;
-    max-width: var(--PC-max-width);
-    margin: 0 auto;
     margin-top: var(--default-header-height);
 }
 .sidebar {
     width: var(--sidebar-width);
+}
+.content {
+    padding-left: 4rem;
 }

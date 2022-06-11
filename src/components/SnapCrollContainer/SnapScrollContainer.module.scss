@@ -1,0 +1,14 @@
+.wrapper {
+    position: relative;
+    height: 110vh;
+    width: 100%;
+    overflow: overlay;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    &:hover::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+}

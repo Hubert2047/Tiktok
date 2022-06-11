@@ -15,7 +15,7 @@ import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import styles from './Header.module.scss'
 const clsx = classNames.bind(styles)
 
-function Header() {
+function Header({ className }) {
     const currentUser = true
     const unLoginUI = (
         <Fragment>
@@ -61,7 +61,7 @@ function Header() {
 
     return (
         <header className={clsx('wrapper')}>
-            <div className={clsx('inner', 'd-flex')}>
+            <div className={clsx('inner', 'd-flex', className)}>
                 {/* logo */}
                 <Link to={config.routes.home} className={clsx('logo', 'd-flex')}>
                     <img src={images.logo} alt='logo' />

@@ -7,6 +7,7 @@ const routes = {
     following: '/following',
     upload: '/upload',
     profile: profile,
+    video: ':name/video/:id',
 }
 
 export default routes

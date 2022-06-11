@@ -12,7 +12,7 @@ function UserContainer({ data, className, title, seeText, handleSeeMoreClick }) 
                 <Fragment>
                     {data?.map?.((user) => {
                         return (
-                            <ProfileContainer key={user.id} user={user}>
+                            <ProfileContainer key={user.id} user={user} placement='bottom-start'>
                                 <User key={user.id} user={user} />
                             </ProfileContainer>
                         )

@@ -1,0 +1,36 @@
+.wrapper {
+    //     width: fit-content;
+    cursor: pointer;
+}
+.top-movie {
+    position: relative;
+    // background-color: var(--grey-color-3);
+}
+.poster,
+.video {
+    //     width: 19.2rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    height: 27.5rem;
+    border-radius: var(--border-radius-sm);
+    //     height: 25.4em;
+}
+
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.count-play {
+    position: absolute;
+    left: 2%;
+    bottom: 8%;
+    color: var(--white-color);
+    gap: 0.5rem;
+    align-items: center;
+}
+.title {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}

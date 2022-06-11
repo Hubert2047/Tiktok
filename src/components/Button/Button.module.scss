@@ -4,13 +4,15 @@
     justify-content: center;
     font-size: 1.5rem;
     font-weight: 500;
-    width: 100%;
+    max-width: 100%;
     color: var(--black-color);
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     &:active {
-        color: var(--white-color);
+        opacity: 0.5;
     }
+}
+.title {
 }
 .icon {
     align-items: center;
@@ -55,6 +57,9 @@
 .bg-primary {
     background-color: var(--primary-color);
 }
+.bg-grey {
+    background-color: var(--grey-color-1);
+}
 
 //color
 .color-primary {
@@ -66,6 +71,9 @@
 .color-black {
     color: var(--black-color);
 }
+.color-grey {
+    color: var(--grey-color-1);
+}
 
 //border
 .border-primary {
@@ -73,4 +81,12 @@
 }
 .border-grey {
     border: 1px solid rgba(22, 24, 35, 0.12);
+}
+
+//disable
+.disabled {
+    cursor: unset;
+    &:active {
+        opacity: 1;
+    }
 }

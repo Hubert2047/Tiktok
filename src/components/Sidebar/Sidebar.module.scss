@@ -1,4 +1,20 @@
 .wrapper {
+    position: fixed;
+    top: var(--default-header-height);
+    bottom: 0;
+    z-index: 9;
+    padding: 1.75rem 0.8rem;
+    background-color: var(--white-color);
+    transition: all 0.5s linear;
+    overflow: scroll;
+    overflow: overlay;
+    &:hover::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar {
+        border-radius: 0;
+        width: 0px;
+    }
     .action-btn {
         font-size: 1.8rem;
         justify-content: flex-start;

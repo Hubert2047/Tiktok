@@ -9,10 +9,13 @@ const clsx = classNames.bind(styles)
 //href: a
 //default: button
 
-function Button({ to, href, type, size, icon, bg, color, border, title, className, onClick }) {
+function Button({ to, href, type, size, icon, bg, color, border, disabled, title, className, rightIcon, onClick }) {
     let Comp = 'button'
     const props = {
         onClick,
+    }
+    if (disabled) {
+        delete props.onClick
     }
     if (to) {
         Comp = Link
@@ -28,11 +31,13 @@ function Button({ to, href, type, size, icon, bg, color, border, title, classNam
         [bg]: bg,
         [color]: color,
         [border]: border,
+        disabled: disabled,
     })
     return (
         <Comp className={classes} {...props}>
-            {icon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}
-            {title && <span className={clsx('title')}>{title}</span>}
+            {icon && !rightIcon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}
+            {title && <span className={clsx('title', 'ellipsis')}>{title}</span>}
+            {icon && rightIcon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}
         </Comp>
     )
 }

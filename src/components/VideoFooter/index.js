@@ -2,9 +2,9 @@ import classNames from 'classnames/bind'
 import { HeartIcon, CommentIcon, ShareIcon } from '~/components/Icons'
 import styles from './VideoFooter.module.scss'
 const clsx = classNames.bind(styles)
-function VideoFooter() {
+function VideoFooter({ className }) {
     return (
-        <div className={clsx('wrapper', 'd-flex')}>
+        <div className={clsx('wrapper', 'd-flex', className)}>
             <div className={clsx('action-container', 'd-flex')}>
                 <div className={clsx('box', 'grid-center')}>
                     <HeartIcon />

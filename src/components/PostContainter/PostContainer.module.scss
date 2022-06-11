@@ -1,14 +1,14 @@
 .wrapper {
+    position: relative;
     gap: 1.2rem;
     padding: 2rem 1rem;
     border-bottom: 1.5px solid var(--grey-color);
+    scroll-snap-align: start;
 }
 .avatar {
-    height: 5.6rem;
-    aspect-ratio: 1/1;
 }
 .content {
-    flex: 1;
+    flex-direction: column;
 }
 .header {
     flex-direction: column;
@@ -17,4 +17,15 @@
 }
 .name {
     font-size: 1.75rem;
+}
+.follow-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    padding: 0.5rem;
+    flex: 1;
+}
+.video {
+    // max-height: 50rem;
+    margin-top: 1rem;
 }

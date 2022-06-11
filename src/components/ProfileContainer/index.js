@@ -10,14 +10,14 @@ function ProfileContainer({ user, children }) {
         <Tippy
             appendTo={() => document.body}
             delay={[500, 50]} //delay to fade out
-            offset={[0, -150]} //change position
-            placement={'right-end'}
+            // offset={[0, -150]} //change position
+            placement={'top-end'}
             interactive={true}
             // trigger={'click'}
             render={(attrs) => (
                 <div className={clsx('wrapper', 'd-flex')} tabIndex='-1' {...attrs}>
                     <div className={clsx('header', 'd-flex')}>
-                        <UserAvatar user={user} className={clsx('img')} />
+                        <UserAvatar height={'4rem'} user={user} className={clsx('avatar')} />
                         {/* <Image src={user.avatar} alt={'avatar'} className={clsx('img')} /> */}
                         <Button
                             size='size-md'

@@ -2,11 +2,11 @@
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react'
 import Button from '~/components/Button'
-import DiscoverContainer from '~/components/DiscoverContainer'
 import { FollowingIcon, HomeIcon, VideoIcon } from '~/components/Icons'
 import LinkContainer from '~/components/LinkContainer'
 import UserContainer from '~/components/UserContainer'
 import { discovers, floowingUsers, footerData } from '~/staticData'
+import DiscoverContainer from '../DiscoverContainer '
 import styles from './Sidebar.module.scss'
 const clsx = classNames.bind(styles)
 const getData = function (type) {

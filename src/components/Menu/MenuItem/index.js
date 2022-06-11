@@ -3,7 +3,7 @@ import Button from '~/components/Button'
 import styles from './MenuItem.module.scss'
 const clsx = classNames.bind(styles)
 function MenuItem({ item, onMenuItemClick, ...rest }) {
-    const classes = clsx('item', { separate: item.separate })
+    const classes = clsx('item', 'menu-btn', { separate: item.separate })
     return (
         <Button
             href={item.href}

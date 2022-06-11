@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind'
+import React from 'react'
 import Header from '~/components/Header'
 import Sidebar from '~/components/Sidebar'
-import styles from './SidebarLayout.module.scss'
+import styles from './ProfileLayout.module.scss'
 
 const clsx = classNames.bind(styles)
-function SidebarLayout({ children }) {
+function ProfileLayout({ children }) {
     return (
         <div className={clsx('wrapper')}>
-            <Header className={clsx('header')} />
+            <Header />
             <div className={clsx('container')}>
                 <div>
                     <Sidebar className={clsx('sidebar')} />
@@ -18,4 +19,4 @@ function SidebarLayout({ children }) {
     )
 }
 
-export default SidebarLayout
+export default ProfileLayout
