@@ -1,6 +1,6 @@
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
@@ -9,6 +9,8 @@ import Button from '~/components/Button'
 import { InboxIcon, MessengerIcon, ThreeDotIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import Menu from '~/components/Menu'
+import { LoginPopup } from '~/components/Popper'
+import FullScreenModal from '~/components/Popper/FullScreenModal'
 import Search from '~/components/Search'
 import config from '~/config'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
@@ -16,7 +18,11 @@ import styles from './Header.module.scss'
 const clsx = classNames.bind(styles)
 
 function Header({ className }) {
-    const currentUser = true
+    const currentUser = false
+    const [showLogin, setShowLogin] = useState(false)
+    const handleShowPopup = function () {
+        setShowLogin(!showLogin)
+    }
     const unLoginUI = (
         <Fragment>
             <Button
@@ -27,7 +33,18 @@ function Header({ className }) {
                 title='Upload'
                 border='border-grey'></Button>
 
-            <Button to='./' type='btn-primary' size='size-md' title='Log in'></Button>
+            <Button
+                onClick={handleShowPopup}
+                to='./'
+                color='color-white'
+                bg='bg-primary'
+                size='size-md'
+                title='Log in'></Button>
+            {showLogin && (
+                <FullScreenModal handleShowPopup={handleShowPopup}>
+                    <LoginPopup handleShowPopup={handleShowPopup} />
+                </FullScreenModal>
+            )}
             <Menu menu={UNLOGIN_MENU_ITEM}>
                 <ThreeDotIcon className={clsx('icon')} />
             </Menu>

@@ -13,7 +13,6 @@ function MovieCard({ movie, isPlaying, onHover }) {
         }, 1000)
     }
     const handleMouseLeave = () => {
-        console.log('clear ne')
         clearTimeout(hoverRef.current)
     }
     return (

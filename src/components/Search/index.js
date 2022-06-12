@@ -10,6 +10,7 @@ import { useDebounce } from '~/hooks'
 import * as apiServices from '~/services'
 import { SearchIcon } from '../Icons/index'
 import styles from './Search.module.scss'
+import { memo } from 'react'
 const clsx = classNames.bind(styles)
 
 function Search() {
@@ -19,6 +20,7 @@ function Search() {
     const [searchResult, setSearchResult] = useState([])
     const debounced = useDebounce(searchValue, 500)
     const inputRef = useRef()
+    console.log('re-render')
 
     useEffect(() => {
         async function getData() {
@@ -99,4 +101,4 @@ function Search() {
     )
 }
 
-export default Search
+export default memo(Search)

@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind'
-import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ReportIcon } from '~/components/Icons'
 import Image from '~/components/Image'

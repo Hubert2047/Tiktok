@@ -63,9 +63,7 @@ function Profile() {
                         </div>
                     </Menu>
                     <Menu menu={profileActions}>
-                        <div>
-                            <HorizontalThreeDot />
-                        </div>
+                        <HorizontalThreeDot />
                     </Menu>
                 </div>
             </div>

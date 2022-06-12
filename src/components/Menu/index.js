@@ -69,7 +69,7 @@ function Menu({ menu = [], hideOnClick = false, children }) {
                     </div>
                 )}
                 onHide={handleMenuOnHide}>
-                {children}
+                <div>{children}</div>
             </Tippy>
         </div>
     )

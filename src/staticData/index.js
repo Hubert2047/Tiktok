@@ -1,20 +1,26 @@
 import 'tippy.js/dist/tippy.css'
 import {
+    AppleIcon,
     Blocktcon,
     CopyLinkIcon,
     EmbedIcon,
     FaceBookIcon,
+    GooogleIcon,
     HelpIcon,
+    IstalgramIcon,
     KeyboardIcon,
     LanguageIcon,
+    LineIcon,
     LinkedInIcon,
     LogoutIcon,
     MessengerIcon,
     Pinterestcon,
     ProfileIcon,
+    QRCIcon,
     ReditIcon,
     ReportIcon,
     SettingIcon,
+    TalkIcon,
     TeleGramIcon,
     TwitterIcon,
     WhatsAppIcon,
@@ -357,7 +363,7 @@ export const movies = [
     {
         id: 4,
         title: 'Did you know that for THE GRAND BUDAPEST HOTEL...',
-        poster: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/image%2Fchinse-song-4.jpeg?alt=media&token=826d2332-3a03-40a5-8175-27b781bf5a2c',
+        poster: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/image%2FmessageImage_1655022867422.jpg?alt=media&token=d67d0c00-2c40-4b25-81bc-57e4ac03dd87',
         playCount: `19.2K`,
         src: 'https://firebasestorage.googleapis.com/v0/b/tiktok-b748a.appspot.com/o/videos%2Fchinses-song-4.mp4?alt=media&token=33894452-810d-4e04-8b37-6bb89291f1c2',
     },
@@ -386,3 +392,35 @@ export const movies = [
         playCount: `1.3K`,
     },
 ]
+
+export const loginBtns = [
+    {
+        id: 1,
+        title: 'Use QR code',
+        icon: <QRCIcon />,
+        onClick: () => {
+            incomingFeature('Use QRC')
+        },
+    },
+    {
+        id: 2,
+        title: 'Use phone / email / username',
+        icon: <ProfileIcon />,
+        onClick: () => {
+            incomingFeature('Use Phone')
+        },
+    },
+    { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: LoginWithGoogle },
+    { id: 4, title: 'Continue with Google', icon: <GooogleIcon />, onClick: incomingFeature },
+    { id: 5, title: 'Continue with Line', icon: <LineIcon />, onClick: incomingFeature },
+    { id: 6, title: 'Continue with Twitter', icon: <TwitterIcon />, onClick: incomingFeature },
+    { id: 7, title: 'Continue with KakaoTalk', icon: <TalkIcon />, onClick: incomingFeature },
+    { id: 8, title: 'Continue with Apple', icon: <AppleIcon />, onClick: incomingFeature },
+    { id: 9, title: 'Continue with Instagram', icon: <IstalgramIcon />, onClick: incomingFeature },
+]
+function LoginWithGoogle() {
+    console.log('you login with Google')
+}
+function incomingFeature(feature = 'this feature') {
+    console.log(`${feature} is coming later. Please, use continue with google`)
+}
