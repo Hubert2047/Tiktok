@@ -1,0 +1,52 @@
+.wrapper {
+    position: relative;
+    width: fit-content;
+    height: 35px;
+    &:before,
+    &:after {
+        position: absolute;
+        content: ' ';
+        top: 5px;
+        background-color: var(--primary-color);
+        width: 18px;
+        height: 18px;
+        border-radius: 18px;
+        mix-blend-mode: multiply;
+        animation: titok 1.25s infinite linear;
+    }
+    &:after {
+        background-color: #4de8f4;
+        animation-delay: 0.5s;
+    }
+}
+@keyframes titok {
+    0%,
+    100% {
+        top: 5px;
+        left: 0px;
+        width: 18px;
+        height: 18px;
+        z-index: 0;
+    }
+    25% {
+        top: 0px;
+        height: 35px;
+        width: 35px;
+        z-index: 1;
+        left: 18px;
+        transform: scale(1);
+    }
+    50% {
+        top: 5px;
+        width: 18px;
+        height: 18px;
+        left: 40px;
+    }
+    75% {
+        top: 8px;
+        width: 24px;
+        height: 24px;
+        left: 18px;
+        transform: scale(0.9);
+    }
+}

@@ -12,12 +12,12 @@ const comments = [
             {
                 id: 2,
                 text: '🥰🥰',
-                user: floowingUsers[8],
+                user: floowingUsers[1],
             },
             {
                 id: 3,
                 text: '🥰🥰',
-                user: floowingUsers[6],
+                user: floowingUsers[1],
             },
             {
                 id: 4,
@@ -44,7 +44,7 @@ const comments = [
             {
                 id: 4,
                 text: '🥰🥰',
-                user: floowingUsers[10],
+                user: floowingUsers[1],
             },
         ],
     },
@@ -95,7 +95,7 @@ const comments = [
     {
         id: 5,
         text: '厲害😳',
-        user: floowingUsers[4],
+        user: floowingUsers[1],
         subcomment: [
             {
                 id: 2,
@@ -117,7 +117,7 @@ const comments = [
     {
         id: 6,
         text: '厲害😳',
-        user: floowingUsers[4],
+        user: floowingUsers[1],
         subcomment: [
             {
                 id: 2,
@@ -137,9 +137,9 @@ const comments = [
         ],
     },
 ]
-function CommentContainer() {
+function CommentContainer({ className }) {
     return (
-        <div className={clsx('comment-container', 'd-flex')}>
+        <div className={clsx('comment-container', className, 'd-flex')}>
             {comments.map((comment) => (
                 <Comment key={comment.id} comment={comment} />
             ))}

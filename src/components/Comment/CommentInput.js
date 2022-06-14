@@ -12,7 +12,6 @@ function CommentInput({ className }) {
     }
     const btnColor = value ? 'color-primary' : 'color-grey'
     const disabled = value ? false : true
-    console.log(disabled)
     return (
         <div className={clsx('comment-input', className)}>
             <div className={clsx('input-box', 'd-flex')}>

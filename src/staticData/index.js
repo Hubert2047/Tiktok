@@ -26,6 +26,8 @@ import {
     WhatsAppIcon,
 } from '~/components/Icons'
 
+import { loginWithGoogle, logOut } from '~/firebase'
+
 export const discovers = [
     {
         id: 1,
@@ -268,13 +270,14 @@ export const UNLOGIN_MENU_ITEM = [
         ],
     },
 ]
+export const LOG_OUT = 'log-out'
 export const LOGIN_MENU_ITEM = [
     {
         data: [
             { title: 'View profile', icon: <ProfileIcon />, to: './' },
             { title: 'Setting', icon: <SettingIcon />, to: './' },
             ...UNLOGIN_MENU_ITEM[0].data, //clone data from unlogin menu
-            { title: 'Log out', icon: <LogoutIcon />, to: './', separate: true },
+            { title: 'Log out', icon: <LogoutIcon />, to: './', separate: true, onClick: logOut, type: LOG_OUT },
         ],
     },
 ]
@@ -328,7 +331,7 @@ export const shareItems = [
         ],
     },
 ]
-export const profileActions = [
+export const profileActionIcons = [
     {
         data: [
             { id: 1, title: 'Send message', icon: <MessengerIcon height='1.6rem' width='1.6rem' /> },
@@ -393,7 +396,7 @@ export const movies = [
     },
 ]
 
-export const loginBtns = [
+export const loginFeatureBtns = [
     {
         id: 1,
         title: 'Use QR code',
@@ -410,17 +413,15 @@ export const loginBtns = [
             incomingFeature('Use Phone')
         },
     },
-    { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: LoginWithGoogle },
-    { id: 4, title: 'Continue with Google', icon: <GooogleIcon />, onClick: incomingFeature },
+    { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: incomingFeature },
+    { id: 4, title: 'Continue with Google', icon: <GooogleIcon />, onClick: loginWithGoogle },
     { id: 5, title: 'Continue with Line', icon: <LineIcon />, onClick: incomingFeature },
     { id: 6, title: 'Continue with Twitter', icon: <TwitterIcon />, onClick: incomingFeature },
     { id: 7, title: 'Continue with KakaoTalk', icon: <TalkIcon />, onClick: incomingFeature },
     { id: 8, title: 'Continue with Apple', icon: <AppleIcon />, onClick: incomingFeature },
     { id: 9, title: 'Continue with Instagram', icon: <IstalgramIcon />, onClick: incomingFeature },
 ]
-function LoginWithGoogle() {
-    console.log('you login with Google')
-}
+
 function incomingFeature(feature = 'this feature') {
-    console.log(`${feature} is coming later. Please, use continue with google`)
+    return `${feature} is coming later. Please, use continue with google`
 }

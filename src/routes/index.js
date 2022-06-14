@@ -10,7 +10,6 @@ import Home from '~/pages/Home'
 import Profile from '~/pages/Profile'
 import Upload from '~/pages/Upload'
 import VideoPage from '~/pages/VideoPage'
-
 const publicRoutes = [
     { path: config.routes.home, page: Home, layout: SidebarLayout },
     { path: config.routes.following, page: Following, layout: SidebarLayout },

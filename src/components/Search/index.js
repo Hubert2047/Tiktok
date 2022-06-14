@@ -20,7 +20,6 @@ function Search() {
     const [searchResult, setSearchResult] = useState([])
     const debounced = useDebounce(searchValue, 500)
     const inputRef = useRef()
-    console.log('re-render')
 
     useEffect(() => {
         async function getData() {
@@ -31,6 +30,7 @@ function Search() {
             setLoading(true)
             try {
                 const data = await apiServices.searchUser(debounced)
+                console.log(data)
                 setSearchResult(data)
                 setLoading(false)
             } catch (err) {

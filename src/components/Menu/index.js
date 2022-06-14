@@ -1,14 +1,18 @@
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import MenuItem from '~/components/Menu/MenuItem'
 import { PopperWrapper } from '~/components/Popper'
+import { userActions } from '~/redux/userSlice'
+import { LOG_OUT } from '~/staticData'
 import { DownIcon } from '../Icons'
 import styles from './Menu.module.scss'
 import MenuHeader from './MenuHeader'
 const clsx = classNames.bind(styles)
 function Menu({ menu = [], hideOnClick = false, children }) {
+    const dispath = useDispatch()
     const [menuList, setMenuList] = useState(menu)
     const [showAll, setShowAll] = useState(false)
     let currentMenu = menuList.at(-1)
@@ -19,7 +23,15 @@ function Menu({ menu = [], hideOnClick = false, children }) {
             setMenuList((prev) => [...prev, item.children])
         } else {
             //handle when it doesnt have childrent
-            console.log(item)
+            switch (item.type) {
+                case LOG_OUT:
+                    item.onClick(() => {
+                        dispath(userActions.setUser({}))
+                    })
+                    break
+                default:
+                    return
+            }
         }
     }
     const handleMenuOnBack = function () {

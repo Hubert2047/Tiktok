@@ -1,34 +1,47 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import Button from '~/components/Button'
 import { FollowingIcon, HomeIcon, VideoIcon } from '~/components/Icons'
 import LinkContainer from '~/components/LinkContainer'
 import UserContainer from '~/components/UserContainer'
-import { discovers, floowingUsers, footerData } from '~/staticData'
+import { getFollowing, getSuggestFollowing } from '~/firebase'
+import { discovers, footerData } from '~/staticData'
 import DiscoverContainer from '../DiscoverContainer '
 import styles from './Sidebar.module.scss'
 const clsx = classNames.bind(styles)
-const getData = function (type) {
-    if (type === 'less') {
-        return floowingUsers.slice(0, 5)
-    }
-    return floowingUsers
-}
+
 function Sidebar({ className }) {
-    const [followerData, setFollowerData] = useState([])
-    const currentFollowerData = followerData.at(-1)
+    const currentUser = useSelector((state) => state.user.user)
+    // console.log('re-render sidebar')
+    const [suggestFollowingData, setSuggestFollowingData] = useState([])
+    const [followingData, setFollowingData] = useState([])
+    const currentSuggestFollowingData = suggestFollowingData.at(-1)
     const [seeText, setSeeText] = useState('See all')
     const [isCallApi, setCallApi] = useState(false)
     useEffect(() => {
-        if (seeText === 'See less') {
-            const data = getData()
-            setFollowerData((prev) => [...prev, data])
-        } else {
-            const data = getData('less')
-            setFollowerData([data])
+        const getFollowingData = async function () {
+            const data = await getFollowing(currentUser.following)
+            setFollowingData(data)
         }
-    }, [isCallApi])
+        const getSunggestFollowingData = async function () {
+            if (seeText === 'See less') {
+                const data = await getSuggestFollowing(currentUser.uid, 'more')
+                setSuggestFollowingData((prev) => [...prev, data])
+            } else {
+                const data = await getSuggestFollowing(currentUser.uid, 'less')
+                setSuggestFollowingData([data])
+            }
+        }
+        //if use login then render following data otherwise render nothing
+        if (currentUser.uid) {
+            getFollowingData()
+        } else {
+            setFollowingData([])
+        }
+        getSunggestFollowingData()
+    }, [isCallApi, currentUser])
     const handleSeeMoreClick = function (seeText) {
         if (seeText === 'See all') {
             setSeeText('See less')
@@ -36,8 +49,8 @@ function Sidebar({ className }) {
         } else {
             setSeeText('See all')
         }
-        if (followerData?.length > 1) {
-            setFollowerData((prev) => {
+        if (suggestFollowingData?.length > 1) {
+            setSuggestFollowingData((prev) => {
                 const [first, second] = prev
                 return [second, first]
             })
@@ -74,11 +87,11 @@ function Sidebar({ className }) {
             <UserContainer
                 title={'Suggested Accounts'}
                 handleSeeMoreClick={handleSeeMoreClick}
-                data={currentFollowerData}
+                data={currentSuggestFollowingData}
                 seeText={seeText}
                 className={clsx('suggest-list')}
             />
-            <UserContainer title={'Following Accounts'} className={clsx('suggest-list')} />
+            <UserContainer title={'Following Accounts'} data={followingData} className={clsx('suggest-list')} />
             <DiscoverContainer discovers={discovers} />
             <div className={clsx('footer')}>
                 {footerData?.map((data) => {

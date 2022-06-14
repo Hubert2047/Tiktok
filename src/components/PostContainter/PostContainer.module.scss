@@ -6,6 +6,17 @@
     scroll-snap-align: start;
 }
 .avatar {
+    height: fit-content;
+}
+.content-box {
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.show-content-btn {
+    width: fit-content;
+    padding: 0.5rem 0.5rem 0 0;
+    color: var(--grey-color-2);
+    cursor: pointer;
 }
 .content {
     flex-direction: column;
@@ -17,6 +28,14 @@
 }
 .name {
     font-size: 1.75rem;
+}
+.disc {
+}
+.show-less {
+    max-width: 30rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .follow-btn {
     position: absolute;

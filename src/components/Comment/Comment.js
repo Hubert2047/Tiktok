@@ -1,24 +1,31 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { useState } from 'react'
 import Button from '~/components/Button'
 import { DownIcon, HeartOutLine, HorizontalThreeDot } from '~/components/Icons'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '../UserAvatar'
+import { useNavigate } from 'react-router-dom'
+import { useProfileRoute } from '~/hooks'
 import styles from './Comment.module.scss'
 const clsx = classNames.bind(styles)
 
 function Comment({ comment, parentId = null }) {
     const avatarheight = parentId ? '2.75rem' : '4rem'
     const [viewAll, setViewAll] = useState(false)
+    const navigate = useNavigate()
     const subComment = comment?.subcomment?.length || 0
     const handleViewMoreOnClick = function () {
         setViewAll(true)
+    }
+    const handleNavigate = function () {
+        navigate(useProfileRoute(comment.user))
     }
     return (
         <div className={clsx('comment-item', 'd-flex')}>
             <div className={clsx('comment', 'd-flex')}>
                 <ProfileContainer user={comment.user}>
-                    <UserAvatar height={avatarheight} user={comment.user} />
+                    <UserAvatar onclick={handleNavigate} height={avatarheight} user={comment.user} />
                 </ProfileContainer>
                 <div className={clsx('comment-content', 'd-flex')}>
                     <Button title={comment.user?.full_name} className={clsx('name')} />

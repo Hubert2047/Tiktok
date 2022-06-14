@@ -1,12 +1,18 @@
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 54rem;
+    // flex-direction: column;
     height: 100vh;
+}
+.loading {
+    background-color: rgba(#fff2f2, 0.3);
 }
 //video
 .video-container {
     position: relative;
     flex: 1;
+    height: 100vh;
+    width: 100%;
     background-color: var(--black-color-1);
 }
 .video {
@@ -40,7 +46,8 @@
 // right container
 .right-container {
     flex-direction: column;
-    min-width: 54.4rem;
+    height: 100vh;
+    width: 100%;
 }
 
 //top
@@ -99,6 +106,10 @@
 .action-right {
     gap: 0.75rem;
 }
+.fb-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+}
 //copy-link
 .copy-link {
     height: 3.4rem;
@@ -121,7 +132,10 @@
     font-size: 1.25rem;
     font-weight: 600;
 }
-
+.comment {
+    // flex: 1;
+    // height: 100%;
+}
 .comment-input {
-    flex: 1;
+    // flex: 1;
 }

@@ -1,23 +1,36 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
+import { useNavigate } from 'react-router-dom'
 import UserName from '~/components/UserName'
 import Button from '../Button'
+import { useProfileRoute } from '~/hooks'
 import UserAvatar from '../UserAvatar'
 import styles from './ProfileContainer.module.scss'
 const clsx = classNames.bind(styles)
-function ProfileContainer({ user, children }) {
+function ProfileContainer({ user, children, placement }) {
+    const navigate = useNavigate()
+    const handleNavigate = function () {
+        navigate(useProfileRoute(user))
+    }
     return (
         <Tippy
             appendTo={() => document.body}
             delay={[500, 50]} //delay to fade out
             // offset={[0, -150]} //change position
-            placement={'top-end'}
+            placement={placement}
             interactive={true}
             // trigger={'click'}
             render={(attrs) => (
                 <div className={clsx('wrapper', 'd-flex')} tabIndex='-1' {...attrs}>
                     <div className={clsx('header', 'd-flex')}>
-                        <UserAvatar height={'4rem'} user={user} className={clsx('avatar')} />
+                        <UserAvatar
+                            onClick={handleNavigate}
+                            height={'4rem'}
+                            user={user}
+                            className={clsx('avatar')}
+                            showLive
+                        />
                         {/* <Image src={user.avatar} alt={'avatar'} className={clsx('img')} /> */}
                         <Button
                             size='size-md'

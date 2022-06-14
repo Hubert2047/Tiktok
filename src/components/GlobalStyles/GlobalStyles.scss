@@ -78,6 +78,7 @@ a {
     display: grid;
     place-items: center;
 }
+
 .ellipsis {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -125,5 +126,5 @@ html *::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
 }
 body::-webkit-scrollbar {
-    width: 0px; //hide
+    width: 6px; //hide
 }

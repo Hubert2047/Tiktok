@@ -4,8 +4,10 @@
 .avatar {
     border-radius: 50%;
     aspect-ratio: 1/1;
+    object-fit: cover;
 }
 .isLive {
+    background-color: #fff;
     border: 1.5px solid var(--white-color);
     outline: 2px solid var(--primary-color);
 }

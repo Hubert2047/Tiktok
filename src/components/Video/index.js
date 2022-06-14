@@ -4,15 +4,17 @@ import { ReportIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import VideoFooter from '../VideoFooter'
 import styles from './Video.module.scss'
+import { memo } from 'react'
 const clsx = classNames.bind(styles)
-function Video({ post, isPlaying, className }) {
+function Video({ post, isPlaying, className, onMouseEnter }) {
+    // console.log('re-render video', post.id)
     return (
-        <div className={clsx('wrapper', 'd-flex', className)}>
+        <div onMouseEnter={onMouseEnter} className={clsx('wrapper', 'd-flex', className)}>
             <Link to={`${post.user.full_name}/video/${post.id}`} className={clsx('video-box')}>
                 <Image src={post.poster || ''} className={clsx('poster')} />
                 {isPlaying && (
                     <video
-                        autoPlay={true}
+                        // autoPlay={true}
                         playsInline={true}
                         // controlsList='nofullscreen'
                         className={clsx('video')}
@@ -25,9 +27,9 @@ function Video({ post, isPlaying, className }) {
                     <span>Report</span>
                 </div>
             </Link>
-            <VideoFooter className={clsx('video-footer')} />
+            <VideoFooter post={post} className={clsx('video-footer')} />
         </div>
     )
 }
 
-export default Video
+export default memo(Video)

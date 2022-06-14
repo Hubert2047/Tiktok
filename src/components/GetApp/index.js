@@ -24,7 +24,8 @@ function GetApp({ className }) {
         }
     })
     const handleUpToHeaderBtnOnClick = function () {
-        wrapperRef.current.parentNode.scrollTo(0, 0)
+        wrapperRef.current.parentNode.scrollTo({ top: 0 })
+        window.scrollTo({ top: 0 })
     }
     const handleShowPopup = function (isShow) {
         setShowPoppup(isShow)
