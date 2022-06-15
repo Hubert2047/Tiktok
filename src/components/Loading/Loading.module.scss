@@ -1,16 +1,17 @@
 .wrapper {
+    font-size: 1rem;
     position: relative;
     width: fit-content;
-    height: 35px;
+    // height: 3.5em;
     &:before,
     &:after {
         position: absolute;
         content: ' ';
         top: 5px;
         background-color: var(--primary-color);
-        width: 18px;
-        height: 18px;
-        border-radius: 18px;
+        width: 1.8em;
+        height: 1.8em;
+        border-radius: 1.8em;
         mix-blend-mode: multiply;
         animation: titok 1.25s infinite linear;
     }
@@ -22,31 +23,31 @@
 @keyframes titok {
     0%,
     100% {
-        top: 5px;
+        top: 0.5em;
         left: 0px;
-        width: 18px;
-        height: 18px;
+        width: 1.8em;
+        height: 1.8em;
         z-index: 0;
     }
     25% {
         top: 0px;
-        height: 35px;
-        width: 35px;
+        height: 3.5em;
+        width: 3.5em;
         z-index: 1;
-        left: 18px;
+        left: 1.8em;
         transform: scale(1);
     }
     50% {
         top: 5px;
-        width: 18px;
-        height: 18px;
-        left: 40px;
+        width: 1.8em;
+        height: 1.8em;
+        left: 4em;
     }
     75% {
-        top: 8px;
-        width: 24px;
-        height: 24px;
-        left: 18px;
+        top: 0.8em;
+        width: 2.4em;
+        height: 2.4em;
+        left: 1.8em;
         transform: scale(0.9);
     }
 }

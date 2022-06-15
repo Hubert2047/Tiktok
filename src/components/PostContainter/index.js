@@ -6,9 +6,8 @@ import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
 import Video from '~/components/Video'
-import config from '~/config'
-import Button from '../Button'
 import { useProfileRoute } from '~/hooks'
+import Button from '../Button'
 import styles from './PostContainer.module.scss'
 const clsx = classNames.bind(styles)
 const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {

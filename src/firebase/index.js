@@ -3,13 +3,16 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import {
     addDoc,
     collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
     getFirestore,
     limit,
+    onSnapshot,
     orderBy,
     query,
+    serverTimestamp,
     startAfter,
     where,
 } from 'firebase/firestore'
@@ -94,7 +97,7 @@ const getFollowing = async function (followingArray) {
 }
 
 const getPosts = async function (lastPost = 0) {
-    const q = query(collection(db, 'posts'), orderBy('createAt'), startAfter(lastPost), limit(5))
+    const q = query(collection(db, 'posts'), orderBy('createdAt'), startAfter(lastPost), limit(5))
     const users = [] //store all getUser Promise
     try {
         const querySnapshot = await getDocs(q)
@@ -132,7 +135,43 @@ const searchPost = async function (uid) {
         throw new Error(err.message)
     }
 }
-
+const getComments = async function (postId, callback, parentId = 'null') {
+    try {
+        const q = query(
+            collection(db, 'comments'),
+            where('postId', '==', postId),
+            where('parentId', '==', parentId),
+            limit(2)
+        )
+        onSnapshot(q, async (querySnapshot) => {
+            const data = []
+            const getUserFunc = []
+            querySnapshot.docs.forEach((doc) => {
+                getUserFunc.push(getUser(doc.data().uid))
+                data.push({ id: doc.id, ...doc.data() })
+            })
+            const users = await Promise.all(getUserFunc)
+            const comments = data?.map((item) => {
+                return { ...item, user: users.find((user) => user.uid === item.uid) }
+            })
+            callback(comments)
+        })
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+const addComment = async function (comment) {
+    try {
+        const _comment = { ...comment, createdAt: serverTimestamp() }
+        console.log(_comment)
+        await addDoc(collection(db, 'comments'), _comment)
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+const deleteComment = async function (commentId) {
+    await deleteDoc(doc(db, 'comments', commentId))
+}
 export {
     db,
     loginWithGoogle,
@@ -144,4 +183,7 @@ export {
     getPosts,
     getPost,
     searchPost,
+    getComments,
+    addComment,
+    deleteComment,
 }

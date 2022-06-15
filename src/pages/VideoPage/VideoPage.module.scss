@@ -11,8 +11,6 @@
 .video-container {
     position: relative;
     flex: 1;
-    height: 100vh;
-    width: 100%;
     background-color: var(--black-color-1);
 }
 .video {
@@ -47,25 +45,32 @@
 .right-container {
     flex-direction: column;
     height: 100vh;
-    width: 100%;
 }
 
 //top
 
 .top {
     flex-direction: column;
-    gap: 2rem;
+    // gap: 1rem;
     padding: 6rem 3rem 0 3rem;
 }
 //header
 .header {
     gap: 2rem;
+    margin-bottom: 2rem;
     align-items: center;
 }
 .name-box {
     flex: 1;
     flex-direction: column;
     gap: 0.25rem;
+}
+.content {
+}
+.btn-see-more {
+    margin: 0.5rem 0;
+    color: var(--grey-color-2);
+    cursor: pointer;
 }
 .full-name {
     font-size: 1.8rem;
@@ -84,7 +89,14 @@
 .actions {
     align-items: center;
     justify-content: space-between;
-    margin-top: 0.5rem;
+    margin: 1rem 0;
+}
+.copy-link {
+    height: 3.4rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(22, 24, 35, 0.12);
+    overflow: hidden;
+    margin-bottom: 0.5rem;
 }
 
 //action left
@@ -111,12 +123,7 @@
     height: 2.4rem;
 }
 //copy-link
-.copy-link {
-    height: 3.4rem;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid rgba(22, 24, 35, 0.12);
-    overflow: hidden;
-}
+
 .input-link {
     flex: 1;
     padding-left: 1rem;
@@ -133,7 +140,7 @@
     font-weight: 600;
 }
 .comment {
-    // flex: 1;
+    flex: 1;
     // height: 100%;
 }
 .comment-input {

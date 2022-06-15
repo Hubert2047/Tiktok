@@ -1,0 +1,12 @@
+.text-area {
+    width: 100%;
+    border: none;
+    outline: none;
+    height: 100%;
+    background-color: transparent;
+    resize: none;
+    caret-color: var(--primary-color);
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+}

@@ -13,6 +13,6 @@
 .fullscreen-modal {
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: 99999999999 !important;
     background-color: rgba(0, 0, 0, 0.5);
 }

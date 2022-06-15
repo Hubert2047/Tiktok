@@ -2,7 +2,8 @@
 import classNames from 'classnames/bind'
 import React, { useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { useParams } from 'react-router-dom'
+import LinesEllipsis from 'react-lines-ellipsis'
+import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import { CommentContainer, CommentInput } from '~/components/Comment'
 import {
@@ -22,13 +23,14 @@ import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
 import { getPost } from '~/firebase'
-import { useNavigate } from 'react-router-dom'
 import { useProfileRoute } from '~/hooks'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
     const [post, setPost] = useState({})
     const [loading, setLoading] = useState(true)
+    const [isClamped, setIsClamped] = useState(false)
+    const [showallContent, setShowAllContent] = useState(false)
     let params = useParams()
     const navigate = useNavigate()
     const postId = params.postId
@@ -43,7 +45,11 @@ function VideoPage() {
             setLoading(false)
         }
         getPostJSON()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    const handleReflow = function (rleState) {
+        setIsClamped(rleState.clamped)
+    }
     return (
         <div>
             {loading && (
@@ -57,7 +63,7 @@ function VideoPage() {
                         <video
                             loop={true}
                             controls={true}
-                            autoPlay={true}
+                            // autoPlay={true}
                             className={clsx('video')}
                             src={post?.video}></video>
                         <Button to={'/'} icon={<XIcon />} type='btn-all-rounded' className={clsx('close-btn')} />
@@ -84,7 +90,30 @@ function VideoPage() {
                                 <Button title='Follow' border={'border-primary'} size={'size-md'} />
                             </div>
                             <div className={clsx('content')}>
-                                <div className={clsx('text')}>{post?.content} </div>
+                                {!showallContent && (
+                                    <LinesEllipsis
+                                        text={post.content}
+                                        maxLine={2}
+                                        ellipsis={' ...'}
+                                        basedOn='words'
+                                        onReflow={handleReflow}
+                                    />
+                                )}
+
+                                {showallContent && (
+                                    <div>
+                                        <p>{post.content}</p>
+                                    </div>
+                                )}
+                                {isClamped && (
+                                    <button
+                                        onClick={() => {
+                                            setShowAllContent((prev) => !prev)
+                                        }}
+                                        className={clsx('btn-see-more')}>
+                                        {!showallContent ? ' See more ...' : 'See less ...'}
+                                    </button>
+                                )}
                             </div>
                             <div className={clsx('actions', 'd-flex')}>
                                 <div className={clsx('action-left', 'd-flex')}>
@@ -117,9 +146,9 @@ function VideoPage() {
                                 </CopyToClipboard>
                             </div>
                         </div>
-                        <CommentContainer className={clsx('comment')} />
-                        <CommentInput className={clsx('comment-input')} />
-                    </div>{' '}
+                        <CommentContainer post={post} className={clsx('comment')} />
+                        <CommentInput className={clsx('comment-input')} post={post} />
+                    </div>
                 </div>
             )}
         </div>

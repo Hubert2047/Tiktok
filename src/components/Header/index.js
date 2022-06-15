@@ -1,8 +1,8 @@
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import images from '~/assets/images'
@@ -14,20 +14,18 @@ import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import Search from '~/components/Search'
 import config from '~/config'
-import { headerActions } from '~/redux/headerSlice'
+import { getPosts } from '~/firebase'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import styles from './Header.module.scss'
-import { getPosts } from '~/firebase'
 const clsx = classNames.bind(styles)
 
 function Header({ className }) {
     getPosts()
-
-    const dispath = useDispatch()
+    const [showLogin, setShowLogin] = useState(false)
+    // const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
-    const showLogin = useSelector((state) => state.header.showLogin)
     const handleShowLoginPopup = function () {
-        dispath(headerActions.setShowLogin())
+        setShowLogin((prev) => !prev)
     }
     const UnLoginUI = function () {
         // console.log('logout')

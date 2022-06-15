@@ -14,7 +14,7 @@ function Video({ post, isPlaying, className, onMouseEnter }) {
                 <Image src={post.poster || ''} className={clsx('poster')} />
                 {isPlaying && (
                     <video
-                        // autoPlay={true}
+                        autoPlay={true}
                         playsInline={true}
                         // controlsList='nofullscreen'
                         className={clsx('video')}

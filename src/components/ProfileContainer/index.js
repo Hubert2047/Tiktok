@@ -53,7 +53,7 @@ function ProfileContainer({ user, children, placement }) {
                     </div>
                 </div>
             )}>
-            {children}
+            <div>{children}</div>
         </Tippy>
     )
 }

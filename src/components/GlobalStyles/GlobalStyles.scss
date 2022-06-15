@@ -44,7 +44,7 @@
 html {
     font-size: 62.5%;
     //make snap can work
-    scroll-snap-type: y mandatory;
+    // scroll-snap-type: y mandatory;
 }
 
 body {
@@ -54,7 +54,7 @@ body {
     line-height: 1.2;
     color: var(--text-color);
     text-rendering: optimizeSpeed;
-    overflow: overlay;
+    // overflow: overlay;
 }
 input,
 button {
@@ -126,5 +126,5 @@ html *::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
 }
 body::-webkit-scrollbar {
-    width: 6px; //hide
+    width: 0px; //hide
 }
