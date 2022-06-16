@@ -1,5 +1,4 @@
 {
-    "homepage": "http://Hubert2047.github.io/Tiktok",
     "name": "tiktok",
     "version": "0.1.0",
     "private": true,
@@ -35,14 +34,11 @@
     "devDependencies": {
         "babel-plugin-module-resolver": "^4.1.0",
         "customize-cra": "^1.0.0",
-        "gh-pages": "^4.0.0",
         "react-app-rewired": "^2.2.1",
         "sass": "^1.52.2"
     },
     "scripts": {
         "start": "react-app-rewired start",
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-app-rewired eject"
