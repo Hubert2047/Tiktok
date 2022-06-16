@@ -6,6 +6,7 @@ import { ReportIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import { useVideoPageRoute } from '~/hooks'
 import VideoFooter from '../VideoFooter'
+
 import styles from './Video.module.scss'
 const clsx = classNames.bind(styles)
 function Video({ post, isPlaying, className, onMouseEnter }) {

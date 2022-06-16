@@ -25,7 +25,6 @@ import {
     TwitterIcon,
     WhatsAppIcon,
 } from '~/components/Icons'
-
 import { loginWithGoogle, logOut } from '~/firebase'
 
 export const discovers = [
@@ -319,7 +318,7 @@ export const footerData = [
 export const shareItems = [
     {
         data: [
-            { id: 1, title: 'Embed Profile', icon: <EmbedIcon /> },
+            { id: 1, title: 'Embed ', icon: <EmbedIcon /> },
             { id: 2, title: 'Share to whatsApp', icon: <WhatsAppIcon /> },
             { id: 3, title: 'Share to Facebook', icon: <FaceBookIcon /> },
             { id: 4, title: 'Share to Twitter', icon: <TwitterIcon /> },

@@ -13,7 +13,7 @@ export const convertTimeStampToDate = function (timeStamp) {
     if (hourDifferent < 24) return `${hourDifferent}h ago`
 
     const dayDifferent = Math.floor((currentDate - timeStampDate) / 1000 / 60 / 60 / 24)
-    if (dayDifferent < 7) return `${dayDifferent}day ago`
+    if (dayDifferent < 7) return `${dayDifferent}d ago`
 
     return timeStampDate.toLocaleDateString()
 }

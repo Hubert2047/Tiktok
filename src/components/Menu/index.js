@@ -11,7 +11,7 @@ import { DownIcon } from '../Icons'
 import styles from './Menu.module.scss'
 import MenuHeader from './MenuHeader'
 const clsx = classNames.bind(styles)
-function Menu({ menu = [], hideOnClick = false, children }) {
+function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-end', link }) {
     const dispath = useDispatch()
     const [menuList, setMenuList] = useState(menu)
     const [showAll, setShowAll] = useState(false)
@@ -81,7 +81,7 @@ function Menu({ menu = [], hideOnClick = false, children }) {
                 // visible={true}
                 hideOnClick={hideOnClick}
                 interactive={true}
-                placement='bottom-end'
+                placement={placement}
                 render={renderMenuContainer}
                 onHide={handleMenuOnHide}>
                 <div>{children}</div>

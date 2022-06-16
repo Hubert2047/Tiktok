@@ -13,6 +13,7 @@ import { useProfileRoute } from '~/hooks'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
+import { FaceBookShare, TwitterShare } from '../ShareComponent'
 import styles from './PostContainer.module.scss'
 const clsx = classNames.bind(styles)
 const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
@@ -69,6 +70,10 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
                     <LoginPopup handleShowPopup={handleShowLogin} />
                 </FullScreenModal>
             )}
+            {/* <FullScreenModal>
+                <FaceBookShare />
+                <TwitterShare />
+            </FullScreenModal> */}
             <ProfileContainer user={post.user} placement='left-start'>
                 <UserAvatar onClick={handleNavigate} user={post.user} height='5.6rem' className={clsx('avatar')} />
             </ProfileContainer>
