@@ -498,9 +498,10 @@ export function HorizontalThreeDot({ className, width = '2rem', height = '2rem' 
     )
 }
 
-export function HeartOutLine({ className, width = '2rem', height = '2rem' }) {
+export function HeartOutLine({ onClick, className, width = '2rem', height = '2rem' }) {
     return (
         <svg
+            onClick={onClick}
             className={className}
             width={width}
             fill='currentColor'
@@ -511,6 +512,58 @@ export function HeartOutLine({ className, width = '2rem', height = '2rem' }) {
                 fillRule='evenodd'
                 clipRule='evenodd'
                 d='M24 9.01703C19.0025 3.74266 11.4674 3.736 6.67302 8.56049C1.77566 13.4886 1.77566 21.4735 6.67302 26.4016L22.5814 42.4098C22.9568 42.7876 23.4674 43 24 43C24.5326 43 25.0432 42.7876 25.4186 42.4098L41.327 26.4016C46.2243 21.4735 46.2243 13.4886 41.327 8.56049C36.5326 3.736 28.9975 3.74266 24 9.01703ZM21.4938 12.2118C17.9849 8.07195 12.7825 8.08727 9.51028 11.3801C6.16324 14.7481 6.16324 20.214 9.51028 23.582L24 38.1627L38.4897 23.582C41.8368 20.214 41.8368 14.7481 38.4897 11.3801C35.2175 8.08727 30.0151 8.07195 26.5062 12.2118L26.455 12.2722L25.4186 13.3151C25.0432 13.6929 24.5326 13.9053 24 13.9053C23.4674 13.9053 22.9568 13.6929 22.5814 13.3151L21.545 12.2722L21.4938 12.2118Z'></path>
+        </svg>
+    )
+}
+
+export function HeartPrimary({ onClick, className, width = '2rem', height = '2rem' }) {
+    return (
+        <svg
+            onClick={onClick}
+            className={className}
+            width={width}
+            height={height}
+            viewBox='0 0 24 24'
+            fill='rgba(254, 44, 85, 1.0)'
+            xmlns='http://www.w3.org/2000/svg'>
+            <g clipPath='url(#HeartFill_clip0)'>
+                <g filter='url(#HeartFill_filter0_d)'>
+                    <path
+                        fillRule='evenodd'
+                        clipRule='evenodd'
+                        d='M7.5 2.25C10.5 2.25 12 4.25 12 4.25C12 4.25 13.5 2.25 16.5 2.25C20 2.25 22.5 4.99999 22.5 8.5C22.5 12.5 19.2311 16.0657 16.25 18.75C14.4095 20.4072 13 21.5 12 21.5C11 21.5 9.55051 20.3989 7.75 18.75C4.81949 16.0662 1.5 12.5 1.5 8.5C1.5 4.99999 4 2.25 7.5 2.25Z'></path>
+                </g>
+                <path
+                    fillRule='evenodd'
+                    clipRule='evenodd'
+                    d='M2.40179 12.1998C3.58902 14.6966 5.7592 16.9269 7.74989 18.75C9.5504 20.3989 10.9999 21.5 11.9999 21.5C12.9999 21.5 14.4094 20.4072 16.2499 18.75C19.231 16.0657 22.4999 12.5 22.4999 8.49997C22.4999 8.41258 22.4983 8.32566 22.4952 8.23923C20.5671 13.6619 13.6787 18.5 11.75 18.5C10.3127 18.5 5.61087 15.8131 2.40179 12.1998Z'
+                    fillOpacity='0.03'></path>
+            </g>
+            <defs>
+                <filter
+                    id='HeartFill_filter0_d'
+                    x='-0.9'
+                    y='1.05'
+                    width='25.8'
+                    height='24.05'
+                    filterUnits='userSpaceOnUse'
+                    colorInterpolationFilters='sRGB'>
+                    <feFlood floodOpacity='0' result='BackgroundImageFix'></feFlood>
+                    <feColorMatrix
+                        in='SourceAlpha'
+                        type='matrix'
+                        values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+                        result='hardAlpha'></feColorMatrix>
+                    <feOffset dy='1.2'></feOffset>
+                    <feGaussianBlur stdDeviation='1.2'></feGaussianBlur>
+                    <feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'></feColorMatrix>
+                    <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow'></feBlend>
+                    <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape'></feBlend>
+                </filter>
+                <clipPath id='HeartFill_clip0'>
+                    <rect width='24' height='24' fill='white'></rect>
+                </clipPath>
+            </defs>
         </svg>
     )
 }
@@ -925,6 +978,23 @@ export function LineIcon({ className, width = '1em', height = '1em' }) {
             <path
                 d='M34.6715 20.7186C34.8435 20.7186 34.9825 20.5793 34.9825 20.4069V19.2846C34.9825 19.1126 34.8435 18.9727 34.6715 18.9727H30.1881H30.1875C30.1034 18.9727 30.0277 19.0064 29.9715 19.0607C29.9703 19.062 29.9688 19.0629 29.9679 19.0641C29.966 19.0659 29.9645 19.0678 29.963 19.0696C29.9096 19.1254 29.8765 19.2009 29.8765 19.2843V19.2846V26.2552V26.2555C29.8765 26.3393 29.9099 26.415 29.9636 26.4709C29.9648 26.4724 29.9663 26.4742 29.9679 26.4755C29.9691 26.477 29.9709 26.4785 29.9725 26.4798C30.0283 26.5334 30.1041 26.5669 30.1875 26.5669H30.1881H34.6715C34.8435 26.5669 34.9825 26.427 34.9825 26.2552V25.1326C34.9825 24.9609 34.8435 24.821 34.6715 24.821H31.6223V23.6426H34.6715C34.8435 23.6426 34.9825 23.503 34.9825 23.3309V22.2086C34.9825 22.0366 34.8435 21.8967 34.6715 21.8967H31.6223V20.7186H34.6715Z'
                 fill='#00B900'></path>
+        </svg>
+    )
+}
+
+export function DeleteIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+    return (
+        <svg
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 48 48'
+            xmlns='http://www.w3.org/2000/svg'>
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M19.5 7.50006V9.50006H28.5V7.50006H19.5ZM32.5 9.50006V6.00006C32.5 4.61935 31.3807 3.50006 30 3.50006H18C16.6193 3.50006 15.5 4.61935 15.5 6.00006V9.50006H7C6.44772 9.50006 6 9.94778 6 10.5001V12.5001C6 13.0523 6.44772 13.5001 7 13.5001H9.5V39.5001C9.5 41.7092 11.2909 43.5001 13.5 43.5001H34.5C36.7091 43.5001 38.5 41.7092 38.5 39.5001V13.5001H41C41.5523 13.5001 42 13.0523 42 12.5001V10.5001C42 9.94778 41.5523 9.50006 41 9.50006H32.5ZM34.5 13.5001H13.5V39.5001H34.5V13.5001ZM18.5 34.0001C17.9477 34.0001 17.5 33.5523 17.5 33.0001V20.0001C17.5 19.4478 17.9477 19.0001 18.5 19.0001H20.5C21.0523 19.0001 21.5 19.4478 21.5 20.0001V33.0001C21.5 33.5523 21.0523 34.0001 20.5 34.0001H18.5ZM27.5 34.0001C26.9477 34.0001 26.5 33.5523 26.5 33.0001V20.0001C26.5 19.4478 26.9477 19.0001 27.5 19.0001H29.5C30.0523 19.0001 30.5 19.4478 30.5 20.0001V33.0001C30.5 33.5523 30.0523 34.0001 29.5 34.0001H27.5Z'></path>
         </svg>
     )
 }

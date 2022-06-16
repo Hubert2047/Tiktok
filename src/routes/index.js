@@ -2,8 +2,8 @@ import config from '~/config'
 import BlankLayout from '~/layouts/BlankLayout'
 //layouts
 import MainLayout from '~/layouts/MainLayout'
-import SidebarLayout from '~/layouts/SidebarLayout'
 import ProfileLayout from '~/layouts/ProfileLayout'
+import SidebarLayout from '~/layouts/SidebarLayout'
 //pages
 import Following from '~/pages/Following'
 import Home from '~/pages/Home'
@@ -15,7 +15,7 @@ const publicRoutes = [
     { path: config.routes.following, page: Following, layout: SidebarLayout },
     { path: config.routes.upload, page: Upload, layout: MainLayout },
     { path: config.routes.profile(), page: Profile, layout: ProfileLayout },
-    { path: config.routes.video, page: VideoPage, layout: BlankLayout },
+    { path: config.routes.video(), page: VideoPage, layout: BlankLayout },
 ]
 
 export { publicRoutes }

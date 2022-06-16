@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SmileIcon } from '~/components/Icons'
 import { addComment } from '~/firebase'
 import { commentActions } from '~/redux/commentSlice'
+import { serverTimestamp } from 'firebase/firestore'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
@@ -13,8 +14,7 @@ const clsx = classNames.bind(styles)
 function CommentInput({ post, className }) {
     const dispath = useDispatch()
     const inputRef = useSelector((state) => state.comment.inputRef)
-    const lastUserWasTouchedReply = useSelector((state) => state.comment.lastUserWasTouchedReply)
-    const currentParentId = useSelector((state) => state.comment.currentParentId)
+    const lastUserWasTouchedReplyInfor = useSelector((state) => state.comment.lastUserWasTouchedReplyInfor)
     const currentUser = useSelector((state) => state.user.user)
     const [value, setValue] = useState('')
     const [showLogin, setShowLogin] = useState(false)
@@ -23,41 +23,56 @@ function CommentInput({ post, className }) {
     }
     // console.log(currentParentId, lastUserWasTouchedReply)
     const btnColor = value ? 'color-primary' : 'color-grey'
-    const disabled = value ? false : true
+    const disabled = !value ? true : false
+    const isExistReply = lastUserWasTouchedReplyInfor?.userWasTouched?.uid && true
     const callbackInput = useCallback((node) => {
         dispath(commentActions.setInputRef(node))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
     useEffect(() => {
         if (inputRef) {
             inputRef.addEventListener('keydown', (e) => {
                 if (e.keyCode === 8 && e.target.value.length === 0) {
-                    dispath(commentActions.setLastUserWasTouchedReply({}))
-                    dispath(commentActions.setCurrentParentId('null'))
+                    dispath(
+                        commentActions.setLastUserWasTouchedReplyInfor({
+                            commentParentId: 'null',
+                            userWasTouched: {},
+                        })
+                    )
                 }
-                // inputRef.style.height = '1.5rem'
-                // let scheight = e.target.scrollHeight
-                // inputRef.style.height = `${scheight}px`
             })
             inputRef.addEventListener('keyup', (e) => {
                 inputRef.style.height = '1.5rem'
                 let scheight = e.target.scrollHeight
+                if (scheight > 230) {
+                    inputRef.style.height = `230px`
+                    return
+                }
                 inputRef.style.height = `${scheight}px`
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputRef])
-    const addCommentToFireBase = function (e) {
+    const addCommentToFireBase = async function (e) {
         e.preventDefault()
         const newComment = {
-            parentId: currentParentId,
+            parentId: lastUserWasTouchedReplyInfor.commentParentId,
             uid: currentUser.uid,
             content: value,
             likes: [],
             postId: post.id,
+            createdAt: serverTimestamp(),
         }
         try {
-            addComment(newComment)
+            await addComment(newComment)
+            dispath(
+                commentActions.setLastUserWasTouchedReplyInfor({
+                    commentParentId: 'null',
+                    userWasTouched: {},
+                })
+            )
+            setValue('')
         } catch (e) {
             console.log(e)
         }
@@ -68,14 +83,17 @@ function CommentInput({ post, className }) {
     return (
         <div>
             {currentUser?.uid && (
-                <form className={clsx('comment-input', className)}>
+                <div className={clsx('comment-input', className)}>
                     <div className={clsx('input-box', 'd-flex')}>
-                        {lastUserWasTouchedReply?.uid && (
-                            <span className={clsx('tag')}>{`Reply to @${lastUserWasTouchedReply.full_name} :`}</span>
+                        {isExistReply && (
+                            <span
+                                className={clsx(
+                                    'tag'
+                                )}>{`Reply to @${lastUserWasTouchedReplyInfor?.userWasTouched?.full_name} :`}</span>
                         )}
                         <textarea
                             ref={callbackInput}
-                            placeholder={`${lastUserWasTouchedReply?.uid ? '' : 'Add comment ...'}`}
+                            placeholder={`${isExistReply ? '' : 'Add comment ...'}`}
                             value={value}
                             maxLength={150}
                             require='true'
@@ -85,6 +103,7 @@ function CommentInput({ post, className }) {
                         <span className={clsx('limit-text')}>{`${value?.length}/150`}</span>
                         <SmileIcon />
                     </div>
+
                     <Button
                         onClick={addCommentToFireBase}
                         title='Post'
@@ -92,7 +111,7 @@ function CommentInput({ post, className }) {
                         className={clsx('btn')}
                         disabled={disabled}
                     />
-                </form>
+                </div>
             )}
             {!currentUser?.uid && (
                 <div onClick={handleShowLogin} className={clsx('lets-login')}>

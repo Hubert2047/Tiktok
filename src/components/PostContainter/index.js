@@ -1,32 +1,31 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { forwardRef, memo, useCallback, useState } from 'react'
+import LinesEllipsis from 'react-lines-ellipsis'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
 import Video from '~/components/Video'
+import { updateFollowing } from '~/firebase'
 import { useProfileRoute } from '~/hooks'
 import Button from '../Button'
+import { LoginPopup } from '../Popper'
+import FullScreenModal from '../Popper/FullScreenModal'
 import styles from './PostContainer.module.scss'
 const clsx = classNames.bind(styles)
 const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
     // console.log('re-render -post')
     // console.log('re-render post container', post.id)
     const navigate = useNavigate()
-    const limitText = 30
-    const [showAllContent, setShowAllContent] = useState({
-        isShowAll: post?.content?.split('').length < limitText,
-        title: 'show all ...',
-    })
-    const handleShowAllContent = function () {
-        // console.log('llfe')
-        setShowAllContent((prev) => {
-            return { isShowAll: !prev.isShowAll, title: prev.title === 'show all ...' ? 'show less' : 'show all ...' }
-        })
-    }
+    const currentUser = useSelector((state) => state.user.user)
+    const [showallContent, setShowAllContent] = useState(false)
+    const [isClamped, setIsClamped] = useState(false)
+    const [showLogin, setShowLogin] = useState(false)
+    const [isFollowing, setIsFollowing] = useState(currentUser?.following?.includes(post.user.uid) || false)
     const handleOnMouseEnter = useCallback(() => {
-        setShowAllContent({ isShowAll: false, title: 'show all ...' })
+        setShowAllContent(setIsClamped(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,6 +33,30 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
         navigate(useProfileRoute(post.user))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     })
+    const handleReflow = function (rleState) {
+        setIsClamped(rleState.clamped)
+    }
+    const handleShowLogin = function () {
+        setShowLogin((prev) => !prev)
+    }
+    const handleFollowing = async function () {
+        console.log('goin')
+        if (!currentUser.uid) {
+            setShowLogin(true)
+            return
+        }
+        if (currentUser.uid === post.user.uid) return
+        let updateUserFollowing = []
+        if (isFollowing) {
+            updateUserFollowing = currentUser.following.filter((follow) => follow !== post.user.uid) //delete current use
+            await updateFollowing(currentUser.uid, updateUserFollowing)
+            setIsFollowing(false)
+        } else {
+            updateUserFollowing = [...currentUser.following, post.user.uid] //add current user
+            await updateFollowing(currentUser.uid, updateUserFollowing)
+            setIsFollowing(true)
+        }
+    }
     return (
         <div
             ref={ref}
@@ -41,6 +64,11 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
             onMouseEnter={() => {
                 onPlay(post.id)
             }}>
+            {showLogin && (
+                <FullScreenModal handleShowPopup={handleShowLogin}>
+                    <LoginPopup handleShowPopup={handleShowLogin} />
+                </FullScreenModal>
+            )}
             <ProfileContainer user={post.user} placement='left-start'>
                 <UserAvatar onClick={handleNavigate} user={post.user} height='5.6rem' className={clsx('avatar')} />
             </ProfileContainer>
@@ -48,10 +76,24 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
                 <div className={clsx('header', 'd-flex')}>
                     <UserName user={post.user} className={clsx('name')} />
                     <div className={clsx('content-box', 'd-flex')}>
-                        <p className={clsx('disc', { 'show-less': !showAllContent.isShowAll })}>{post?.content}</p>
-                        {post?.content?.split('').length > limitText && (
-                            <button onClick={handleShowAllContent} className={clsx('show-content-btn')}>
-                                {showAllContent.title}
+                        {!showallContent ? (
+                            <LinesEllipsis
+                                text={post?.content}
+                                maxLine={1}
+                                ellipsis={' ...'}
+                                basedOn='words'
+                                onReflow={handleReflow}
+                            />
+                        ) : (
+                            <p className={clsx('disc')}>{post?.content}</p>
+                        )}
+                        {isClamped && (
+                            <button
+                                className={clsx('show-content-btn')}
+                                onClick={() => {
+                                    setShowAllContent((prev) => !prev)
+                                }}>
+                                {!showallContent ? ' See more ...' : 'See less ...'}
                             </button>
                         )}
                     </div>
@@ -59,10 +101,11 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
                 <Video post={post} onMouseEnter={handleOnMouseEnter} className={clsx('video')} isPlaying={isPlaying} />
             </div>
             <Button
-                title='Follow'
-                border={'border-primary'}
+                onClick={handleFollowing}
+                title={isFollowing ? 'Following' : 'Follow'}
+                border={isFollowing ? 'border-grey' : 'border-primary'}
                 size={'size-sm'}
-                color={'color-primary'}
+                color={isFollowing ? 'color-grey' : 'color-primary'}
                 className={clsx('follow-btn')}
             />
         </div>

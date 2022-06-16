@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import GetApp from '~/components/GetApp'
@@ -11,9 +12,8 @@ import FullScreenModal from '~/components/Popper/FullScreenModal'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
 import { getUser, searchPost } from '~/firebase'
-import { profileActionIcons, shareItems } from '~/staticData'
-import { useSelector, useDispatch } from 'react-redux'
 import { profileActions } from '~/redux/profileSlice'
+import { profileActionIcons, shareItems } from '~/staticData'
 import styles from './Profile.module.scss'
 
 const clsx = classNames.bind(styles)
@@ -30,7 +30,7 @@ function Profile() {
         setLoading(true)
         try {
             const data = await Promise.all([searchPost(params.uid), getUser(params.uid)])
-            console.log(data)
+            // console.log(data)
             setUserPosts(data[0])
             dispath(profileActions.setProfileUser(data[1]))
             setLoading(false)
@@ -50,6 +50,7 @@ function Profile() {
     const handleLikeBtnClick = function () {
         setActive(true)
     }
+    console.log(profileUser)
     return (
         <>
             {loading && (
@@ -76,7 +77,7 @@ function Profile() {
                             </div>
                             <div className={clsx('count-infor', 'd-flex')}>
                                 <div className={clsx('count-infor-box', 'd-flex')}>
-                                    <strong>{profileUser.Following || 0}</strong>
+                                    <strong>{profileUser.following?.length || 0}</strong>
                                     <span>Following</span>
                                 </div>
                                 <div className={clsx('count-infor-box', 'd-flex')}>

@@ -53,6 +53,24 @@ function Menu({ menu = [], hideOnClick = false, children }) {
             return <MenuItem key={index} item={item} onMenuItemClick={handleMenuItemOnclick} />
         })
     }
+    const renderMenuContainer = function () {
+        return (
+            <div className={clsx('menu-list')} tabIndex='-1'>
+                <PopperWrapper className={clsx('menu-container')}>
+                    {menuList.length > 1 && <MenuHeader title={currentMenu.title} onBack={handleMenuOnBack} />}
+
+                    <div className={clsx('menu-body')}> {renderMenu()}</div>
+                    {!showAll && currentMenu.data.length > 4 && (
+                        <Button
+                            className={clsx('show-all-btn')}
+                            icon={<DownIcon width='1.8rem' height='1.8rem' />}
+                            onClick={handleShowAllClick}
+                        />
+                    )}
+                </PopperWrapper>
+            </div>
+        )
+    }
     return (
         <div className={clsx('wrapper')}>
             <Tippy
@@ -64,22 +82,7 @@ function Menu({ menu = [], hideOnClick = false, children }) {
                 hideOnClick={hideOnClick}
                 interactive={true}
                 placement='bottom-end'
-                render={(attrs) => (
-                    <div className={clsx('menu-list')} tabIndex='-1' {...attrs}>
-                        <PopperWrapper className={clsx('menu-container')}>
-                            {menuList.length > 1 && <MenuHeader title={currentMenu.title} onBack={handleMenuOnBack} />}
-
-                            <div className={clsx('menu-body')}> {renderMenu()}</div>
-                            {!showAll && currentMenu.data.length > 4 && (
-                                <Button
-                                    className={clsx('show-all-btn')}
-                                    icon={<DownIcon width='1.8rem' height='1.8rem' />}
-                                    onClick={handleShowAllClick}
-                                />
-                            )}
-                        </PopperWrapper>
-                    </div>
-                )}
+                render={renderMenuContainer}
                 onHide={handleMenuOnHide}>
                 <div>{children}</div>
             </Tippy>

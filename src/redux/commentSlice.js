@@ -3,18 +3,18 @@ const commentSlice = createSlice({
     name: 'comment',
     initialState: {
         inputRef: null,
-        currentParentId: 'null',
-        lastUserWasTouchedReply: {},
+        lastUserWasTouchedReplyInfor: {
+            commentParentId: 'null',
+            userWasTouched: {},
+        },
+        commentCount: 0,
     },
     reducers: {
         setInputRef(state, actions) {
             state.inputRef = actions.payload
         },
-        setLastUserWasTouchedReply(state, actions) {
-            state.lastUserWasTouchedReply = actions.payload
-        },
-        setCurrentParentId(state, actions) {
-            state.currentParentId = actions.payload
+        setLastUserWasTouchedReplyInfor(state, actions) {
+            state.lastUserWasTouchedReplyInfor = actions.payload
         },
     },
 })

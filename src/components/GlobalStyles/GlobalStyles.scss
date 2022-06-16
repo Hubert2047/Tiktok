@@ -10,6 +10,7 @@
     --grey-color-2: rgba(22, 24, 35, 0.5);
     --grey-color-3: rgba(22, 24, 35, 0.75);
     --grey-color-4: #7f7f7f;
+    --green-color: #3ec70b;
 
     --text-color: #413f42;
     --hover-bg-color: rgba(22, 24, 35, 0.03);
@@ -51,7 +52,7 @@ body {
     // font-family: 'IBM Plex Sans', sans-serif;
     font-family: var(--font-family);
     font-size: 1.6rem;
-    line-height: 1.2;
+    // line-height: 1.2;
     color: var(--text-color);
     text-rendering: optimizeSpeed;
     // overflow: overlay;

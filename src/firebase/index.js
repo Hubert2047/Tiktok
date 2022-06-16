@@ -12,8 +12,8 @@ import {
     onSnapshot,
     orderBy,
     query,
-    serverTimestamp,
     startAfter,
+    updateDoc,
     where,
 } from 'firebase/firestore'
 
@@ -96,25 +96,31 @@ const getFollowing = async function (followingArray) {
     return followingData
 }
 
-const getPosts = async function (lastPost = 0) {
+const getPosts = function (callback, lastPost = 0) {
+    if (typeof callback !== 'function') return
     const q = query(collection(db, 'posts'), orderBy('createdAt'), startAfter(lastPost), limit(5))
     const users = [] //store all getUser Promise
-    try {
-        const querySnapshot = await getDocs(q)
-        const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
-        if (querySnapshot.size < 1) return []
-        let posts = querySnapshot.docs.map((doc) => {
-            users.push(getUser(doc.data().uid))
-            return { ...doc.data(), id: doc.id }
-        })
-        const allUsers = await Promise.all(users)
-        posts = posts.map((post) => {
-            return { ...post, user: allUsers.find((user) => user.uid === post.uid) }
-        })
-        return { posts, lastDoc }
-    } catch (err) {
-        console.error(err.message)
-    }
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
+            const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+            if (querySnapshot.size < 1) return []
+            let posts = querySnapshot.docs.map((doc) => {
+                users.push(getUser(doc.data().uid))
+                return { ...doc.data(), id: doc.id }
+            })
+            const allUsers = await Promise.all(users)
+            posts = posts.map((post) => {
+                return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
+            })
+            const data = { posts, lastDoc }
+            // console.log(data)
+            callback(data)
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
 }
 const getPost = async function (postId) {
     const docRef = doc(db, 'posts', postId)
@@ -135,36 +141,71 @@ const searchPost = async function (uid) {
         throw new Error(err.message)
     }
 }
-const getComments = async function (postId, callback, parentId = 'null') {
-    try {
-        const q = query(
+const updateFollowing = async function (uid, updateFollowing) {
+    const updateFollowingtRef = doc(db, 'users', uid)
+    await updateDoc(updateFollowingtRef, { following: updateFollowing })
+}
+const getCommentCount = async function (postId, callback) {
+    let q = query(collection(db, 'comments'), where('postId', '==', postId))
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
+            callback(querySnapshot.size)
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
+}
+const getComments = async function ({ postId, callback, parentId, lastDocComment, commentLimit }) {
+    if (typeof callback !== 'function') return
+    let q = query(
+        collection(db, 'comments'),
+        where('postId', '==', postId),
+        where('parentId', '==', parentId),
+        orderBy('createdAt'),
+        startAfter(lastDocComment),
+        limit(commentLimit)
+    )
+    if (commentLimit === 'all') {
+        q = query(
             collection(db, 'comments'),
             where('postId', '==', postId),
             where('parentId', '==', parentId),
-            limit(2)
+            orderBy('createdAt'),
+            startAfter(lastDocComment)
         )
-        onSnapshot(q, async (querySnapshot) => {
+    }
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
             const data = []
             const getUserFunc = []
+            const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
             querySnapshot.docs.forEach((doc) => {
                 getUserFunc.push(getUser(doc.data().uid))
                 data.push({ id: doc.id, ...doc.data() })
             })
             const users = await Promise.all(getUserFunc)
             const comments = data?.map((item) => {
-                return { ...item, user: users.find((user) => user.uid === item.uid) }
+                return { ...item, user: users?.find((user) => user?.uid === item?.uid) }
             })
-            callback(comments)
-        })
-    } catch (err) {
-        throw new Error(err.message)
-    }
+            // console.log(comments)
+            callback({ comments, lastDoc })
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
+}
+const updateCommentLikes = async (commentId, likes) => {
+    const updateCommentRef = doc(db, 'comments', commentId)
+    await updateDoc(updateCommentRef, { likes: likes })
 }
 const addComment = async function (comment) {
     try {
-        const _comment = { ...comment, createdAt: serverTimestamp() }
-        console.log(_comment)
-        await addDoc(collection(db, 'comments'), _comment)
+        // console.log(_comment)
+        await addDoc(collection(db, 'comments'), comment)
     } catch (err) {
         throw new Error(err.message)
     }
@@ -186,4 +227,7 @@ export {
     getComments,
     addComment,
     deleteComment,
+    getCommentCount,
+    updateCommentLikes,
+    updateFollowing,
 }

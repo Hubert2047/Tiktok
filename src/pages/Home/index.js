@@ -17,19 +17,26 @@ function Home() {
     const [playingId, setPlayingId] = useState(null)
     const [lastPost, setLastPost] = useState()
     const [loading, setLoading] = useState(false)
+    const [hasMorePost, setHasMorePost] = useState(true)
     const observer = useRef()
+    console.log('re-render')
     const getPostsJSON = async function () {
         setLoading(true)
-        const data = await getPosts()
-        dispath(homeActions.setPost(data.posts))
-        setLastPost(data.lastDoc)
-        setLoading(false)
+        await getPosts((data) => {
+            dispath(homeActions.setPost(data.posts))
+            setLastPost(data.lastDoc)
+            setLoading(false)
+        })
     }
-    const getMorePostsJSON = async function (lastPost) {
-        const data = await getPosts(lastPost)
-        if (!data?.posts?.length) return
-        dispath(homeActions.setPost([...posts, ...data.posts]))
-        setLastPost(data.lastDoc)
+    const getMorePostsJSON = function (lastPost) {
+        getPosts((data) => {
+            if (!data?.posts?.length) {
+                setHasMorePost(false)
+                return
+            }
+            dispath(homeActions.setPost([...posts, ...data.posts]))
+            setLastPost(data.lastDoc)
+        }, lastPost)
     }
     useEffect(() => {
         getPostsJSON()
@@ -41,6 +48,7 @@ function Home() {
             observer.current = new IntersectionObserver(
                 (entries) => {
                     if (entries[0].isIntersecting) {
+                        if (posts?.length < 5 && !hasMorePost) return
                         getMorePostsJSON(lastPost)
                     }
                 }

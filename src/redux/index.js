@@ -7,6 +7,7 @@ import homeSlice from './homeSlice'
 import postSlice from './postSlice'
 import profileSlice from './profileSlice'
 import userSlice from './userSlice'
+import alertSlice from './alertSlice'
 
 const persistConfig = {
     key: 'root',
@@ -21,6 +22,7 @@ const store = configureStore({
         profile: profileSlice.reducer,
         post: postSlice.reducer,
         comment: commentSlice.reducer,
+        alert: alertSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

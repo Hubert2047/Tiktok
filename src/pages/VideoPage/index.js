@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
+import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import { CommentContainer, CommentInput } from '~/components/Comment'
@@ -19,24 +20,40 @@ import {
     XIcon,
 } from '~/components/Icons'
 import Loading from '~/components/Loading'
+import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
-import { getPost } from '~/firebase'
+import { getCommentCount, getPost, updateFollowing } from '~/firebase'
+import { convertTimeStampToDate, formatCountNumber } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
+    console.log('re-render video page')
+    const params = useParams()
+    console.log(params)
+    const navigate = useNavigate()
+    const currentUser = useSelector((state) => state.user.user)
     const [post, setPost] = useState({})
     const [loading, setLoading] = useState(true)
+    const [showLogin, setShowLogin] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
     const [showallContent, setShowAllContent] = useState(false)
-    let params = useParams()
-    const navigate = useNavigate()
-    const postId = params.postId
+    const [commentCount, setCommentCount] = useState(0)
+    const [isFollowing, setIsFollowing] = useState(currentUser?.following?.includes(post?.user?.uid) || false)
+    const postId = params.id
+    console.log(postId)
     const handleNavigate = function () {
         navigate(useProfileRoute(post.user))
     }
+    useEffect(() => {
+        if (post.id)
+            getCommentCount(post.id, (commentCount) => {
+                setCommentCount(commentCount)
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [post])
     useEffect(() => {
         const getPostJSON = async function () {
             setLoading(true)
@@ -50,11 +67,36 @@ function VideoPage() {
     const handleReflow = function (rleState) {
         setIsClamped(rleState.clamped)
     }
+    const handleShowLogin = function () {
+        setShowLogin((prev) => !prev)
+    }
+    const handleFollowing = async function () {
+        if (!currentUser.uid) {
+            handleShowLogin(true)
+            return
+        }
+        if (currentUser.uid === post.user.uid) return
+        let updateUserFollowing = []
+        if (isFollowing) {
+            updateUserFollowing = currentUser.following.filter((follow) => follow !== post.user.uid) //delete current use
+            await updateFollowing(currentUser.uid, updateUserFollowing)
+            setIsFollowing(false)
+        } else {
+            updateUserFollowing = [...currentUser.following, post.user.uid] //add current user
+            await updateFollowing(currentUser.uid, updateUserFollowing)
+            setIsFollowing(true)
+        }
+    }
     return (
         <div>
             {loading && (
                 <FullScreenModal className={clsx('loading')}>
                     <Loading />
+                </FullScreenModal>
+            )}
+            {showLogin && (
+                <FullScreenModal handleShowPopup={handleShowLogin}>
+                    <LoginPopup handleShowPopup={handleShowLogin} />
                 </FullScreenModal>
             )}
             {post.id && (
@@ -84,13 +126,19 @@ function VideoPage() {
                                     <p className={clsx('full-name')}>{post?.user?.full_name}</p>
                                     <div className={clsx('d-flex', 'other-infor')}>
                                         <p className={clsx('nickname')}>{post?.user?.nickname}</p>
-                                        <p className={clsx('time')}>{1}</p>
+                                        <p className={clsx('time')}>{convertTimeStampToDate(post?.createdAt)}</p>
                                     </div>
                                 </div>
-                                <Button title='Follow' border={'border-primary'} size={'size-md'} />
+                                <Button
+                                    title={isFollowing ? 'Following' : 'Follow'}
+                                    onClick={handleFollowing}
+                                    border={isFollowing ? 'border-grey' : 'border-primary'}
+                                    color={isFollowing ? 'color-grey' : 'color-primary'}
+                                    size={'size-md'}
+                                />
                             </div>
                             <div className={clsx('content')}>
-                                {!showallContent && (
+                                {!showallContent ? (
                                     <LinesEllipsis
                                         text={post.content}
                                         maxLine={2}
@@ -98,12 +146,12 @@ function VideoPage() {
                                         basedOn='words'
                                         onReflow={handleReflow}
                                     />
-                                )}
-
-                                {showallContent && (
-                                    <div>
-                                        <p>{post.content}</p>
-                                    </div>
+                                ) : (
+                                    showallContent && (
+                                        <div>
+                                            <p>{post.content}</p>
+                                        </div>
+                                    )
                                 )}
                                 {isClamped && (
                                     <button
@@ -121,13 +169,13 @@ function VideoPage() {
                                         <div className={clsx('icon-box', 'grid-center')}>
                                             <HeartIcon />
                                         </div>
-                                        <span>{post?.likes}</span>
+                                        <span>{formatCountNumber(post?.likes)}</span>
                                     </div>
                                     <div className={clsx('action-box', 'd-flex')}>
                                         <div className={clsx('icon-box', 'grid-center')}>
                                             <CommentIcon />
                                         </div>
-                                        <span>{post?.comments?.length || 0}</span>
+                                        <span>{commentCount || 0}</span>
                                     </div>
                                 </div>
                                 <div className={clsx('action-right', 'd-flex')}>
@@ -146,8 +194,8 @@ function VideoPage() {
                                 </CopyToClipboard>
                             </div>
                         </div>
-                        <CommentContainer post={post} className={clsx('comment')} />
-                        <CommentInput className={clsx('comment-input')} post={post} />
+                        <CommentContainer post={post} className={clsx('cu')} />
+                        <CommentInput className={clsx('cu-input')} post={post} />
                     </div>
                 </div>
             )}
@@ -155,4 +203,4 @@ function VideoPage() {
     )
 }
 
-export default VideoPage
+export default memo(VideoPage)
