@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/Tiktok/static/css/main.3357e639.css",
+    "main.js": "/Tiktok/static/js/main.91a6a733.js",
+    "static/js/787.fe00223f.chunk.js": "/Tiktok/static/js/787.fe00223f.chunk.js",
+    "static/media/ProximaNova-Semibold.woff2": "/Tiktok/static/media/ProximaNova-Semibold.db7972dbe0b808f96bae.woff2",
+    "static/media/sofiapro-bold.woff2": "/Tiktok/static/media/sofiapro-bold.1d7186488612ac20891f.woff2",
+    "static/media/Proxima-Nova-Regular.woff2": "/Tiktok/static/media/Proxima-Nova-Regular.6c83037ae28747e6d774.woff2",
+    "static/media/Avatar.jpg": "/Tiktok/static/media/Avatar.f38f391fd72172e7efc6.jpg",
+    "static/media/logo.svg": "/Tiktok/static/media/logo.d12bead0f7fdf614c236cb984a98d8f5.svg",
+    "index.html": "/Tiktok/index.html",
+    "main.3357e639.css.map": "/Tiktok/static/css/main.3357e639.css.map",
+    "main.91a6a733.js.map": "/Tiktok/static/js/main.91a6a733.js.map",
+    "787.fe00223f.chunk.js.map": "/Tiktok/static/js/787.fe00223f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3357e639.css",
+    "static/js/main.91a6a733.js"
+  ]
+}
