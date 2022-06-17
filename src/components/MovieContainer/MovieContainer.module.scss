@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18.6rem, 18.6rem));
     grid-template-rows: max-content;
+    width: 100%;
     column-gap: 1.5rem;
     height: 50vh;
     overflow-y: scroll;
@@ -15,6 +16,6 @@
     }
     &::-webkit-scrollbar-thumb {
         border-radius: 4px;
-        background-color: var(--primary-color);
+        // background-color: var(--primary-color);
     }
 }

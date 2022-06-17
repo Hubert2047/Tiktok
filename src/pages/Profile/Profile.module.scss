@@ -1,8 +1,11 @@
 .wrapper {
+    flex-direction: column;
+    height: 110vh;
+    // width: fit-content;
     padding: 3.2rem 3rem 0 2rem;
 }
 .header-left {
-    padding-right: 18rem;
+    padding-right: 13vw;
 }
 .share-infor {
     gap: 2rem;
@@ -19,6 +22,22 @@
     width: 20rem;
     margin-top: 0.5rem;
 }
+.action-box {
+    gap: 0.75rem;
+}
+.friend-icon {
+    padding: 0.75rem;
+}
+.message-icon {
+    padding: 0.75rem 4.333rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.edit-btn {
+    padding: 0.75rem 1.9rem;
+    font-weight: 500;
+}
+
 .count-infor {
     gap: 1.5rem;
     margin-top: 2rem;
@@ -30,11 +49,15 @@
     }
 }
 .desc-infor {
-    width: 35rem;
+    max-width: 40vw;
     margin-top: 1rem;
     line-height: 1.3;
-    white-space: pre-line;
     text-align: left;
+}
+.desc-btn {
+    color: var(--grey-color-2);
+    cursor: pointer;
+    margin-top: 0.5rem;
 }
 //header right
 .header-right {
@@ -47,7 +70,11 @@
 }
 
 //content
-
+.content {
+    width: 100%;
+    flex: 1;
+    flex-direction: column;
+}
 .top-content {
     position: relative;
     gap: 1rem;
@@ -75,11 +102,8 @@
 }
 .liked-btn {
     color: var(--grey-color-2);
-    &:hover + .line {
-        transform: translateX(100%);
-    }
 }
-.active-btn {
+.like-active-btn {
     transform: translateX(100%);
 }
 .line {
@@ -91,15 +115,11 @@
     transition: all 0.3s linear;
     background-color: rgba(22, 24, 35, 1);
 }
-.private-section {
-    min-height: 30rem;
-}
-.private-box {
-    flex-direction: column;
+.like-section-box {
+    flex: 1;
+    justify-content: center;
     align-items: center;
-    h4 {
-        margin-top: 2rem;
-        margin-bottom: 0.5rem;
-    }
+    margin-bottom: 8rem;
 }
+
 ///main ::content

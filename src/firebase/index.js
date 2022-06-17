@@ -28,12 +28,14 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
+//provider
+// doc(database,collection,keyvalue) database =getFireStore(app)
 const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
-
 const googleProvider = new GoogleAuthProvider()
 
+// handle Login
 const loginWithGoogle = async function () {
     return signInWithPopup(auth, googleProvider)
         .then((result) => {
@@ -52,7 +54,8 @@ const logOut = async function (callback) {
             // An error happened.
         })
 }
-// doc(database,collection,keyvalue) database =getFireStore(app)
+
+//user
 const getUser = async function (uid) {
     const q = query(collection(db, 'users'), where('uid', '==', uid))
 
@@ -62,11 +65,25 @@ const getUser = async function (uid) {
     }
     return { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0].id }
 }
-
+const getUserRealyTime = async function (uid, callback) {
+    onSnapshot(doc(db, 'users', uid), (doc) => {
+        const user = { ...doc.data(), id: doc.id }
+        callback(user)
+    })
+}
 const addUser = async function (user) {
     await addDoc(doc(db, 'users'), user)
 }
+const updateFollowing = async function (uid, updateFollowing) {
+    const updateUserFollowingtRef = doc(db, 'users', uid)
+    await updateDoc(updateUserFollowingtRef, { following: updateFollowing })
+}
+const updateUserLikes = async function (uid, updateLike) {
+    const updateUserLiketRef = doc(db, 'users', uid)
+    await updateDoc(updateUserLiketRef, { likes: updateLike })
+}
 
+//sidebar
 const getSuggestFollowing = async function (currentUserId = '', type) {
     let q
     switch (type) {
@@ -86,7 +103,6 @@ const getSuggestFollowing = async function (currentUserId = '', type) {
     })
     return suggestFollowingData
 }
-
 const getFollowing = async function (followingArray) {
     const q = query(collection(db, 'users'), where('uid', 'in', followingArray))
     const querySnapshot = await getDocs(q)
@@ -96,6 +112,7 @@ const getFollowing = async function (followingArray) {
     return followingData
 }
 
+//post
 const getPosts = function (callback, lastPost = 0) {
     if (typeof callback !== 'function') return
     const q = query(collection(db, 'posts'), orderBy('createdAt'), startAfter(lastPost), limit(5))
@@ -128,6 +145,24 @@ const getPost = async function (postId) {
     const user = await getUser(docSnap.data().uid)
     return { ...docSnap.data(), id: docSnap.id, user: user }
 }
+//search post with an array
+const searchPostByArray = async function (array = [], callback) {
+    console.log(array)
+    const q = query(collection(db, 'posts'), where('id', 'in', array))
+    const querySnapshot = await getDocs(q)
+    try {
+        console.log(querySnapshot.size)
+        if (querySnapshot.size < 1) return []
+        const posts = querySnapshot.docs?.map((doc) => {
+            return { id: doc.id, ...doc.data() }
+        })
+
+        callback(posts)
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+//search post by user id
 const searchPost = async function (uid) {
     try {
         const q = query(collection(db, 'posts'), where('uid', '==', uid))
@@ -141,10 +176,12 @@ const searchPost = async function (uid) {
         throw new Error(err.message)
     }
 }
-const updateFollowing = async function (uid, updateFollowing) {
-    const updateFollowingtRef = doc(db, 'users', uid)
-    await updateDoc(updateFollowingtRef, { following: updateFollowing })
+const updatePostLike = async function (postId, likes) {
+    const updatePostLiketRef = doc(db, 'posts', postId)
+    await updateDoc(updatePostLiketRef, { likes: likes })
 }
+
+//comment
 const getCommentCount = async function (postId, callback) {
     let q = query(collection(db, 'comments'), where('postId', '==', postId))
     onSnapshot(
@@ -218,16 +255,20 @@ export {
     loginWithGoogle,
     logOut,
     getUser,
+    getUserRealyTime,
     addUser,
+    updateUserLikes,
+    updateFollowing,
     getSuggestFollowing,
     getFollowing,
     getPosts,
     getPost,
+    searchPostByArray,
+    updatePostLike,
     searchPost,
     getComments,
     addComment,
     deleteComment,
     getCommentCount,
     updateCommentLikes,
-    updateFollowing,
 }

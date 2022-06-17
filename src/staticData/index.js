@@ -25,7 +25,7 @@ import {
     TwitterIcon,
     WhatsAppIcon,
 } from '~/components/Icons'
-import { loginWithGoogle, logOut } from '~/firebase'
+import { loginWithGoogle } from '~/firebase'
 
 export const discovers = [
     {
@@ -269,17 +269,21 @@ export const UNLOGIN_MENU_ITEM = [
         ],
     },
 ]
+
+// menu buttom
 export const LOG_OUT = 'log-out'
+export const VIEW_PROFILE = 'view-profile'
 export const LOGIN_MENU_ITEM = [
     {
         data: [
-            { title: 'View profile', icon: <ProfileIcon />, to: './' },
+            { title: 'View profile', icon: <ProfileIcon />, to: './', type: VIEW_PROFILE },
             { title: 'Setting', icon: <SettingIcon />, to: './' },
             ...UNLOGIN_MENU_ITEM[0].data, //clone data from unlogin menu
-            { title: 'Log out', icon: <LogoutIcon />, to: './', separate: true, onClick: logOut, type: LOG_OUT },
+            { title: 'Log out', icon: <LogoutIcon />, to: './', separate: true, type: LOG_OUT },
         ],
     },
 ]
+
 //footer
 export const footerData = [
     {

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
-import React, { memo, useEffect, useState } from 'react'
+import React, { Fragment, memo, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useSelector } from 'react-redux'
@@ -12,6 +12,7 @@ import {
     EmbedIcon,
     FaceBookIcon,
     HeartIcon,
+    HeartPrimary,
     ReportIcon,
     SendToIcon,
     ShareIcon,
@@ -24,7 +25,7 @@ import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
-import { getCommentCount, getPost, updateFollowing } from '~/firebase'
+import { getCommentCount, getPost, updateFollowing, updatePostLike, updateUserLikes } from '~/firebase'
 import { convertTimeStampToDate, formatCountNumber } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import styles from './VideoPage.module.scss'
@@ -36,17 +37,20 @@ function VideoPage() {
     const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
     const [post, setPost] = useState({})
+    const [commentCount, setCommentCount] = useState(0)
     const [loading, setLoading] = useState(true)
+    const [showallContent, setShowAllContent] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
-    const [showallContent, setShowAllContent] = useState(false)
-    const [commentCount, setCommentCount] = useState(0)
     const [isFollowing, setIsFollowing] = useState(currentUser?.following?.includes(post?.user?.uid) || false)
+    const [isLikedPost, setIsLikedPost] = useState(currentUser?.likes?.includes(post?.id) || false)
+
     const postId = params.id
     // console.log(postId)
     const handleNavigate = function () {
         navigate(useProfileRoute(post.user))
     }
+
     useEffect(() => {
         if (post.id)
             getCommentCount(post.id, (commentCount) => {
@@ -85,6 +89,39 @@ function VideoPage() {
             updateUserFollowing = [...currentUser.following, post.user.uid] //add current user
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(true)
+        }
+    }
+    const handleLikePostAction = async function () {
+        if (!currentUser.uid) {
+            handleShowLogin(true)
+            return
+        }
+        let updateUserLikePost
+        let updatePostIsLiked
+        if (isLikedPost) {
+            try {
+                updateUserLikePost = currentUser?.likes.filter((like) => like !== post.id)
+                updatePostIsLiked = post.likes - 1
+                await Promise.all([
+                    updateUserLikes(currentUser.uid, updateUserLikePost),
+                    updatePostLike(post.id, updatePostIsLiked),
+                ])
+                setIsLikedPost(false)
+            } catch (err) {
+                console.log(err)
+            }
+        } else {
+            try {
+                updateUserLikePost = [...currentUser.likes, post.id]
+                updatePostIsLiked = post.likes + 1
+                await Promise.all([
+                    updateUserLikes(currentUser?.uid, updateUserLikePost),
+                    updatePostLike(post?.id, updatePostIsLiked),
+                ])
+                setIsLikedPost(true)
+            } catch (err) {
+                console.log(err)
+            }
         }
     }
     return (
@@ -166,8 +203,8 @@ function VideoPage() {
                             <div className={clsx('actions', 'd-flex')}>
                                 <div className={clsx('action-left', 'd-flex')}>
                                     <div className={clsx('action-box', 'd-flex')}>
-                                        <div className={clsx('icon-box', 'grid-center')}>
-                                            <HeartIcon />
+                                        <div onClick={handleLikePostAction} className={clsx('icon-box', 'grid-center')}>
+                                            <Fragment>{!isLikedPost ? <HeartIcon /> : <HeartPrimary />}</Fragment>
                                         </div>
                                         <span>{formatCountNumber(post?.likes)}</span>
                                     </div>
