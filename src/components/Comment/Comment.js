@@ -6,14 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import Button from '~/components/Button'
-import {
-    DeleteIcon,
-    HeartAnimated,
-    HeartOutLine,
-    HeartPrimary,
-    HorizontalThreeDot,
-    ReportIcon,
-} from '~/components/Icons'
+import { DeleteIcon, HeartAnimated, HeartPrimary, HorizontalThreeDot, ReportIcon } from '~/components/Icons'
 import ProfileContainer from '~/components/ProfileContainer'
 import { deleteComment, getComments, updateCommentLikes } from '~/firebase'
 import { convertTimeStampToDate } from '~/helper'
