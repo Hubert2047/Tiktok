@@ -32,7 +32,7 @@ const clsx = classNames.bind(styles)
 function VideoPage() {
     console.log('re-render video page')
     const params = useParams()
-    console.log(params)
+    // console.log(params)
     const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
     const [post, setPost] = useState({})
@@ -43,7 +43,7 @@ function VideoPage() {
     const [commentCount, setCommentCount] = useState(0)
     const [isFollowing, setIsFollowing] = useState(currentUser?.following?.includes(post?.user?.uid) || false)
     const postId = params.id
-    console.log(postId)
+    // console.log(postId)
     const handleNavigate = function () {
         navigate(useProfileRoute(post.user))
     }
@@ -194,7 +194,7 @@ function VideoPage() {
                                 </CopyToClipboard>
                             </div>
                         </div>
-                        <CommentContainer post={post} className={clsx('cu')} />
+                        <CommentContainer post={post} className={clsx('comment-container')} />
                         <CommentInput className={clsx('cu-input')} post={post} />
                     </div>
                 </div>

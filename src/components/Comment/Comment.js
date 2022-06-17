@@ -6,7 +6,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import Button from '~/components/Button'
-import { DeleteIcon, HeartOutLine, HeartPrimary, HorizontalThreeDot, ReportIcon } from '~/components/Icons'
+import {
+    DeleteIcon,
+    HeartAnimated,
+    HeartOutLine,
+    HeartPrimary,
+    HorizontalThreeDot,
+    ReportIcon,
+} from '~/components/Icons'
 import ProfileContainer from '~/components/ProfileContainer'
 import { deleteComment, getComments, updateCommentLikes } from '~/firebase'
 import { convertTimeStampToDate } from '~/helper'
@@ -142,7 +149,16 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
                     </div>
 
                     {!isLiked ? (
-                        <HeartOutLine className={clsx('action-icon')} onClick={updateCommentLikeToFirebase} />
+                        <div className={clsx('icon', 'd-flex')}>
+                            <HeartAnimated
+                                className={clsx('action-icon', 'heart-main', 'd-flex')}
+                                onClick={updateCommentLikeToFirebase}
+                            />
+                            <HeartAnimated
+                                className={clsx('action-icon', 'heart-background', 'd-flex')}
+                                onClick={updateCommentLikeToFirebase}
+                            />
+                        </div>
                     ) : (
                         <HeartPrimary className={clsx('action-icon')} onClick={updateCommentLikeToFirebase} />
                     )}

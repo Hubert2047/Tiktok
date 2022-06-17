@@ -45,7 +45,7 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
         })
         setShowAll(false)
     }
-    const handleShowAllClick = function () {
+    const handleShowAllItem = function () {
         setShowAll(true)
     }
     const renderMenu = () => {
@@ -57,14 +57,16 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
         return (
             <div className={clsx('menu-list')} tabIndex='-1'>
                 <PopperWrapper className={clsx('menu-container')}>
+                    {/* menu header */}
                     {menuList.length > 1 && <MenuHeader title={currentMenu.title} onBack={handleMenuOnBack} />}
-
+                    {/* render item */}
                     <div className={clsx('menu-body')}> {renderMenu()}</div>
+                    {/* show all buttom */}
                     {!showAll && currentMenu.data.length > 4 && (
                         <Button
                             className={clsx('show-all-btn')}
                             icon={<DownIcon width='1.8rem' height='1.8rem' />}
-                            onClick={handleShowAllClick}
+                            onClick={handleShowAllItem}
                         />
                     )}
                 </PopperWrapper>

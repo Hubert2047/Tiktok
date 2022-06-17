@@ -516,7 +516,7 @@ export function HeartOutLine({ onClick, className, width = '2rem', height = '2re
     )
 }
 
-export function HeartPrimary({ onClick, className, width = '2rem', height = '2rem' }) {
+export function HeartPrimary({ onClick, className, width = '2.3rem', height = '2.3rem' }) {
     return (
         <svg
             onClick={onClick}
@@ -564,6 +564,20 @@ export function HeartPrimary({ onClick, className, width = '2rem', height = '2re
                     <rect width='24' height='24' fill='white'></rect>
                 </clipPath>
             </defs>
+        </svg>
+    )
+}
+export function HeartAnimated({ className, onClick }) {
+    return (
+        <svg
+            onClick={onClick}
+            className={className}
+            viewBox='0 0 580 580'
+            height='2.3rem'
+            width='2.3rem'
+            title='heart'
+            xmlns='http://www.w3.org/2000/svg'>
+            <path d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' />
         </svg>
     )
 }

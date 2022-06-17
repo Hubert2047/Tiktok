@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CommentIcon, HeartIcon, ShareIcon } from '~/components/Icons'
 import Menu from '~/components/Menu'
-import shareAction from '~/components/ShareComponent'
+import { getCommentCount } from '~/firebase'
 import { formatCountNumber } from '~/helper'
 import { useVideoPageRoute } from '~/hooks'
 import { shareItems } from '~/staticData'
@@ -16,6 +17,14 @@ function VideoFooter({ className, post }) {
         // console.log(post)
         navigate(useVideoPageRoute(post))
     }
+    const [commentCount, setCommentCount] = useState()
+    useEffect(() => {
+        getCommentCount(post.id, (data) => {
+            setCommentCount(data)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
             <div className={clsx('action-container', 'd-flex')}>
@@ -28,7 +37,7 @@ function VideoFooter({ className, post }) {
                 <div className={clsx('box', 'grid-center')}>
                     <CommentIcon />
                 </div>
-                <span>{post?.comments?.length}</span>
+                <span>{commentCount}</span>
             </div>
             <div className={clsx('action-container', 'd-flex')}>
                 <Menu menu={shareItems} placement={'top-start'} link={post.video}>
