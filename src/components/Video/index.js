@@ -10,7 +10,8 @@ import VideoFooter from '../VideoFooter'
 import styles from './Video.module.scss'
 const clsx = classNames.bind(styles)
 function Video({ post, isPlaying, className, onMouseEnter }) {
-    // console.log('re-render video', post.id)
+    // console.log('re-render video')
+
     const navigate = useNavigate()
     const handleNavigate = function (e) {
         e.preventDefault()

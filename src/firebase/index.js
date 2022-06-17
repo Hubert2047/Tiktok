@@ -104,6 +104,7 @@ const getSuggestFollowing = async function (currentUserId = '', type) {
     return suggestFollowingData
 }
 const getFollowing = async function (followingArray) {
+    if (followingArray?.length < 1) return
     const q = query(collection(db, 'users'), where('uid', 'in', followingArray))
     const querySnapshot = await getDocs(q)
     const followingData = querySnapshot.docs.map((doc) => {

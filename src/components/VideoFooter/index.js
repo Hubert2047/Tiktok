@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CommentIcon, HeartIcon, HeartPrimary, ShareIcon } from '~/components/Icons'
 import Menu from '~/components/Menu'
@@ -10,21 +10,27 @@ import FullScreenModal from '~/components/Popper/FullScreenModal'
 import { getCommentCount, updatePostLike, updateUserLikes } from '~/firebase'
 import { formatCountNumber } from '~/helper'
 import { useVideoPageRoute } from '~/hooks'
+import { userActions } from '~/redux/userSlice'
 import { shareItems } from '~/staticData'
 import styles from './VideoFooter.module.scss'
 
 const clsx = classNames.bind(styles)
 function VideoFooter({ className, post }) {
+    const dispath = useDispatch()
+    // console.log('re-render video footer')
     const currentUser = useSelector((state) => state.user.user)
+    // console.log(currentUser, post.id)
     const [isLikedPost, setIsLikedPost] = useState(currentUser?.likes?.includes(post?.id) || false)
     // console.log(isLikedPost, post.id)
-    console.log(currentUser)
     const [showLogin, setShowLogin] = useState(false)
     const navigate = useNavigate()
     const handleOnClickComment = function () {
-        // console.log(post)
         navigate(useVideoPageRoute(post))
     }
+    useEffect(() => {
+        setIsLikedPost(currentUser?.likes?.includes(post?.id) || false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser])
     const [commentCount, setCommentCount] = useState()
     useEffect(() => {
         getCommentCount(post.id, (data) => {
@@ -44,7 +50,7 @@ function VideoFooter({ className, post }) {
         let updatePostIsLiked
         if (isLikedPost) {
             try {
-                updateUserLikePost = currentUser?.likes.filter((like) => like !== post.id)
+                updateUserLikePost = currentUser?.likes?.filter((like) => like !== post.id)
                 updatePostIsLiked = post.likes - 1
                 await Promise.all([
                     updateUserLikes(currentUser.uid, updateUserLikePost),
@@ -56,7 +62,7 @@ function VideoFooter({ className, post }) {
             }
         } else {
             try {
-                updateUserLikePost = [...currentUser.likes, post.id]
+                updateUserLikePost = [...(currentUser?.likes || []), post.id]
                 updatePostIsLiked = post.likes + 1
                 await Promise.all([
                     updateUserLikes(currentUser?.uid, updateUserLikePost),
@@ -67,6 +73,7 @@ function VideoFooter({ className, post }) {
                 console.log(err)
             }
         }
+        dispath(userActions.setUser({ ...currentUser, likes: updateUserLikePost }))
     }
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>

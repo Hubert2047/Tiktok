@@ -16,7 +16,7 @@ function ProfileLikeSection({ user, isCurrentUser, className }) {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [user])
     return (
         <div className={clsx('wrapper', className)}>
             {!isCurrentUser ? (
@@ -27,7 +27,7 @@ function ProfileLikeSection({ user, isCurrentUser, className }) {
                 </div>
             ) : (
                 <div>
-                    {userLikePost?.length === 0 ? (
+                    {user?.likes?.length === 0 ? (
                         <div className={clsx('private-box', 'd-flex')}>
                             <ProfileLikeIcon />
                             <h4>No liked videos yet</h4>

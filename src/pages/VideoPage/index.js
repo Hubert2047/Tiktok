@@ -3,7 +3,7 @@ import classNames from 'classnames/bind'
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import { CommentContainer, CommentInput } from '~/components/Comment'
@@ -28,12 +28,14 @@ import UserAvatar from '~/components/UserAvatar'
 import { getCommentCount, getPost, updateFollowing, updatePostLike, updateUserLikes } from '~/firebase'
 import { convertTimeStampToDate, formatCountNumber } from '~/helper'
 import { useProfileRoute } from '~/hooks'
+import { userActions } from '~/redux/userSlice'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
     console.log('re-render video page')
     const params = useParams()
     // console.log(params)
+    const dispath = useDispatch()
     const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
     const [post, setPost] = useState({})
@@ -42,9 +44,8 @@ function VideoPage() {
     const [showallContent, setShowAllContent] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
-    const [isFollowing, setIsFollowing] = useState(currentUser?.following?.includes(post?.user?.uid) || false)
-    const [isLikedPost, setIsLikedPost] = useState(currentUser?.likes?.includes(post?.id) || false)
-
+    const [isFollowing, setIsFollowing] = useState()
+    const [isLikedPost, setIsLikedPost] = useState()
     const postId = params.id
     // console.log(postId)
     const handleNavigate = function () {
@@ -61,9 +62,16 @@ function VideoPage() {
     useEffect(() => {
         const getPostJSON = async function () {
             setLoading(true)
-            const data = await getPost(postId)
-            setPost(data)
-            setLoading(false)
+            try {
+                const data = await getPost(postId)
+                setPost(data)
+                setIsLikedPost(currentUser?.likes?.includes(data?.id) || false)
+                setIsFollowing(currentUser?.following?.includes(post?.user?.uid) || false)
+                setLoading(false)
+            } catch (e) {
+                setLoading(false)
+                console.log(e)
+            }
         }
         getPostJSON()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,10 +94,11 @@ function VideoPage() {
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(false)
         } else {
-            updateUserFollowing = [...currentUser.following, post.user.uid] //add current user
+            updateUserFollowing = [...(currentUser.following || []), post.user.uid] //add current user
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(true)
         }
+        dispath(userActions.setUser({ ...currentUser, following: updateUserFollowing }))
     }
     const handleLikePostAction = async function () {
         if (!currentUser.uid) {
@@ -123,6 +132,7 @@ function VideoPage() {
                 console.log(err)
             }
         }
+        dispath(userActions.setUser({ ...currentUser, likes: updateUserLikePost }))
     }
     return (
         <div>

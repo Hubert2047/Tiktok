@@ -12,14 +12,15 @@ import styles from './Home.module.scss'
 const clsx = classNames.bind(styles)
 
 function Home() {
+    // console.log('re-render home')
     const dispath = useDispatch()
+    // const authState = useSelector((state) => state.app.authState)
     const posts = useSelector((state) => state.home.posts)
     const [playingId, setPlayingId] = useState(null)
     const [lastPost, setLastPost] = useState()
     const [loading, setLoading] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true)
     const observer = useRef()
-    console.log('re-render')
     const getPostsJSON = async function () {
         setLoading(true)
         await getPosts((data) => {

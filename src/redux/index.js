@@ -1,21 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { persistStore, persistReducer } from 'reduxjs-toolkit-persist'
+import { persistReducer, persistStore } from 'reduxjs-toolkit-persist'
 import storage from 'reduxjs-toolkit-persist/lib/storage'
+import alertSlice from './alertSlice'
+import appSlice from './appSlice'
 import commentSlice from './commentSlice'
 import headerSlice from './headerSlice'
 import homeSlice from './homeSlice'
 import postSlice from './postSlice'
 import profileSlice from './profileSlice'
 import userSlice from './userSlice'
-import alertSlice from './alertSlice'
 
 const persistConfig = {
     key: 'root',
     storage,
 }
+const appPersistedReducer = persistReducer(persistConfig, appSlice.reducer)
 const userPersistedReducer = persistReducer(persistConfig, userSlice.reducer)
 const store = configureStore({
     reducer: {
+        app: appPersistedReducer, //save to store
         user: userPersistedReducer, //save to store
         header: headerSlice.reducer,
         home: homeSlice.reducer,

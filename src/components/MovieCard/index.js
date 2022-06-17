@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { PlayIcon } from '~/components/Icons'
 import Image from '~/components/Image'
+import { formatCountNumber } from '~/helper'
 import styles from './MovieCard.module.scss'
 const clsx = classNames.bind(styles)
 function MovieCard({ post, isPlaying, onHover }) {
@@ -34,7 +35,7 @@ function MovieCard({ post, isPlaying, onHover }) {
 
                 <div className={clsx('count-play', 'd-flex')}>
                     <PlayIcon />
-                    <span>{post?.playCount || 0}</span>
+                    <span>{formatCountNumber(post?.played) || 0}</span>
                 </div>
             </div>
             <p className={clsx('title', 'ellipsis')}>{post?.title}</p>

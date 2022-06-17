@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
@@ -39,6 +40,7 @@ function Profile() {
         maxLine: 2,
     })
     const profileUserLikeCount = profileUser?.likes?.length || 0
+
     const getUserProfile = async function () {
         setLoading(true)
         try {
@@ -60,6 +62,7 @@ function Profile() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profileUser])
     useEffect(() => {
+        handleReflow()
         setLikeBtnActive(false)
     }, [profileUser])
     useEffect(() => {
@@ -92,8 +95,8 @@ function Profile() {
         await updateFollowing(currentUser.uid, updateUserFollowing)
         setIsFollowing(true)
     }
-    const handleReflow = function ({ clamped }) {
-        if (clamped) setReflow(clamped)
+    const handleReflow = function (result) {
+        if (result?.clamped) setReflow(result?.clamped)
     }
     const handleShowDesc = function () {
         setShowDesc((prev) => {

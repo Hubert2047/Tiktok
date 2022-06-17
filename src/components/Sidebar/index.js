@@ -22,20 +22,20 @@ function Sidebar({ className }) {
     const [isCallApi, setCallApi] = useState(false)
     useEffect(() => {
         const getFollowingData = async function () {
-            const data = await getFollowing(currentUser.following)
+            const data = await getFollowing(currentUser?.following)
             setFollowingData(data)
         }
         const getSunggestFollowingData = async function () {
             if (seeText === 'See less') {
-                const data = await getSuggestFollowing(currentUser.uid, 'more')
+                const data = await getSuggestFollowing(currentUser?.uid, 'more')
                 setSuggestFollowingData((prev) => [...prev, data])
             } else {
-                const data = await getSuggestFollowing(currentUser.uid, 'less')
+                const data = await getSuggestFollowing(currentUser?.uid, 'less')
                 setSuggestFollowingData([data])
             }
         }
         //if use login then render following data otherwise render nothing
-        if (currentUser.uid) {
+        if (currentUser?.uid) {
             getFollowingData()
         } else {
             setFollowingData([])

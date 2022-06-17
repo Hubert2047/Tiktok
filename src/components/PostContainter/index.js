@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
-import { forwardRef, memo, useCallback, useState } from 'react'
+import { forwardRef, memo, useCallback, useEffect, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
@@ -10,24 +11,31 @@ import UserName from '~/components/UserName'
 import Video from '~/components/Video'
 import { updateFollowing } from '~/firebase'
 import { useProfileRoute } from '~/hooks'
+import { userActions } from '~/redux/userSlice'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
 import styles from './PostContainer.module.scss'
 const clsx = classNames.bind(styles)
 const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
+    // console.log('re-render post container', post.id)
     // console.log('re-render -post')
     // console.log('re-render post container', post.id)
+    const dispath = useDispatch()
     const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
     const [showallContent, setShowAllContent] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
-    const [isFollowing, setIsFollowing] = useState(currentUser?.following?.includes(post.user.uid) || false)
+    const [isFollowing, setIsFollowing] = useState()
     const handleOnMouseEnter = useCallback(() => {
         setShowAllContent(setIsClamped(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    useEffect(() => {
+        setIsFollowing(currentUser?.following?.includes(post.user.uid) || false)
+    }, [currentUser])
+    // console.log('current user', currentUser, 'post', post)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleNavigate = useCallback(() => {
         navigate(useProfileRoute(post.user))
@@ -40,7 +48,6 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
         setShowLogin((prev) => !prev)
     }
     const handleFollowing = async function () {
-        console.log('goin')
         if (!currentUser.uid) {
             setShowLogin(true)
             return
@@ -52,10 +59,11 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(false)
         } else {
-            updateUserFollowing = [...currentUser.following, post.user.uid] //add current user
+            updateUserFollowing = [...(currentUser.following || []), post.user.uid] //add current user
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(true)
         }
+        dispath(userActions.setUser({ ...currentUser, following: updateUserFollowing }))
     }
     return (
         <div
