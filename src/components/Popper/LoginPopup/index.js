@@ -30,6 +30,7 @@ function LoginPopup({ handleShowPopup }) {
             setLoading(false)
         } catch (err) {
             console.log(err)
+            handleShowPopup()
             setLoading(false)
         }
     }

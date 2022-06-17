@@ -177,6 +177,7 @@ function VideoPage() {
                                     </div>
                                 </div>
                                 <Button
+                                    className={clsx('follow-btn')}
                                     title={isFollowing ? 'Following' : 'Follow'}
                                     onClick={handleFollowing}
                                     border={isFollowing ? 'border-grey' : 'border-primary'}

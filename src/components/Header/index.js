@@ -95,7 +95,7 @@ function Header({ className }) {
                     <img src={images.logo} alt='logo' />
                 </Link>
                 {/* search */}
-                <Search />
+                <Search className={clsx('search')} />
                 {/* action */}
                 <div className={clsx('right-container', 'd-flex')}>
                     {currentUser?.uid ? <LoginUI /> : <UnLoginUI />}

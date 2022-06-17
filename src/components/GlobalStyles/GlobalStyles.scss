@@ -1,5 +1,39 @@
 @import '~@csstools/normalize.css';
 
+//media query
+/* 0-600: phone 37.5em
+ 600-900:tablet portrait 56.25em
+ 900-1200:tablet landscape 75em
+ 1200-1800: pc (is where our normal styles apply)
+ 1800 + : big desktop
+*/
+
+@mixin respond($breakpoint) {
+    @if $breakpoint==phone {
+        @media only screen and (max-width: 37.5em) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==tab-port {
+        @media only screen and (max-width: 56.25em) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==tab-land {
+        @media only screen and (max-width: 75em) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==big-desktop {
+        @media only screen and (min-width: 112.5em) {
+            @content;
+        }
+    }
+}
+
 //global variable
 :root {
     //color
@@ -42,8 +76,12 @@
     padding: 0;
     margin: 0;
 }
+
 html {
     font-size: 62.5%;
+    // @include respond(tab-port) {
+    //     font-size: 56.25%; //
+    // }
     //make snap can work
     // scroll-snap-type: y mandatory;
 }

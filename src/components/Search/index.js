@@ -13,7 +13,7 @@ import styles from './Search.module.scss'
 import { memo } from 'react'
 const clsx = classNames.bind(styles)
 
-function Search() {
+function Search({ className }) {
     const [searchValue, setSearchValue] = useState('')
     const [loading, setLoading] = useState(false)
     const [isShowSearchResult, setIsShowSearchResult] = useState(true)
@@ -73,7 +73,7 @@ function Search() {
                 </div>
             )}
             onClickOutside={handleShowResult}>
-            <div className={clsx('wrapper', 'd-flex')}>
+            <div className={clsx('wrapper', className)}>
                 <input
                     ref={inputRef}
                     value={searchValue}

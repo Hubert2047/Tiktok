@@ -64,3 +64,8 @@
     background-color: var(--primary-color);
     transform: translate(40%, -20%);
 }
+.search {
+    @media only screen and (max-width: 760px) {
+        display: none;
+    }
+}

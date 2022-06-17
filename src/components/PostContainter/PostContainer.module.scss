@@ -43,6 +43,10 @@
     right: 2rem;
     padding: 0.5rem;
     flex: 1;
+    background-color: var(--white-color);
+    @media only screen and (max-width: 460px) {
+        display: none !important;
+    }
 }
 .video {
     // max-height: 50rem;

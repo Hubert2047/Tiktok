@@ -26,6 +26,16 @@
         &:last-child {
             margin-bottom: 0.75rem;
         }
+        & > span {
+            @media only screen and (max-width: 56.25em) {
+                display: none;
+            }
+        }
+    }
+    .following-list {
+        @media only screen and (max-width: 56.25em) {
+            display: none;
+        }
     }
 }
 .action {
@@ -36,10 +46,14 @@
 
 .suggest-list {
 }
+
 //footer
 .footer {
     border-top: 1px solid var(--grey-color);
     padding: 1.25rem 0;
+    @media only screen and (max-width: 56.25em) {
+        display: none;
+    }
 }
 
 .copy-right {
@@ -47,4 +61,10 @@
     font-weight: 600;
     margin-top: 1rem;
     color: var(--grey-color-2);
+}
+
+.discover {
+    @media only screen and (max-width: 56.25em) {
+        display: none;
+    }
 }

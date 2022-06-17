@@ -91,8 +91,12 @@ function Sidebar({ className }) {
                 seeText={seeText}
                 className={clsx('suggest-list')}
             />
-            <UserContainer title={'Following Accounts'} data={followingData} className={clsx('suggest-list')} />
-            <DiscoverContainer discovers={discovers} />
+            <UserContainer
+                title={'Following Accounts'}
+                data={followingData}
+                className={clsx('suggest-list', 'following-list')}
+            />
+            <DiscoverContainer discovers={discovers} className={clsx('discover')} />
             <div className={clsx('footer')}>
                 {footerData?.map((data) => {
                     return <LinkContainer key={data.id} data={data.data} />

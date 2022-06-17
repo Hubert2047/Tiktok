@@ -6,9 +6,15 @@
 }
 .header-left {
     padding-right: 13vw;
+    @media only screen and (max-width: 670px) {
+        padding-right: 2rem;
+    }
 }
 .share-infor {
     gap: 2rem;
+    @media only screen and (max-width: 37.5em) {
+        flex-direction: column;
+    }
 }
 .share-title {
     flex-direction: column;
@@ -103,6 +109,13 @@
 .liked-btn {
     color: var(--grey-color-2);
 }
+.liked-btn,
+.video-btn {
+    @media only screen and (max-width: 37.5em) {
+        width: fit-content;
+        padding: 0 5rem;
+    }
+}
 .like-active-btn {
     transform: translateX(100%);
 }
@@ -119,7 +132,10 @@
     flex: 1;
     justify-content: center;
     align-items: center;
-    margin-bottom: 8rem;
+    margin-bottom: 4rem;
+    @media only screen and (max-width: 37.5em) {
+        margin-bottom: 0;
+    }
 }
 
 ///main ::content

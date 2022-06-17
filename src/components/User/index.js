@@ -9,7 +9,7 @@ const User = forwardRef(({ user }, ref) => {
         <div ref={ref} className={clsx('wrapper', 'd-flex')}>
             <UserAvatar className={clsx('avatar')} user={user} showLive />
             {/* <Image className={clsx('avatar', { online: user.isLive })} src={user.avatar} alt={'user'} /> */}
-            <UserName user={user} />
+            <UserName user={user} className={clsx('user-name')} />
         </div>
     )
 })

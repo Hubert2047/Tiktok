@@ -3,6 +3,9 @@
     grid-template-columns: 1fr 60rem;
     // flex-direction: column;
     height: 100vh;
+    @media only screen and (max-width: 1000px) {
+        grid-template-columns: 1fr;
+    }
 }
 .loading {
     background-color: rgba(#fff2f2, 0.3);
@@ -80,9 +83,19 @@
 .other-infor {
     gap: 1rem;
     font-size: 1.4rem;
+    @media only screen and (max-width: 480px) {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 }
 .nickname {
     color: var(--black-color);
+}
+.follow-btn {
+    @media only screen and (max-width: 480px) {
+        width: fit-content;
+        padding: 0 0.5rem !important;
+    }
 }
 
 //actions
@@ -90,6 +103,11 @@
     align-items: center;
     justify-content: space-between;
     margin: 1rem 0;
+    @media only screen and (max-width: 450px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
 }
 .copy-link {
     height: 3.4rem;

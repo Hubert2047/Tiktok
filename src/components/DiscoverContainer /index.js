@@ -6,7 +6,7 @@ import styles from './DiscoverContainer.module.scss'
 const clsx = classNames.bind(styles)
 function DiscoverContainer({ discovers, className }) {
     return (
-        <div className={clsx('wrapper', 'd-flex', className)}>
+        <div className={clsx(className, 'wrapper')}>
             <h4 className={clsx('title')}>Discover</h4>
             <div className={clsx('discover-box', 'd-flex')}>
                 {discovers?.map((discover) => {
