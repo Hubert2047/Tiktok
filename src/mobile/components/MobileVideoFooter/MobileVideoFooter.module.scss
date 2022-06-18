@@ -1,0 +1,117 @@
+.wrapper {
+    //     position: relative;
+    justify-content: space-between;
+    width: 100%;
+}
+.footer-text {
+    color: var(--white-color);
+    flex: 1;
+}
+.title {
+    font-size: 1.7rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+.music-icon {
+    width: 15px;
+    height: 15px;
+    background-size: 13px 13px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/tiktok-6309a.appspot.com/o/images%2Fmusic-icon.png?alt=media&token=530703b1-47a0-4508-82e6-1edb194101a5);
+}
+.content-container {
+    gap: 1rem;
+    align-items: center;
+    overflow: hidden;
+}
+.content-box {
+    width: 100%;
+    overflow: hidden;
+}
+.content {
+    font-size: 1.5rem;
+    color: var(--grey-color);
+    white-space: nowrap;
+    font-weight: 500;
+    position: relative;
+    width: fit-content;
+    overflow: hidden;
+    animation: content-move 10s linear infinite forwards;
+}
+.spiner-container {
+    position: relative;
+    height: 4rem;
+    width: 4rem;
+}
+.spiner-song,
+.spiner-music {
+    position: absolute;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-size: 13px 13px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    animation: song-icon-move 3s linear infinite forwards;
+}
+.spiner-song {
+    top: 45%;
+    left: 15%;
+    animation-delay: 1s;
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/tiktok-6309a.appspot.com/o/images%2Fsong-icon.png?alt=media&token=60f00d8d-cb89-48c6-b809-d6c96d98128c);
+}
+.spiner-music {
+    top: 10%;
+    left: -20%;
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/tiktok-6309a.appspot.com/o/images%2Fmusic-icon.png?alt=media&token=530703b1-47a0-4508-82e6-1edb194101a5);
+}
+.spiner-box {
+    height: 100%;
+    width: 100%;
+}
+.avatar-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+@keyframes content-move {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+@keyframes song-icon-move {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    25% {
+        transform: translate(-15px, -20px) rotate(25deg) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-10px, -40px) rotate(-25deg) scale(1.25);
+        opacity: 0.75;
+    }
+    75% {
+        transform: translate(-5px, -60px) rotate(90deg) scale(1.35);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(5, -80px) rotate(0deg) scale(1.5);
+        opacity: 0;
+    }
+}

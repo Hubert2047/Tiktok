@@ -1,0 +1,68 @@
+.wrapper {
+    z-index: 1000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+}
+.avatar-box {
+    position: relative;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    margin-bottom: 1.25rem;
+    outline: 1px solid var(--white-color);
+}
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+}
+.add-icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    z-index: 10;
+    background-color: var(--primary-color);
+    transform: translate(-50%, 50%);
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 1.5px;
+        background-color: var(--white-color);
+    }
+    &:before {
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+    &::after {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+.btn-box {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    span {
+        font-size: 1.25rem;
+        color: var(--white-color);
+        font-weight: 500;
+    }
+}
+.heart-btn,
+.share-btn {
+    fill: var(--white-color);
+}
+.btn {
+    height: 3.1rem;
+    width: 3.1rem;
+}

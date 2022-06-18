@@ -8,6 +8,104 @@ export function MessengerIcon({ className, width = '2.6rem', height = '2.6rem' }
         </svg>
     )
 }
+
+export function MobileMessengerIcon({ className, width = '4rem', height = '4rem' }) {
+    return (
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
+            <g opacity='0.9' filter='url(#CommentShadowColor_filter0_d)'>
+                <path
+                    fillRule='evenodd'
+                    clipRule='evenodd'
+                    d='M38.4943 35.3128C42.6 31.2 45 26.9162 45 21.928C45 11.8056 35.733 3.60001 24.2999 3.60001C12.8671 3.60001 3.6 11.8056 3.6 21.9283C3.6 32.051 13.1669 39 24.6 39V42.3569C24.6 43.4205 25.7028 44.105 26.638 43.5983C29.5598 42.015 34.9741 38.8392 38.4943 35.3128ZM14.2446 19.4564C15.8786 19.4564 17.2031 20.7714 17.2031 22.3912C17.2031 24.0142 15.8786 25.3291 14.2446 25.3291C12.6134 25.3291 11.2888 24.0142 11.2888 22.3912C11.2888 20.7714 12.6134 19.4564 14.2446 19.4564ZM27.2572 22.3912C27.2572 20.7714 25.9332 19.4564 24.3 19.4564C22.667 19.4564 21.3429 20.7714 21.3429 22.3912C21.343 24.0142 22.6671 25.3291 24.3 25.3291C25.9332 25.3291 27.2572 24.0142 27.2572 22.3912ZM34.355 19.4564C35.9887 19.4564 37.3113 20.7714 37.3113 22.3912C37.3113 24.0142 35.9888 25.3291 34.355 25.3291C32.7213 25.3291 31.3969 24.0142 31.397 22.3912C31.397 20.7714 32.7214 19.4564 34.355 19.4564Z'
+                    fill='white'></path>
+            </g>
+            <path
+                opacity='0.1'
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M24.6001 38.9999C24.6001 38.9999 36.0669 38.1138 40.8601 31.9764C36.0669 38.7276 31.2737 42.4101 27.0796 43.6376C22.8855 44.8651 24.6001 38.9999 24.6001 38.9999Z'
+                fill='url(#CommentShadowColor_paint0_linear)'></path>
+            <defs>
+                <filter
+                    id='CommentShadowColor_filter0_d'
+                    x='1.2001'
+                    y='2.40001'
+                    width='46.2'
+                    height='44.9688'
+                    filterUnits='userSpaceOnUse'
+                    colorInterpolationFilters='sRGB'>
+                    <feFlood floodOpacity='0' result='BackgroundImageFix'></feFlood>
+                    <feColorMatrix
+                        in='SourceAlpha'
+                        type='matrix'
+                        values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'></feColorMatrix>
+                    <feOffset dy='1.2'></feOffset>
+                    <feGaussianBlur stdDeviation='1.2'></feGaussianBlur>
+                    <feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'></feColorMatrix>
+                    <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow'></feBlend>
+                    <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape'></feBlend>
+                </filter>
+                <linearGradient
+                    id='CommentShadowColor_paint0_linear'
+                    x1='20.4103'
+                    y1='37.6698'
+                    x2='22.3081'
+                    y2='43.6335'
+                    gradientUnits='userSpaceOnUse'>
+                    <stop></stop>
+                    <stop offset='1' stopOpacity='0.01'></stop>
+                </linearGradient>
+            </defs>
+        </svg>
+    )
+}
+
+;<svg width='40' height='40' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <g opacity='0.9' filter='url(#CommentShadowColor_filter0_d)'>
+        <path
+            fillRule='evenodd'
+            clipRule='evenodd'
+            d='M38.4943 35.3128C42.6 31.2 45 26.9162 45 21.928C45 11.8056 35.733 3.60001 24.2999 3.60001C12.8671 3.60001 3.6 11.8056 3.6 21.9283C3.6 32.051 13.1669 39 24.6 39V42.3569C24.6 43.4205 25.7028 44.105 26.638 43.5983C29.5598 42.015 34.9741 38.8392 38.4943 35.3128ZM14.2446 19.4564C15.8786 19.4564 17.2031 20.7714 17.2031 22.3912C17.2031 24.0142 15.8786 25.3291 14.2446 25.3291C12.6134 25.3291 11.2888 24.0142 11.2888 22.3912C11.2888 20.7714 12.6134 19.4564 14.2446 19.4564ZM27.2572 22.3912C27.2572 20.7714 25.9332 19.4564 24.3 19.4564C22.667 19.4564 21.3429 20.7714 21.3429 22.3912C21.343 24.0142 22.6671 25.3291 24.3 25.3291C25.9332 25.3291 27.2572 24.0142 27.2572 22.3912ZM34.355 19.4564C35.9887 19.4564 37.3113 20.7714 37.3113 22.3912C37.3113 24.0142 35.9888 25.3291 34.355 25.3291C32.7213 25.3291 31.3969 24.0142 31.397 22.3912C31.397 20.7714 32.7214 19.4564 34.355 19.4564Z'
+            fill='white'></path>
+    </g>
+    <path
+        opacity='0.1'
+        fillRule='evenodd'
+        clipRule='evenodd'
+        d='M24.6001 38.9999C24.6001 38.9999 36.0669 38.1138 40.8601 31.9764C36.0669 38.7276 31.2737 42.4101 27.0796 43.6376C22.8855 44.8651 24.6001 38.9999 24.6001 38.9999Z'
+        fill='url(#CommentShadowColor_paint0_linear)'></path>
+    <defs>
+        <filter
+            id='CommentShadowColor_filter0_d'
+            x='1.2001'
+            y='2.40001'
+            width='46.2'
+            height='44.9688'
+            filterUnits='userSpaceOnUse'
+            colorInterpolationFilters='sRGB'>
+            <feFlood floodOpacity='0' result='BackgroundImageFix'></feFlood>
+            <feColorMatrix
+                in='SourceAlpha'
+                type='matrix'
+                values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'></feColorMatrix>
+            <feOffset dy='1.2'></feOffset>
+            <feGaussianBlur stdDeviation='1.2'></feGaussianBlur>
+            <feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'></feColorMatrix>
+            <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow'></feBlend>
+            <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape'></feBlend>
+        </filter>
+        <linearGradient
+            id='CommentShadowColor_paint0_linear'
+            x1='20.4103'
+            y1='37.6698'
+            x2='22.3081'
+            y2='43.6335'
+            gradientUnits='userSpaceOnUse'>
+            <stop></stop>
+            <stop offset='1' stopOpacity='0.01'></stop>
+        </linearGradient>
+    </defs>
+</svg>
 export function InboxIcon({ className, width = '3.2rem', height = '3.2rem' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'>
@@ -321,6 +419,166 @@ export function ShareIcon({ className, width = '2.4rem', height = '2.4rem' }) {
                     <stop offset='1' stopOpacity='0.01'></stop>
                 </radialGradient>
             </defs>
+        </svg>
+    )
+}
+
+export function MobileShareIcon({ className, width = '4rem', height = '4rem' }) {
+    return (
+        <svg
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 48 48'
+            xmlns='http://www.w3.org/2000/svg'>
+            <g opacity='0.9' filter='url(#ShareShadowColor_filter0_d)'>
+                <path
+                    fillRule='evenodd'
+                    clipRule='evenodd'
+                    d='M25.8 10.3085C25.8 9.04248 27.3162 8.39262 28.233 9.26572L42.1847 22.5524C43.4124 23.7216 43.3695 25.6932 42.092 26.8079L28.1867 38.9414C27.2552 39.7542 25.8 39.0926 25.8 37.8564V32.3581C25.8 32.3581 10.8695 29.6685 6.08025 38.4593C5.63374 39.2789 3.89328 39.5657 4.24706 35.4764C5.72648 27.9499 8.75001 16.1999 25.8 16.1999V10.3085Z'
+                    fill='white'></path>
+            </g>
+            <path
+                opacity='0.03'
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M36.0958 16.8L38.8639 22.3362C39.3536 23.3155 39.1184 24.5021 38.2921 25.2206L25.8958 36C25.8958 36 25.2958 39 27.0958 39C28.8958 39 43.2958 25.8 43.2958 25.8C43.2958 25.8 43.8958 24 42.0958 22.2C40.2958 20.4 36.0958 16.8 36.0958 16.8Z'
+                fill='#161823'></path>
+            <path
+                opacity='0.09'
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M25.7997 16.8389V32.4389C25.7997 32.4389 11.5114 30.4255 7.03635 37.2389C2.73042 43.7949 3.12588 29.8349 9.60816 22.8829C16.0904 15.931 25.7997 16.8389 25.7997 16.8389Z'
+                fill='url(#ShareShadowColor_paint0_radial)'></path>
+            <defs>
+                <filter
+                    id='ShareShadowColor_filter0_d'
+                    x='1.79995'
+                    y='7.66563'
+                    width='43.6786'
+                    height='35.2335'
+                    filterUnits='userSpaceOnUse'
+                    colorInterpolationFilters='sRGB'>
+                    <feFlood floodOpacity='0' result='BackgroundImageFix'></feFlood>
+                    <feColorMatrix
+                        in='SourceAlpha'
+                        type='matrix'
+                        values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'></feColorMatrix>
+                    <feOffset dy='1.2'></feOffset>
+                    <feGaussianBlur stdDeviation='1.2'></feGaussianBlur>
+                    <feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'></feColorMatrix>
+                    <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow'></feBlend>
+                    <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape'></feBlend>
+                </filter>
+                <radialGradient
+                    id='ShareShadowColor_paint0_radial'
+                    cx='0'
+                    cy='0'
+                    r='1'
+                    gradientUnits='userSpaceOnUse'
+                    gradientTransform='translate(26.324 42.5462) rotate(-113.046) scale(19.0955 18.771)'>
+                    <stop></stop>
+                    <stop offset='0.995496' stopOpacity='0.01'></stop>
+                    <stop offset='1' stopOpacity='0.01'></stop>
+                </radialGradient>
+            </defs>
+        </svg>
+    )
+}
+
+export function MobileAddIcon({ className, width = '1.5rem', height = '1.5rem' }) {
+    return (
+        <svg
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 62 62'
+            xmlns='http://www.w3.org/2000/svg'
+            preserveAspectRatio='xMidYMid slice'
+            style={{ transform: 'translate3d(0px, 0px,0px)' }}>
+            <defs>
+                {/* <clipPath id='__lottie_element_2'>
+                    <rect width='60' height='60' x='0' y='0' />
+                </clipPath> */}
+            </defs>
+            <g clip-path='url(#__lottie_element_2)'>
+                <g transform='matrix(1,0,0,1,30,30)' opacity='1' style={{ display: 'block' }}>
+                    <g opacity='1' transform='matrix(1,0,0,1,0,0)'>
+                        <path
+                            fill='rgb(255,43,84)'
+                            fillOpacity='1'
+                            d=' M24,0 C24,13.255000114440918 13.255000114440918,24 0,24 C-13.255000114440918,24 -24,13.255000114440918 -24,0 C-24,-13.255000114440918 -13.255000114440918,-24 0,-24 C13.255000114440918,-24 24,-13.255000114440918 24,0z'
+                        />
+                        <path
+                            strokeLinecap='butt'
+                            strokeLinejoin='miter'
+                            fillOpacity='0'
+                            strokeMiterlimit='4'
+                            stroke='rgb(255,43,84)'
+                            strokeOpacity='1'
+                            strokeWidth='0'
+                            d=' M24,0 C24,13.255000114440918 13.255000114440918,24 0,24 C-13.255000114440918,24 -24,13.255000114440918 -24,0 C-24,-13.255000114440918 -13.255000114440918,-24 0,-24 C13.255000114440918,-24 24,-13.255000114440918 24,0z'
+                        />
+                    </g>
+                </g>
+                <g transform='matrix(1,0,0,1,30,30.125)' opacity='1' style={{ display: 'block' }}>
+                    <g opacity='1' transform='matrix(1,0,0,1,0,0)'>
+                        <path fill='rgb(255,43,84)' fillOpacity='1' d=' M0,-9 C0,-9 0,9 0,9' />
+                        <path
+                            strokeLinecap='round'
+                            strokeLinejoin='miter'
+                            fillOpacity='0'
+                            strokeMiterlimit='4'
+                            stroke='rgb(255,255,255)'
+                            strokeOpacity='1'
+                            strokeWidth='4'
+                            d=' M0,-9 C0,-9 0,9 0,9'
+                        />
+                    </g>
+                </g>
+                <g style={{ display: 'none' }}>
+                    <g>
+                        <path strokeLinecap='round' strokeLinejoin='miter' fillOpacity='0' strokeMiterlimit='4' />
+                    </g>
+                </g>
+                <g transform='matrix(0,1,-1,0,30,30.125)' opacity='1' style={{ display: 'block' }}>
+                    <g opacity='1' transform='matrix(0.9297400116920471,0,0,1.0041899681091309,0,0)'>
+                        <path
+                            strokeLinecap='round'
+                            strokeLinejoin='miter'
+                            fillOpacity='0'
+                            strokeMiterlimit='4'
+                            stroke='rgb(255,255,255)'
+                            strokeOpacity='1'
+                            strokeWidth='4'
+                            d=' M-0.125,-9 C-0.125,-9 -0.125,9 -0.125,9'
+                        />
+                        <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            fillOpacity='0'
+                            stroke='rgb(255,255,255)'
+                            strokeOpacity='1'
+                            strokeWidth='4'
+                            d=' M-0.125,-9 C-0.125,-9 -0.125,9 -0.125,9'
+                        />
+                    </g>
+                    <g opacity='1' transform='matrix(1,0,0,1,0,0)'>
+                        <path
+                            strokeLinecap='butt'
+                            strokeLinejoin='miter'
+                            fillOpacity='0'
+                            strokeMiterlimit='4'
+                            stroke='rgb(255,255,255)'
+                            strokeOpacity='1'
+                            strokeWidth='4'
+                            d=' M0.06199999898672104,0.06199999898672104'
+                        />
+                    </g>
+                </g>
+            </g>
         </svg>
     )
 }
@@ -1061,6 +1319,80 @@ export function EditIcon({ className, width = '2rem', height = '2rem' }) {
                 fillRule='evenodd'
                 d='M15.393 2.226a.842.842 0 00-1.17.02L8.142 8.33a.842.842 0 00-.247.595v2.34c0 .464.377.841.842.841h2.183a.842.842 0 00.596-.246l6.237-6.238a.843.843 0 00-.02-1.211l-2.34-2.184zM9.58 9.273l5.26-5.26 1.107 1.033-5.374 5.375h-.993V9.273zM9.58 2c.232 0 .42.189.42.421v.842a.421.421 0 01-.42.421H4.526a.842.842 0 00-.842.842v10.948c0 .465.377.842.842.842h10.947a.842.842 0 00.842-.842V10.42c0-.232.189-.421.421-.421h.842c.233 0 .422.188.422.421v5.053A2.526 2.526 0 0115.473 18H4.526A2.526 2.526 0 012 15.474V4.526A2.526 2.526 0 014.526 2H9.58z'
                 clipRule='evenodd'></path>
+        </svg>
+    )
+}
+
+export function CreateVideoIcon({ className, width = '7.5rem', height = '4.9rem' }) {
+    return (
+        <svg
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 75 49'
+            xmlns='http://www.w3.org/2000/svg'>
+            <rect
+                opacity='0.01'
+                x='0.25'
+                y='0.25'
+                width='74.5'
+                height='48.5'
+                fill='#D8D8D8'
+                stroke='#979797'
+                strokeWidth='0.5'
+            />
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M23.5 23.3C23.5 18.8196 23.5 16.5794 24.3719 14.8681C25.1389 13.3628 26.3628 12.1389 27.8681 11.3719C29.5794 10.5 31.8196 10.5 36.3 10.5H46.2C50.6804 10.5 52.9206 10.5 54.6319 11.3719C56.1372 12.1389 57.3611 13.3628 58.1281 14.8681C59 16.5794 59 18.8196 59 23.3V25.7C59 30.1804 59 32.4206 58.1281 34.1319C57.3611 35.6372 56.1372 36.8611 54.6319 37.6281C52.9206 38.5 50.6804 38.5 46.2 38.5H36.3C31.8196 38.5 29.5794 38.5 27.8681 37.6281C26.3628 36.8611 25.1389 35.6372 24.3719 34.1319C23.5 32.4206 23.5 30.1804 23.5 25.7V23.3Z'
+                fill='#FA2D6C'
+            />
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M16 23.3C16 18.8196 16 16.5794 16.8719 14.8681C17.6389 13.3628 18.8628 12.1389 20.3681 11.3719C22.0794 10.5 24.3196 10.5 28.8 10.5H38.7C43.1804 10.5 45.4206 10.5 47.1319 11.3719C48.6372 12.1389 49.8611 13.3628 50.6281 14.8681C51.5 16.5794 51.5 18.8196 51.5 23.3V25.7C51.5 30.1804 51.5 32.4206 50.6281 34.1319C49.8611 35.6372 48.6372 36.8611 47.1319 37.6281C45.4206 38.5 43.1804 38.5 38.7 38.5H28.8C24.3196 38.5 22.0794 38.5 20.3681 37.6281C18.8628 36.8611 17.6389 35.6372 16.8719 34.1319C16 32.4206 16 30.1804 16 25.7V23.3Z'
+                fill='#20D5EC'
+            />
+            <rect x='19.5' y='10.5' width='36' height='28' rx='8' fill='white' />
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M36.5 18.25C36.2239 18.25 36 18.4739 36 18.75V23.5H31.25C30.9739 23.5 30.75 23.7239 30.75 24V25.5C30.75 25.7761 30.9739 26 31.25 26H36V30.75C36 31.0261 36.2239 31.25 36.5 31.25H38C38.2761 31.25 38.5 31.0261 38.5 30.75V26H43.25C43.5261 26 43.75 25.7761 43.75 25.5V24C43.75 23.7239 43.5261 23.5 43.25 23.5H38.5V18.75C38.5 18.4739 38.2761 18.25 38 18.25H36.5Z'
+                fill='#161823'
+            />
+        </svg>
+    )
+}
+
+export function SpinerBoxIcon({ className, width = '4.5rem', height = '4.5rem' }) {
+    return (
+        <svg
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 49 49'
+            xmlns='http://www.w3.org/2000/svg'>
+            <path
+                fill='url(#album_svg__paint0_angular)'
+                fillRule='evenodd'
+                d='M24.5 49C38.031 49 49 38.031 49 24.5S38.031 0 24.5 0 0 10.969 0 24.5 10.969 49 24.5 49z'
+                clipRule='evenodd'></path>
+            <defs>
+                <radialGradient
+                    id='album_svg__paint0_angular'
+                    cx='0'
+                    cy='0'
+                    r='1'
+                    gradientTransform='matrix(24.5 0 0 24.5 24.5 24.5)'
+                    gradientUnits='userSpaceOnUse'>
+                    <stop offset='0.131' stopColor='#151515'></stop>
+                    <stop offset='0.397' stopColor='#393939'></stop>
+                    <stop offset='0.632' stopColor='#161616'></stop>
+                    <stop offset='0.889' stopColor='#393939'></stop>
+                </radialGradient>
+            </defs>
         </svg>
     )
 }

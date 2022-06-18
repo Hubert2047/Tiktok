@@ -14,9 +14,9 @@
 .comment {
     align-items: flex-start;
     gap: 0.5rem;
-    &:hover .three-dot {
-        opacity: 1;
-    }
+    // &:hover .three-dot {
+    //     opacity: 1;
+    // }
 }
 .sub-comment {
     flex-direction: column;
@@ -80,7 +80,6 @@
 }
 .three-dot {
     transition: all 0.1s;
-    opacity: 0;
     cursor: pointer;
 }
 .action-box {

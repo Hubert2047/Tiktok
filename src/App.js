@@ -1,10 +1,14 @@
+import classNames from 'classnames/bind'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { appActions } from '~/redux/appSlice'
 import { publicRoutes } from '~/routes'
+import styles from './App.module.scss'
 import Alert from './components/Popper/Alert'
-function App() {
+import MobileHomePage from './mobile/pages/MobileHomePage'
+const clsx = classNames.bind(styles)
+function App({ className }) {
     const dispath = useDispatch()
     const auth = getAuth()
     onAuthStateChanged(auth, (user) => {
@@ -19,7 +23,7 @@ function App() {
     const alertInfor = useSelector((state) => state.alert.information)
     return (
         <Router>
-            <div className='App'>
+            <div className={clsx(className, 'app')}>
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.page
@@ -36,6 +40,11 @@ function App() {
                             />
                         )
                     })}
+                </Routes>
+            </div>
+            <div className={clsx('mobile-app')}>
+                <Routes>
+                    <Route path={'/'} element={<MobileHomePage />} />
                 </Routes>
             </div>
             {alertInfor.isShow && <Alert title={alertInfor.title} />}

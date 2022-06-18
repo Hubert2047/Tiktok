@@ -4,6 +4,11 @@
     border-radius: var(--border-radius-md);
     overflow: hidden;
     padding: 3rem 2rem 0 2rem;
+    @media only screen and (max-width: 37.5em) {
+        width: 90vw;
+        height: 80vh;
+        padding: 0;
+    }
 }
 .close-btn-box {
     position: absolute;
@@ -13,6 +18,11 @@
     width: 40px;
     border-radius: 500px;
     background-color: var(--grey-color);
+    @media only screen and (max-width: 450px) {
+        top: 6px;
+        height: 35px;
+        width: 35px;
+    }
 }
 .close-btn {
     fill: var(--grey-color-3);
@@ -24,6 +34,11 @@
     width: fit-content;
     padding-top: 3rem;
     margin: 0 auto;
+    @media only screen and (max-width: 450px) {
+        font-size: 2rem;
+        padding-top: 1.5rem;
+        margin-left: 1rem;
+    }
 }
 .action-btns {
     flex-direction: column;
@@ -32,6 +47,10 @@
     padding: 0 3.4rem;
     margin-top: 2rem;
     overflow: scroll;
+    @media only screen and (max-width: 450px) {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
 }
 .action-btn {
     padding: 1rem;
@@ -44,6 +63,14 @@
         flex: 1;
         align-items: center;
         padding-right: 9rem;
+        @media only screen and (max-width: 37.5em) {
+            padding-right: 0;
+            max-width: fit-content;
+        }
+    }
+    @media only screen and (max-width: 37.5em) {
+        justify-content: flex-start;
+        gap: 1rem;
     }
 }
 .bottom {

@@ -1,4 +1,5 @@
 @import '~@csstools/normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,200;0,600;1,100;1,300;1,400;1,500;1,700&display=swap');
 
 //media query
 /* 0-600: phone 37.5em
@@ -56,6 +57,7 @@
     --default-layout-horizontal-space: 2rem;
     --default-header-height: 6rem;
     --default-search-width: 35rem;
+    --app-footer-height: 4.5rem;
     //font-family
     --font-family: 'Proxima, sans-serif';
 
@@ -90,7 +92,6 @@ body {
     // font-family: 'IBM Plex Sans', sans-serif;
     font-family: var(--font-family);
     font-size: 1.6rem;
-    // line-height: 1.2;
     color: var(--text-color);
     text-rendering: optimizeSpeed;
     // overflow: overlay;
