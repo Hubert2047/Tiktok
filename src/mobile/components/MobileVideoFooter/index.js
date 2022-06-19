@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { SpinerBoxIcon } from '~/components/Icons'
 import Image from '~/components/Image'
+import { convertTimeStampToDate } from '~/helper'
 import styles from './MobileVideoFooter.module.scss'
 
 const clsx = classNames.bind(styles)
@@ -48,9 +49,11 @@ function MobileVideoFooter({ className, post, videoPlaying }) {
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
             <div className={clsx('footer-text')}>
-                <h3 className={clsx('name')}>
-                    <span>@</span>
-                    {`${post.user.nickname}`}
+                <h3 className={clsx('name', 'd-flex')}>
+                    <span className={clsx('tag')}>@</span>
+                    <p>{`${post.user.nickname}`}</p>
+                    <span className={clsx('dot')}>。</span>
+                    <span className={clsx('created-at')}>{convertTimeStampToDate(post.createdAt)}</span>
                 </h3>
                 <div className={clsx('content-box')}>
                     {post?.content?.length > 0 && !showAllContent ? (

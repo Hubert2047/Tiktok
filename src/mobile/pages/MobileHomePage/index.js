@@ -4,6 +4,7 @@ import Loading from '~/components/Loading'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import { getPosts } from '~/firebase'
 import MobileFooter from '~/mobile/components/MobileFooter'
+import MobileHeader from '~/mobile/components/MobileHeader'
 import MobileVideo from '~/mobile/components/MobileVideo'
 import styles from './MobileHomePage.module.scss'
 
@@ -71,6 +72,7 @@ function MobileHomePage() {
                     <Loading />
                 </FullScreenModal>
             )}
+            <MobileHeader className={clsx('header')} />
             <div className={clsx('video-container')}>
                 {posts?.map((post, index) => {
                     //check the last post

@@ -1,0 +1,39 @@
+.wrapper {
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1.25rem;
+    z-index: 10;
+    width: 100%;
+    //     background-color: #fff;
+}
+.mid {
+    gap: 2rem;
+    align-items: flex-end;
+}
+.vertical {
+    width: 1.5px;
+    height: 40%;
+    align-self: center;
+    background-color: var(--white-color);
+}
+.follow-btn,
+.for-you-btn {
+    font-size: 1.5rem;
+    padding: 0.25rem;
+    color: var(--grey-color-1);
+    transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+}
+.btn {
+    padding: 0.25rem;
+    color: var(--white-color);
+}
+.btn-active {
+    font-size: 1.8rem;
+    color: var(--white-color);
+}

@@ -10,6 +10,9 @@
     padding-right: 4rem;
 }
 .name {
+    align-items: center;
+    flex-wrap: wrap;
+    // gap: 0.5rem;
     font-size: 1.7rem;
     margin-bottom: 0.5rem;
     font-weight: 500;
@@ -17,7 +20,18 @@
         font-size: 1.5rem;
         color: var(--grey-color-1);
     }
+    .dot {
+        align-self: center;
+    }
+    .created-at {
+        font-size: 1.25rem;
+        // margin-left: 0.5rem;
+    }
+    .tag {
+        align-self: flex-end;
+    }
 }
+
 .bottom {
     position: relative;
     justify-content: space-between;
