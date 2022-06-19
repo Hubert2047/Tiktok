@@ -74,7 +74,7 @@ function MobileHomePage() {
             <div className={clsx('video-container')}>
                 {posts?.map((post, index) => {
                     //check the last post
-                    if (posts.length - 1 === index) {
+                    if (posts.length - 3 === index) {
                         return (
                             <MobileVideo
                                 className={clsx('video')}

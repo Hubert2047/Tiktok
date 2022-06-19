@@ -116,7 +116,7 @@ const getFollowing = async function (followingArray) {
 //post
 const getPosts = function (callback, lastPost = 0) {
     if (typeof callback !== 'function') return
-    const q = query(collection(db, 'posts'), orderBy('played'), startAfter(lastPost), limit(5))
+    const q = query(collection(db, 'posts'), orderBy('played'), startAfter(lastPost), limit(6))
     const users = [] //store all getUser Promise
     onSnapshot(
         q,

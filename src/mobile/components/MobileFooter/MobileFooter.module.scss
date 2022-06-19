@@ -1,11 +1,12 @@
 .wrapper {
-    // position: fixed;
-    // bottom: 0;
-    // left: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
     align-items: center;
     justify-content: space-between;
     height: 4.5rem;
+    flex-shrink: 0;
     padding: 0 1.6rem;
     background-color: var(--black-color);
 }
