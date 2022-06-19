@@ -32,12 +32,13 @@
 .content {
     font-size: 1.5rem;
     color: var(--grey-color);
-    white-space: nowrap;
+    // white-space: nowrap;
     font-weight: 500;
     position: relative;
     width: fit-content;
+    max-width: 50vw;
     overflow: hidden;
-    animation: content-move 10s linear infinite forwards;
+    // animation: content-move 10s linear infinite forwards;
 }
 .spiner-container {
     position: relative;
