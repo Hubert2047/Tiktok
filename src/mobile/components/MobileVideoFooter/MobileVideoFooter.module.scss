@@ -15,14 +15,27 @@
     font-weight: 500;
 }
 .bottom {
+    position: relative;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
 }
 .title {
     flex: 1;
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
+}
+.slogan-box {
+    flex: 1;
+    overflow: hidden;
+    margin-right: 4rem;
+}
+.slogan {
+    max-width: fit-content;
+    font-size: 1.35rem;
+    color: var(--white-color);
+    animation: slogan-move 10s linear infinite forwards;
 }
 .music-icon {
     width: 15px;
@@ -46,19 +59,27 @@
     color: var(--white-color);
 }
 .spiner-container {
-    position: relative;
+    position: absolute;
+    right: 0;
+    top: 25%;
     height: 4rem;
     width: 4rem;
+    transform: translateY(-50%);
 }
 .spiner-song,
 .spiner-music {
     position: absolute;
     height: 1.5rem;
     width: 1.5rem;
+    opacity: 0;
     background-size: 13px 13px;
     background-repeat: no-repeat;
+    transition: all 0.1;
     background-position: left center;
-    animation: song-icon-move 3s linear infinite forwards;
+}
+.song-animated {
+    animation: song-icon-move 2.5s linear infinite forwards;
+    opacity: 1;
 }
 .spiner-song {
     top: 45%;
@@ -91,7 +112,7 @@
     height: 100%;
     object-fit: cover;
 }
-@keyframes content-move {
+@keyframes slogan-move {
     0% {
         transform: translateX(100%);
     }
@@ -109,15 +130,15 @@
         opacity: 0.5;
     }
     50% {
-        transform: translate(-10px, -40px) rotate(-25deg) scale(1.25);
+        transform: translate(-10px, -40px) rotate(-25deg) scale(1.15);
         opacity: 0.75;
     }
     75% {
-        transform: translate(-5px, -60px) rotate(90deg) scale(1.35);
+        transform: translate(-5px, -60px) rotate(90deg) scale(1.2);
         opacity: 0;
     }
     100% {
-        transform: translate(5, -80px) rotate(0deg) scale(1.5);
+        transform: translate(5, -80px) rotate(0deg) scale(1.35);
         opacity: 0;
     }
 }

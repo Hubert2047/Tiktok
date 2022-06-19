@@ -7,16 +7,19 @@ import styles from './MobileVideoFooter.module.scss'
 
 const clsx = classNames.bind(styles)
 
-function MobileVideoFooter({ className, post }) {
+function MobileVideoFooter({ className, post, videoPlaying }) {
     const spinerAnimated = useRef()
     const spinerRef = useRef()
     const [reFlow, setReflow] = useState(false)
     const [showAllContent, setShowAllContent] = useState()
-    const handleClick = () => {
-        if (spinerAnimated.current) {
+    useEffect(() => {
+        if (!spinerAnimated.current) return
+        if (videoPlaying) {
             spinerAnimated.current.play()
+        } else {
+            spinerAnimated.current.pause()
         }
-    }
+    }, [videoPlaying])
     useEffect(() => {
         if (spinerRef.current) {
             const _spiner = spinerRef.current.animate(
@@ -43,7 +46,7 @@ function MobileVideoFooter({ className, post }) {
         setShowAllContent((prev) => !prev)
     }
     return (
-        <div className={clsx('wrapper', 'd-flex', className)} onClick={handleClick}>
+        <div className={clsx('wrapper', 'd-flex', className)}>
             <div className={clsx('footer-text')}>
                 <h3 className={clsx('name')}>{`@${post.user.nickname}`}</h3>
                 <div className={clsx('content-box')}>
@@ -68,17 +71,16 @@ function MobileVideoFooter({ className, post }) {
             <div className={clsx('bottom', 'd-flex')}>
                 <div className={clsx('title', 'd-flex')}>
                     <div className={clsx('music-icon')}></div>
-                    <p>fafefaf</p>
+                    <div className={clsx('slogan-box')}>
+                        <p className={clsx('slogan')}>Woops! You guys be happy with coding !</p>
+                    </div>
                 </div>
                 <div className={clsx('spiner-container')}>
-                    <div className={clsx('spiner-song')}></div>
-                    <div className={clsx('spiner-music')}></div>
+                    <div className={clsx('spiner-song', { 'song-animated': videoPlaying })}></div>
+                    <div className={clsx('spiner-music', { 'song-animated': videoPlaying })}></div>
                     <SpinerBoxIcon className={clsx('spiner-box')} />
                     <div ref={spinerRef} className={clsx('avatar-box')}>
-                        <Image
-                            className={clsx('avatar')}
-                            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDWrIiYIAdOLTJ5Ql5YtMUvL3y3kK0Vh5JXQ&usqp=CAU'
-                        />
+                        <Image className={clsx('avatar')} src={post?.user.avatar} />
                     </div>
                 </div>
             </div>

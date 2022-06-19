@@ -11,7 +11,7 @@ const clsx = classNames.bind(styles)
 function MobileHomePage() {
     const [posts, setPosts] = useState([])
     const [lastPost, setLastPost] = useState()
-    const [playingId, setPlayingId] = useState(null)
+    const [currentPostPlayingId, setCurrentPostPlayingId] = useState(null)
     const [loading, setLoading] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true)
     const observer = useRef()
@@ -58,7 +58,8 @@ function MobileHomePage() {
     )
     const handleOnPlay = useCallback(
         (id) => {
-            setPlayingId(id)
+            console.log('run call back')
+            setCurrentPostPlayingId(id)
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         []
@@ -81,7 +82,7 @@ function MobileHomePage() {
                                 onPlay={handleOnPlay}
                                 key={index}
                                 post={post}
-                                isPlaying={playingId === post.id}
+                                isCurrentPostPlaying={currentPostPlayingId === post.id}
                             />
                         )
                     } else {
@@ -91,7 +92,7 @@ function MobileHomePage() {
                                 onPlay={handleOnPlay}
                                 key={index}
                                 post={post}
-                                isPlaying={playingId === post.id}
+                                isCurrentPostPlaying={currentPostPlayingId === post.id}
                             />
                         )
                     }
