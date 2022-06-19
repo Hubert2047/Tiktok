@@ -53,6 +53,8 @@
     max-width: fit-content;
     font-size: 1.35rem;
     color: var(--white-color);
+}
+.slogan-animated {
     animation: slogan-move 10s linear infinite forwards;
 }
 .music-icon {

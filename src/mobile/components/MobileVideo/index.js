@@ -8,15 +8,15 @@ const clsx = classNames.bind(styles)
 
 const MobileVideo = forwardRef(({ post, className, onPlay, isCurrentPostPlaying }, ref) => {
     console.log('re-render mobilevideo', post.id)
-    const [play, setPlay] = useState(false)
-    const [videoPlaying, setVideoPlaying] = useState()
+    const [play, setPlay] = useState()
     const videoRef = useRef()
     const observer = useRef()
     useEffect(() => {
-        setVideoPlaying(isCurrentPostPlaying)
         if (isCurrentPostPlaying) {
+            setPlay(true)
             videoRef.current.play()
         } else {
+            setPlay(false)
             videoRef.current.pause()
         }
     }, [isCurrentPostPlaying])
@@ -36,24 +36,26 @@ const MobileVideo = forwardRef(({ post, className, onPlay, isCurrentPostPlaying 
     const handleVideoPress = function () {
         if (play) {
             videoRef.current.pause()
-            setVideoPlaying(false)
+            setPlay(false)
         } else {
             videoRef.current.play()
-            setVideoPlaying(true)
+            setPlay(true)
         }
-        setPlay((prev) => !prev)
     }
 
     return (
-        <div ref={ref} className={clsx('wrapper', className)}>
-            <video
-                onClick={handleVideoPress}
-                ref={videoRef}
-                loop={true}
-                className={clsx('video')}
-                src={post.video}></video>
+        <div ref={ref} onClick={handleVideoPress} className={clsx('wrapper', className)}>
+            <div className={clsx('video-box')}>
+                <video
+                    ref={videoRef}
+                    autoPlay={true}
+                    loop={true}
+                    poster={post.poster}
+                    className={clsx('video')}
+                    src={post.video}></video>
+            </div>
             <MobileSidebar className={clsx('mobile-sidebar')} post={post} />
-            <MobileVideoFooter className={clsx('video-footer')} post={post} videoPlaying={videoPlaying} />
+            <MobileVideoFooter className={clsx('video-footer')} post={post} play={play} />
         </div>
     )
 })

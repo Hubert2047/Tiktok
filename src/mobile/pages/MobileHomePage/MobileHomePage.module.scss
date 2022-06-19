@@ -11,7 +11,9 @@
 
     height: 100%;
     overflow-y: overlay;
+    -ms-scroll-snap-type: y mandatory;
     scroll-snap-type: y mandatory;
+    // scroll-snap-type: y mandatory;
     margin-bottom: 4.5rem;
     &::-webkit-scrollbar {
         border-radius: 0;
@@ -20,6 +22,7 @@
 }
 .video {
     position: relative;
+    -ms-scroll-snap-align: start;
     scroll-snap-align: start;
     // width: 100%;
     // height: calc(100vh - 4.5rem);

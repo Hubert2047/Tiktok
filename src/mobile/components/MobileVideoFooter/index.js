@@ -8,19 +8,19 @@ import styles from './MobileVideoFooter.module.scss'
 
 const clsx = classNames.bind(styles)
 
-function MobileVideoFooter({ className, post, videoPlaying }) {
+function MobileVideoFooter({ className, post, play }) {
     const spinerAnimated = useRef()
     const spinerRef = useRef()
     const [reFlow, setReflow] = useState(false)
     const [showAllContent, setShowAllContent] = useState()
     useEffect(() => {
         if (!spinerAnimated.current) return
-        if (videoPlaying) {
+        if (play) {
             spinerAnimated.current.play()
         } else {
             spinerAnimated.current.pause()
         }
-    }, [videoPlaying])
+    }, [play])
     useEffect(() => {
         if (spinerRef.current) {
             const _spiner = spinerRef.current.animate(
@@ -78,12 +78,14 @@ function MobileVideoFooter({ className, post, videoPlaying }) {
                 <div className={clsx('title', 'd-flex')}>
                     <div className={clsx('music-icon')}></div>
                     <div className={clsx('slogan-box')}>
-                        <p className={clsx('slogan')}>Woops! You guys be happy with coding !</p>
+                        <p className={clsx('slogan', { 'slogan-animated': play })}>
+                            Woops! You guys be happy with coding !
+                        </p>
                     </div>
                 </div>
                 <div className={clsx('spiner-container')}>
-                    <div className={clsx('spiner-song', { 'song-animated': videoPlaying })}></div>
-                    <div className={clsx('spiner-music', { 'song-animated': videoPlaying })}></div>
+                    <div className={clsx('spiner-song', { 'song-animated': play })}></div>
+                    <div className={clsx('spiner-music', { 'song-animated': play })}></div>
                     <SpinerBoxIcon className={clsx('spiner-box')} />
                     <div ref={spinerRef} className={clsx('avatar-box')}>
                         <Image className={clsx('avatar')} src={post?.user.avatar} />
