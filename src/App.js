@@ -1,23 +1,23 @@
 import classNames from 'classnames/bind'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { useDispatch, useSelector } from 'react-redux'
+// import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { appActions } from '~/redux/appSlice'
+// import { appActions } from '~/redux/appSlice'
 import { publicRoutes } from '~/routes'
 import styles from './App.module.scss'
 import Alert from './components/Popper/Alert'
 import MobileHomePage from './mobile/pages/MobileHomePage'
 const clsx = classNames.bind(styles)
 function App({ className }) {
-    const dispath = useDispatch()
-    const auth = getAuth()
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            dispath(appActions.setAuthState(true))
-        } else {
-            dispath(appActions.setAuthState(false))
-        }
-    })
+    // const dispath = useDispatch()
+    // const auth = getAuth()
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //         dispath(appActions.setAuthState(true))
+    //     } else {
+    //         dispath(appActions.setAuthState(false))
+    //     }
+    // })
     // console.log('re-render app')
 
     const alertInfor = useSelector((state) => state.alert.information)
