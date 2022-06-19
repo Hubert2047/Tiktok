@@ -62,7 +62,9 @@ function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [lastPost]
     )
-
+    // useEffect(() => {
+    //     setPlayingId(id)
+    // }, [])
     const handleOnPlay = useCallback(
         (id) => {
             setPlayingId(id)
