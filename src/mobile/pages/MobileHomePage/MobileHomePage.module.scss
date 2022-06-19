@@ -6,8 +6,9 @@
 .video-container {
     position: relative;
     width: 100%;
-    max-height: calc(100vh - var(--app-footer-height));
-    height: calc(100% - var(--app-footer-height));
+    // height: calc(100vh - var(--app-footer-height));
+    height: 100vh;
+    // height: calc(100% - var(--app-footer-height));
     overflow-y: overlay;
     scroll-snap-type: y mandatory;
 }
@@ -15,5 +16,5 @@
     position: relative;
     scroll-snap-align: start;
     width: 100%;
-    height: calc(100vh - var(--app-footer-height));
+    height: calc(100vh - 4.5rem);
 }

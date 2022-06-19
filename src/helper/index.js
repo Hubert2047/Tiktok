@@ -19,6 +19,7 @@ export const convertTimeStampToDate = function (timeStamp) {
 }
 
 export const formatCountNumber = function (countNumber) {
+    if (!countNumber) return 0
     const thousand = (countNumber / 1000).toFixed(1)
     const million = (countNumber / Math.pow(10, 6)).toFixed(1)
     if (thousand < 1) return `${countNumber}`
