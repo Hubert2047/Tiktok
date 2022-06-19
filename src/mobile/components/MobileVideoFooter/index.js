@@ -48,7 +48,10 @@ function MobileVideoFooter({ className, post, videoPlaying }) {
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
             <div className={clsx('footer-text')}>
-                <h3 className={clsx('name')}>{`@${post.user.nickname}`}</h3>
+                <h3 className={clsx('name')}>
+                    <span>@</span>
+                    {`${post.user.nickname}`}
+                </h3>
                 <div className={clsx('content-box')}>
                     {post?.content?.length > 0 && !showAllContent ? (
                         <LinesEllipsis
