@@ -1,16 +1,28 @@
 .wrapper {
     //     position: relative;
+    flex-direction: column;
     justify-content: space-between;
     width: 100%;
 }
 .footer-text {
     color: var(--white-color);
     flex: 1;
+    padding-right: 4rem;
 }
-.title {
+.name {
     font-size: 1.7rem;
     margin-bottom: 0.5rem;
     font-weight: 500;
+}
+.bottom {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+.title {
+    flex: 1;
+    gap: 0.5rem;
+    align-items: center;
 }
 .music-icon {
     width: 15px;
@@ -20,25 +32,18 @@
     background-position: left center;
     background-image: url(https://firebasestorage.googleapis.com/v0/b/tiktok-6309a.appspot.com/o/images%2Fmusic-icon.png?alt=media&token=530703b1-47a0-4508-82e6-1edb194101a5);
 }
-.content-container {
-    gap: 1rem;
-    align-items: center;
-    overflow: hidden;
-}
 .content-box {
     width: 100%;
     overflow: hidden;
 }
 .content {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     color: var(--grey-color);
-    // white-space: nowrap;
     font-weight: 500;
-    position: relative;
-    width: fit-content;
-    max-width: 50vw;
-    overflow: hidden;
     // animation: content-move 10s linear infinite forwards;
+}
+.show-content {
+    color: var(--white-color);
 }
 .spiner-container {
     position: relative;
