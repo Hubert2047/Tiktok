@@ -22,7 +22,7 @@ function Sidebar({ className }) {
     const [isCallApi, setCallApi] = useState(false)
     useEffect(() => {
         const getFollowingData = async function () {
-            const data = await getFollowing(currentUser?.following)
+            const data = await getFollowing(currentUser?.following || [])
             setFollowingData(data)
         }
         const getSunggestFollowingData = async function () {

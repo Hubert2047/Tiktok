@@ -55,6 +55,7 @@ function Profile() {
         }
     }
     useEffect(() => {
+        // console.log('run', profileUser)
         setShowDesc({
             state: false,
             maxLine: 2,
@@ -96,6 +97,7 @@ function Profile() {
         setIsFollowing(true)
     }
     const handleReflow = function (result) {
+        console.log(result, profileUser)
         if (result?.clamped) setReflow(result?.clamped)
     }
     const handleShowDesc = function () {

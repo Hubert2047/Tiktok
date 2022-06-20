@@ -1,4 +1,5 @@
 import 'tippy.js/dist/tippy.css'
+import { v4 as uuidv4 } from 'uuid'
 import {
     AppleIcon,
     Blocktcon,
@@ -192,11 +193,31 @@ export const profileActionIcons = [
     },
 ]
 
+const quickLogin = function () {
+    const clientId = 'giO0CmLkFvxUqN_h7ctKT39ewlvVzH1XnoLSZAbkuhA'
+    const endpoint = `https://api.unsplash.com/photos/random/?client_id=${clientId}`
+    return fetch(endpoint)
+        .then((result) => {
+            return result.json()
+        })
+        .then((result) => {
+            const user = {
+                uid: uuidv4(),
+                displayName: result.user.name,
+                photoURL: result.urls.regular,
+                nickname: result.user.username,
+                desc: result.user.bio,
+                isLive: result.liked_by_user,
+            }
+            return user
+        })
+}
 export const loginFeatureBtns = [
     {
         id: 0,
         title: 'Quick Login',
         icon: <CopyLinkIcon />,
+        onClick: quickLogin,
     },
     {
         id: 1,

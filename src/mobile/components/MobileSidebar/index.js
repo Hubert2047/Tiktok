@@ -21,7 +21,6 @@ function MobileSidebar({ className, post }) {
         dispath(
             mobileHomeActions.setPost({
                 showCommentBox: true, //show comment box
-                commentCount: commentCount,
                 post: post,
             })
         )

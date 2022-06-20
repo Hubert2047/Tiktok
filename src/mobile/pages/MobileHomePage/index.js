@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames/bind'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CommentContainer } from '~/components/Comment'
-import CommentInput from '~/components/Comment/CommentInput'
 import { XIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
-import { getPosts } from '~/firebase'
+import { getCommentCount, getPosts } from '~/firebase'
+import MobileCommentInput from '~/mobile/components/mobileCommentInput'
 import MobileFooter from '~/mobile/components/MobileFooter'
 import MobileHeader from '~/mobile/components/MobileHeader'
 import MobileVideo from '~/mobile/components/MobileVideo'
@@ -15,7 +16,9 @@ import styles from './MobileHomePage.module.scss'
 
 const clsx = classNames.bind(styles)
 function MobileHomePage() {
+    console.log('re-render mobile homepage')
     const currentPost = useSelector((state) => state.mobileHome.currentPost)
+    const [commentCount, setCommentCount] = useState()
     const dispath = useDispatch()
     const [posts, setPosts] = useState([])
     const [lastPost, setLastPost] = useState()
@@ -23,6 +26,13 @@ function MobileHomePage() {
     const [loading, setLoading] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true)
     const observer = useRef()
+    useEffect(() => {
+        if (!commentCount?.post) return
+        getCommentCount(currentPost.post.id, (result) => {
+            console.log(result)
+            setCommentCount(result)
+        })
+    }, [commentCount])
     const getPostsJSON = async function () {
         setLoading(true)
         await getPosts((data) => {
@@ -119,7 +129,9 @@ function MobileHomePage() {
             {currentPost?.showCommentBox && (
                 <div className={clsx('comment', 'd-flex')}>
                     <div className={clsx('comment-header')}>
-                        <span className={clsx('comment-count')}>{`2 comments`}</span>
+                        <span className={clsx('comment-count')}>
+                            {commentCount > 1 ? `${commentCount} comments` : `${commentCount} comment`}
+                        </span>
                         <XIcon
                             onClick={handleCloseCommentBtn}
                             height='2.5rem'
@@ -128,7 +140,7 @@ function MobileHomePage() {
                         />
                     </div>
                     <CommentContainer post={currentPost?.post} className={clsx('comment-container')} />
-                    <CommentInput className={clsx('comment-input')} post={currentPost?.post} />
+                    <MobileCommentInput className={clsx('comment-input')} post={currentPost?.post} />
                 </div>
             )}
         </div>

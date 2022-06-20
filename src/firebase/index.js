@@ -15,6 +15,7 @@ import {
     startAfter,
     updateDoc,
     where,
+    setDoc,
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -72,7 +73,8 @@ const getUserRealyTime = async function (uid, callback) {
     })
 }
 const addUser = async function (user) {
-    await addDoc(doc(db, 'users'), user)
+    console.log(user)
+    await setDoc(doc(db, 'users', user.uid), user)
 }
 const updateFollowing = async function (uid, updateFollowing) {
     const updateUserFollowingtRef = doc(db, 'users', uid)
@@ -184,6 +186,7 @@ const updatePostLike = async function (postId, likes) {
 
 //comment
 const getCommentCount = async function (postId, callback) {
+    console.log(postId)
     let q = query(collection(db, 'comments'), where('postId', '==', postId))
     onSnapshot(
         q,

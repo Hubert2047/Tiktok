@@ -10,7 +10,7 @@ function MobileFooter({ className }) {
         <div className={clsx('wrapper', 'd-flex', 'className')}>
             <HomeIcon className={clsx('btn', 'home-btn')} height={'4rem'} width={'4rem'} />
             <SearchIcon className={clsx('btn', 'search-btn')} height={'4rem'} width={'4rem'} />
-            <CreateVideoIcon />
+            <CreateVideoIcon className={clsx('btn')} />
             {/* <div className={clsx('create-video-btn')}></div> */}
             <InboxIcon className={clsx('btn', 'inbox-btn')} height={'4rem'} width={'4rem'} />
             <ProfileIcon className={clsx('btn', 'profile-btn')} height={'3.5rem'} width={'3.5rem'} />

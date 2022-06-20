@@ -14,18 +14,25 @@ function LoginPopup({ handleShowPopup }) {
     const dispath = useDispatch()
     const [loading, setLoading] = useState(false)
     const handleLogin = async function (handleLoginFeature) {
+        console.log(handleLoginFeature)
         try {
             setLoading(true)
             const data = await handleLoginFeature()
+            console.log('user', data)
             let user = await getUser(data.uid)
             if (!user) {
-                user = { full_name: data.displayName, avatar: data.photoURL, uid: data.uid }
+                user = {
+                    full_name: data.displayName,
+                    avatar: data.photoURL,
+                    uid: data.uid,
+                    nickname: data?.nickname || '',
+                    desc: data?.desc || '',
+                    isLive: data?.isLive || '',
+                }
                 await addUser(user)
-                dispath(userActions.setUser({ full_name: data.displayName, avatar: data.photoURL, uid: data.uid }))
-            } else {
-                dispath(userActions.setUser(user))
             }
 
+            dispath(userActions.setUser(user))
             handleShowPopup()
             setLoading(false)
         } catch (err) {
