@@ -9,6 +9,7 @@ import homeSlice from './homeSlice'
 import postSlice from './postSlice'
 import profileSlice from './profileSlice'
 import userSlice from './userSlice'
+import mobileHomeSlice from './mobile/mobileHomeSlice'
 
 const persistConfig = {
     key: 'root',
@@ -26,6 +27,7 @@ const store = configureStore({
         post: postSlice.reducer,
         comment: commentSlice.reducer,
         alert: alertSlice.reducer,
+        mobileHome: mobileHomeSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

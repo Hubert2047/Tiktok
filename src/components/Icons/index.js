@@ -857,9 +857,10 @@ export function HeartAnimated({ className, onClick }) {
     )
 }
 
-export function XIcon({ className, width = '1.8rem', height = '1.8rem' }) {
+export function XIcon({ onClick, className, width = '1.8rem', height = '1.8rem' }) {
     return (
         <svg
+            onClick={onClick}
             className={className}
             width={width}
             fill='#fff'

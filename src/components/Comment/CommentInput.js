@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind'
+import { serverTimestamp } from 'firebase/firestore'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { SmileIcon } from '~/components/Icons'
 import { addComment } from '~/firebase'
 import { commentActions } from '~/redux/commentSlice'
-import { serverTimestamp } from 'firebase/firestore'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
+import UserAvatar from '../UserAvatar'
 import styles from './Comment.module.scss'
 const clsx = classNames.bind(styles)
 
@@ -82,8 +83,11 @@ function CommentInput({ post, className }) {
     }
     return (
         <div>
-            {currentUser?.uid && (
+            {currentUser?.uid ? (
                 <div className={clsx('comment-input', className)}>
+                    <div>
+                        <UserAvatar user={currentUser} />
+                    </div>
                     <div className={clsx('input-box', 'd-flex')}>
                         {isExistReply && (
                             <span
@@ -112,8 +116,7 @@ function CommentInput({ post, className }) {
                         disabled={disabled}
                     />
                 </div>
-            )}
-            {!currentUser?.uid && (
+            ) : (
                 <div onClick={handleShowLogin} className={clsx('lets-login')}>
                     Please log in to comment
                 </div>

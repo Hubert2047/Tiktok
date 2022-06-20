@@ -10,20 +10,24 @@ const clsx = classNames.bind(styles)
 
 function MobileVideoFooter({ className, post, play }) {
     const spinerAnimated = useRef()
+    const sloganAnimated = useRef()
     const spinerRef = useRef()
+    const sloganRef = useRef()
     const [reFlow, setReflow] = useState(false)
     const [showAllContent, setShowAllContent] = useState()
     useEffect(() => {
         if (!spinerAnimated.current) return
         if (play) {
             spinerAnimated.current.play()
+            sloganAnimated.current.play()
         } else {
             spinerAnimated.current.pause()
+            sloganAnimated.current.pause()
         }
     }, [play])
     useEffect(() => {
         if (spinerRef.current) {
-            const _spiner = spinerRef.current.animate(
+            spinerAnimated.current = spinerRef.current.animate(
                 [
                     { transform: ' translate(-50%, -50%) rotate(0deg)' },
                     { transform: ' translate(-50%, -50%) rotate(360deg)' },
@@ -33,8 +37,17 @@ function MobileVideoFooter({ className, post, play }) {
                     iterations: Infinity,
                 }
             )
-            _spiner.pause()
-            spinerAnimated.current = _spiner
+            spinerAnimated.current.pause()
+        }
+        if (sloganRef.current) {
+            sloganAnimated.current = sloganRef.current.animate(
+                [{ transform: ' translateX(100%)' }, { transform: 'translateX(-100%)' }],
+                {
+                    duration: 5000,
+                    iterations: Infinity,
+                }
+            )
+            sloganAnimated.current.pause()
         }
     }, [])
     const handleReflow = function (rleState) {
@@ -78,7 +91,7 @@ function MobileVideoFooter({ className, post, play }) {
                 <div className={clsx('title', 'd-flex')}>
                     <div className={clsx('music-icon')}></div>
                     <div className={clsx('slogan-box')}>
-                        <p className={clsx('slogan', { 'slogan-animated': play })}>
+                        <p ref={sloganRef} className={clsx('slogan')}>
                             Woops! You guys be happy with coding !
                         </p>
                     </div>

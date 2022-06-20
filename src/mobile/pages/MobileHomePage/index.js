@@ -1,15 +1,22 @@
 import classNames from 'classnames/bind'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { CommentContainer } from '~/components/Comment'
+import CommentInput from '~/components/Comment/CommentInput'
+import { XIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import { getPosts } from '~/firebase'
 import MobileFooter from '~/mobile/components/MobileFooter'
 import MobileHeader from '~/mobile/components/MobileHeader'
 import MobileVideo from '~/mobile/components/MobileVideo'
+import { mobileHomeActions } from '~/redux/mobile/mobileHomeSlice'
 import styles from './MobileHomePage.module.scss'
 
 const clsx = classNames.bind(styles)
 function MobileHomePage() {
+    const currentPost = useSelector((state) => state.mobileHome.currentPost)
+    const dispath = useDispatch()
     const [posts, setPosts] = useState([])
     const [lastPost, setLastPost] = useState()
     const [currentPostPlayingId, setCurrentPostPlayingId] = useState(null)
@@ -65,6 +72,14 @@ function MobileHomePage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         []
     )
+    const handleCloseCommentBtn = function () {
+        dispath(
+            mobileHomeActions.setPost({
+                ...currentPost,
+                showCommentBox: false,
+            })
+        )
+    }
     return (
         <div className={clsx('wrapper')}>
             {loading && (
@@ -101,6 +116,21 @@ function MobileHomePage() {
                 })}
             </div>
             <MobileFooter className={clsx('footer')} />
+            {currentPost?.showCommentBox && (
+                <div className={clsx('comment', 'd-flex')}>
+                    <div className={clsx('comment-header')}>
+                        <span className={clsx('comment-count')}>{`2 comments`}</span>
+                        <XIcon
+                            onClick={handleCloseCommentBtn}
+                            height='2.5rem'
+                            width='2.5rem'
+                            className={clsx('comment-close-btn')}
+                        />
+                    </div>
+                    <CommentContainer post={currentPost?.post} className={clsx('comment-container')} />
+                    <CommentInput className={clsx('comment-input')} post={currentPost?.post} />
+                </div>
+            )}
         </div>
     )
 }

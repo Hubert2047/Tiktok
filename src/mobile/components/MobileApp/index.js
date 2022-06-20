@@ -11,6 +11,7 @@ function MobileApp({ className }) {
         <div className={clsx(className, 'wrapper')}>
             <MobileVideo />
             <FooterMobile />
+
             {/* <MobileSidebar /> */}
         </div>
     )

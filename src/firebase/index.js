@@ -148,7 +148,7 @@ const getPost = async function (postId) {
 }
 //search post with an array
 const searchPostByArray = async function (array = [], callback) {
-    console.log(array)
+    // console.log(array)
     const q = query(collection(db, 'posts'), where('id', 'in', array))
     const querySnapshot = await getDocs(q)
     try {
