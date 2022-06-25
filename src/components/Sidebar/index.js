@@ -8,7 +8,7 @@ import LinkContainer from '~/components/LinkContainer'
 import UserContainer from '~/components/UserContainer'
 import { getFollowing, getSuggestFollowing } from '~/firebase'
 import { discovers, footerData } from '~/staticData'
-import DiscoverContainer from '../DiscoverContainer '
+import DiscoverContainer from '../DiscoverContainer'
 import styles from './Sidebar.module.scss'
 const clsx = classNames.bind(styles)
 
