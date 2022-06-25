@@ -1,27 +1,22 @@
 import 'tippy.js/dist/tippy.css'
 import { v4 as uuidv4 } from 'uuid'
 import {
-    AppleIcon,
     Blocktcon,
     CopyLinkIcon,
     EmbedIcon,
     FaceBookIcon,
     GooogleIcon,
     HelpIcon,
-    IstalgramIcon,
     KeyboardIcon,
     LanguageIcon,
-    LineIcon,
     LinkedInIcon,
     LogoutIcon,
     MessengerIcon,
     Pinterestcon,
     ProfileIcon,
-    QRCIcon,
     ReditIcon,
     ReportIcon,
     SettingIcon,
-    TalkIcon,
     TeleGramIcon,
     TwitterIcon,
     WhatsAppIcon,
@@ -227,14 +222,14 @@ export const loginFeatureBtns = [
     //         incomingFeature('Use QRC')
     //     },
     // },
-    // {
-    //     id: 2,
-    //     title: 'Use phone / email / username',
-    //     icon: <ProfileIcon />,
-    //     onClick: () => {
-    //         incomingFeature('Use Phone')
-    //     },
-    // },
+    {
+        id: 2,
+        title: 'Use phone / email / username',
+        icon: <ProfileIcon />,
+        onClick: () => {
+            incomingFeature('Use Phone')
+        },
+    },
     // { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: incomingFeature },
     { id: 4, title: 'Continue with Google', icon: <GooogleIcon />, onClick: loginWithGoogle },
     // { id: 5, title: 'Continue with Line', icon: <LineIcon />, onClick: incomingFeature },

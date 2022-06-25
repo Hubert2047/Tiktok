@@ -14,9 +14,7 @@ const clsx = classNames.bind(styles)
 function Home() {
     // console.log('re-render home')
     const dispath = useDispatch()
-    // const authState = useSelector((state) => state.app.authState)
     const posts = useSelector((state) => state.home.posts)
-    const [playingId, setPlayingId] = useState(null)
     const [lastPost, setLastPost] = useState()
     const [loading, setLoading] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true)
@@ -52,8 +50,8 @@ function Home() {
                         if (posts?.length < 5 && !hasMorePost) return
                         getMorePostsJSON(lastPost)
                     }
-                }
-                // ,{ threshold: 1.0 }
+                },
+                { threshold: 0.5 }
             )
             if (node) {
                 observer.current.observe(node)
@@ -61,16 +59,6 @@ function Home() {
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [lastPost]
-    )
-    // useEffect(() => {
-    //     setPlayingId(id)
-    // }, [])
-    const handleOnPlay = useCallback(
-        (id) => {
-            setPlayingId(id)
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
     )
 
     return (
@@ -83,27 +71,10 @@ function Home() {
             <SnapScrollContainer>
                 {posts?.map((post, index) => {
                     //check the last post
-                    if (posts.length - 1 === index) {
-                        return (
-                            <PostContainer
-                                className={clsx('post')}
-                                ref={lastPostCallBack}
-                                onPlay={handleOnPlay}
-                                key={index}
-                                post={post}
-                                isPlaying={playingId === post.id}
-                            />
-                        )
+                    if (posts.length - 2 === index) {
+                        return <PostContainer className={clsx('post')} ref={lastPostCallBack} key={index} post={post} />
                     } else {
-                        return (
-                            <PostContainer
-                                className={clsx('post')}
-                                onPlay={handleOnPlay}
-                                key={index}
-                                post={post}
-                                isPlaying={playingId === post.id}
-                            />
-                        )
+                        return <PostContainer className={clsx('post')} key={index} post={post} />
                     }
                 })}
             </SnapScrollContainer>

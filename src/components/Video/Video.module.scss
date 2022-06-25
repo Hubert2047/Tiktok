@@ -18,14 +18,14 @@
 }
 
 .video {
-    // position: absolute;
-    // left: 0;
-    // top: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
     height: 100%;
     width: 100%;
-    flex-grow: 0;
     overflow: hidden;
-    object-fit: contain;
+    object-fit: cover;
     cursor: pointer;
 }
 .poster {

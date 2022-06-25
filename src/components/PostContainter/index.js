@@ -17,9 +17,7 @@ import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
 import styles from './PostContainer.module.scss'
 const clsx = classNames.bind(styles)
-const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
-    // console.log('re-render post container', post.id)
-    // console.log('re-render -post')
+const PostContainer = forwardRef(({ post }, ref) => {
     // console.log('re-render post container', post.id)
     const dispath = useDispatch()
     const navigate = useNavigate()
@@ -35,7 +33,6 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
     useEffect(() => {
         setIsFollowing(currentUser?.following?.includes(post.user.uid) || false)
     }, [currentUser])
-    // console.log('current user', currentUser, 'post', post)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleNavigate = useCallback(() => {
         navigate(useProfileRoute(post.user))
@@ -67,13 +64,7 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
         dispath(userActions.setUser({ ...currentUser, following: updateUserFollowing }))
     }
     return (
-        <div
-            ref={ref}
-            className={clsx('wrapper', 'd-flex')}
-            onMouseEnter={() => {
-                console.log('enter')
-                onPlay(post.id)
-            }}>
+        <div ref={ref} className={clsx('wrapper', 'd-flex')}>
             {showLogin && (
                 <FullScreenModal handleShowPopup={handleShowLogin}>
                     <LoginPopup handleShowPopup={handleShowLogin} />
@@ -109,7 +100,7 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
                         )}
                     </div>
                 </div>
-                <Video post={post} onMouseEnter={handleOnMouseEnter} className={clsx('video')} isPlaying={isPlaying} />
+                <Video post={post} onMouseEnter={handleOnMouseEnter} className={clsx('video')} />
             </div>
             <Button
                 onClick={handleFollowing}

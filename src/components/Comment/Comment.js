@@ -105,6 +105,7 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
         }
         await Promise.all([...deleteCommentFunc, deleteComment(comment.id)])
         dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
+        setShowComfirm(false)
     }
     return (
         <div ref={ref} className={clsx('comment-item', 'd-flex')}>

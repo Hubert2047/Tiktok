@@ -74,6 +74,7 @@ function CommentInput({ post, className }) {
                 })
             )
             setValue('')
+            inputRef.style.height = '1.5rem' //reset inbox height
         } catch (e) {
             console.log(e)
         }
@@ -89,15 +90,19 @@ function CommentInput({ post, className }) {
                         <UserAvatar user={currentUser} />
                     </div>
                     <div className={clsx('input-box', 'd-flex')}>
-                        {isExistReply && (
+                        {/* {isExistReply && (
                             <span
                                 className={clsx(
                                     'tag'
                                 )}>{`Reply to @${lastUserWasTouchedReplyInfor?.userWasTouched?.full_name} :`}</span>
-                        )}
+                        )} */}
                         <textarea
                             ref={callbackInput}
-                            placeholder={`${isExistReply ? '' : 'Add comment ...'}`}
+                            placeholder={`${
+                                isExistReply
+                                    ? `Reply to @${lastUserWasTouchedReplyInfor?.userWasTouched?.full_name}`
+                                    : 'Add comment ...'
+                            }`}
                             value={value}
                             maxLength={150}
                             require='true'
