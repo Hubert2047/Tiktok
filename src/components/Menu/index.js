@@ -21,7 +21,7 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
     const navigate = useNavigate()
     const [menuList, setMenuList] = useState(menu)
     const [showAll, setShowAll] = useState(false)
-    let currentMenu = menuList.at(-1)
+    let currentMenu = menuList[menuList?.length - 1]
     if (!showAll) currentMenu = { ...currentMenu, data: currentMenu.data.slice(0, 5) }
     const handleMenuItemOnclick = function (item) {
         // console.log(item)

@@ -152,7 +152,7 @@ function VideoPage() {
                         <video
                             loop={true}
                             controls={true}
-                            // autoPlay={true}
+                            autoPlay={true}
                             className={clsx('video')}
                             src={post?.video}></video>
                         <Button to={'/'} icon={<XIcon />} type='btn-all-rounded' className={clsx('close-btn')} />

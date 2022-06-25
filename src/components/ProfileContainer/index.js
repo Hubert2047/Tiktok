@@ -36,11 +36,11 @@ function ProfileContainer({ user, children, placement }) {
                 <UserName user={user} />
                 <div className={clsx('footer', 'd-flex')}>
                     <div className={clsx('box', 'd-flex')}>
-                        <span className={clsx('count-text')}>{user?.followers}</span>
+                        <span className={clsx('count-text')}>{user?.followers || 0}</span>
                         <span className={clsx('desc-text')}>Followers</span>
                     </div>
                     <div className={clsx('box', 'd-flex')}>
-                        <span className={clsx('count-text')}>{user?.likes}</span>
+                        <span className={clsx('count-text')}>{user?.likes?.length || 0}</span>
                         <span className={clsx('desc-text')}>Likes</span>
                     </div>
                 </div>

@@ -219,29 +219,29 @@ export const loginFeatureBtns = [
         icon: <CopyLinkIcon />,
         onClick: quickLogin,
     },
-    {
-        id: 1,
-        title: 'Use QR code',
-        icon: <QRCIcon />,
-        onClick: () => {
-            incomingFeature('Use QRC')
-        },
-    },
-    {
-        id: 2,
-        title: 'Use phone / email / username',
-        icon: <ProfileIcon />,
-        onClick: () => {
-            incomingFeature('Use Phone')
-        },
-    },
-    { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: incomingFeature },
+    // {
+    //     id: 1,
+    //     title: 'Use QR code',
+    //     icon: <QRCIcon />,
+    //     onClick: () => {
+    //         incomingFeature('Use QRC')
+    //     },
+    // },
+    // {
+    //     id: 2,
+    //     title: 'Use phone / email / username',
+    //     icon: <ProfileIcon />,
+    //     onClick: () => {
+    //         incomingFeature('Use Phone')
+    //     },
+    // },
+    // { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: incomingFeature },
     { id: 4, title: 'Continue with Google', icon: <GooogleIcon />, onClick: loginWithGoogle },
-    { id: 5, title: 'Continue with Line', icon: <LineIcon />, onClick: incomingFeature },
-    { id: 6, title: 'Continue with Twitter', icon: <TwitterIcon />, onClick: incomingFeature },
-    { id: 7, title: 'Continue with KakaoTalk', icon: <TalkIcon />, onClick: incomingFeature },
-    { id: 8, title: 'Continue with Apple', icon: <AppleIcon />, onClick: incomingFeature },
-    { id: 9, title: 'Continue with Instagram', icon: <IstalgramIcon />, onClick: incomingFeature },
+    // { id: 5, title: 'Continue with Line', icon: <LineIcon />, onClick: incomingFeature },
+    // { id: 6, title: 'Continue with Twitter', icon: <TwitterIcon />, onClick: incomingFeature },
+    // { id: 7, title: 'Continue with KakaoTalk', icon: <TalkIcon />, onClick: incomingFeature },
+    // { id: 8, title: 'Continue with Apple', icon: <AppleIcon />, onClick: incomingFeature },
+    // { id: 9, title: 'Continue with Instagram', icon: <IstalgramIcon />, onClick: incomingFeature },
 ]
 
 function incomingFeature(feature = 'this feature') {

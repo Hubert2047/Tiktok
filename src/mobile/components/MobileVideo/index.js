@@ -14,10 +14,10 @@ const MobileVideo = forwardRef(({ post, className, onPlay, isCurrentPostPlaying 
     useEffect(() => {
         if (isCurrentPostPlaying) {
             setPlay(true)
-            videoRef.current.play()
+            // videoRef.current.play()
         } else {
             setPlay(false)
-            videoRef.current.pause()
+            // videoRef.current.pause()
         }
     }, [isCurrentPostPlaying])
     useEffect(() => {
@@ -48,7 +48,7 @@ const MobileVideo = forwardRef(({ post, className, onPlay, isCurrentPostPlaying 
             <div className={clsx('video-box')}>
                 <video
                     ref={videoRef}
-                    autoPlay={true}
+                    // autoPlay={true}
                     loop={true}
                     poster={post.poster}
                     className={clsx('video')}

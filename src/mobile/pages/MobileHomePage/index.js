@@ -26,13 +26,14 @@ function MobileHomePage() {
     const [loading, setLoading] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true)
     const observer = useRef()
+
     useEffect(() => {
-        if (!commentCount?.post) return
+        if (!currentPost?.post?.id) return
         getCommentCount(currentPost.post.id, (result) => {
             console.log(result)
             setCommentCount(result)
         })
-    }, [commentCount])
+    }, [currentPost])
     const getPostsJSON = async function () {
         setLoading(true)
         await getPosts((data) => {

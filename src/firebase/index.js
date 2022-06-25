@@ -12,10 +12,10 @@ import {
     onSnapshot,
     orderBy,
     query,
+    setDoc,
     startAfter,
     updateDoc,
     where,
-    setDoc,
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -198,6 +198,15 @@ const getCommentCount = async function (postId, callback) {
         }
     )
 }
+const getCommentNotRealTime = async function (postId) {
+    const q = query(collection(db, 'comments'), where('postId', '==', postId))
+
+    const querySnapshot = await getDocs(q)
+    const comments = querySnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() }
+    })
+    return comments
+}
 const getComments = async function ({ postId, callback, parentId, lastDocComment, commentLimit }) {
     if (typeof callback !== 'function') return
     let q = query(
@@ -271,6 +280,7 @@ export {
     updatePostLike,
     searchPost,
     getComments,
+    getCommentNotRealTime,
     addComment,
     deleteComment,
     getCommentCount,

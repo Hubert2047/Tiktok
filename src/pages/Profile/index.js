@@ -97,7 +97,7 @@ function Profile() {
         setIsFollowing(true)
     }
     const handleReflow = function (result) {
-        console.log(result, profileUser)
+        // console.log(result, profileUser)
         if (result?.clamped) setReflow(result?.clamped)
     }
     const handleShowDesc = function () {

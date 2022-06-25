@@ -55,7 +55,7 @@ function CommentInput({ post, className }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputRef])
-    const addCommentToFireBase = async function (e) {
+    async function addCommentToFireBase(e) {
         e.preventDefault()
         const newComment = {
             parentId: lastUserWasTouchedReplyInfor.commentParentId,

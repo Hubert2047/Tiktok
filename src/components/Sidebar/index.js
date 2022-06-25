@@ -17,7 +17,7 @@ function Sidebar({ className }) {
     // console.log('re-render sidebar')
     const [suggestFollowingData, setSuggestFollowingData] = useState([])
     const [followingData, setFollowingData] = useState([])
-    const currentSuggestFollowingData = suggestFollowingData.at(-1)
+    const currentSuggestFollowingData = suggestFollowingData[suggestFollowingData?.length - 1]
     const [seeText, setSeeText] = useState('See all')
     const [isCallApi, setCallApi] = useState(false)
     useEffect(() => {

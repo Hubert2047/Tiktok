@@ -15,7 +15,7 @@ function MovieCard({ post, isPlaying, onHover }) {
     const handleMounseEnter = function () {
         hoverRef.current = setTimeout(() => {
             onHover(post.id)
-        }, 800)
+        }, 300)
     }
     const handleMouseLeave = () => {
         clearTimeout(hoverRef.current)

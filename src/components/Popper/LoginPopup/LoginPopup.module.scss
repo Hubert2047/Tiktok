@@ -42,7 +42,8 @@
 }
 .action-btns {
     flex-direction: column;
-    height: 40rem;
+    min-height: 20rem;
+    // height: 10rem;
     gap: 1rem;
     padding: 0 3.4rem;
     margin-top: 2rem;

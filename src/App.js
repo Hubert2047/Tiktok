@@ -1,27 +1,13 @@
 import classNames from 'classnames/bind'
-// import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { useSelector } from 'react-redux'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-// import { appActions } from '~/redux/appSlice'
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
 import { publicRoutes } from '~/routes'
 import styles from './App.module.scss'
-import Alert from './components/Popper/Alert'
+import ToastPortal from './components/ToastPortal'
 import MobileHomePage from './mobile/pages/MobileHomePage/index'
 const clsx = classNames.bind(styles)
 function App({ className }) {
     const viewWith = document.documentElement.clientWidth
-    // const dispath = useDispatch()
-    // const auth = getAuth()
-    // onAuthStateChanged(auth, (user) => {
-    //     if (user) {
-    //         dispath(appActions.setAuthState(true))
-    //     } else {
-    //         dispath(appActions.setAuthState(false))
-    //     }
-    // })
-    // console.log('re-render app')
 
-    const alertInfor = useSelector((state) => state.alert.information)
     return (
         <Router>
             {viewWith > 500 ? (
@@ -48,10 +34,11 @@ function App({ className }) {
                 <div className={clsx('mobile-app')}>
                     <Routes>
                         <Route path={'/'} element={<MobileHomePage />} />
+                        <Route path={'*'} element={<Navigate to='/' replace={true} />} />
                     </Routes>
                 </div>
             )}
-            {alertInfor.isShow && <Alert title={alertInfor.title} />}
+            <ToastPortal />
         </Router>
     )
 }

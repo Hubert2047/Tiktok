@@ -11,8 +11,9 @@ import ProfileContainer from '~/components/ProfileContainer'
 import { deleteComment, getComments, updateCommentLikes } from '~/firebase'
 import { convertTimeStampToDate } from '~/helper'
 import { useProfileRoute } from '~/hooks'
-import { alertActions } from '~/redux/alertSlice'
 import { commentActions } from '~/redux/commentSlice'
+import { toastActions } from '~/redux/toastSlice'
+import Comfirm from '../Comfirm'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
 import UserAvatar from '../UserAvatar'
@@ -30,6 +31,7 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
     const [showLogin, setShowLogin] = useState(false)
     const childrenCommentCount = childrenComments?.length || 0
     const [viewReplies, setViewReplies] = useState(false)
+    const [showComfirm, setShowComfirm] = useState(false)
     const isLiked = comment.likes.includes(currentUser.uid)
     const navigate = useNavigate()
     // console.log('re-render comment', comment.id)
@@ -56,19 +58,11 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
     const handleNavigate = function () {
         navigate(useProfileRoute(comment.user))
     }
-    const handleDeleteOnClick = async function () {
-        await deleteComment(comment.id)
-        dispath(alertActions.setInformation({ title: 'Deleted', isShow: true }))
-        setTimeout(() => {
-            dispath(alertActions.setInformation({}))
-        }, 2000)
-    }
 
     const handleReportOnClick = function () {
-        dispath(alertActions.setInformation({ title: 'Reported', isShow: true }))
-        setTimeout(() => {
-            dispath(alertActions.setInformation({}))
-        }, 2000)
+        dispath(
+            toastActions.addToast({ title: 'Reported!', message: 'thank you  for your reporting', mode: 'success' })
+        )
     }
     const handleReplyOnClick = function () {
         inputRef?.focus()
@@ -95,6 +89,23 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
         }
         await updateCommentLikes(comment.id, updateLikes)
     }
+    const handleDeleteOnClick = async function () {
+        setShowComfirm(true)
+    }
+
+    const handleOnCancelComfirm = function () {
+        setShowComfirm(false)
+    }
+    const handleOnComfirm = async function () {
+        const deleteCommentFunc = []
+        if (childrenComments?.length > 0) {
+            childrenComments.forEach((childrenComment) => {
+                deleteCommentFunc.push(deleteComment(childrenComment.id))
+            })
+        }
+        await Promise.all([...deleteCommentFunc, deleteComment(comment.id)])
+        dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
+    }
     return (
         <div ref={ref} className={clsx('comment-item', 'd-flex')}>
             {/* root comments */}
@@ -102,6 +113,16 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
                 <ProfileContainer user={comment?.user} placement='left-start'>
                     <UserAvatar onclick={handleNavigate} height={avatarHeight} user={comment?.user} />
                 </ProfileContainer>
+                {showComfirm && (
+                    <FullScreenModal>
+                        <Comfirm
+                            question='Are you sure you want to delete this comment?'
+                            btnTitle='Delete'
+                            onCancel={handleOnCancelComfirm}
+                            onComfirm={handleOnComfirm}
+                        />
+                    </FullScreenModal>
+                )}
                 <div className={clsx('comment-content', 'd-flex')}>
                     <Button title={comment?.user?.full_name} className={clsx('name')} />
                     <p className={clsx('comment-text')}>{comment.content}</p>

@@ -63,6 +63,7 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(true)
         }
+        //update redux currentUser
         dispath(userActions.setUser({ ...currentUser, following: updateUserFollowing }))
     }
     return (
@@ -70,6 +71,7 @@ const PostContainer = forwardRef(({ post, onPlay, isPlaying }, ref) => {
             ref={ref}
             className={clsx('wrapper', 'd-flex')}
             onMouseEnter={() => {
+                console.log('enter')
                 onPlay(post.id)
             }}>
             {showLogin && (
