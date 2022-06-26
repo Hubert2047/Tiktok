@@ -14,6 +14,7 @@ const routes = {
     upload: '/upload',
     profile: profile,
     video: video,
+    messages: 'messages',
 }
 
 export default routes

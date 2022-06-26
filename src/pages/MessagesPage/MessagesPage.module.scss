@@ -1,0 +1,79 @@
+.wrapper {
+    height: 100%;
+    min-height: 490px;
+    display: grid;
+    grid-template-columns: 35.6rem 1fr;
+    gap: 1.6rem;
+}
+.conversation-list,
+.conversation-container {
+    box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+}
+.conversation-list,
+.conversation-container {
+    background-color: var(--white-color);
+    overflow: hidden;
+    border-radius: var(--border-radius-big);
+    -webkit-border-radius: var(--border-radius-big);
+    -moz-border-radius: var(--border-radius-big);
+    -ms-border-radius: var(--border-radius-big);
+    -o-border-radius: var(--border-radius-big);
+}
+.conversation-list {
+}
+.conversation-container {
+}
+.title {
+    font-size: 2.4rem;
+    padding: 1rem 2.4rem 2rem;
+    letter-spacing: 1px;
+}
+.list-content {
+    max-height: calc(100vh - var(--default-header-height) - 1.6rem - 5.8rem);
+    overflow: overlay;
+}
+.user-container {
+    width: 100%;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.5rem 2.4rem;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--hover-bg-color);
+    }
+}
+.user-infor {
+    width: 100%;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.list-user-name {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.infor-extract-box {
+    max-width: 22.4rem;
+    font-size: 1.4rem;
+}
+.infor-extract {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--grey-color-3);
+}
+.list-user-time {
+    padding-left: 0.5rem;
+    color: var(--grey-color-2);
+}
+
+.conversation-container {
+}
+.conversation-header {
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.6rem;
+}
+.conversation-infor {
+    flex-direction: column;
+}

@@ -23,10 +23,11 @@ function Video({ post, className, onMouseEnter }) {
         observer.current = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
+                    console.log('intersecting', post.id)
                     dispath(homeActions.setCurrentPostPlayingId(post.id))
                 }
             },
-            { threshold: 0.9 }
+            { threshold: 1 }
         )
         if (videoRef.current) {
             observer.current.observe(videoRef.current)

@@ -100,6 +100,7 @@ const getSuggestFollowing = async function (currentUserId = '', type) {
     }
 
     const querySnapshot = await getDocs(q)
+    console.log('docs', querySnapshot.docs)
     const suggestFollowingData = querySnapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }
     })

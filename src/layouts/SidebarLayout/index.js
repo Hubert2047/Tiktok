@@ -7,7 +7,7 @@ const clsx = classNames.bind(styles)
 function SidebarLayout({ children }) {
     return (
         <div className={clsx('wrapper')}>
-            <Header className={clsx('header')} />
+            <Header />
             <div className={clsx('container')}>
                 <div>
                     <Sidebar className={clsx('sidebar')} />
