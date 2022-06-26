@@ -1,0 +1,15 @@
+.editor-root {
+    outline: none;
+    width: 100%;
+    height: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    padding-left: 1rem;
+    caret-color: var(--primary-color);
+    background-color: var(--grey-color);
+    &:empty::before {
+        content: attr(data-placeholder);
+        color: var(--grey-color-2);
+    }
+    cursor: text;
+}

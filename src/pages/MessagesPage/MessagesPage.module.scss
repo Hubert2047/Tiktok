@@ -22,6 +22,7 @@
 .conversation-list {
 }
 .conversation-container {
+    flex-direction: column;
 }
 .title {
     font-size: 2.4rem;
@@ -48,6 +49,14 @@
     flex-direction: column;
     gap: 0.5rem;
 }
+.full-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.nickname {
+    font-size: 1.6rem;
+    color: var(--grey-color-2);
+}
 .list-user-name {
     font-size: 1.6rem;
     font-weight: 600;
@@ -66,8 +75,13 @@
     padding-left: 0.5rem;
     color: var(--grey-color-2);
 }
-
+// conversation container
 .conversation-container {
+}
+.conversation-main {
+    flex: 1;
+    border-top: 0.5px solid rgba(22, 24, 35, 0.12);
+    border-bottom: 0.5px solid rgba(22, 24, 35, 0.12);
 }
 .conversation-header {
     align-items: center;

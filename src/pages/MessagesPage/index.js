@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind'
 import React, { useEffect, useState } from 'react'
+import MessageInput from '~/components/MessageInput'
 import UserAvatar from '~/components/UserAvatar'
 import { getSuggestFollowing } from '~/firebase'
 import styles from './MessagesPage.module.scss'
@@ -42,16 +43,18 @@ function MessagesPage() {
                     })}
                 </div>
             </div>
-            <div className={clsx('conversation-container')}>
+            <div className={clsx('conversation-container', 'd-flex')}>
                 <div className={clsx('conversation-header', 'd-flex ')}>
                     <UserAvatar user={users[0]} height={'4.8rem'} />
                     <div className={clsx('conversation-infor', 'd-flex')}>
-                        <span>{users[0]?.full_name}</span>
-                        <span>{`@${users[0]?.nickname}`}</span>
+                        <span className={clsx('full-name')}>{users[0]?.full_name}</span>
+                        <span className={clsx('nickname')}>{`@${users[0]?.nickname}`}</span>
                     </div>
                 </div>
                 <div className={clsx('conversation-main')}></div>
-                <div className={clsx('conversation-bottom')}></div>
+                <div className={clsx('conversation-bottom')}>
+                    <MessageInput />
+                </div>
             </div>
         </div>
     )
