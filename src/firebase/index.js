@@ -138,25 +138,27 @@ const updateUserLikes = async function (uid, updateLike) {
 }
 
 //sidebar
-const getSuggestFollowing = async function (currentUserId = '', type) {
+const getSuggestFollowing = async function (currentUser, limitValue = 5) {
     let q
-    switch (type) {
-        case 'less':
-            q = query(collection(db, 'users'), where('uid', '!=', currentUserId), limit(5))
-            break
-        case 'more':
-            q = query(collection(db, 'users'), where('uid', '!=', currentUserId), limit(10))
-            break
-        default:
-            return
+    // console.log('current', currentUser)
+    if (currentUser?.uid) {
+        q = query(
+            collection(db, 'users'),
+            where('uid', 'not-in', [...currentUser.following, currentUser.uid] || []),
+            limit(limitValue)
+        )
+    } else {
+        q = query(collection(db, 'users'), limit(limitValue))
     }
 
     const querySnapshot = await getDocs(q)
+    if (querySnapshot.docs.size < 1) return
     const suggestFollowingData = querySnapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }
     })
     return suggestFollowingData
 }
+
 const getFollowing = async function (followingArray) {
     if (followingArray?.length < 1) return
     const q = query(collection(db, 'users'), where('uid', 'in', followingArray))

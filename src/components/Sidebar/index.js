@@ -27,10 +27,10 @@ function Sidebar({ className }) {
         }
         const getSunggestFollowingData = async function () {
             if (seeText === 'See less') {
-                const data = await getSuggestFollowing(currentUser?.uid, 'more')
+                const data = await getSuggestFollowing(currentUser, 10)
                 setSuggestFollowingData((prev) => [...prev, data])
             } else {
-                const data = await getSuggestFollowing(currentUser?.uid, 'less')
+                const data = await getSuggestFollowing(currentUser, 5)
                 setSuggestFollowingData([data])
             }
         }

@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import UserName from '~/components/UserName'
 import { useProfileRoute } from '~/hooks'
@@ -9,6 +12,11 @@ import UserAvatar from '../UserAvatar'
 import styles from './ProfileContainer.module.scss'
 const clsx = classNames.bind(styles)
 function ProfileContainer({ user, children, placement }) {
+    const currentUser = useSelector((state) => state.user.user)
+    const [isFollowing, setIsFollowing] = useState()
+    useEffect(() => {
+        setIsFollowing(currentUser?.following?.includes(user.id))
+    }, [currentUser])
     const navigate = useNavigate()
     const handleNavigate = function () {
         navigate(useProfileRoute(user))
@@ -19,17 +27,17 @@ function ProfileContainer({ user, children, placement }) {
                 <div className={clsx('header', 'd-flex')}>
                     <UserAvatar
                         onClick={handleNavigate}
-                        height={'4rem'}
+                        height={'5.5rem'}
                         user={user}
                         className={clsx('avatar')}
                         showLive
                     />
-                    {/* <Image src={user.avatar} alt={'avatar'} className={clsx('img')} /> */}
                     <Button
+                        title={isFollowing ? 'Following' : 'Follow'}
+                        border={isFollowing ? 'border-grey' : 'border-primary'}
+                        color={isFollowing ? 'color-grey' : 'color-white'}
                         size='size-md'
-                        title={'Follow'}
-                        bg={'bg-primary'}
-                        color={'color-white'}
+                        bg={isFollowing ? '' : 'bg-primary'}
                         className={clsx('btn')}
                     />
                 </div>
