@@ -20,7 +20,7 @@ function GetAppPopup({ className, handleShowPopup }) {
                     <XIcon className={clsx('close-btn')} />
                 </div>
             </div>
-            <div className={clsx('mid', 'grid-center')}>
+            <div className={clsx('mid', 'flex-center')}>
                 <p className={clsx('text')}>Scan QR code to download TikTok</p>
                 <div className={clsx('image-box')}>
                     <Image

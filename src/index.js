@@ -9,17 +9,17 @@ import reportWebVitals from './reportWebVitals'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-    <React.StrictMode>
-        <GlobalStyle>
-            <Provider store={store}>
-                <PersistGate loading={true} persistor={persistor}>
-                    <div>
-                        <App />
-                    </div>
-                </PersistGate>
-            </Provider>
-        </GlobalStyle>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <GlobalStyle>
+        <Provider store={store}>
+            <PersistGate loading={true} persistor={persistor}>
+                <div>
+                    <App />
+                </div>
+            </PersistGate>
+        </Provider>
+    </GlobalStyle>
+    // </React.StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function

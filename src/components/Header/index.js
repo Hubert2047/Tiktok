@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
 import { Fragment, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import images from '~/assets/images'
 import Button from '~/components/Button'
@@ -14,18 +15,21 @@ import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import Search from '~/components/Search'
 import config from '~/config'
-import { getPosts } from '~/firebase'
+import { useMessageRoute } from '~/hooks'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import styles from './Header.module.scss'
 const clsx = classNames.bind(styles)
 
 function Header({ className }) {
-    getPosts()
     const [showLogin, setShowLogin] = useState(false)
+    const navigate = useNavigate()
     // const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
     const handleShowLoginPopup = function () {
         setShowLogin((prev) => !prev)
+    }
+    const handleMessages = function () {
+        navigate(useMessageRoute(currentUser))
     }
     const UnLoginUI = function () {
         // console.log('logout')
@@ -70,7 +74,7 @@ function Header({ className }) {
                     icon={<IoMdAdd />}
                     title='Upload'></Button>
                 <Tippy content='Message' delay={[0, 50]}>
-                    <button className={clsx('btn', 'd-flex')}>
+                    <button onClick={handleMessages} className={clsx('btn', 'd-flex')}>
                         <MessengerIcon />
                     </button>
                 </Tippy>

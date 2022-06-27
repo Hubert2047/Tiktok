@@ -83,21 +83,21 @@ function VideoFooter({ className, post }) {
                 </FullScreenModal>
             )}
             <div className={clsx('action-container', 'd-flex')}>
-                <div onClick={handleLikePostAction} className={clsx('box', 'grid-center')}>
+                <div onClick={handleLikePostAction} className={clsx('box', 'flex-center')}>
                     <Fragment>{!isLikedPost ? <HeartIcon /> : <HeartPrimary />}</Fragment>
                     {/* <HeartIcon /> */}
                 </div>
                 <span>{formatCountNumber(post?.likes)}</span>
             </div>
             <div onClick={handleOnClickComment} className={clsx('action-container', 'd-flex')}>
-                <div className={clsx('box', 'grid-center')}>
+                <div className={clsx('box', 'flex-center')}>
                     <CommentIcon />
                 </div>
                 <span>{commentCount}</span>
             </div>
             <div className={clsx('action-container', 'd-flex')}>
                 <Menu menu={shareItems} placement={'top-start'} link={post.video}>
-                    <div className={clsx('box', 'grid-center')}>
+                    <div className={clsx('box', 'flex-center')}>
                         <ShareIcon />
                     </div>
                 </Menu>

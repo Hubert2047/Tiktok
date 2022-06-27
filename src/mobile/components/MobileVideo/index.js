@@ -14,10 +14,10 @@ const MobileVideo = forwardRef(({ post, className, onPlay, isCurrentPostPlaying 
     useEffect(() => {
         if (isCurrentPostPlaying) {
             setPlay(true)
-            // videoRef.current.play()
+            videoRef.current.play()
         } else {
             setPlay(false)
-            // videoRef.current.pause()
+            videoRef.current.pause()
         }
     }, [isCurrentPostPlaying])
     useEffect(() => {

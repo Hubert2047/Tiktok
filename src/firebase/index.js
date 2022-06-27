@@ -57,6 +57,48 @@ const logOut = async function (callback) {
 }
 
 //user
+const searchUsers = async function (searchValue, type = 'less') {
+    // console.log('run')
+    let q = query(collection(db, 'users'), orderBy('full_name'))
+    const querySnapshot = await getDocs(q)
+    const data = []
+    querySnapshot.docs.forEach((doc) => {
+        const user = { id: doc.id, ...doc.data() }
+        if (user.full_name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+            data.push(user)
+        }
+    })
+    let result
+    if (type === 'less') {
+        result = data.slice(0, 5)
+    } else {
+        result = data.slice(0, 10)
+    }
+    return result
+    // onSnapshot(
+    //     q,
+    //     (querySnapshot) => {
+    //         const data = []
+    //         querySnapshot.docs.forEach((doc) => {
+    //             const user = { id: doc.id, ...doc.data() }
+    //             if (user.full_name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+    //                 data.push(user)
+    //             }
+    //         })
+    //         let result
+    //         if (type === 'less') {
+    //             result = data.slice(0, 5)
+    //         } else {
+    //             result = data.slice(0, 10)
+    //         }
+    //         // console.log('firebase', data)
+    //         callback(result)
+    //     },
+    //     (err) => {
+    //         throw new Error(err.message)
+    //     }
+    // )
+}
 const getUser = async function (uid) {
     const q = query(collection(db, 'users'), where('uid', '==', uid))
 
@@ -73,7 +115,7 @@ const getUserRealyTime = async function (uid, callback) {
     })
 }
 const addUser = async function (user) {
-    console.log(user)
+    // console.log(user)
     await setDoc(doc(db, 'users', user.uid), user)
 }
 const updateFollowing = async function (uid, updateFollowing) {
@@ -100,7 +142,6 @@ const getSuggestFollowing = async function (currentUserId = '', type) {
     }
 
     const querySnapshot = await getDocs(q)
-    console.log('docs', querySnapshot.docs)
     const suggestFollowingData = querySnapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }
     })
@@ -187,7 +228,7 @@ const updatePostLike = async function (postId, likes) {
 
 //comment
 const getCommentCount = async function (postId, callback) {
-    console.log(postId)
+    // console.log(postId)
     let q = query(collection(db, 'comments'), where('postId', '==', postId))
     onSnapshot(
         q,
@@ -264,10 +305,62 @@ const addComment = async function (comment) {
 const deleteComment = async function (commentId) {
     await deleteDoc(doc(db, 'comments', commentId))
 }
+
+// messages
+
+const getChats = async function (currentUid, callback) {
+    // console.log(currentUid)
+    if (typeof callback !== 'function' || !currentUid) return
+    const q = query(collection(db, 'chats'), where('participants', 'array-contains', currentUid), orderBy('createdAt'))
+    const getUsersPromise = [] //store all getUser Promise
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
+            // console.log(querySnapshot.docs)
+            if (querySnapshot.size < 1) return callback([])
+            let chats = querySnapshot.docs.map((doc) => {
+                if (doc.data().receiveUid === currentUid) {
+                    getUsersPromise.push(getUser(doc.data().sendUid))
+                } else {
+                    getUsersPromise.push(getUser(doc.data().receiveUid))
+                }
+                return { ...doc.data(), id: doc.id }
+            })
+            const allUsers = await Promise.all(getUsersPromise)
+            const data = chats.map((chat) => {
+                if (chat.receiveUid === currentUid) {
+                    return { ...chat, friendChat: allUsers?.find((user) => user?.uid === chat?.sendUid) }
+                } else {
+                    return { ...chat, friendChat: allUsers?.find((user) => user?.uid === chat?.receiveUid) }
+                }
+            })
+            // console.log(data)
+            callback(data)
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
+}
+const updateChat = async function (chatId, updateMessages) {
+    const chatsRef = doc(db, 'chats', chatId)
+    await updateDoc(chatsRef, {
+        messages: updateMessages,
+    })
+}
+const addChat = async function (chat) {
+    try {
+        console.log(chat)
+        await addDoc(collection(db, 'chats'), chat)
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
 export {
     db,
     loginWithGoogle,
     logOut,
+    searchUsers,
     getUser,
     getUserRealyTime,
     addUser,
@@ -286,4 +379,7 @@ export {
     deleteComment,
     getCommentCount,
     updateCommentLikes,
+    getChats,
+    updateChat,
+    addChat,
 }

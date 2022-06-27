@@ -14,11 +14,11 @@ function LoginPopup({ handleShowPopup }) {
     const dispath = useDispatch()
     const [loading, setLoading] = useState(false)
     const handleLogin = async function (handleLoginFeature) {
-        console.log(handleLoginFeature)
+        // console.log(handleLoginFeature)
         try {
             setLoading(true)
             const data = await handleLoginFeature()
-            console.log('user', data)
+            // console.log('user', data)
             let user = await getUser(data.uid)
             if (!user) {
                 user = {
@@ -43,7 +43,7 @@ function LoginPopup({ handleShowPopup }) {
     }
     return (
         <div className={clsx('wrapper')}>
-            <div onClick={handleShowPopup} className={clsx('close-btn-box', 'grid-center')}>
+            <div onClick={handleShowPopup} className={clsx('close-btn-box', 'flex-center')}>
                 <XIcon className={clsx('close-btn')} />
             </div>
             <h4 className={clsx('title')}>Log in to TikTok</h4>

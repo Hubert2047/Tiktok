@@ -1,0 +1,38 @@
+.user-container {
+    width: 100%;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.5rem 2.4rem;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--hover-bg-color);
+    }
+}
+.list-content {
+    max-height: calc(100vh - var(--default-header-height) - 1.6rem - 5.8rem);
+    overflow: overlay;
+}
+.list-user-name {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.user-infor {
+    width: 100%;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.infor-extract-box {
+    max-width: 22.4rem;
+    font-size: 1.4rem;
+}
+.infor-extract {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--grey-color-3);
+}
+.list-user-time {
+    padding-left: 0.5rem;
+    color: var(--grey-color-2);
+}

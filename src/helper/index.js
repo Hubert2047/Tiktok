@@ -17,6 +17,15 @@ export const convertTimeStampToDate = function (timeStamp) {
 
     return timeStampDate.toLocaleDateString()
 }
+export const formatMessageTime = function (timeStamp) {
+    if (!timeStamp) return
+    const oneDay = 1000 * 60 * 60 * 24
+    const isMoreThanOneDay = new Date(timeStamp.seconds * 1000) - Date.now() > oneDay
+    if (!isMoreThanOneDay) {
+        return new Date(timeStamp * 1000).toLocaleTimeString()
+    }
+    return new Date(timeStamp.seconds * 1000).toLocaleDateString()
+}
 
 export const formatCountNumber = function (countNumber) {
     if (!countNumber) return 0

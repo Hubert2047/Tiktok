@@ -1,60 +1,192 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import Button from '~/components/Button'
+import { ThreeDotIcon } from '~/components/Icons'
 import MessageInput from '~/components/MessageInput'
 import UserAvatar from '~/components/UserAvatar'
-import { getSuggestFollowing } from '~/firebase'
+import UserSendMessage from '~/components/UserSendMessage'
+import { getChats, getUser, updateChat } from '~/firebase'
+import { formatMessageTime } from '~/helper'
+import { useMessageRoute } from '~/hooks'
 import styles from './MessagesPage.module.scss'
 
 const clsx = classNames.bind(styles)
 function MessagesPage() {
-    const [users, setUsers] = useState([])
-    console.log(users)
-    useEffect(() => {
-        const getSunggestFollowingData = async function () {
-            const data = await getSuggestFollowing('', 'more')
-
-            setUsers(data)
+    const params = useParams()
+    const navigate = useNavigate()
+    const currentUser = useSelector((state) => state.user.user)
+    const [currentChat, setCurrentChat] = useState({})
+    const [chats, setChats] = useState([])
+    const scrollRef = useRef()
+    const getCurrentFriendChat = async function (chats, friendChatUid) {
+        let _currentChat = chats.find((chat) => chat.participants.includes(friendChatUid))
+        if (!_currentChat) {
+            const friendChat = await getUser(friendChatUid)
+            _currentChat = {
+                messages: [],
+                friendChat: friendChat,
+            }
         }
-        getSunggestFollowingData()
+        setCurrentChat(_currentChat)
+    }
+    useEffect(() => {
+        const getAllCurrentChats = async function () {
+            await getChats(currentUser.uid, (chats) => {
+                // console.log(data)
+                setChats(chats)
+            })
+        }
+        getAllCurrentChats()
     }, [])
+    //get current friend chat
+    useEffect(() => {
+        getCurrentFriendChat(chats, params.uid)
+    }, [chats, params.uid])
+    // auto scroll to the last message
+    useEffect(() => {
+        if (scrollRef.current) scrollRef.current.scrollIntoView({ behavior: 'smooth' })
+    }, [currentChat])
+
+    const handleChangeChatFriend = function (chat) {
+        navigate(useMessageRoute(chat.friendChat))
+    }
+    const handleDeleteMessage = function (messageId) {
+        updateChat()
+    }
+
     return (
         <div className={clsx('wrapper')}>
             <div className={clsx('conversation-list')}>
                 <div className={clsx('list-header')}>
                     <h4 className={clsx('title')}>Messages</h4>
                 </div>
-                <div className={clsx('list-content')}>
-                    {users?.map((user) => {
-                        return (
-                            <div key={user.id} className={clsx('user-container', 'd-flex')}>
-                                <UserAvatar user={user} height={'5.6rem'} className={clsx('list-user-avatar')} />
-                                <div className={clsx('user-infor', 'd-flex')}>
-                                    <span className={clsx('list-user-name')}>{user.full_name}</span>
-                                    <div className={clsx('infor-extract-box', 'd-flex')}>
-                                        <span className={clsx('infor-extract')}>
-                                            this is an extract box fefefefefefefefefefee his is an extract box
-                                            fefefefefefefefefefee
-                                        </span>
-                                        <span className={clsx('list-user-time')}>6/7/2022</span>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
+                {chats?.length > 0 && (
+                    <div className={clsx('list-content')}>
+                        {chats?.map((chat) => {
+                            return (
+                                <UserSendMessage
+                                    key={chat.id}
+                                    chat={chat}
+                                    onChangeChatFriend={handleChangeChatFriend}
+                                />
+                            )
+                        })}
+                    </div>
+                )}
             </div>
             <div className={clsx('conversation-container', 'd-flex')}>
-                <div className={clsx('conversation-header', 'd-flex ')}>
-                    <UserAvatar user={users[0]} height={'4.8rem'} />
-                    <div className={clsx('conversation-infor', 'd-flex')}>
-                        <span className={clsx('full-name')}>{users[0]?.full_name}</span>
-                        <span className={clsx('nickname')}>{`@${users[0]?.nickname}`}</span>
-                    </div>
-                </div>
-                <div className={clsx('conversation-main')}></div>
-                <div className={clsx('conversation-bottom')}>
-                    <MessageInput />
-                </div>
+                {currentChat?.friendChat && (
+                    <Fragment>
+                        <div className={clsx('conversation-header', 'd-flex ')}>
+                            <UserAvatar user={currentChat?.friendChat} height={'4.8rem'} />
+
+                            <div className={clsx('conversation-infor', 'd-flex')}>
+                                <span className={clsx('full-name')}>{currentChat?.friendChat?.full_name}</span>
+                                <span className={clsx('nickname')}>{`@${currentChat?.friendChat?.nickname}`}</span>
+                            </div>
+                        </div>
+
+                        <div className={clsx('conversation-main')}>
+                            {currentChat?.messages?.map((message) => {
+                                let isSendMessage = false
+                                if (message.sendUid === currentUser.uid) {
+                                    isSendMessage = true
+                                }
+                                return (
+                                    <div key={message.id}>
+                                        {isSendMessage ? (
+                                            <div>
+                                                <div className={clsx('time-chat')}>
+                                                    {formatMessageTime(message?.createdAt)}
+                                                </div>
+                                                <div className={clsx('conversation-item', 'd-flex', 'send-message')}>
+                                                    <UserAvatar user={currentUser} />
+                                                    <p className={clsx('conversation-content')}>{message.content}</p>
+                                                    <Tippy
+                                                        // trigger='click'
+                                                        offset={[-10, 0]}
+                                                        placement={'left-start'}
+                                                        interactive={true}
+                                                        render={(attrs) => (
+                                                            <div
+                                                                className={clsx('action-options', 'd-flex')}
+                                                                tabIndex='-1'
+                                                                {...attrs}>
+                                                                <Button
+                                                                    onClick={() => {
+                                                                        handleDeleteMessage(message.id)
+                                                                    }}
+                                                                    title='Delete'
+                                                                    color='color-white'
+                                                                    className={clsx('option-btn')}
+                                                                />
+                                                                <Button
+                                                                    title='Like'
+                                                                    color='color-white'
+                                                                    className={clsx('option-btn')}
+                                                                />
+                                                            </div>
+                                                        )}>
+                                                        <div className={clsx('conversation-btn-box')}>
+                                                            <ThreeDotIcon className={clsx('conversation-btn')} />
+                                                        </div>
+                                                    </Tippy>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <div className={clsx('time-chat')}>
+                                                    {formatMessageTime(message?.createdAt)}
+                                                </div>
+                                                <div className={clsx('conversation-item', 'd-flex', 'receive-message')}>
+                                                    <UserAvatar user={currentChat?.friendChat} />
+                                                    <p className={clsx('conversation-content')}>{message.content}</p>
+                                                    <Tippy
+                                                        // trigger='click'
+                                                        offset={[-10, 0]}
+                                                        placement={'right-start'}
+                                                        interactive={true}
+                                                        render={(attrs) => (
+                                                            <div
+                                                                className={clsx('action-options', 'd-flex')}
+                                                                tabIndex='-1'
+                                                                {...attrs}>
+                                                                <Button
+                                                                    onClick={handleDeleteMessage}
+                                                                    title='Delete'
+                                                                    color='color-white'
+                                                                    className={clsx('option-btn')}
+                                                                />
+                                                                <Button
+                                                                    title='Like'
+                                                                    color='color-white'
+                                                                    className={clsx('option-btn')}
+                                                                />
+                                                            </div>
+                                                        )}>
+                                                        <div className={clsx('conversation-btn-box')}>
+                                                            <ThreeDotIcon className={clsx('conversation-btn')} />
+                                                        </div>
+                                                    </Tippy>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )
+                            })}
+                            <div ref={scrollRef}></div>
+                        </div>
+
+                        <div className={clsx('conversation-bottom')}>
+                            <MessageInput currentChat={currentChat} />
+                        </div>
+                    </Fragment>
+                )}
             </div>
         </div>
     )

@@ -2,46 +2,24 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { memo, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ReportIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import { useVideoPageRoute } from '~/hooks'
-import { homeActions } from '~/redux/homeSlice'
 import VideoFooter from '../VideoFooter'
 import styles from './Video.module.scss'
-
 const clsx = classNames.bind(styles)
-function Video({ post, className, onMouseEnter }) {
-    // console.log('re-render video')
-    const dispath = useDispatch()
-    const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
-
+function Video({ post, className, onMouseEnter, isCurrentPostPlaying }) {
+    // console.log('re-render video', post.id)
     const videoRef = useRef()
-    const observer = useRef()
-    useEffect(() => {
-        observer.current = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    console.log('intersecting', post.id)
-                    dispath(homeActions.setCurrentPostPlayingId(post.id))
-                }
-            },
-            { threshold: 1 }
-        )
-        if (videoRef.current) {
-            observer.current.observe(videoRef.current)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
     useEffect(() => {
         if (!videoRef.current) return
-        if (currentPostPlayingId === post.id) {
+        if (isCurrentPostPlaying) {
             videoRef.current.play()
         } else {
             videoRef.current.pause()
         }
-    }, [currentPostPlayingId])
+    }, [isCurrentPostPlaying])
     const navigate = useNavigate()
     const handleNavigate = function (e) {
         e.preventDefault()
@@ -55,7 +33,7 @@ function Video({ post, className, onMouseEnter }) {
                     ref={videoRef}
                     webkit-playsinline='true'
                     playsInline={true}
-                    autoPlay
+                    autoPlay={true}
                     // muted='muted'
                     // controlsList='nofullscreen'
                     className={clsx('video')}

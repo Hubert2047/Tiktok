@@ -104,7 +104,7 @@ function MobileCommentInput({ post, className }) {
                         <SmileIcon />
                     </div>
                     {value?.length > 0 && (
-                        <button onClick={addCommentToFireBase} className={clsx('grid-center')}>
+                        <button onClick={addCommentToFireBase} className={clsx('flex-center')}>
                             <HiArrowCircleUp className={clsx('submit-btn')} />
                         </button>
                     )}

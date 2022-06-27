@@ -7,7 +7,8 @@ import { IoIosCloseCircleOutline } from 'react-icons/io'
 import { PopperWrapper } from '~/components/Popper'
 import UserSearch from '~/components/UserSearch'
 import { useDebounce } from '~/hooks'
-import * as apiServices from '~/services'
+// import * as apiServices from '~/services'
+import { searchUsers } from '~/firebase'
 import { SearchIcon } from '../Icons/index'
 import styles from './Search.module.scss'
 import { memo } from 'react'
@@ -24,13 +25,14 @@ function Search({ className }) {
     useEffect(() => {
         async function getData() {
             if (!debounced) {
-                searchResult?.length > 0 && setSearchResult([])
+                searchResult?.length > 0 && setSearchResult([]) //reset result
                 return
             }
             setLoading(true)
             try {
-                const data = await apiServices.searchUser(debounced)
-                console.log(data)
+                // const data = await apiServices.searchUser(debounced)  //use F8 API
+                const data = await searchUsers(debounced) //use Firebase API
+                // console.log(data)
                 setSearchResult(data)
                 setLoading(false)
             } catch (err) {
@@ -48,6 +50,10 @@ function Search({ className }) {
         if (!isShowSearchResult) {
             setIsShowSearchResult(true)
         }
+    }
+    const handleClearResults = function () {
+        setSearchValue('')
+        setSearchResult([])
     }
     const handleOnClearClick = function () {
         setSearchValue('')
@@ -67,7 +73,7 @@ function Search({ className }) {
                     <PopperWrapper>
                         <h4 className={clsx('search-result-title')}>Accounts</h4>
                         {searchResult?.map?.((user) => (
-                            <UserSearch key={user.id} user={user} />
+                            <UserSearch key={user.id} user={user} onClearResults={handleClearResults} />
                         ))}
                     </PopperWrapper>
                 </div>

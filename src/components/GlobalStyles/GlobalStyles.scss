@@ -114,9 +114,10 @@ a {
 .d-grid {
     display: grid;
 }
-.grid-center {
-    display: grid;
-    place-items: center;
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ellipsis {

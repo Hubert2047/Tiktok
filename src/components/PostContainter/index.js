@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
-import { forwardRef, memo, useCallback, useEffect, useState } from 'react'
+import { forwardRef, memo, useCallback, useEffect, useRef, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -11,11 +11,13 @@ import UserName from '~/components/UserName'
 import Video from '~/components/Video'
 import { updateFollowing } from '~/firebase'
 import { useProfileRoute } from '~/hooks'
+import { homeActions } from '~/redux/homeSlice'
 import { userActions } from '~/redux/userSlice'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
 import styles from './PostContainer.module.scss'
+let time
 const clsx = classNames.bind(styles)
 const PostContainer = forwardRef(({ post }, ref) => {
     // console.log('re-render post container', post.id)
@@ -26,8 +28,33 @@ const PostContainer = forwardRef(({ post }, ref) => {
     const [isClamped, setIsClamped] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
     const [isFollowing, setIsFollowing] = useState()
+    const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
+    const observer = useRef()
+    const postRef = useRef()
     const handleOnMouseEnter = useCallback(() => {
         setShowAllContent(setIsClamped(false))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    useEffect(() => {
+        observer.current = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    if (time) clearTimeout(time)
+                    console.log('intersecting', post.id)
+                    time = setTimeout(() => {
+                        console.log('run', post.id)
+                        dispath(homeActions.setCurrentPostPlayingId(post.id))
+                    }, 800)
+                }
+            },
+            { threshold: 0.5 }
+        )
+        if (postRef.current) {
+            observer.current.observe(postRef.current)
+        }
+        return () => {
+            clearTimeout(time)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
@@ -74,7 +101,8 @@ const PostContainer = forwardRef(({ post }, ref) => {
             <ProfileContainer user={post.user} placement='left-start'>
                 <UserAvatar onClick={handleNavigate} user={post.user} height='5.6rem' className={clsx('avatar')} />
             </ProfileContainer>
-            <div className={clsx('content', 'd-flex')}>
+
+            <div ref={postRef} className={clsx('content', 'd-flex')}>
                 <div className={clsx('header', 'd-flex')}>
                     <UserName user={post.user} className={clsx('name')} />
                     <div className={clsx('content-box', 'd-flex')}>
@@ -100,7 +128,13 @@ const PostContainer = forwardRef(({ post }, ref) => {
                         )}
                     </div>
                 </div>
-                <Video post={post} onMouseEnter={handleOnMouseEnter} className={clsx('video')} />
+
+                <Video
+                    post={post}
+                    onMouseEnter={handleOnMouseEnter}
+                    isCurrentPostPlaying={currentPostPlayingId === post.id}
+                    className={clsx('video')}
+                />
             </div>
             <Button
                 onClick={handleFollowing}

@@ -17,7 +17,6 @@ const publicRoutes = [
     { path: config.routes.upload, page: Upload, layout: MainLayout },
     { path: config.routes.profile(), page: Profile, layout: ProfileLayout },
     { path: config.routes.video(), page: VideoPage, layout: BlankLayout },
-    { path: config.routes.messages, page: MessagesPage, layout: MainLayout },
+    { path: config.routes.messages(), page: MessagesPage, layout: MainLayout },
 ]
-
 export { publicRoutes }

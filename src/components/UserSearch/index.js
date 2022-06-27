@@ -1,16 +1,21 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
-import { HiBadgeCheck } from 'react-icons/hi'
-import { Link } from 'react-router-dom'
-import Image from '../Image'
-import styles from './UserSearch.module.scss'
-import config from '~/config'
 import PropTypes from 'prop-types'
+import { HiBadgeCheck } from 'react-icons/hi'
+import { useNavigate } from 'react-router-dom'
+import { useProfileRoute } from '~/hooks'
+import UserAvatar from '../UserAvatar'
+import styles from './UserSearch.module.scss'
 const clsx = classNames.bind(styles)
-function UserSearch({ user }) {
+function UserSearch({ user, onClearResults }) {
+    const navigate = useNavigate()
+    const handleNavigate = function () {
+        navigate(useProfileRoute(user))
+        onClearResults()
+    }
     return (
-        <Link to={config.routes.profile(user[config.PROFILE_ROUTE])} className={clsx('wrapper', 'd-flex')}>
-            {/* <UserAvatar className={clsx('img')} alt='avatar' src={user.avatar} /> */}
-            <Image className={clsx('img')} alt='avatar' src={user.avatar} />
+        <div className={clsx('wrapper', 'd-flex')} onClick={handleNavigate}>
+            <UserAvatar user={user} className={clsx('img')} height={'4rem'} />
             <div className={clsx('content')}>
                 <h4 className={clsx('title', 'd-flex')}>
                     <span> {user.full_name}</span>
@@ -18,7 +23,7 @@ function UserSearch({ user }) {
                 </h4>
                 <p className={clsx('desc')}>{user.nickname}</p>
             </div>
-        </Link>
+        </div>
     )
 }
 

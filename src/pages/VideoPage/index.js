@@ -148,7 +148,7 @@ function VideoPage() {
             )}
             {post.id && (
                 <div className={clsx('wrapper')}>
-                    <div className={clsx('video-container', 'grid-center')}>
+                    <div className={clsx('video-container', 'flex-center')}>
                         <video
                             loop={true}
                             controls={true}
@@ -214,13 +214,13 @@ function VideoPage() {
                             <div className={clsx('actions', 'd-flex')}>
                                 <div className={clsx('action-left', 'd-flex')}>
                                     <div className={clsx('action-box', 'd-flex')}>
-                                        <div onClick={handleLikePostAction} className={clsx('icon-box', 'grid-center')}>
+                                        <div onClick={handleLikePostAction} className={clsx('icon-box', 'flex-center')}>
                                             <Fragment>{!isLikedPost ? <HeartIcon /> : <HeartPrimary />}</Fragment>
                                         </div>
                                         <span>{formatCountNumber(post?.likes)}</span>
                                     </div>
                                     <div className={clsx('action-box', 'd-flex')}>
-                                        <div className={clsx('icon-box', 'grid-center')}>
+                                        <div className={clsx('icon-box', 'flex-center')}>
                                             <CommentIcon />
                                         </div>
                                         <span>{commentCount || 0}</span>

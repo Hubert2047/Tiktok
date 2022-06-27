@@ -1,4 +1,4 @@
-export function MessengerIcon({ className, width = '2.6rem', height = '2.6rem' }) {
+export function MessengerIcon({ className, width = '26px', height = '26px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -9,7 +9,7 @@ export function MessengerIcon({ className, width = '2.6rem', height = '2.6rem' }
     )
 }
 
-export function MobileMessengerIcon({ className, width = '4rem', height = '4rem' }) {
+export function MobileMessengerIcon({ className, width = '40px', height = '40px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <g opacity='0.9' filter='url(#CommentShadowColor_filter0_d)'>
@@ -60,53 +60,7 @@ export function MobileMessengerIcon({ className, width = '4rem', height = '4rem'
     )
 }
 
-;<svg width='40' height='40' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <g opacity='0.9' filter='url(#CommentShadowColor_filter0_d)'>
-        <path
-            fillRule='evenodd'
-            clipRule='evenodd'
-            d='M38.4943 35.3128C42.6 31.2 45 26.9162 45 21.928C45 11.8056 35.733 3.60001 24.2999 3.60001C12.8671 3.60001 3.6 11.8056 3.6 21.9283C3.6 32.051 13.1669 39 24.6 39V42.3569C24.6 43.4205 25.7028 44.105 26.638 43.5983C29.5598 42.015 34.9741 38.8392 38.4943 35.3128ZM14.2446 19.4564C15.8786 19.4564 17.2031 20.7714 17.2031 22.3912C17.2031 24.0142 15.8786 25.3291 14.2446 25.3291C12.6134 25.3291 11.2888 24.0142 11.2888 22.3912C11.2888 20.7714 12.6134 19.4564 14.2446 19.4564ZM27.2572 22.3912C27.2572 20.7714 25.9332 19.4564 24.3 19.4564C22.667 19.4564 21.3429 20.7714 21.3429 22.3912C21.343 24.0142 22.6671 25.3291 24.3 25.3291C25.9332 25.3291 27.2572 24.0142 27.2572 22.3912ZM34.355 19.4564C35.9887 19.4564 37.3113 20.7714 37.3113 22.3912C37.3113 24.0142 35.9888 25.3291 34.355 25.3291C32.7213 25.3291 31.3969 24.0142 31.397 22.3912C31.397 20.7714 32.7214 19.4564 34.355 19.4564Z'
-            fill='white'></path>
-    </g>
-    <path
-        opacity='0.1'
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M24.6001 38.9999C24.6001 38.9999 36.0669 38.1138 40.8601 31.9764C36.0669 38.7276 31.2737 42.4101 27.0796 43.6376C22.8855 44.8651 24.6001 38.9999 24.6001 38.9999Z'
-        fill='url(#CommentShadowColor_paint0_linear)'></path>
-    <defs>
-        <filter
-            id='CommentShadowColor_filter0_d'
-            x='1.2001'
-            y='2.40001'
-            width='46.2'
-            height='44.9688'
-            filterUnits='userSpaceOnUse'
-            colorInterpolationFilters='sRGB'>
-            <feFlood floodOpacity='0' result='BackgroundImageFix'></feFlood>
-            <feColorMatrix
-                in='SourceAlpha'
-                type='matrix'
-                values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'></feColorMatrix>
-            <feOffset dy='1.2'></feOffset>
-            <feGaussianBlur stdDeviation='1.2'></feGaussianBlur>
-            <feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'></feColorMatrix>
-            <feBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow'></feBlend>
-            <feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape'></feBlend>
-        </filter>
-        <linearGradient
-            id='CommentShadowColor_paint0_linear'
-            x1='20.4103'
-            y1='37.6698'
-            x2='22.3081'
-            y2='43.6335'
-            gradientUnits='userSpaceOnUse'>
-            <stop></stop>
-            <stop offset='1' stopOpacity='0.01'></stop>
-        </linearGradient>
-    </defs>
-</svg>
-export function InboxIcon({ className, width = '3.2rem', height = '3.2rem' }) {
+export function InboxIcon({ className, width = '32px', height = '32px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -116,7 +70,7 @@ export function InboxIcon({ className, width = '3.2rem', height = '3.2rem' }) {
         </svg>
     )
 }
-export function ProfileIcon({ className, width = '2rem', height = '2rem' }) {
+export function ProfileIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -126,7 +80,7 @@ export function ProfileIcon({ className, width = '2rem', height = '2rem' }) {
         </svg>
     )
 }
-export function ProfileLikeIcon({ className, width = '9rem', height = '9rem' }) {
+export function ProfileLikeIcon({ className, width = '90px', height = '90px' }) {
     return (
         <svg
             className={className}
@@ -143,7 +97,7 @@ export function ProfileLikeIcon({ className, width = '9rem', height = '9rem' }) 
         </svg>
     )
 }
-export function KeyboardIcon({ className, width = '2rem', height = '2rem' }) {
+export function KeyboardIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -153,7 +107,7 @@ export function KeyboardIcon({ className, width = '2rem', height = '2rem' }) {
         </svg>
     )
 }
-export function LogoutIcon({ className, width = '2rem', height = '2rem' }) {
+export function LogoutIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -163,7 +117,7 @@ export function LogoutIcon({ className, width = '2rem', height = '2rem' }) {
         </svg>
     )
 }
-export function LanguageIcon({ className, width = '2rem', height = '2rem' }) {
+export function LanguageIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -173,7 +127,7 @@ export function LanguageIcon({ className, width = '2rem', height = '2rem' }) {
         </svg>
     )
 }
-export function HelpIcon({ className, width = '2rem', height = '2rem' }) {
+export function HelpIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -183,7 +137,7 @@ export function HelpIcon({ className, width = '2rem', height = '2rem' }) {
         </svg>
     )
 }
-export function SettingIcon({ className, width = '2rem', height = '2rem' }) {
+export function SettingIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -193,7 +147,7 @@ export function SettingIcon({ className, width = '2rem', height = '2rem' }) {
         </svg>
     )
 }
-export function SearchIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function SearchIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -209,7 +163,7 @@ export function SearchIcon({ className, width = '2.4rem', height = '2.4rem' }) {
         </svg>
     )
 }
-export function ThreeDotIcon({ className, width = '2rem', height = '2rem' }) {
+export function ThreeDotIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
@@ -220,7 +174,7 @@ export function ThreeDotIcon({ className, width = '2rem', height = '2rem' }) {
     )
 }
 
-export function FollowingIcon({ className, width = '3.2rem', height = '3.2rem' }) {
+export function FollowingIcon({ className, width = '32px', height = '32px' }) {
     return (
         <svg
             className={className}
@@ -245,7 +199,7 @@ export function FollowingIcon({ className, width = '3.2rem', height = '3.2rem' }
     )
 }
 
-export function VideoIcon({ className, width = '3.2rem', height = '3.2rem' }) {
+export function VideoIcon({ className, width = '32px', height = '32px' }) {
     return (
         <svg
             className={className}
@@ -263,7 +217,7 @@ export function VideoIcon({ className, width = '3.2rem', height = '3.2rem' }) {
     )
 }
 
-export function HomeIcon({ className, width = '3rem', height = '3rem' }) {
+export function HomeIcon({ className, width = '30px', height = '30px' }) {
     return (
         <svg
             className={className}
@@ -280,7 +234,7 @@ export function HomeIcon({ className, width = '3rem', height = '3rem' }) {
     )
 }
 
-export function MusicIcon({ className, width = '1.6rem', height = '1.6rem' }) {
+export function MusicIcon({ className, width = '16px', height = '16px' }) {
     return (
         <svg
             className={className}
@@ -296,7 +250,7 @@ export function MusicIcon({ className, width = '1.6rem', height = '1.6rem' }) {
         </svg>
     )
 }
-export function HagTag({ className, width = '1.6rem', height = '1.6rem' }) {
+export function HagTag({ className, width = '16px', height = '16px' }) {
     return (
         <svg
             className={className}
@@ -313,7 +267,7 @@ export function HagTag({ className, width = '1.6rem', height = '1.6rem' }) {
     )
 }
 
-export function CheckIcon({ className, width = '1.5rem', height = '1.5rem' }) {
+export function CheckIcon({ className, width = '15px', height = '15px' }) {
     return (
         <svg
             className={className}
@@ -330,7 +284,7 @@ export function CheckIcon({ className, width = '1.5rem', height = '1.5rem' }) {
     )
 }
 
-export function HeartIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function HeartIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -345,7 +299,7 @@ export function HeartIcon({ className, width = '2.4rem', height = '2.4rem' }) {
     )
 }
 
-export function CommentIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function CommentIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -380,7 +334,7 @@ export function CommentIcon({ className, width = '2.4rem', height = '2.4rem' }) 
     )
 }
 
-export function ShareIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function ShareIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -423,7 +377,7 @@ export function ShareIcon({ className, width = '2.4rem', height = '2.4rem' }) {
     )
 }
 
-export function MobileShareIcon({ className, width = '4rem', height = '4rem' }) {
+export function MobileShareIcon({ className, width = '40px', height = '40px' }) {
     return (
         <svg
             className={className}
@@ -487,7 +441,7 @@ export function MobileShareIcon({ className, width = '4rem', height = '4rem' }) 
     )
 }
 
-export function MobileAddIcon({ className, width = '1.5rem', height = '1.5rem' }) {
+export function MobileAddIcon({ className, width = '15px', height = '15px' }) {
     return (
         <svg
             className={className}
@@ -583,7 +537,7 @@ export function MobileAddIcon({ className, width = '1.5rem', height = '1.5rem' }
     )
 }
 
-export function ReportIcon({ className, width = '1.6rem', height = '1.4rem' }) {
+export function ReportIcon({ className, width = '16px', height = '1.40px' }) {
     return (
         <svg
             className={className}
@@ -600,7 +554,7 @@ export function ReportIcon({ className, width = '1.6rem', height = '1.4rem' }) {
     )
 }
 
-export function ForwardIcon({ className, width = '1.6rem', height = '1.6rem' }) {
+export function ForwardIcon({ className, width = '16px', height = '16px' }) {
     return (
         <svg
             className={className}
@@ -618,7 +572,7 @@ export function ForwardIcon({ className, width = '1.6rem', height = '1.6rem' }) 
     )
 }
 
-export function EmbedIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function EmbedIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -642,7 +596,7 @@ export function EmbedIcon({ className, width = '2.4rem', height = '2.4rem' }) {
     )
 }
 
-export function SendToIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function SendToIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -665,7 +619,7 @@ export function SendToIcon({ className, width = '2.4rem', height = '2.4rem' }) {
     )
 }
 
-export function WhatsAppIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function WhatsAppIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -704,7 +658,7 @@ export function FaceBookIcon({ className, width = '1em', height = '1em' }) {
     )
 }
 
-export function TwitterIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function TwitterIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -727,7 +681,7 @@ export function TwitterIcon({ className, width = '2.4rem', height = '2.4rem' }) 
     )
 }
 
-export function SmileIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function SmileIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -756,7 +710,7 @@ export function SmileIcon({ className, width = '2.4rem', height = '2.4rem' }) {
     )
 }
 
-export function HorizontalThreeDot({ className, width = '2rem', height = '2rem' }) {
+export function HorizontalThreeDot({ className, width = '20px', height = '20px' }) {
     return (
         <svg
             className={className}
@@ -773,7 +727,7 @@ export function HorizontalThreeDot({ className, width = '2rem', height = '2rem' 
     )
 }
 
-export function HeartOutLine({ onClick, className, width = '2rem', height = '2rem' }) {
+export function HeartOutLine({ onClick, className, width = '20px', height = '20px' }) {
     return (
         <svg
             onClick={onClick}
@@ -791,7 +745,7 @@ export function HeartOutLine({ onClick, className, width = '2rem', height = '2re
     )
 }
 
-export function HeartPrimary({ onClick, className, width = '2.3rem', height = '2.3rem' }) {
+export function HeartPrimary({ onClick, className, width = '23px', height = '23px' }) {
     return (
         <svg
             onClick={onClick}
@@ -848,8 +802,8 @@ export function HeartAnimated({ className, onClick }) {
             onClick={onClick}
             className={className}
             viewBox='0 0 580 580'
-            height='2.3rem'
-            width='2.3rem'
+            height='23px'
+            width='23px'
             title='heart'
             xmlns='http://www.w3.org/2000/svg'>
             <path d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' />
@@ -857,7 +811,7 @@ export function HeartAnimated({ className, onClick }) {
     )
 }
 
-export function XIcon({ onClick, className, width = '1.8rem', height = '1.8rem' }) {
+export function XIcon({ onClick, className, width = '18px', height = '18px' }) {
     return (
         <svg
             onClick={onClick}
@@ -875,7 +829,7 @@ export function XIcon({ onClick, className, width = '1.8rem', height = '1.8rem' 
     )
 }
 
-export function DownIcon({ className, width = '1.4rem', height = '1.4rem' }) {
+export function DownIcon({ className, width = '1.40px', height = '1.40px' }) {
     return (
         <svg
             className={className}
@@ -892,7 +846,7 @@ export function DownIcon({ className, width = '1.4rem', height = '1.4rem' }) {
     )
 }
 
-export function ShareWhiteIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function ShareWhiteIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -911,7 +865,7 @@ export function ShareWhiteIcon({ className, width = '2.4rem', height = '2.4rem' 
     )
 }
 
-export function CopyLinkIcon({ className, width = '2.6rem', height = '2.6rem' }) {
+export function CopyLinkIcon({ className, width = '26px', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -932,7 +886,7 @@ export function CopyLinkIcon({ className, width = '2.6rem', height = '2.6rem' })
     )
 }
 
-export function TeleGramIcon({ className, width = '2.6rem', height = '2.6rem' }) {
+export function TeleGramIcon({ className, width = '2', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -957,7 +911,7 @@ export function TeleGramIcon({ className, width = '2.6rem', height = '2.6rem' })
     )
 }
 
-export function LinkedInIcon({ className, width = '2.6rem', height = '2.6rem' }) {
+export function LinkedInIcon({ className, width = '2', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -980,7 +934,7 @@ export function LinkedInIcon({ className, width = '2.6rem', height = '2.6rem' })
     )
 }
 
-export function ReditIcon({ className, width = '2.6rem', height = '2.6rem' }) {
+export function ReditIcon({ className, width = '26px', height = '26p' }) {
     return (
         <svg
             className={className}
@@ -999,7 +953,7 @@ export function ReditIcon({ className, width = '2.6rem', height = '2.6rem' }) {
     )
 }
 
-export function Pinterestcon({ className, width = '2.6rem', height = '2.6rem' }) {
+export function Pinterestcon({ className, width = '2', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -1018,7 +972,7 @@ export function Pinterestcon({ className, width = '2.6rem', height = '2.6rem' })
     )
 }
 
-export function Blocktcon({ className, width = '1.6rem', height = '1.6rem' }) {
+export function Blocktcon({ className, width = '16px', height = '16px' }) {
     return (
         <svg
             className={className}
@@ -1034,7 +988,7 @@ export function Blocktcon({ className, width = '1.6rem', height = '1.6rem' }) {
     )
 }
 
-export function LockIcon({ className, width = '1.6rem', height = '1.6rem' }) {
+export function LockIcon({ className, width = '16px', height = '16px' }) {
     return (
         <svg
             className={className}
@@ -1051,7 +1005,7 @@ export function LockIcon({ className, width = '1.6rem', height = '1.6rem' }) {
     )
 }
 
-export function PlayIcon({ className, width = '1.8rem', height = '1.8rem' }) {
+export function PlayIcon({ className, width = '18px', height = '18px' }) {
     return (
         <svg
             className={className}
@@ -1068,7 +1022,7 @@ export function PlayIcon({ className, width = '1.8rem', height = '1.8rem' }) {
     )
 }
 
-export function PrivateIcon({ className, width = '9rem', height = '9rem' }) {
+export function PrivateIcon({ className, width = '90px', height = '90px' }) {
     return (
         <svg
             className={className}
@@ -1272,7 +1226,7 @@ export function LineIcon({ className, width = '1em', height = '1em' }) {
     )
 }
 
-export function DeleteIcon({ className, width = '2.4rem', height = '2.4rem' }) {
+export function DeleteIcon({ className, width = '24px', height = '24px' }) {
     return (
         <svg
             className={className}
@@ -1289,7 +1243,7 @@ export function DeleteIcon({ className, width = '2.4rem', height = '2.4rem' }) {
     )
 }
 
-export function FriendIcon({ className, width = '2rem', height = '2rem' }) {
+export function FriendIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg
             className={className}
@@ -1306,7 +1260,7 @@ export function FriendIcon({ className, width = '2rem', height = '2rem' }) {
     )
 }
 
-export function EditIcon({ className, width = '2rem', height = '2rem' }) {
+export function EditIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg
             className={className}
@@ -1324,7 +1278,7 @@ export function EditIcon({ className, width = '2rem', height = '2rem' }) {
     )
 }
 
-export function CreateVideoIcon({ className, width = '7.5rem', height = '4.9rem' }) {
+export function CreateVideoIcon({ className, width = '7.5rem', height = '4.90px' }) {
     return (
         <svg
             className={className}
@@ -1398,7 +1352,7 @@ export function SpinerBoxIcon({ className, width = '4.5rem', height = '4.5rem' }
     )
 }
 
-export function BookMarkIcon({ className, width = '2rem', height = '2rem' }) {
+export function BookMarkIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg
             className={className}
@@ -1412,7 +1366,7 @@ export function BookMarkIcon({ className, width = '2rem', height = '2rem' }) {
         </svg>
     )
 }
-export function LiveIcon({ className, width = '2rem', height = '2rem' }) {
+export function LiveIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg
             className={className}

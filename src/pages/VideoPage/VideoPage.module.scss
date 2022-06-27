@@ -127,7 +127,8 @@
 }
 .icon-box {
     height: 3.2rem;
-    aspect-ratio: 1/1;
+    width: 3.2rem;
+    // aspect-ratio: 1/1;
     border-radius: 50%;
     background-color: var(--grey-color);
     cursor: pointer;
@@ -138,8 +139,8 @@
     gap: 0.75rem;
 }
 .fb-icon {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 24px;
+    height: 24px;
 }
 //copy-link
 

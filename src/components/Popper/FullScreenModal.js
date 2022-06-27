@@ -14,7 +14,7 @@ function FullScreenModal({ children, className, handleShowPopup }) {
         if (divRef.current === e.target) handleShowPopup(false)
     }
     return (
-        <div ref={divRef} onClick={handleOnclick} className={clsx('fullscreen-modal', 'grid-center', `${className}`)}>
+        <div ref={divRef} onClick={handleOnclick} className={clsx('fullscreen-modal', 'd-flex', `${className}`)}>
             {children}
         </div>
     )

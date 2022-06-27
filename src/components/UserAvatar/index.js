@@ -7,7 +7,7 @@ const UserAvatar = forwardRef(({ user, onClick, className, height = '3.2rem', sh
     return (
         <div onClick={onClick} className={clsx('wrapper')}>
             <Image
-                style={{ height: height }}
+                style={{ height: height, width: height }}
                 src={user?.avatar}
                 alt={'avatar'}
                 className={clsx('avatar', className, { isLive: user?.isLive && showLive })}

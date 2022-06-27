@@ -78,7 +78,7 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
                     {!showAll && currentMenu.data.length > 4 && (
                         <Button
                             className={clsx('show-all-btn')}
-                            icon={<DownIcon width='1.8rem' height='1.8rem' />}
+                            icon={<DownIcon width='18px' height='18px' />}
                             onClick={handleShowAllItem}
                         />
                     )}

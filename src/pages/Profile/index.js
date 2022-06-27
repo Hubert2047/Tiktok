@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import { EditIcon, FriendIcon, HorizontalThreeDot, LockIcon, ShareWhiteIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
@@ -16,6 +17,7 @@ import ProfileLikeSection from '~/components/ProfileLikeSection'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
 import { getUser, searchPost, updateFollowing } from '~/firebase'
+import { useMessageRoute } from '~/hooks'
 import { profileActions } from '~/redux/profileSlice'
 import { profileActionIcons, shareItems } from '~/staticData'
 import styles from './Profile.module.scss'
@@ -24,10 +26,11 @@ const clsx = classNames.bind(styles)
 
 function Profile() {
     const params = useParams()
+    const navigate = useNavigate()
     const dispath = useDispatch()
     const profileUser = useSelector((state) => state.profile.profileUser)
     const currentUser = useSelector((state) => state.user.user)
-    const [isFollowing, setIsFollowing] = useState(currentUser?.following?.includes(profileUser.uid) || false)
+    const [isFollowing, setIsFollowing] = useState()
     const [showLogin, setShowLogin] = useState(false)
     const isCurrentUser = currentUser?.uid === profileUser?.uid
     const [reflow, setReflow] = useState(false)
@@ -40,7 +43,6 @@ function Profile() {
         maxLine: 2,
     })
     const profileUserLikeCount = profileUser?.likes?.length || 0
-
     const getUserProfile = async function () {
         setLoading(true)
         try {
@@ -48,12 +50,17 @@ function Profile() {
             // console.log(data)
             setUserPosts(data[0])
             dispath(profileActions.setProfileUser(data[1]))
+            setIsFollowing(currentUser?.following?.includes(data[1].uid) || false)
             setLoading(false)
         } catch (err) {
             console.log(err)
             setLoading(false)
         }
     }
+    useEffect(() => {
+        getUserProfile()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params.uid])
     useEffect(() => {
         // console.log('run', profileUser)
         setShowDesc({
@@ -66,10 +73,6 @@ function Profile() {
         handleReflow()
         setLikeBtnActive(false)
     }, [profileUser])
-    useEffect(() => {
-        getUserProfile()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [params.uid])
     const handleVideoBtnClick = function () {
         setLikeBtnActive(false)
     }
@@ -92,8 +95,9 @@ function Profile() {
         if (currentUser.uid === profileUser.uid) return
         let updateUserFollowing = []
 
-        updateUserFollowing = [...currentUser.following, profileUser.uid] //add current user
+        updateUserFollowing = [...(currentUser.following || []), profileUser.uid] //add current user
         await updateFollowing(currentUser.uid, updateUserFollowing)
+        dispath(profileActions.setUser({ ...currentUser, following: updateUserFollowing }))
         setIsFollowing(true)
     }
     const handleReflow = function (result) {
@@ -108,6 +112,9 @@ function Profile() {
                 return { state: true, maxLine: 12 }
             }
         })
+    }
+    const handleOnClickMessage = function () {
+        navigate(useMessageRoute(profileUser))
     }
 
     return (
@@ -144,6 +151,7 @@ function Profile() {
                                             ) : (
                                                 <div className={clsx('d-flex', 'action-box')}>
                                                     <Button
+                                                        onClick={handleOnClickMessage}
                                                         color='color-primary'
                                                         title='Message'
                                                         border='border-primary'
