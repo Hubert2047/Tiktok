@@ -98,7 +98,6 @@ function VideoPage() {
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(true)
         }
-        dispath(userActions.setUser({ ...currentUser, following: updateUserFollowing }))
     }
     const handleLikePostAction = async function () {
         if (!currentUser.uid) {
@@ -132,7 +131,6 @@ function VideoPage() {
                 console.log(err)
             }
         }
-        dispath(userActions.setUser({ ...currentUser, likes: updateUserLikePost }))
     }
     return (
         <div>

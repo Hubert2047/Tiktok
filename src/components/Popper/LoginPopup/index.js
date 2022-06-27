@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import { XIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
-import { addUser, getUser } from '~/firebase'
+import { addUser, getUserRealyTime, isExistUser } from '~/firebase'
 import { userActions } from '~/redux/userSlice'
 import { loginFeatureBtns } from '~/staticData'
 import FullScreenModal from '../FullScreenModal'
@@ -19,9 +19,9 @@ function LoginPopup({ handleShowPopup }) {
             setLoading(true)
             const data = await handleLoginFeature()
             // console.log('user', data)
-            let user = await getUser(data.uid)
-            if (!user) {
-                user = {
+            let checkUser = await isExistUser(data.uid)
+            if (!checkUser) {
+                const user = {
                     full_name: data.displayName,
                     avatar: data.photoURL,
                     uid: data.uid,
@@ -31,8 +31,9 @@ function LoginPopup({ handleShowPopup }) {
                 }
                 await addUser(user)
             }
-
-            dispath(userActions.setUser(user))
+            await getUserRealyTime(data.uid, (data) => {
+                dispath(userActions.setUser(data))
+            })
             handleShowPopup()
             setLoading(false)
         } catch (err) {

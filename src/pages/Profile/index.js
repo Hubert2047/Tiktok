@@ -97,7 +97,6 @@ function Profile() {
 
         updateUserFollowing = [...(currentUser.following || []), profileUser.uid] //add current user
         await updateFollowing(currentUser.uid, updateUserFollowing)
-        dispath(profileActions.setUser({ ...currentUser, following: updateUserFollowing }))
         setIsFollowing(true)
     }
     const handleReflow = function (result) {

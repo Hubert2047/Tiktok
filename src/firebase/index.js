@@ -108,8 +108,18 @@ const getUser = async function (uid) {
     }
     return { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0].id }
 }
+const isExistUser = async function (uid) {
+    const q = query(collection(db, 'users'), where('uid', '==', uid))
+
+    const querySnapshot = await getDocs(q)
+    if (querySnapshot.docs.length < 1) {
+        return false
+    }
+    return true
+}
+
 const getUserRealyTime = async function (uid, callback) {
-    onSnapshot(doc(db, 'users', uid), (doc) => {
+    onSnapshot(doc(db, 'users', uid), async (doc) => {
         const user = { ...doc.data(), id: doc.id }
         callback(user)
     })
@@ -361,6 +371,7 @@ export {
     loginWithGoogle,
     logOut,
     searchUsers,
+    isExistUser,
     getUser,
     getUserRealyTime,
     addUser,

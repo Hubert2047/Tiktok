@@ -87,8 +87,6 @@ const PostContainer = forwardRef(({ post }, ref) => {
             await updateFollowing(currentUser.uid, updateUserFollowing)
             setIsFollowing(true)
         }
-        //update redux currentUser
-        dispath(userActions.setUser({ ...currentUser, following: updateUserFollowing }))
     }
     return (
         <div ref={ref} className={clsx('wrapper', 'd-flex')}>

@@ -73,7 +73,6 @@ function VideoFooter({ className, post }) {
                 console.log(err)
             }
         }
-        dispath(userActions.setUser({ ...currentUser, likes: updateUserLikePost }))
     }
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
