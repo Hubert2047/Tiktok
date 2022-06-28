@@ -12,7 +12,6 @@ import Video from '~/components/Video'
 import { updateFollowing } from '~/firebase'
 import { useProfileRoute } from '~/hooks'
 import { homeActions } from '~/redux/homeSlice'
-import { userActions } from '~/redux/userSlice'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
@@ -80,11 +79,11 @@ const PostContainer = forwardRef(({ post }, ref) => {
         let updateUserFollowing = []
         if (isFollowing) {
             updateUserFollowing = currentUser.following.filter((follow) => follow !== post.user.uid) //delete current use
-            await updateFollowing(currentUser.uid, updateUserFollowing)
+            await updateFollowing(currentUser.uid, updateUserFollowing, post.user.id, post.user?.followers - 1)
             setIsFollowing(false)
         } else {
             updateUserFollowing = [...(currentUser.following || []), post.user.uid] //add current user
-            await updateFollowing(currentUser.uid, updateUserFollowing)
+            await updateFollowing(currentUser.uid, updateUserFollowing, post.user.id, post.user?.followers || 0 + 1)
             setIsFollowing(true)
         }
     }

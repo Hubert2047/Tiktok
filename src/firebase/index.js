@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import {
     addDoc,
+    arrayUnion,
     collection,
     deleteDoc,
     doc,
@@ -16,7 +17,9 @@ import {
     startAfter,
     updateDoc,
     where,
+    writeBatch,
 } from 'firebase/firestore'
+import { v4 as uuidv4 } from 'uuid'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
@@ -117,7 +120,6 @@ const isExistUser = async function (uid) {
     }
     return true
 }
-
 const getUserRealyTime = async function (uid, callback) {
     onSnapshot(doc(db, 'users', uid), async (doc) => {
         const user = { ...doc.data(), id: doc.id }
@@ -128,9 +130,14 @@ const addUser = async function (user) {
     // console.log(user)
     await setDoc(doc(db, 'users', user.uid), user)
 }
-const updateFollowing = async function (uid, updateFollowing) {
-    const updateUserFollowingtRef = doc(db, 'users', uid)
-    await updateDoc(updateUserFollowingtRef, { following: updateFollowing })
+const updateFollowing = async function (currentId, updateCurrentUserFollowing, followingUserId, updateCountFollower) {
+    const updateUserFollowingtRef = doc(db, 'users', currentId)
+    try {
+        updateDoc(updateUserFollowingtRef, { following: updateCurrentUserFollowing })
+        updateFollower(followingUserId, updateCountFollower)
+    } catch (err) {
+        throw new Error(err.message)
+    }
 }
 const updateUserLikes = async function (uid, updateLike) {
     const updateUserLiketRef = doc(db, 'users', uid)
@@ -144,7 +151,7 @@ const getSuggestFollowing = async function (currentUser, limitValue = 5) {
     if (currentUser?.uid) {
         q = query(
             collection(db, 'users'),
-            where('uid', 'not-in', [...currentUser.following, currentUser.uid] || []),
+            where('uid', 'not-in', [...(currentUser?.following || []), currentUser.uid] || []),
             limit(limitValue)
         )
     } else {
@@ -158,7 +165,6 @@ const getSuggestFollowing = async function (currentUser, limitValue = 5) {
     })
     return suggestFollowingData
 }
-
 const getFollowing = async function (followingArray) {
     if (followingArray?.length < 1) return
     const q = query(collection(db, 'users'), where('uid', 'in', followingArray))
@@ -167,6 +173,10 @@ const getFollowing = async function (followingArray) {
         return { ...doc.data(), id: doc.id }
     })
     return followingData
+}
+const updateFollower = async function (uid, updateCountFollower) {
+    const updateFollowerRef = doc(db, 'users', uid)
+    await updateDoc(updateFollowerRef, { followers: updateCountFollower })
 }
 
 //post
@@ -320,54 +330,128 @@ const deleteComment = async function (commentId) {
 
 // messages
 
-const getChats = async function (currentUid, callback) {
-    // console.log(currentUid)
-    if (typeof callback !== 'function' || !currentUid) return
-    const q = query(collection(db, 'chats'), where('participants', 'array-contains', currentUid), orderBy('createdAt'))
-    const getUsersPromise = [] //store all getUser Promise
+const addChat = async function (currentUser, friendUid, msg) {
+    const fromDoc = `users/${currentUser.uid}/chats`
+    const toDoc = `users/${friendUid}/chats`
+    const batch = writeBatch(db)
+    try {
+        await Promise.all([
+            batch.set(doc(db, fromDoc, friendUid), {
+                createdAt: new Date(),
+                lastTime: new Date(),
+                friendUid: friendUid,
+                messages: [
+                    {
+                        id: uuidv4(),
+                        createdAt: new Date(),
+                        fromUid: currentUser.uid,
+                        content: msg,
+                        isRead: false,
+                    },
+                ],
+            }), //save to current user
+            batch.set(doc(db, toDoc, currentUser.uid), {
+                createdAt: new Date(),
+                lastTime: new Date(),
+                friendUid: currentUser.uid,
+                messages: [
+                    {
+                        id: uuidv4(),
+                        createdAt: new Date(),
+                        fromUid: currentUser.uid,
+                        content: msg,
+                        isRead: false,
+                    },
+                ],
+            }), //save to friend chat
+        ])
+        await batch.commit()
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+const getChats = async function (currentUser, callback) {
+    if (typeof callback !== 'function' || !currentUser?.uid) return
+    const q = query(collection(db, `users/${currentUser.uid}/chats`), orderBy('lastTime'))
+    const getFriendChatPromiseFunc = [] //store all getUser Promise
+    // console.log('run')
+
     onSnapshot(
         q,
         async (querySnapshot) => {
-            // console.log(querySnapshot.docs)
             if (querySnapshot.size < 1) return callback([])
-            let chats = querySnapshot.docs.map((doc) => {
-                if (doc.data().receiveUid === currentUid) {
-                    getUsersPromise.push(getUser(doc.data().sendUid))
-                } else {
-                    getUsersPromise.push(getUser(doc.data().receiveUid))
-                }
+            // console.log('run')
+            const chats = querySnapshot.docs.map((doc) => {
+                getFriendChatPromiseFunc.push(getUser(doc.data()?.friendUid))
                 return { ...doc.data(), id: doc.id }
             })
-            const allUsers = await Promise.all(getUsersPromise)
+            const friendsInfor = await Promise.all(getFriendChatPromiseFunc)
             const data = chats.map((chat) => {
-                if (chat.receiveUid === currentUid) {
-                    return { ...chat, friendChat: allUsers?.find((user) => user?.uid === chat?.sendUid) }
-                } else {
-                    return { ...chat, friendChat: allUsers?.find((user) => user?.uid === chat?.receiveUid) }
-                }
+                return { ...chat, friendChat: friendsInfor.find((friend) => friend.uid === chat.friendUid) }
             })
-            // console.log(data)
-            callback(data)
+            // console.log('chat', data)
+            callback(data.reverse())
         },
         (err) => {
             throw new Error(err.message)
         }
     )
 }
-const updateChat = async function (chatId, updateMessages) {
-    const chatsRef = doc(db, 'chats', chatId)
-    await updateDoc(chatsRef, {
-        messages: updateMessages,
+const updateReadMessageState = async function (currentUser, friendUid) {
+    const fromDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
+    const toDoc = doc(db, `users/${friendUid}/chats`, currentUser.uid)
+    const batch = writeBatch(db)
+    const data = await Promise.all([getDoc(fromDoc), getDoc(toDoc)])
+    if (data.length < 2) return
+    // update isread message to True state
+    const fromMessages = data[0].data().messages.map((msg) => {
+        if (!msg.isRead) {
+            return { ...msg, isRead: true }
+        }
+        return msg
     })
+    const toMessages = data[1].data().messages.map((msg) => {
+        if (!msg.isRead) {
+            return { ...msg, isRead: true }
+        }
+        return msg
+    })
+    await Promise.all([
+        batch.update(fromDoc, {
+            messages: fromMessages,
+        }),
+        batch.update(toDoc, {
+            messages: toMessages,
+        }),
+    ])
+    await batch.commit()
+
+    // console.log(fromMessages, toMessages)
 }
-const addChat = async function (chat) {
+const addMessage = async function (currentUser, friendUid, newMessage) {
+    // console.log('run')
+    const fromDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
+    const toDoc = doc(db, `users/${friendUid}/chats`, currentUser.uid)
+    const batch = writeBatch(db)
+
     try {
-        console.log(chat)
-        await addDoc(collection(db, 'chats'), chat)
+        // console.log(message)
+        await Promise.all([
+            batch.update(fromDoc, {
+                lastTime: new Date(),
+                messages: arrayUnion(newMessage),
+            }),
+            batch.update(toDoc, {
+                lastTime: new Date(),
+                messages: arrayUnion(newMessage),
+            }),
+        ])
+        await batch.commit()
     } catch (err) {
         throw new Error(err.message)
     }
 }
+
 export {
     db,
     loginWithGoogle,
@@ -381,6 +465,7 @@ export {
     updateFollowing,
     getSuggestFollowing,
     getFollowing,
+    updateFollower,
     getPosts,
     getPost,
     searchPostByArray,
@@ -393,6 +478,7 @@ export {
     getCommentCount,
     updateCommentLikes,
     getChats,
-    updateChat,
     addChat,
+    addMessage,
+    updateReadMessageState,
 }

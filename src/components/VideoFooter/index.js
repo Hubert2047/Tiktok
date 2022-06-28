@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CommentIcon, HeartIcon, HeartPrimary, ShareIcon } from '~/components/Icons'
 import Menu from '~/components/Menu'
@@ -10,13 +10,12 @@ import FullScreenModal from '~/components/Popper/FullScreenModal'
 import { getCommentCount, updatePostLike, updateUserLikes } from '~/firebase'
 import { formatCountNumber } from '~/helper'
 import { useVideoPageRoute } from '~/hooks'
-import { userActions } from '~/redux/userSlice'
 import { shareItems } from '~/staticData'
 import styles from './VideoFooter.module.scss'
 
 const clsx = classNames.bind(styles)
 function VideoFooter({ className, post }) {
-    const dispath = useDispatch()
+    // const dispath = useDispatch()
     // console.log('re-render video footer')
     const currentUser = useSelector((state) => state.user.user)
     // console.log(currentUser, post.id)

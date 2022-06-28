@@ -34,6 +34,7 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
                 case LOG_OUT:
                     logOut(() => {
                         dispath(userActions.setUser({}))
+                        dispath(userActions.setCurrentUserId(null))
                         navigate('/')
                     })
                     break

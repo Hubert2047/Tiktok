@@ -1,5 +1,9 @@
 import classNames from 'classnames/bind'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
+import { getUserRealyTime } from '~/firebase'
+import { userActions } from '~/redux/userSlice'
 import { publicRoutes } from '~/routes'
 import styles from './App.module.scss'
 import ToastPortal from './components/ToastPortal'
@@ -7,7 +11,18 @@ import MobileHomePage from './mobile/pages/MobileHomePage/index'
 const clsx = classNames.bind(styles)
 function App({ className }) {
     const viewWith = document.documentElement.clientWidth
+    console.log('re-render app')
+    const dispath = useDispatch()
+    const currentUserId = useSelector((state) => state.user.currentUserId)
 
+    useEffect(() => {
+        if (currentUserId) {
+            getUserRealyTime(currentUserId, (data) => {
+                dispath(userActions.setUser(data))
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUserId])
     return (
         <Router>
             {viewWith > 500 ? (

@@ -3,7 +3,7 @@ import classNames from 'classnames/bind'
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import { CommentContainer, CommentInput } from '~/components/Comment'
@@ -28,14 +28,13 @@ import UserAvatar from '~/components/UserAvatar'
 import { getCommentCount, getPost, updateFollowing, updatePostLike, updateUserLikes } from '~/firebase'
 import { convertTimeStampToDate, formatCountNumber } from '~/helper'
 import { useProfileRoute } from '~/hooks'
-import { userActions } from '~/redux/userSlice'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
     console.log('re-render video page')
     const params = useParams()
     // console.log(params)
-    const dispath = useDispatch()
+    // const dispath = useDispatch()
     const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
     const [post, setPost] = useState({})

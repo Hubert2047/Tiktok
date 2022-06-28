@@ -16,11 +16,21 @@
     font-size: 1.6rem;
     font-weight: 600;
 }
-.user-infor {
+.user-infor-box {
     width: 100%;
     flex: 1;
+    gap: 1rem;
+}
+.user-infor {
     flex-direction: column;
-    gap: 0.5rem;
+}
+.read {
+    align-self: flex-end;
+}
+
+.check-read {
+    color: var(--grey-color-2);
+    font-size: 1.5rem;
 }
 .infor-extract-box {
     max-width: 22.4rem;
@@ -30,7 +40,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--grey-color-3);
+    color: var(--grey-color-2);
+}
+.unread {
+    color: var(--primary-color);
+    font-weight: 500;
 }
 .list-user-time {
     padding-left: 0.5rem;

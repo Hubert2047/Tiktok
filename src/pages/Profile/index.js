@@ -84,7 +84,7 @@ function Profile() {
     }
     const handleUnfollowing = async function () {
         const updateUserFollowing = currentUser.following.filter((follow) => follow !== profileUser.uid) //delete current use
-        await updateFollowing(currentUser.uid, updateUserFollowing)
+        await updateFollowing(currentUser.uid, updateUserFollowing, profileUser.uid, profileUser?.followers - 1)
         setIsFollowing(false)
     }
     const handleFollowing = async function () {
@@ -96,7 +96,7 @@ function Profile() {
         let updateUserFollowing = []
 
         updateUserFollowing = [...(currentUser.following || []), profileUser.uid] //add current user
-        await updateFollowing(currentUser.uid, updateUserFollowing)
+        await updateFollowing(currentUser.uid, updateUserFollowing, profileUser.uid, profileUser?.followers || 0 + 1)
         setIsFollowing(true)
     }
     const handleReflow = function (result) {

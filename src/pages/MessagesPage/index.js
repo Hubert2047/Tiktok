@@ -3,6 +3,7 @@
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
+import { IoCheckmarkCircleSharp } from 'react-icons/io5'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
@@ -10,7 +11,7 @@ import { ThreeDotIcon } from '~/components/Icons'
 import MessageInput from '~/components/MessageInput'
 import UserAvatar from '~/components/UserAvatar'
 import UserSendMessage from '~/components/UserSendMessage'
-import { getChats, getUser, updateChat } from '~/firebase'
+import { getChats, getUser, updateReadMessageState } from '~/firebase'
 import { formatMessageTime } from '~/helper'
 import { useMessageRoute } from '~/hooks'
 import styles from './MessagesPage.module.scss'
@@ -23,9 +24,17 @@ function MessagesPage() {
     const [currentChat, setCurrentChat] = useState({})
     const [chats, setChats] = useState([])
     const scrollRef = useRef()
-    const getCurrentFriendChat = async function (chats, friendChatUid) {
-        let _currentChat = chats.find((chat) => chat.participants.includes(friendChatUid))
-        if (!_currentChat) {
+    useEffect(() => {
+        const getCurrentUserChats = async function () {
+            await getChats(currentUser, (data) => {
+                setChats(data)
+            })
+        }
+        getCurrentUserChats()
+    }, [])
+    const getCurrentFriendChat = async function (friendChatUid) {
+        let _currentChat = chats.find((chat) => chat.friendUid === friendChatUid)
+        if (!_currentChat && currentUser.uid !== params.uid) {
             const friendChat = await getUser(friendChatUid)
             _currentChat = {
                 messages: [],
@@ -34,29 +43,23 @@ function MessagesPage() {
         }
         setCurrentChat(_currentChat)
     }
-    useEffect(() => {
-        const getAllCurrentChats = async function () {
-            await getChats(currentUser.uid, (chats) => {
-                // console.log(data)
-                setChats(chats)
-            })
-        }
-        getAllCurrentChats()
-    }, [])
     //get current friend chat
     useEffect(() => {
-        getCurrentFriendChat(chats, params.uid)
+        getCurrentFriendChat(params.uid)
     }, [chats, params.uid])
     // auto scroll to the last message
     useEffect(() => {
         if (scrollRef.current) scrollRef.current.scrollIntoView({ behavior: 'smooth' })
     }, [currentChat])
 
-    const handleChangeChatFriend = function (chat) {
+    const handleClickChatFriend = function (chat, isLastMessageUnread) {
         navigate(useMessageRoute(chat.friendChat))
+        if (isLastMessageUnread) {
+            updateReadMessageState(currentUser, chat.friendUid)
+        }
     }
     const handleDeleteMessage = function (messageId) {
-        updateChat()
+        // updateChat()
     }
 
     return (
@@ -67,12 +70,13 @@ function MessagesPage() {
                 </div>
                 {chats?.length > 0 && (
                     <div className={clsx('list-content')}>
-                        {chats?.map((chat) => {
+                        {chats?.map((chat, index) => {
                             return (
                                 <UserSendMessage
-                                    key={chat.id}
+                                    key={index}
                                     chat={chat}
-                                    onChangeChatFriend={handleChangeChatFriend}
+                                    onClickChatFriend={handleClickChatFriend}
+                                    currentUser={currentUser}
                                 />
                             )
                         })}
@@ -84,7 +88,6 @@ function MessagesPage() {
                     <Fragment>
                         <div className={clsx('conversation-header', 'd-flex ')}>
                             <UserAvatar user={currentChat?.friendChat} height={'4.8rem'} />
-
                             <div className={clsx('conversation-infor', 'd-flex')}>
                                 <span className={clsx('full-name')}>{currentChat?.friendChat?.full_name}</span>
                                 <span className={clsx('nickname')}>{`@${currentChat?.friendChat?.nickname}`}</span>
@@ -92,9 +95,9 @@ function MessagesPage() {
                         </div>
 
                         <div className={clsx('conversation-main')}>
-                            {currentChat?.messages?.map((message) => {
+                            {currentChat?.messages?.map((message, index) => {
                                 let isSendMessage = false
-                                if (message.sendUid === currentUser.uid) {
+                                if (message.fromUid === currentUser.uid) {
                                     isSendMessage = true
                                 }
                                 return (
@@ -105,6 +108,20 @@ function MessagesPage() {
                                                     {formatMessageTime(message?.createdAt)}
                                                 </div>
                                                 <div className={clsx('conversation-item', 'd-flex', 'send-message')}>
+                                                    <div className={clsx('read-avatar')}>
+                                                        {index === currentChat?.messages?.length - 1 && (
+                                                            <div>
+                                                                {message.isRead ? (
+                                                                    <UserAvatar
+                                                                        user={currentChat?.friendChat}
+                                                                        height='1.4rem'
+                                                                    />
+                                                                ) : (
+                                                                    <IoCheckmarkCircleSharp />
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                     <UserAvatar user={currentUser} />
                                                     <p className={clsx('conversation-content')}>{message.content}</p>
                                                     <Tippy

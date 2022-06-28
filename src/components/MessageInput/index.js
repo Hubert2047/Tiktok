@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { MessengerIcon, SmileIcon } from '~/components/Icons'
 import Input from '~/components/Input'
-import { addChat, updateChat } from '~/firebase'
+import { addChat, addMessage } from '~/firebase'
 import { messageActions } from '~/redux/messageSlice'
 import styles from './MessageInput.module.scss'
 
@@ -16,20 +16,18 @@ function MessageInput({ currentChat }) {
     // console.log(currentChat.id)
     const handleOnSubmit = async function () {
         if (currentChat.id) {
-            const updateMessages = [
-                ...(currentChat?.messages || []),
-                { id: uuidv4(), createdAt: new Date(), sendUid: currentUser.uid, content: inputValue },
-            ]
-            await updateChat(currentChat.id, updateMessages)
-        } else {
-            const newChat = {
+            const newMessage = {
+                id: uuidv4(),
                 createdAt: new Date(),
-                participants: [currentUser.uid, currentChat.friendChat.uid],
-                messages: [{ id: uuidv4(), createdAt: new Date(), sendUid: currentUser.uid, content: inputValue }],
-                sendUid: currentUser.uid,
-                receiveUid: currentChat.friendChat.uid,
+                fromUid: currentUser.uid,
+                content: inputValue,
+                isRead: false,
             }
-            await addChat(newChat)
+            await addMessage(currentUser, currentChat.friendChat.uid, newMessage)
+        } else {
+            //if havent chat with this friend then we create once
+            const content = inputValue
+            await addChat(currentUser, currentChat.friendChat.uid, content)
         }
         dispath(messageActions.setInputValue(''))
     }
