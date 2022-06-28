@@ -16,9 +16,6 @@
 }
 .send-message {
     flex-direction: row-reverse;
-    .conversation-content {
-        background-color: var(--blue-color);
-    }
 }
 .read-avatar {
     align-self: flex-end;
@@ -39,8 +36,13 @@
     -o-border-radius: var(--border-radius-sm);
     border-radius: var(--border-radius-sm);
 }
+.conversation-content-current-user {
+    background-color: var(--blue-color);
+}
 .action-options {
-    padding: 1.2rem 0.8rem;
+    flex-direction: column;
+    // gap: 0.5rem;
+    padding: 0.75rem;
     color: var(--white-color);
     background-color: rgba(84, 84, 84, 0.92);
     -webkit-border-radius: var(--border-radius-md);
@@ -51,9 +53,11 @@
 }
 .option-btn {
     font-size: 1.3rem;
-    padding: 0 0.8rem;
+    justify-content: flex-start;
+    padding: 0.5rem 1.5rem;
     &:hover {
-        text-decoration: underline;
+        background-color: var(--grey-color);
+        color: var(--black-color);
     }
 }
 .conversation-btn-box {
@@ -68,4 +72,8 @@
 .conversation-btn {
     fill: var(--grey-color-2);
     cursor: pointer;
+}
+.unsend-msg {
+    background-color: var(--white-color);
+    color: var(--grey-color-1);
 }

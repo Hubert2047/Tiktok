@@ -8,7 +8,7 @@ import ConversationItem from '~/components/ConversationItem'
 import MessageInput from '~/components/MessageInput'
 import UserAvatar from '~/components/UserAvatar'
 import UserSendMessage from '~/components/UserSendMessage'
-import { getChats, getUser, updateReadMessageState } from '~/firebase'
+import { getChats, getUser } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
 import styles from './MessagesPage.module.scss'
 
@@ -50,9 +50,6 @@ function MessagesPage() {
 
     const handleClickChatFriend = function (chat, isLastMessageUnread) {
         navigate(useMessageRoute(chat.friendChat))
-    }
-    const handleDeleteMessage = function (messageId) {
-        // updateChat()
     }
 
     return (

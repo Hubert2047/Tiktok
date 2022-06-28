@@ -8,43 +8,47 @@ const clsx = classNames.bind(styles)
 function UserSendMessage({ chat, onClickChatFriend, currentUser }) {
     const lastMessage = chat?.messages[chat?.messages?.length - 1]
     const isLastMessageFromCurrentUser = lastMessage?.fromUid === currentUser.uid
-    const isLastMessageUnread = !lastMessage.isRead && !isLastMessageFromCurrentUser
+    const isLastMessageUnread = !lastMessage?.isRead && !isLastMessageFromCurrentUser
     return (
-        <div
-            className={clsx('user-container', 'd-flex')}
-            onClick={() => {
-                onClickChatFriend(chat, isLastMessageUnread)
-            }}>
-            <UserAvatar user={chat?.friendChat} height={'5.6rem'} className={clsx('list-user-avatar')} />
-            <div className={clsx('user-infor-box', 'd-flex')}>
-                <div className={clsx('user-infor', 'd-flex')}>
-                    <span className={clsx('list-user-name')}>{chat?.friendChat?.full_name}</span>
+        <>
+            {lastMessage && (
+                <div
+                    className={clsx('user-container', 'd-flex')}
+                    onClick={() => {
+                        onClickChatFriend(chat, isLastMessageUnread)
+                    }}>
+                    <UserAvatar user={chat?.friendChat} height={'5.6rem'} className={clsx('list-user-avatar')} />
+                    <div className={clsx('user-infor-box', 'd-flex')}>
+                        <div className={clsx('user-infor', 'd-flex')}>
+                            <span className={clsx('list-user-name')}>{chat?.friendChat?.full_name}</span>
 
-                    <div className={clsx('infor-extract-box', 'd-flex')}>
-                        {lastMessage?.content && (
-                            <span
-                                className={clsx('infor-extract', {
-                                    unread: isLastMessageUnread,
-                                })}>
-                                {lastMessage?.content}
-                            </span>
+                            <div className={clsx('infor-extract-box', 'd-flex')}>
+                                {lastMessage?.content && (
+                                    <span
+                                        className={clsx('infor-extract', {
+                                            unread: isLastMessageUnread,
+                                        })}>
+                                        {lastMessage?.content}
+                                    </span>
+                                )}
+                                <span className={clsx('list-user-time')}>
+                                    {formatMessageTime(lastMessage?.createdAt) || new Date().toLocaleTimeString()}
+                                </span>
+                            </div>
+                        </div>
+                        {isLastMessageFromCurrentUser && (
+                            <div className={clsx('read')}>
+                                {lastMessage?.isRead ? (
+                                    <UserAvatar user={chat?.friendChat} height={'1.4rem'} />
+                                ) : (
+                                    <IoCheckmarkCircleSharp className={clsx('check-read')} />
+                                )}
+                            </div>
                         )}
-                        <span className={clsx('list-user-time')}>
-                            {formatMessageTime(lastMessage?.createdAt) || new Date().toLocaleTimeString()}
-                        </span>
                     </div>
                 </div>
-                {isLastMessageFromCurrentUser && (
-                    <div className={clsx('read')}>
-                        {lastMessage?.isRead ? (
-                            <UserAvatar user={chat?.friendChat} height={'1.4rem'} />
-                        ) : (
-                            <IoCheckmarkCircleSharp className={clsx('check-read')} />
-                        )}
-                    </div>
-                )}
-            </div>
-        </div>
+            )}
+        </>
     )
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
@@ -15,6 +15,7 @@ import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import Search from '~/components/Search'
 import config from '~/config'
+import { getUnReadMessages } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import styles from './Header.module.scss'
@@ -23,6 +24,7 @@ const clsx = classNames.bind(styles)
 function Header({ className }) {
     const [showLogin, setShowLogin] = useState(false)
     const navigate = useNavigate()
+    const [unReadMsg, setUnReadMsg] = useState(0)
     // const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
     const handleShowLoginPopup = function () {
@@ -31,6 +33,12 @@ function Header({ className }) {
     const handleMessages = function () {
         navigate(useMessageRoute(currentUser))
     }
+    useEffect(() => {
+        getUnReadMessages(currentUser, (unReadMsgCount) => {
+            setUnReadMsg(unReadMsgCount)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     const UnLoginUI = function () {
         // console.log('logout')
         return (
@@ -76,6 +84,7 @@ function Header({ className }) {
                 <Tippy content='Message' delay={[0, 50]}>
                     <button onClick={handleMessages} className={clsx('btn', 'd-flex')}>
                         <MessengerIcon />
+                        {unReadMsg > 0 && <span className={clsx('inbox-messages')}>{unReadMsg}</span>}
                     </button>
                 </Tippy>
                 <Tippy content='Inbox' delay={[0, 50]}>

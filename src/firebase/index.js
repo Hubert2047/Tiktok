@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import {
     addDoc,
+    arrayRemove,
     arrayUnion,
     collection,
     deleteDoc,
@@ -9,6 +10,7 @@ import {
     getDoc,
     getDocs,
     getFirestore,
+    increment,
     limit,
     onSnapshot,
     orderBy,
@@ -370,6 +372,40 @@ const addChat = async function (currentUser, friendUid, msg) {
         throw new Error(err.message)
     }
 }
+const removeMessage = async function (currentUser, friendUid, msg) {
+    const removeMessageRef = doc(db, `users/${currentUser.uid}/chats`, friendUid)
+    await updateDoc(removeMessageRef, {
+        messages: arrayRemove(msg),
+    })
+}
+const unSendMessage = async function (currentUser, friendUid, unSendMsg) {
+    const fromDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
+    const toDoc = doc(db, `users/${friendUid}/chats`, currentUser.uid)
+    const batch = writeBatch(db)
+    const data = await Promise.all([getDoc(fromDoc), getDoc(toDoc)])
+    const fromMessages = data[0].data().messages.map((message) => {
+        if (message.id === unSendMsg.id) {
+            return { ...message, content: `${currentUser.full_name} unsend a message`, isUnsended: true }
+        }
+        return message
+    })
+    const toMessages = data[1].data().messages.map((message) => {
+        if (message.id === unSendMsg.id) {
+            return { ...message, content: `${currentUser.full_name} unsend a message`, isUnsended: true }
+        }
+        return message
+    })
+    await Promise.all([
+        batch.update(fromDoc, {
+            messages: fromMessages,
+        }),
+        batch.update(toDoc, {
+            unReadMsg: unSendMsg.isRead ? increment(0) : increment(-1),
+            messages: toMessages,
+        }),
+    ])
+    await batch.commit()
+}
 const getChats = async function (currentUser, callback) {
     if (typeof callback !== 'function' || !currentUser?.uid) return
     const q = query(collection(db, `users/${currentUser.uid}/chats`), orderBy('lastTime'))
@@ -397,6 +433,24 @@ const getChats = async function (currentUser, callback) {
         }
     )
 }
+const getUnReadMessages = async function (currentUser, callback) {
+    if (typeof callback !== 'function' || !currentUser?.uid) return
+    const q = query(collection(db, `users/${currentUser.uid}/chats`), orderBy('lastTime'))
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
+            if (querySnapshot.size < 1) return callback(0)
+            const data = querySnapshot.docs.map((doc) => {
+                return { ...doc.data(), id: doc.id }
+            })
+            const unReadMsgCount = data.reduce((prevValue, current) => prevValue + current.unReadMsg, 0)
+            callback(unReadMsgCount)
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
+}
 const updateReadMessageState = async function (currentUser, friendUid) {
     const fromDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
     const toDoc = doc(db, `users/${friendUid}/chats`, currentUser.uid)
@@ -418,9 +472,11 @@ const updateReadMessageState = async function (currentUser, friendUid) {
     })
     await Promise.all([
         batch.update(fromDoc, {
+            unReadMsg: 0,
             messages: fromMessages,
         }),
         batch.update(toDoc, {
+            unReadMsg: 0,
             messages: toMessages,
         }),
     ])
@@ -442,6 +498,7 @@ const addMessage = async function (currentUser, friendUid, newMessage) {
                 messages: arrayUnion(newMessage),
             }),
             batch.update(toDoc, {
+                unReadMsg: increment(1),
                 lastTime: new Date(),
                 messages: arrayUnion(newMessage),
             }),
@@ -481,4 +538,7 @@ export {
     addChat,
     addMessage,
     updateReadMessageState,
+    getUnReadMessages,
+    removeMessage,
+    unSendMessage,
 }
