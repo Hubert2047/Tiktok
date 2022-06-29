@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind'
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { MessengerIcon, SmileIcon } from '~/components/Icons'
@@ -9,10 +8,9 @@ import { messageActions } from '~/redux/messageSlice'
 import styles from './MessageInput.module.scss'
 
 const clsx = classNames.bind(styles)
-function MessageInput({ currentChat }) {
+function MessageInput({ currentChat, currentUser }) {
     const dispath = useDispatch()
     const inputValue = useSelector((state) => state.message.inputValue)
-    const currentUser = useSelector((state) => state.user.user)
     // console.log(currentChat.id)
     const handleOnSubmit = async function () {
         if (currentChat.id) {
@@ -22,6 +20,7 @@ function MessageInput({ currentChat }) {
                 fromUid: currentUser.uid,
                 content: inputValue,
                 isRead: false,
+                likes: [],
             }
             await addMessage(currentUser, currentChat.friendChat.uid, newMessage)
         } else {
@@ -34,7 +33,12 @@ function MessageInput({ currentChat }) {
     return (
         <div className={clsx('wrapper', 'd-flex')}>
             <div className={clsx('input-box', 'd-flex', { width: inputValue?.length > 0 })}>
-                <Input placeholder='Send a message...' onSubmit={handleOnSubmit} />
+                <Input
+                    placeholder='Send a message...'
+                    onSubmit={handleOnSubmit}
+                    currentChat={currentChat}
+                    currentUser={currentUser}
+                />
                 <SmileIcon />
             </div>
             {inputValue?.length > 0 && (

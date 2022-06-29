@@ -1,11 +1,12 @@
 import classNames from 'classnames/bind'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { updateSendingMessageState } from '~/firebase'
 import { messageActions } from '~/redux/messageSlice'
 import styles from './Input.module.scss'
 
 const clsx = classNames.bind(styles)
-function Input({ placeholder = '', onSubmit }) {
+function Input({ placeholder = '', onSubmit, currentUser, currentChat }) {
     const inputValue = useSelector((state) => state.message.inputValue)
     const dispath = useDispatch()
     const divRef = useRef()
@@ -23,6 +24,22 @@ function Input({ placeholder = '', onSubmit }) {
             divRef.current.innerHTML = ''
         }
     }, [inputValue])
+    const handleOnFocus = function (e) {
+        if (!currentChat.id) return //if dont have any current friend chat then return
+        try {
+            updateSendingMessageState(currentUser, currentChat.friendUid, true)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const handleOnblur = function (e) {
+        if (!currentChat.id) return
+        try {
+            updateSendingMessageState(currentUser, currentChat.friendUid, false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div
             ref={divRef}
@@ -30,7 +47,9 @@ function Input({ placeholder = '', onSubmit }) {
             contentEditable={true}
             onKeyUp={handleOnKeyUp}
             className={clsx('editor-root')}
-            data-placeholder={placeholder}></div>
+            data-placeholder={placeholder}
+            onFocus={handleOnFocus}
+            onBlur={handleOnblur}></div>
     )
 }
 

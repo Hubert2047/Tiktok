@@ -17,6 +17,7 @@
     font-weight: 600;
 }
 .user-infor-box {
+    justify-content: space-between;
     width: 100%;
     flex: 1;
     gap: 1rem;
@@ -25,7 +26,18 @@
     flex-direction: column;
 }
 .read {
-    align-self: flex-end;
+    align-self: center;
+}
+.has-new-message {
+    align-self: center;
+    width: 0.9rem;
+    height: 0.9rem;
+    background-color: var(--primary-color);
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+    border-radius: 100px;
 }
 
 .check-read {
@@ -44,7 +56,6 @@
 }
 .unread {
     color: var(--primary-color);
-    font-weight: 600;
     font-size: 1.5rem;
 }
 .list-user-time {

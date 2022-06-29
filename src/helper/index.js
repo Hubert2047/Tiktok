@@ -19,12 +19,11 @@ export const convertTimeStampToDate = function (timeStamp) {
 }
 export const formatMessageTime = function (timeStamp) {
     if (!timeStamp) return
-    const oneDay = 1000 * 60 * 60 * 24
-    const isMoreThanOneDay = new Date(timeStamp.seconds * 1000) - Date.now() > oneDay
+    const isMoreThanOneDay = new Date().getDate() - new Date(timeStamp.seconds * 1000).getDate()
     if (!isMoreThanOneDay) {
         return new Date(timeStamp * 1000).toLocaleTimeString()
     }
-    return new Date(timeStamp.seconds * 1000).toLocaleDateString()
+    return new Date(timeStamp.seconds * 1000).toLocaleString()
 }
 
 export const formatCountNumber = function (countNumber) {

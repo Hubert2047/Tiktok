@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import ConversationItem from '~/components/ConversationItem'
 import MessageInput from '~/components/MessageInput'
 import UserAvatar from '~/components/UserAvatar'
 import UserSendMessage from '~/components/UserSendMessage'
-import { getChats, getUser } from '~/firebase'
+import { getChats, getUser, isFriendSendingMessage, likeMessage } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
 import styles from './MessagesPage.module.scss'
 
@@ -16,6 +16,7 @@ const clsx = classNames.bind(styles)
 function MessagesPage() {
     const params = useParams()
     const navigate = useNavigate()
+    const [isFriendSending, setIsFriendSending] = useState(false)
     const currentUser = useSelector((state) => state.user.user)
     const [currentChat, setCurrentChat] = useState({})
     const [chats, setChats] = useState([])
@@ -28,6 +29,14 @@ function MessagesPage() {
         }
         getCurrentUserChats()
     }, [])
+    useEffect(() => {
+        const checkFriensSendingState = async function () {
+            const result = await isFriendSendingMessage(currentUser, currentChat?.friendUid)
+            // console.log(result)
+            setIsFriendSending(result)
+        }
+        checkFriensSendingState()
+    }, [chats, currentChat])
     const getCurrentFriendChat = async function (friendChatUid) {
         let _currentChat = chats.find((chat) => chat.friendUid === friendChatUid)
         if (!_currentChat && currentUser.uid !== params.uid) {
@@ -46,7 +55,7 @@ function MessagesPage() {
     // auto scroll to the last message
     useEffect(() => {
         if (scrollRef.current) scrollRef.current.scrollIntoView({ behavior: 'smooth' })
-    }, [currentChat])
+    }, [currentChat, isFriendSending])
 
     const handleClickChatFriend = function (chat, isLastMessageUnread) {
         navigate(useMessageRoute(chat.friendChat))
@@ -89,6 +98,7 @@ function MessagesPage() {
                                 return (
                                     <ConversationItem
                                         key={index}
+                                        isFriendSending={isFriendSending}
                                         message={message}
                                         currentUser={currentUser}
                                         isLastMsg={index === currentChat?.messages?.length - 1}
@@ -100,7 +110,7 @@ function MessagesPage() {
                         </div>
 
                         <div className={clsx('conversation-bottom')}>
-                            <MessageInput currentChat={currentChat} />
+                            <MessageInput currentChat={currentChat} currentUser={currentUser} />
                         </div>
                     </Fragment>
                 )}

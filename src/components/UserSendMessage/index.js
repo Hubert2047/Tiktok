@@ -28,7 +28,7 @@ function UserSendMessage({ chat, onClickChatFriend, currentUser }) {
                                         className={clsx('infor-extract', {
                                             unread: isLastMessageUnread,
                                         })}>
-                                        {lastMessage?.content}
+                                        {chat.unReadMsg > 1 ? `sent ${chat.unReadMsg} messages` : lastMessage?.content}
                                     </span>
                                 )}
                                 <span className={clsx('list-user-time')}>
@@ -39,11 +39,14 @@ function UserSendMessage({ chat, onClickChatFriend, currentUser }) {
                         {isLastMessageFromCurrentUser && (
                             <div className={clsx('read')}>
                                 {lastMessage?.isRead ? (
-                                    <UserAvatar user={chat?.friendChat} height={'1.4rem'} />
+                                    <UserAvatar user={chat?.friendChat} height={'1.2rem'} />
                                 ) : (
                                     <IoCheckmarkCircleSharp className={clsx('check-read')} />
                                 )}
                             </div>
+                        )}
+                        {!isLastMessageFromCurrentUser && !lastMessage?.isRead && (
+                            <span className={clsx('has-new-message')}></span>
                         )}
                     </div>
                 </div>

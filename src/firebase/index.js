@@ -337,32 +337,37 @@ const addChat = async function (currentUser, friendUid, msg) {
     const toDoc = `users/${friendUid}/chats`
     const batch = writeBatch(db)
     try {
+        const id = uuidv4()
         await Promise.all([
             batch.set(doc(db, fromDoc, friendUid), {
+                isFriendSending: false,
                 createdAt: new Date(),
                 lastTime: new Date(),
                 friendUid: friendUid,
                 messages: [
                     {
-                        id: uuidv4(),
+                        id: id,
                         createdAt: new Date(),
                         fromUid: currentUser.uid,
                         content: msg,
                         isRead: false,
+                        likes: [],
                     },
                 ],
             }), //save to current user
             batch.set(doc(db, toDoc, currentUser.uid), {
+                isFriendSending: false,
                 createdAt: new Date(),
                 lastTime: new Date(),
                 friendUid: currentUser.uid,
                 messages: [
                     {
-                        id: uuidv4(),
+                        id: id,
                         createdAt: new Date(),
                         fromUid: currentUser.uid,
                         content: msg,
                         isRead: false,
+                        likes: [],
                     },
                 ],
             }), //save to friend chat
@@ -377,6 +382,25 @@ const removeMessage = async function (currentUser, friendUid, msg) {
     await updateDoc(removeMessageRef, {
         messages: arrayRemove(msg),
     })
+}
+const isFriendSendingMessage = async function (currentUser, friendUid) {
+    if (!currentUser.uid || !friendUid) return false
+    const currentUserDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
+    const friend = await getDoc(currentUserDoc)
+    if (friend?.data() < 1) {
+        return false
+    }
+    return friend?.data()?.isFriendSending || false
+}
+const updateSendingMessageState = async function (currentUser, friendUid, state) {
+    const friendDoc = doc(db, `users/${friendUid}/chats`, currentUser.uid)
+    try {
+        await updateDoc(friendDoc, {
+            isFriendSending: state,
+        })
+    } catch (err) {
+        throw new Error(err.messages)
+    }
 }
 const unSendMessage = async function (currentUser, friendUid, unSendMsg) {
     const fromDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
@@ -432,6 +456,48 @@ const getChats = async function (currentUser, callback) {
             throw new Error(err.message)
         }
     )
+}
+const likeMessage = async function (currentUser, friendUid, updateMsg) {
+    const currentUserDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
+    const friendDoc = doc(db, `users/${friendUid}/chats`, currentUser.uid)
+    const data = await Promise.all([getDoc(currentUserDoc), getDoc(friendDoc)])
+    if (data?.length < 1) return
+    const currentUserMessages = data[0].data().messages.map((msg) => {
+        if (msg.id === updateMsg.id) {
+            return updateMsg
+        }
+        return msg
+    })
+
+    const friendMessages = data[1].data().messages.map((msg) => {
+        if (msg.id === updateMsg.id) {
+            return updateMsg
+        }
+        return msg
+    })
+    console.log(friendMessages)
+    const batch = writeBatch(db)
+    await Promise.all([
+        batch.update(currentUserDoc, {
+            messages: currentUserMessages,
+        }),
+        batch.update(friendDoc, {
+            messages: friendMessages,
+        }),
+    ])
+    await batch.commit()
+}
+const getLikeMessageUserInfor = async function (users) {
+    if (users?.length < 1) return
+    const q = query(collection(db, 'users'), where('uid', 'in', users))
+    const querySnapshot = await getDocs(q)
+    if (querySnapshot.docs.length < 1) {
+        return []
+    }
+    const data = querySnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id }
+    })
+    return data
 }
 const getUnReadMessages = async function (currentUser, callback) {
     if (typeof callback !== 'function' || !currentUser?.uid) return
@@ -541,4 +607,8 @@ export {
     getUnReadMessages,
     removeMessage,
     unSendMessage,
+    likeMessage,
+    getLikeMessageUserInfor,
+    isFriendSendingMessage,
+    updateSendingMessageState,
 }

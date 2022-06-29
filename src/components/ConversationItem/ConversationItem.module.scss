@@ -1,5 +1,8 @@
+.wrapper {
+    position: relative;
+}
 .conversation-item {
-    gap: 0.5rem;
+    // gap: 0.25rem;
     align-items: center;
     &:hover .conversation-btn-box {
         display: flex;
@@ -15,16 +18,32 @@
     color: var(--grey-color-2);
 }
 .send-message {
+    display: flex;
     flex-direction: row-reverse;
 }
 .read-avatar {
     align-self: flex-end;
     min-width: 1.4rem;
+    margin-left: 0.25rem;
 }
+.like-box-rigt,
+.like-box-left {
+    padding: 0.5rem 0;
+    gap: 0.25rem;
+}
+.like-box-left {
+    margin-left: calc(3.2rem + 0.5rem);
+}
+.like-box-rigt {
+    margin-right: calc(
+        3.2rem + 0.5rem + 0.25rem + 1.4rem
+    ); // 3.2rem: avatar-width,0.5rem:content-margin;0.25rem read-avatar-width; 1.4rem read-avatar-width
+}
+
 .conversation-content {
     font-size: 1.6rem;
-    margin: 0 0.25rem;
-    padding: 0.7rem 1.2rem;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1.2rem;
     max-width: 360px;
     border: 1px solid rgba(22, 24, 35, 0.12);
     background-color: var(--grey-color);
@@ -76,4 +95,53 @@
 .unsend-msg {
     background-color: var(--white-color);
     color: var(--grey-color-1);
+}
+.last-msg {
+    margin-bottom: 2rem;
+}
+
+.dot-box {
+    position: absolute;
+    align-items: center;
+    bottom: -3.5rem;
+    left: 0;
+    gap: 0.25rem;
+    margin: 1rem 0 1rem calc(3.2rem + 0.5rem);
+}
+.dot {
+    height: 4px;
+    width: 4px;
+    background-color: var(--grey-color-2);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-animation: dotAnimated 0.6s linear infinite forwards;
+    animation: dotAnimated 0.6s linear infinite forwards;
+}
+.dot-1 {
+    margin-left: 0.25rem;
+}
+.dot-2 {
+    animation-delay: 0.15s;
+}
+.dot-3 {
+    animation-delay: 0.3s;
+}
+@keyframes dotAnimated {
+    0% {
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        -moz-transform: translateY(0);
+        transform: translateY(0);
+    }
+    100% {
+        -webkit-transform: translateY(-2px);
+        -moz-transform: translateY(-2px);
+        -ms-transform: translateY(-2px);
+        -o-transform: translateY(-2px);
+        transform: translateY(-2px);
+    }
 }
