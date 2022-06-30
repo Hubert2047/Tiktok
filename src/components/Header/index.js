@@ -18,6 +18,7 @@ import config from '~/config'
 import { getUnReadMessages } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
+import Notifications from '../Notifications'
 import styles from './Header.module.scss'
 const clsx = classNames.bind(styles)
 
@@ -87,12 +88,14 @@ function Header({ className }) {
                         {unReadMsg > 0 && <span className={clsx('inbox-messages')}>{unReadMsg}</span>}
                     </button>
                 </Tippy>
-                <Tippy content='Inbox' delay={[0, 50]}>
-                    <button className={clsx('btn', 'd-flex')}>
-                        <InboxIcon />
-                        <span className={clsx('inbox-notification')}>10</span>
-                    </button>
-                </Tippy>
+                <Notifications>
+                    <Tippy content='Inbox' delay={[0, 50]}>
+                        <button className={clsx('btn', 'd-flex')}>
+                            <InboxIcon />
+                            <span className={clsx('inbox-notification')}>10</span>
+                        </button>
+                    </Tippy>
+                </Notifications>
                 <Menu menu={LOGIN_MENU_ITEM}>
                     <Image src={currentUser.avatar} alt='avatar' className={clsx('avatar', 'd-flex')} />
                 </Menu>

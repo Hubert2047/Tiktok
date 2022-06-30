@@ -22,6 +22,7 @@ import {
     writeBatch,
 } from 'firebase/firestore'
 import { v4 as uuidv4 } from 'uuid'
+import { useCallback } from 'react'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
@@ -575,6 +576,34 @@ const addMessage = async function (currentUser, friendUid, newMessage) {
     }
 }
 
+//notifications
+const getNotifications = async function (currentUser, callback) {
+    if (typeof callback !== 'function' || !currentUser?.uid) return
+    const q = query(collection(db, `users/${currentUser.uid}/notifications`), orderBy('createdAt'))
+    const getUserPromiseFunc = [] //store all getUser Promise
+
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
+            if (querySnapshot.size < 1) return callback([])
+            // console.log('run')
+            const notifications = querySnapshot.docs.map((doc) => {
+                getUserPromiseFunc.push(getUser(doc.data()?.fromUid))
+                return { ...doc.data(), id: doc.id }
+            })
+            const Users = await Promise.all(getUserPromiseFunc)
+            const data = notifications.map((notification) => {
+                return { ...notification, fromUser: Users.find((user) => user.uid === notification.fromUid) }
+            })
+            console.log('notification', data)
+            callback(data)
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
+}
+
 export {
     db,
     loginWithGoogle,
@@ -611,4 +640,5 @@ export {
     getLikeMessageUserInfor,
     isFriendSendingMessage,
     updateSendingMessageState,
+    getNotifications,
 }
