@@ -80,29 +80,6 @@ const searchUsers = async function (searchValue, type = 'less') {
         result = data.slice(0, 10)
     }
     return result
-    // onSnapshot(
-    //     q,
-    //     (querySnapshot) => {
-    //         const data = []
-    //         querySnapshot.docs.forEach((doc) => {
-    //             const user = { id: doc.id, ...doc.data() }
-    //             if (user.full_name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
-    //                 data.push(user)
-    //             }
-    //         })
-    //         let result
-    //         if (type === 'less') {
-    //             result = data.slice(0, 5)
-    //         } else {
-    //             result = data.slice(0, 10)
-    //         }
-    //         // console.log('firebase', data)
-    //         callback(result)
-    //     },
-    //     (err) => {
-    //         throw new Error(err.message)
-    //     }
-    // )
 }
 const getUser = async function (uid) {
     const q = query(collection(db, 'users'), where('uid', '==', uid))
@@ -132,15 +109,87 @@ const addUser = async function (user) {
     // console.log(user)
     await setDoc(doc(db, 'users', user.uid), user)
 }
-const updateFollowing = async function (currentId, updateCurrentUserFollowing, followingUserId, updateCountFollower) {
-    const updateUserFollowingtRef = doc(db, 'users', currentId)
+const updateFollowing = async function (
+    currentUserId,
+    updateCurrentUserFollowing,
+    followingUserId,
+    isFollowing,
+    newNotification = {}
+) {
+    const updateUserFollowingtRef = doc(db, 'users', followingUserId)
+    const updateCurrentUserRef = doc(db, 'users', currentUserId)
     try {
-        updateDoc(updateUserFollowingtRef, { following: updateCurrentUserFollowing })
-        updateFollower(followingUserId, updateCountFollower)
+        const batch = writeBatch(db)
+        //task 1 // update current user following
+        batch.update(updateCurrentUserRef, { following: updateCurrentUserFollowing })
+
+        //task 2 //update user followers
+        batch.update(updateUserFollowingtRef, { followers: isFollowing ? increment(-1) : increment(1) })
+        if (!isFollowing) {
+            batch.set(doc(db, `users/${followingUserId}/notifications`, uuidv4()), newNotification)
+        }
+
+        // task 3 //send notificaion to following or delete it
+        else {
+            const q = query(
+                collection(db, `users/${followingUserId}/notifications`),
+                where('fromUid', '==', currentUserId),
+                where('notificationType', '==', 'Followers')
+            )
+            const _notification = await getDocs(q)
+            if (_notification.size > 0) {
+                const oldNotificationId = _notification.docs[0].id
+                batch.delete(doc(db, `users/${followingUserId}/notifications/${oldNotificationId}`))
+            }
+        }
+        await batch.commit()
     } catch (err) {
         throw new Error(err.message)
     }
 }
+// const updateFollowingUserInNotification = async function (
+//     currentUserId,
+//     updateCurrentUserFollowing,
+//     followingUserId,
+//     isFollowing,
+//     newNotification = {},
+//     followId
+// ) {
+//     const updateUserFollowingtRef = doc(db, 'users', followingUserId)
+//     const updateCurrentUserRef = doc(db, 'users', currentUserId)
+//     try {
+//         const batch = writeBatch(db)
+//         //task 1  // update current user following
+//         batch.update(updateCurrentUserRef, { following: updateCurrentUserFollowing })
+
+//         //task 2 //update user followers
+//         batch.update(updateUserFollowingtRef, { followers: isFollowing ? increment(-1) : increment(1) })
+
+//         //task 3 //send notificaion to following or delete it
+//         if (!isFollowing) {
+//             batch.set(doc(db, `users/${followingUserId}/notifications`, uuidv4()), newNotification)
+//         } else {
+//             const q = query(
+//                 collection(db, `users/${followingUserId}/notifications`),
+//                 where('fromUid', '==', currentUserId),
+//                 where('notificationType', '==', 'Followers')
+//             )
+//             const _notification = await getDocs(q)
+//             if (_notification.size > 0) {
+//                 const oldNotificationId = _notification.docs[0].id
+//                 batch.delete(doc(db, `users/${followingUserId}/notifications/${oldNotificationId}`))
+//             }
+//         }
+//         //task 4 //update notification read, isFriend statements
+//         const notificationStateDoc = doc(db, `users/${currentUserId}/notifications`, followId)
+//         batch.update(notificationStateDoc, {
+//             isRead: true,
+//         })
+//         await batch.commit()
+//     } catch (err) {
+//         throw new Error(err.message)
+//     }
+// }
 const updateUserLikes = async function (uid, updateLike) {
     const updateUserLiketRef = doc(db, 'users', uid)
     await updateDoc(updateUserLiketRef, { likes: updateLike })
@@ -245,9 +294,40 @@ const searchPost = async function (uid) {
         throw new Error(err.message)
     }
 }
-const updatePostLike = async function (postId, likes) {
-    const updatePostLiketRef = doc(db, 'posts', postId)
-    await updateDoc(updatePostLiketRef, { likes: likes })
+const handlePostLike = async function (currentUser, post, updateLikes, isLikedPost, notifications) {
+    const batch = writeBatch(db)
+    const updatePostLiketRef = doc(db, 'posts', post.id)
+    const currentUserRef = doc(db, 'users', currentUser.uid)
+    //update user like
+    batch.update(currentUserRef, {
+        likes: updateLikes,
+    })
+    //update post like
+    batch.update(updatePostLiketRef, {
+        likes: isLikedPost ? increment(-1) : increment(1),
+    })
+    // update notification
+    if (currentUser.uid !== post.uid) {
+        //send notification to user of the post
+        if (!isLikedPost) {
+            batch.set(doc(db, `users/${post.uid}/notifications`, uuidv4()), notifications)
+        } else {
+            // delete notification
+            const q = query(
+                collection(db, `users/${post.uid}/notifications`),
+                where('fromUid', '==', currentUser.uid),
+                where('notificationType', '==', 'Likes'),
+                where('likeType', '==', 'video')
+            )
+            const _notification = await getDocs(q)
+            if (_notification?.size > 0) {
+                const oldNotificationId = _notification.docs[0].id
+                batch.delete(doc(db, `users/${post.uid}/notifications/${oldNotificationId}`))
+            }
+        }
+    }
+
+    await batch.commit()
 }
 
 //comment
@@ -314,14 +394,45 @@ const getComments = async function ({ postId, callback, parentId, lastDocComment
         }
     )
 }
-const updateCommentLikes = async (commentId, likes) => {
+const updateCommentLikes = async (currentUser, commentId, likes, notificationToUid, newNotification, isLiked) => {
+    const batch = writeBatch(db)
+
     const updateCommentRef = doc(db, 'comments', commentId)
-    await updateDoc(updateCommentRef, { likes: likes })
+
+    batch.update(updateCommentRef, {
+        likes: likes,
+    })
+
+    //add
+    if (currentUser.uid !== notificationToUid) {
+        if (!isLiked) {
+            batch.set(doc(db, `users/${notificationToUid}/notifications`, newNotification.id), newNotification)
+        } else {
+            const q = query(
+                collection(db, `users/${notificationToUid}/notifications`),
+                where('fromUid', '==', currentUser.uid),
+                where('notificationType', '==', 'Likes')
+            )
+            const _notification = await getDocs(q)
+            if (_notification?.size > 0) {
+                const oldNotificationId = _notification.docs[0].id
+                batch.delete(doc(db, `users/${notificationToUid}/notifications/${oldNotificationId}`))
+            }
+        }
+    }
+
+    await batch.commit()
 }
-const addComment = async function (comment) {
+const addComment = async function (currentUser, notificationToUid, comment, newNotification) {
     try {
         // console.log(_comment)
-        await addDoc(collection(db, 'comments'), comment)
+        const batch = writeBatch(db)
+        //save comment
+        batch.set(doc(db, 'comments', comment.id), comment)
+        // send notification to user of current video
+        if (currentUser.uid !== notificationToUid)
+            batch.set(doc(db, `users/${notificationToUid}/notifications`, newNotification.id), newNotification)
+        await batch.commit()
     } catch (err) {
         throw new Error(err.message)
     }
@@ -338,40 +449,39 @@ const addChat = async function (currentUser, friendUid, msg) {
     const batch = writeBatch(db)
     try {
         const id = uuidv4()
-        await Promise.all([
-            batch.set(doc(db, fromDoc, friendUid), {
-                isFriendSending: false,
-                createdAt: new Date(),
-                lastTime: new Date(),
-                friendUid: friendUid,
-                messages: [
-                    {
-                        id: id,
-                        createdAt: new Date(),
-                        fromUid: currentUser.uid,
-                        content: msg,
-                        isRead: false,
-                        likes: [],
-                    },
-                ],
-            }), //save to current user
-            batch.set(doc(db, toDoc, currentUser.uid), {
-                isFriendSending: false,
-                createdAt: new Date(),
-                lastTime: new Date(),
-                friendUid: currentUser.uid,
-                messages: [
-                    {
-                        id: id,
-                        createdAt: new Date(),
-                        fromUid: currentUser.uid,
-                        content: msg,
-                        isRead: false,
-                        likes: [],
-                    },
-                ],
-            }), //save to friend chat
-        ])
+        //save to current user
+        batch.set(doc(db, fromDoc, friendUid), {
+            isFriendSending: false,
+            createdAt: new Date(),
+            lastTime: new Date(),
+            friendUid: friendUid,
+            messages: [
+                {
+                    id: id,
+                    createdAt: new Date(),
+                    fromUid: currentUser.uid,
+                    content: msg,
+                    isRead: false,
+                    likes: [],
+                },
+            ],
+        })
+        batch.set(doc(db, toDoc, currentUser.uid), {
+            isFriendSending: false,
+            createdAt: new Date(),
+            lastTime: new Date(),
+            friendUid: currentUser.uid,
+            messages: [
+                {
+                    id: id,
+                    createdAt: new Date(),
+                    fromUid: currentUser.uid,
+                    content: msg,
+                    isRead: false,
+                    likes: [],
+                },
+            ],
+        }) //save to friend chat
         await batch.commit()
     } catch (err) {
         throw new Error(err.message)
@@ -419,15 +529,15 @@ const unSendMessage = async function (currentUser, friendUid, unSendMsg) {
         }
         return message
     })
-    await Promise.all([
-        batch.update(fromDoc, {
-            messages: fromMessages,
-        }),
-        batch.update(toDoc, {
-            unReadMsg: unSendMsg.isRead ? increment(0) : increment(-1),
-            messages: toMessages,
-        }),
-    ])
+
+    batch.update(fromDoc, {
+        messages: fromMessages,
+    })
+    batch.update(toDoc, {
+        unReadMsg: unSendMsg.isRead ? increment(0) : increment(-1),
+        messages: toMessages,
+    })
+
     await batch.commit()
 }
 const getChats = async function (currentUser, callback) {
@@ -475,16 +585,16 @@ const likeMessage = async function (currentUser, friendUid, updateMsg) {
         }
         return msg
     })
-    console.log(friendMessages)
+    // console.log(friendMessages)
     const batch = writeBatch(db)
-    await Promise.all([
-        batch.update(currentUserDoc, {
-            messages: currentUserMessages,
-        }),
-        batch.update(friendDoc, {
-            messages: friendMessages,
-        }),
-    ])
+
+    batch.update(currentUserDoc, {
+        messages: currentUserMessages,
+    })
+    batch.update(friendDoc, {
+        messages: friendMessages,
+    })
+
     await batch.commit()
 }
 const getLikeMessageUserInfor = async function (users) {
@@ -536,16 +646,16 @@ const updateReadMessageState = async function (currentUser, friendUid) {
         }
         return msg
     })
-    await Promise.all([
-        batch.update(fromDoc, {
-            unReadMsg: 0,
-            messages: fromMessages,
-        }),
-        batch.update(toDoc, {
-            unReadMsg: 0,
-            messages: toMessages,
-        }),
-    ])
+
+    batch.update(fromDoc, {
+        unReadMsg: 0,
+        messages: fromMessages,
+    })
+    batch.update(toDoc, {
+        unReadMsg: 0,
+        messages: toMessages,
+    })
+
     await batch.commit()
 
     // console.log(fromMessages, toMessages)
@@ -558,17 +668,17 @@ const addMessage = async function (currentUser, friendUid, newMessage) {
 
     try {
         // console.log(message)
-        await Promise.all([
-            batch.update(fromDoc, {
-                lastTime: new Date(),
-                messages: arrayUnion(newMessage),
-            }),
-            batch.update(toDoc, {
-                unReadMsg: increment(1),
-                lastTime: new Date(),
-                messages: arrayUnion(newMessage),
-            }),
-        ])
+
+        batch.update(fromDoc, {
+            lastTime: new Date(),
+            messages: arrayUnion(newMessage),
+        })
+        batch.update(toDoc, {
+            unReadMsg: increment(1),
+            lastTime: new Date(),
+            messages: arrayUnion(newMessage),
+        })
+
         await batch.commit()
     } catch (err) {
         throw new Error(err.message)
@@ -578,7 +688,12 @@ const addMessage = async function (currentUser, friendUid, newMessage) {
 //notifications
 const getNotifications = async function (currentUser, callback) {
     if (typeof callback !== 'function' || !currentUser?.uid) return
-    const q = query(collection(db, `users/${currentUser.uid}/notifications`), orderBy('createdAt'))
+    const q = query(
+        collection(db, `users/${currentUser.uid}/notifications`),
+        orderBy('isRead'),
+        orderBy('createdAt', 'desc'),
+        limit(20)
+    )
     const getUserPromiseFunc = [] //store all getUser Promise
 
     onSnapshot(
@@ -594,13 +709,21 @@ const getNotifications = async function (currentUser, callback) {
             const data = notifications.map((notification) => {
                 return { ...notification, fromUser: Users.find((user) => user.uid === notification.fromUid) }
             })
-            console.log('notification', data)
-            callback(data.reverse())
+            // console.log('notification', data)
+            callback(data)
         },
         (err) => {
             throw new Error(err.message)
         }
     )
+}
+const addNotifications = async function (toUid, newNotifications) {
+    try {
+        // console.log(_comment)
+        await addDoc(collection(db, `users/${toUid}/notifications`), newNotifications)
+    } catch (err) {
+        throw new Error(err.message)
+    }
 }
 const getNotificationCount = async function getNotificationCount(currentUser, callback) {
     if (typeof callback !== 'function' || !currentUser?.uid) return
@@ -619,6 +742,16 @@ const getNotificationCount = async function getNotificationCount(currentUser, ca
         }
     )
 }
+const updateNotificationReadState = async function (currentUser, notificationId) {
+    const notificationStateDoc = doc(db, `users/${currentUser.uid}/notifications`, notificationId)
+    try {
+        await updateDoc(notificationStateDoc, {
+            isRead: true,
+        })
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
 export {
     db,
     loginWithGoogle,
@@ -636,7 +769,7 @@ export {
     getPosts,
     getPost,
     searchPostByArray,
-    updatePostLike,
+    handlePostLike,
     searchPost,
     getComments,
     getCommentNotRealTime,
@@ -657,4 +790,7 @@ export {
     updateSendingMessageState,
     getNotifications,
     getNotificationCount,
+    addNotifications,
+    // updateFollowingUserInNotification,
+    updateNotificationReadState,
 }

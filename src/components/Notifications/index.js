@@ -1,6 +1,6 @@
 import Tippy from '@tippyjs/react/headless'
 import className from 'classnames/bind'
-import { forwardRef, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getNotifications } from '~/firebase'
 import { notification as _notification } from '~/staticData'
@@ -28,6 +28,12 @@ function Notifications({ children }, ref) {
         })
     }, [currentUser])
     useEffect(() => {
+        // document.body.style.overflow = 'hidden'
+        return () => {
+            // document.body.style.overflow = 'auto'
+        }
+    })
+    useEffect(() => {
         setCurrentNotificationGroup(() => {
             if (itemActive.title === _notification.constain.All) return notifications
             return notifications.filter((notification) => notification.notificationType === itemActive.title)
@@ -49,7 +55,6 @@ function Notifications({ children }, ref) {
                         />
                     ))}
                 </div>
-
                 <div className={clsx('main-content', 'd-flex')}>
                     {currentNotificationGroup?.length ? (
                         currentNotificationGroup?.map((notification) => (
@@ -57,6 +62,7 @@ function Notifications({ children }, ref) {
                                 key={notification.id}
                                 notification={notification}
                                 itemActive={itemActive}
+                                currentUser={currentUser}
                             />
                         ))
                     ) : (
@@ -67,12 +73,17 @@ function Notifications({ children }, ref) {
         )
     }
     return (
-        <div ref={ref} className={clsx('wrapper')}>
-            <Tippy offset={[0, 15]} interactive={true} visible={true} render={renderContainer}>
+        <div className={clsx('wrapper')}>
+            <Tippy
+                trigger={'click'}
+                offset={[0, 15]}
+                interactive={true}
+                // visible={true}
+                render={renderContainer}>
                 <div>{children}</div>
             </Tippy>
         </div>
     )
 }
 
-export default forwardRef(Notifications)
+export default Notifications

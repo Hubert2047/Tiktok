@@ -1,10 +1,11 @@
 import classNames from 'classnames/bind'
-import { serverTimestamp } from 'firebase/firestore'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
 import { SmileIcon } from '~/components/Icons'
 import { addComment } from '~/firebase'
 import { commentActions } from '~/redux/commentSlice'
+import { notification } from '~/staticData'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
@@ -58,21 +59,34 @@ function CommentInput({ post, className }) {
     async function addCommentToFireBase(e) {
         e.preventDefault()
         const newComment = {
+            id: uuidv4(),
             parentId: lastUserWasTouchedReplyInfor.commentParentId,
             uid: currentUser.uid,
             content: value,
             likes: [],
             postId: post.id,
-            createdAt: serverTimestamp(),
+            createdAt: new Date(),
+        }
+        const newNotification = {
+            id: uuidv4(),
+            createdAt: new Date(),
+            notificationType: notification.constain.COMMENTS,
+            comment: value,
+            fromUid: currentUser.uid,
+            postId: post.id,
+            poster: post.poster,
+            isRead: false,
         }
         try {
-            await addComment(newComment)
+            await addComment(currentUser, post.uid, newComment, newNotification)
+            //reset current reply user
             dispath(
                 commentActions.setLastUserWasTouchedReplyInfor({
                     commentParentId: 'null',
                     userWasTouched: {},
                 })
             )
+            //reset input
             setValue('')
             inputRef.style.height = '1.5rem' //reset inbox height
         } catch (e) {

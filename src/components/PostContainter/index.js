@@ -9,7 +9,7 @@ import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
 import Video from '~/components/Video'
-import { updateFollowing } from '~/firebase'
+import { handleFollowingUser } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { homeActions } from '~/redux/homeSlice'
 import Button from '../Button'
@@ -39,9 +39,9 @@ const PostContainer = forwardRef(({ post }, ref) => {
             (entries) => {
                 if (entries[0].isIntersecting) {
                     if (time) clearTimeout(time)
-                    console.log('intersecting', post.id)
+                    // console.log('intersecting', post.id)
                     time = setTimeout(() => {
-                        console.log('run', post.id)
+                        // console.log('run', post.id)
                         dispath(homeActions.setCurrentPostPlayingId(post.id))
                     }, 800)
                 }
@@ -71,20 +71,14 @@ const PostContainer = forwardRef(({ post }, ref) => {
         setShowLogin((prev) => !prev)
     }
     const handleFollowing = async function () {
-        if (!currentUser.uid) {
-            setShowLogin(true)
-            return
-        }
-        if (currentUser.uid === post.user.uid) return
-        let updateUserFollowing = []
-        if (isFollowing) {
-            updateUserFollowing = currentUser.following.filter((follow) => follow !== post.user.uid) //delete current use
-            await updateFollowing(currentUser.uid, updateUserFollowing, post.user.id, post.user?.followers - 1)
-            setIsFollowing(false)
-        } else {
-            updateUserFollowing = [...(currentUser.following || []), post.user.uid] //add current user
-            await updateFollowing(currentUser.uid, updateUserFollowing, post.user.id, post.user?.followers || 0 + 1)
-            setIsFollowing(true)
+        try {
+            const result = await handleFollowingUser(currentUser, post.user, isFollowing)
+            if (result.showLogin) {
+                setShowLogin(true)
+            }
+            //data is realtime so we dont have to update state
+        } catch (error) {
+            console.log(error)
         }
     }
     return (
@@ -133,14 +127,16 @@ const PostContainer = forwardRef(({ post }, ref) => {
                     className={clsx('video')}
                 />
             </div>
-            <Button
-                onClick={handleFollowing}
-                title={isFollowing ? 'Following' : 'Follow'}
-                border={isFollowing ? 'border-grey' : 'border-primary'}
-                size={'size-sm'}
-                color={isFollowing ? 'color-grey' : 'color-primary'}
-                className={clsx('follow-btn')}
-            />
+            {currentUser?.uid !== post.uid && (
+                <Button
+                    onClick={handleFollowing}
+                    title={isFollowing ? 'Following' : 'Follow'}
+                    border={isFollowing ? 'border-grey' : 'border-primary'}
+                    size={'size-sm'}
+                    color={isFollowing ? 'color-grey' : 'color-primary'}
+                    className={clsx('follow-btn')}
+                />
+            )}
         </div>
     )
 })

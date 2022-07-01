@@ -7,8 +7,8 @@ import { CommentIcon, HeartIcon, HeartPrimary, ShareIcon } from '~/components/Ic
 import Menu from '~/components/Menu'
 import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
-import { getCommentCount, updatePostLike, updateUserLikes } from '~/firebase'
-import { formatCountNumber } from '~/helper'
+import { getCommentCount } from '~/firebase'
+import { formatCountNumber, handleLikePost } from '~/helper'
 import { useVideoPageRoute } from '~/hooks'
 import { shareItems } from '~/staticData'
 import styles from './VideoFooter.module.scss'
@@ -41,36 +41,13 @@ function VideoFooter({ className, post }) {
         setShowLogin((prev) => !prev)
     }
     const handleLikePostAction = async function () {
-        if (!currentUser.uid) {
-            handleShowLogin(true)
-            return
-        }
-        let updateUserLikePost
-        let updatePostIsLiked
-        if (isLikedPost) {
-            try {
-                updateUserLikePost = currentUser?.likes?.filter((like) => like !== post.id)
-                updatePostIsLiked = post.likes - 1
-                await Promise.all([
-                    updateUserLikes(currentUser.uid, updateUserLikePost),
-                    updatePostLike(post.id, updatePostIsLiked),
-                ])
-                setIsLikedPost(false)
-            } catch (err) {
-                console.log(err)
+        try {
+            const result = await handleLikePost(currentUser, post, isLikedPost)
+            if (result?.showLogin) {
+                handleShowLogin(true)
             }
-        } else {
-            try {
-                updateUserLikePost = [...(currentUser?.likes || []), post.id]
-                updatePostIsLiked = post.likes + 1
-                await Promise.all([
-                    updateUserLikes(currentUser?.uid, updateUserLikePost),
-                    updatePostLike(post?.id, updatePostIsLiked),
-                ])
-                setIsLikedPost(true)
-            } catch (err) {
-                console.log(err)
-            }
+        } catch (error) {
+            console.log(error)
         }
     }
     return (

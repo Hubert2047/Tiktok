@@ -25,8 +25,8 @@ import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
-import { getCommentCount, getPost, updateFollowing, updatePostLike, updateUserLikes } from '~/firebase'
-import { convertTimeStampToDate, formatCountNumber } from '~/helper'
+import { getCommentCount, getPost } from '~/firebase'
+import { convertTimeStampToDate, formatCountNumber, handleFollowingUser, handleLikePost } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
@@ -82,54 +82,24 @@ function VideoPage() {
         setShowLogin((prev) => !prev)
     }
     const handleFollowing = async function () {
-        if (!currentUser.uid) {
-            handleShowLogin(true)
-            return
-        }
-        if (currentUser.uid === post.user.uid) return
-        let updateUserFollowing = []
-        if (isFollowing) {
-            updateUserFollowing = currentUser.following.filter((follow) => follow !== post.user.uid) //delete current use
-            await updateFollowing(currentUser.uid, updateUserFollowing)
-            setIsFollowing(false)
-        } else {
-            updateUserFollowing = [...(currentUser.following || []), post.user.uid] //add current user
-            await updateFollowing(currentUser.uid, updateUserFollowing)
-            setIsFollowing(true)
+        try {
+            const result = await handleFollowingUser(currentUser, post.user, isFollowing)
+            if (result?.showLogin) handleShowLogin(true)
+            //data is not realtime so we have to manually state
+            if (result?.isFollowing) {
+                setIsFollowing(true)
+            } else {
+                setIsFollowing(false)
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
     const handleLikePostAction = async function () {
-        if (!currentUser.uid) {
-            handleShowLogin(true)
-            return
-        }
-        let updateUserLikePost
-        let updatePostIsLiked
-        if (isLikedPost) {
-            try {
-                updateUserLikePost = currentUser?.likes.filter((like) => like !== post.id)
-                updatePostIsLiked = post.likes - 1
-                await Promise.all([
-                    updateUserLikes(currentUser.uid, updateUserLikePost),
-                    updatePostLike(post.id, updatePostIsLiked),
-                ])
-                setIsLikedPost(false)
-            } catch (err) {
-                console.log(err)
-            }
-        } else {
-            try {
-                updateUserLikePost = [...currentUser.likes, post.id]
-                updatePostIsLiked = post.likes + 1
-                await Promise.all([
-                    updateUserLikes(currentUser?.uid, updateUserLikePost),
-                    updatePostLike(post?.id, updatePostIsLiked),
-                ])
-                setIsLikedPost(true)
-            } catch (err) {
-                console.log(err)
-            }
-        }
+        const result = await handleLikePost(currentUser, post, isLikedPost)
+        if (result?.showLogin) handleShowLogin(true)
+        //data is not realtime so we have to manually state
+        setIsLikedPost(result?.isLikedPost)
     }
     return (
         <div>
@@ -173,14 +143,16 @@ function VideoPage() {
                                         <p className={clsx('time')}>{convertTimeStampToDate(post?.createdAt)}</p>
                                     </div>
                                 </div>
-                                <Button
-                                    className={clsx('follow-btn')}
-                                    title={isFollowing ? 'Following' : 'Follow'}
-                                    onClick={handleFollowing}
-                                    border={isFollowing ? 'border-grey' : 'border-primary'}
-                                    color={isFollowing ? 'color-grey' : 'color-primary'}
-                                    size={'size-md'}
-                                />
+                                {currentUser?.uid !== post.uid && (
+                                    <Button
+                                        className={clsx('follow-btn')}
+                                        title={isFollowing ? 'Following' : 'Follow'}
+                                        onClick={handleFollowing}
+                                        border={isFollowing ? 'border-grey' : 'border-primary'}
+                                        color={isFollowing ? 'color-grey' : 'color-primary'}
+                                        size={'size-md'}
+                                    />
+                                )}
                             </div>
                             <div className={clsx('content')}>
                                 {!showallContent ? (

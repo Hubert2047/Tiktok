@@ -97,7 +97,9 @@ function Header({ className }) {
                     <Tippy content='Inbox' delay={[0, 50]}>
                         <button className={clsx('btn', 'd-flex')}>
                             <InboxIcon />
-                            <span className={clsx('inbox-notification')}>{notificationCount}</span>
+                            {notificationCount > 0 && (
+                                <span className={clsx('inbox-notification')}>{notificationCount}</span>
+                            )}
                         </button>
                     </Tippy>
                 </Notifications>

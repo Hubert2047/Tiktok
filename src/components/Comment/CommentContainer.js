@@ -66,7 +66,7 @@ function CommentContainer({ post, className }) {
                             key={rootComment.id}
                             rootCommentId={rootComment.id}
                             comment={rootComment}
-                            postId={post.id}
+                            post={post}
                         />
                     )
                 } else {
@@ -75,7 +75,7 @@ function CommentContainer({ post, className }) {
                             key={rootComment.id}
                             rootCommentId={rootComment.id}
                             comment={rootComment}
-                            postId={post.id}
+                            post={post}
                         />
                     )
                 }

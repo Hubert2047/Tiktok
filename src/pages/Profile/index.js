@@ -16,7 +16,8 @@ import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileLikeSection from '~/components/ProfileLikeSection'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
-import { getUser, searchPost, updateFollowing } from '~/firebase'
+import { getUser, searchPost } from '~/firebase'
+import { handleFollowingUser } from '~/helper'
 import { useMessageRoute } from '~/hooks'
 import { profileActions } from '~/redux/profileSlice'
 import { profileActionIcons, shareItems } from '~/staticData'
@@ -82,22 +83,19 @@ function Profile() {
     const handleShowLogin = function () {
         setShowLogin((prev) => !prev)
     }
-    const handleUnfollowing = async function () {
-        const updateUserFollowing = currentUser.following.filter((follow) => follow !== profileUser.uid) //delete current use
-        await updateFollowing(currentUser.uid, updateUserFollowing, profileUser.uid, profileUser?.followers - 1)
-        setIsFollowing(false)
-    }
     const handleFollowing = async function () {
-        if (!currentUser.uid) {
-            setShowLogin(true)
-            return
+        try {
+            const result = await handleFollowingUser(currentUser, profileUser, isFollowing)
+            if (result.showLogin) setShowLogin(true)
+            // data is not realtime so we have to update state
+            if (result?.isFollowing) {
+                setIsFollowing(true)
+            } else {
+                setIsFollowing(false)
+            }
+        } catch (e) {
+            console.log(e)
         }
-        if (currentUser.uid === profileUser.uid) return
-        let updateUserFollowing = []
-
-        updateUserFollowing = [...(currentUser.following || []), profileUser.uid] //add current user
-        await updateFollowing(currentUser.uid, updateUserFollowing, profileUser.uid, profileUser?.followers || 0 + 1)
-        setIsFollowing(true)
     }
     const handleReflow = function (result) {
         // console.log(result, profileUser)
@@ -159,7 +157,7 @@ function Profile() {
                                                     <Tippy content='Unfollow' placement='bottom-start'>
                                                         <div>
                                                             <Button
-                                                                onClick={handleUnfollowing}
+                                                                onClick={handleFollowing}
                                                                 icon={<FriendIcon />}
                                                                 border='border-grey'
                                                                 className={clsx('friend-icon')}

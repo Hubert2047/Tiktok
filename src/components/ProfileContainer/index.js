@@ -6,8 +6,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import UserName from '~/components/UserName'
-import { updateFollowing } from '~/firebase'
-import { formatCountNumber } from '~/helper'
+import { formatCountNumber, handleFollowingUser } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
@@ -27,20 +26,12 @@ function ProfileContainer({ user, children, placement }) {
         navigate(useProfileRoute(user))
     }
     const handleFollowing = async function () {
-        if (!currentUser.uid) {
-            setShowLogin(true)
-            return
-        }
-        if (currentUser.uid === user.uid) return
-        let updateUserFollowing = []
-        if (isFollowing) {
-            updateUserFollowing = currentUser.following.filter((follow) => follow !== user.uid) //delete current use
-            await updateFollowing(currentUser.uid, updateUserFollowing, user.id, user?.followers - 1)
-            setIsFollowing(false)
-        } else {
-            updateUserFollowing = [...(currentUser.following || []), user.uid] //add current user
-            await updateFollowing(currentUser.uid, updateUserFollowing, user.id, user?.followers || 0 + 1)
-            setIsFollowing(true)
+        try {
+            const result = await handleFollowingUser(currentUser, user, isFollowing)
+            if (result?.showLogin) setShowLogin(true)
+            //data is realtime so we dont have to manually state
+        } catch (error) {
+            console.log(error)
         }
     }
     const renderProfileContainer = function () {

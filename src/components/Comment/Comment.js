@@ -5,6 +5,7 @@ import { forwardRef, memo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
+import { v4 as uuidv4 } from 'uuid'
 import Button from '~/components/Button'
 import { DeleteIcon, HeartAnimated, HeartPrimary, HorizontalThreeDot, ReportIcon } from '~/components/Icons'
 import ProfileContainer from '~/components/ProfileContainer'
@@ -13,6 +14,7 @@ import { convertTimeStampToDate } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { commentActions } from '~/redux/commentSlice'
 import { toastActions } from '~/redux/toastSlice'
+import { notification } from '~/staticData'
 import Comfirm from '../Comfirm'
 import { LoginPopup } from '../Popper'
 import FullScreenModal from '../Popper/FullScreenModal'
@@ -21,7 +23,7 @@ import styles from './Comment.module.scss'
 
 const clsx = classNames.bind(styles)
 
-const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
+const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
     const isRootCommnet = comment.parentId === 'null' || false
     const avatarHeight = isRootCommnet ? '4rem' : '2.75rem'
     const dispath = useDispatch()
@@ -41,7 +43,7 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
     useEffect(() => {
         try {
             getComments({
-                postId: postId,
+                postId: post.id,
                 callback: updateChildrenComments,
                 parentId: comment.id,
                 lastDocComment: 0,
@@ -87,7 +89,19 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
         } else {
             updateLikes = [...comment.likes, currentUser.uid] //add current user
         }
-        await updateCommentLikes(comment.id, updateLikes)
+        const newNotification = {
+            id: uuidv4(),
+            createdAt: new Date(),
+            notificationType: notification.constain.LIKES,
+            comment: comment.content,
+            fromUid: currentUser.uid,
+            postId: post.id,
+            likeType: 'comment',
+            poster: post.poster,
+            createPostBy: post.uid,
+            isRead: false,
+        }
+        await updateCommentLikes(currentUser, comment.id, updateLikes, post.uid, newNotification, isLiked)
     }
     const handleDeleteOnClick = async function () {
         setShowComfirm(true)
@@ -189,7 +203,7 @@ const Comment = forwardRef(({ comment, postId, rootCommentId }, ref) => {
                             <Comment
                                 key={childrenComment.id}
                                 comment={childrenComment}
-                                postId={postId}
+                                post={post}
                                 rootCommentId={rootCommentId}
                             />
                         )

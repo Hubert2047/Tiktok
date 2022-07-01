@@ -70,6 +70,25 @@ export function InboxIcon({ className, width = '32px', height = '32px' }) {
         </svg>
     )
 }
+export function InboxActiveIcon({ className, width = '32px', height = '32px' }) {
+    return (
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M11.4977 9C10.1195 9 9.0013 10.1153 8.99767 11.4934L8.94239 32.4934C8.93875 33.8767 10.0591 35 11.4424 35H18.7895L22.0656 39.004C23.0659 40.2265 24.9352 40.2264 25.9354 39.0039L29.2111 35H36.5587C37.942 35 39.0623 33.8767 39.0587 32.4934L39.0029 11.4934C38.9993 10.1152 37.8811 9 36.5029 9H11.4977ZM29 21H19C18.4477 21 18 21.4477 18 22V23C18 23.5523 18.4477 24 19 24H29C29.5523 24 30 23.5523 30 23V22C30 21.4477 29.5523 21 29 21Z'></path>
+        </svg>
+    )
+}
+export function FollowBackIcon({ className, width = '14px', height = '14px' }) {
+    return (
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
+            <path d='M43.4143 16.5858L31.1214 4.29289C30.7309 3.90237 30.0977 3.90237 29.7072 4.29289L28.2929 5.70711C27.9024 6.09763 27.9024 6.7308 28.293 7.12132L37.1716 16H5.00006C4.44777 16 4.00006 16.4477 4.00006 17V19C4.00006 19.5523 4.44777 20 5.00006 20H42.0001C42.809 20 43.5383 19.5127 43.8478 18.7654C44.1574 18.018 43.9863 17.1578 43.4143 16.5858Z'></path>
+            <path d='M4.58584 31.4142L16.8787 43.7071C17.2693 44.0976 17.9024 44.0976 18.293 43.7071L19.7072 42.2929C20.0977 41.9024 20.0977 41.2692 19.7072 40.8787L10.8285 32L43.0001 32C43.5523 32 44.0001 31.5523 44.0001 31V29C44.0001 28.4477 43.5523 28 43.0001 28L6.00006 28C5.19113 28 4.46186 28.4873 4.1523 29.2346C3.84274 29.982 4.01385 30.8422 4.58584 31.4142Z'></path>
+        </svg>
+    )
+}
+
 export function ProfileIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
