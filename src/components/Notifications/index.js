@@ -5,24 +5,19 @@ import { useSelector } from 'react-redux'
 import { getNotifications } from '~/firebase'
 import { notification as _notification } from '~/staticData'
 import Button from '../Button'
-import Like from './Like'
+import NotificationBlank from './NotificationBlank'
+import NotificationItem from './NotificationItem'
 import styles from './Notifications.module.scss'
-
-// const All = 'All'
-// const Likes = 'Likes'
-// const Comments = 'Comments'
-// const Mentions = 'Mentions'
-// const Followers = 'Followers'
 
 const clsx = className.bind(styles)
 function Notifications({ children }, ref) {
+    const currentUser = useSelector((state) => state.user.user)
     const [itemActive, setItemActive] = useState({
         id: 1,
-        title: _notification.All,
+        title: _notification.constain.All,
     })
     const [notifications, setNotifications] = useState([])
-    //     const [likes,setLikes] = useState([])
-    const currentUser = useSelector((state) => state.user.user)
+    const [currentNotificationGroup, setCurrentNotificationGroup] = useState([])
 
     const handleOnClickItem = function (item) {
         setItemActive(item)
@@ -32,10 +27,12 @@ function Notifications({ children }, ref) {
             setNotifications(data)
         })
     }, [currentUser])
-    //     useEffect(() => {
-    //         if (notifications?.length < 1) return
-
-    //     }, [itemActive, notifications])
+    useEffect(() => {
+        setCurrentNotificationGroup(() => {
+            if (itemActive.title === _notification.constain.All) return notifications
+            return notifications.filter((notification) => notification.notificationType === itemActive.title)
+        })
+    }, [notifications, itemActive])
 
     const renderContainer = function () {
         return (
@@ -52,20 +49,26 @@ function Notifications({ children }, ref) {
                         />
                     ))}
                 </div>
-                <div className={clsx('content', 'd-flex')}>
-                    <div>
-                        {(itemActive.title === _notification.Likes || itemActive.title === _notification.All) &&
-                            notifications
-                                ?.filter((notification) => notification.notificationType === _notification.Likes)
-                                ?.map((like) => <Like key={like.id} like={like} />)}
-                    </div>
+
+                <div className={clsx('main-content', 'd-flex')}>
+                    {currentNotificationGroup?.length ? (
+                        currentNotificationGroup?.map((notification) => (
+                            <NotificationItem
+                                key={notification.id}
+                                notification={notification}
+                                itemActive={itemActive}
+                            />
+                        ))
+                    ) : (
+                        <NotificationBlank currentGroup={itemActive.title} />
+                    )}
                 </div>
             </div>
         )
     }
     return (
         <div ref={ref} className={clsx('wrapper')}>
-            <Tippy interactive={true} visible={true} render={renderContainer}>
+            <Tippy offset={[0, 15]} interactive={true} visible={true} render={renderContainer}>
                 <div>{children}</div>
             </Tippy>
         </div>

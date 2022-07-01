@@ -1,9 +1,19 @@
-export const All = 'All'
-export const Likes = 'Likes'
-export const Comments = 'Comments'
-export const Mentions = 'Mentions'
-export const Followers = 'Followers'
+//constain
+const All = 'All'
+const LIKES = 'Likes'
+const COMMENTS = 'Comments'
+const MENTIONS = 'Mentions'
+const FOLLOWERS = 'Followers'
 
+export const constain = {
+    All,
+    LIKES,
+    COMMENTS,
+    MENTIONS,
+    FOLLOWERS,
+}
+
+//menu group
 export const GROUP_ITEMS = [
     {
         id: 1,
@@ -11,18 +21,18 @@ export const GROUP_ITEMS = [
     },
     {
         id: 2,
-        title: Likes,
+        title: LIKES,
     },
     {
         id: 3,
-        title: Comments,
+        title: COMMENTS,
     },
     {
         id: 4,
-        title: Mentions,
+        title: MENTIONS,
     },
     {
         id: 5,
-        title: Followers,
+        title: FOLLOWERS,
     },
 ]

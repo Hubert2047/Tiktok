@@ -22,7 +22,6 @@ import {
     writeBatch,
 } from 'firebase/firestore'
 import { v4 as uuidv4 } from 'uuid'
-import { useCallback } from 'react'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
@@ -596,14 +595,30 @@ const getNotifications = async function (currentUser, callback) {
                 return { ...notification, fromUser: Users.find((user) => user.uid === notification.fromUid) }
             })
             console.log('notification', data)
-            callback(data)
+            callback(data.reverse())
         },
         (err) => {
             throw new Error(err.message)
         }
     )
 }
-
+const getNotificationCount = async function getNotificationCount(currentUser, callback) {
+    if (typeof callback !== 'function' || !currentUser?.uid) return
+    const q = query(
+        collection(db, `users/${currentUser.uid}/notifications`),
+        where('isRead', '==', false),
+        orderBy('createdAt')
+    )
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
+            callback(querySnapshot?.size || 0)
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
+}
 export {
     db,
     loginWithGoogle,
@@ -641,4 +656,5 @@ export {
     isFriendSendingMessage,
     updateSendingMessageState,
     getNotifications,
+    getNotificationCount,
 }

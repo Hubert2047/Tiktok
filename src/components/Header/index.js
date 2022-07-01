@@ -15,7 +15,7 @@ import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import Search from '~/components/Search'
 import config from '~/config'
-import { getUnReadMessages } from '~/firebase'
+import { getNotificationCount, getUnReadMessages } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import Notifications from '../Notifications'
@@ -26,6 +26,7 @@ function Header({ className }) {
     const [showLogin, setShowLogin] = useState(false)
     const navigate = useNavigate()
     const [unReadMsg, setUnReadMsg] = useState(0)
+    const [notificationCount, setNotificationCount] = useState(0)
     // const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
     const handleShowLoginPopup = function () {
@@ -38,6 +39,10 @@ function Header({ className }) {
         getUnReadMessages(currentUser, (unReadMsgCount) => {
             setUnReadMsg(unReadMsgCount)
         })
+        getNotificationCount(currentUser, (notificationCount) => {
+            setNotificationCount(notificationCount)
+        })
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     const UnLoginUI = function () {
@@ -92,7 +97,7 @@ function Header({ className }) {
                     <Tippy content='Inbox' delay={[0, 50]}>
                         <button className={clsx('btn', 'd-flex')}>
                             <InboxIcon />
-                            <span className={clsx('inbox-notification')}>10</span>
+                            <span className={clsx('inbox-notification')}>{notificationCount}</span>
                         </button>
                     </Tippy>
                 </Notifications>
