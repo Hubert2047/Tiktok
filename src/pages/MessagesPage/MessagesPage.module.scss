@@ -1,5 +1,5 @@
 .wrapper {
-    height: 100%;
+    height: calc(100vh - var(--default-header-height) - 3.2rem); //3.2rem main padding
     min-height: 490px;
     display: grid;
     grid-template-columns: 35.6rem 1fr;

@@ -30,6 +30,7 @@
 }
 .size-big {
     height: 4.8rem;
+    width: 100%;
 }
 
 //styles
@@ -59,7 +60,7 @@
     background-color: var(--primary-color);
 }
 .bg-grey {
-    background-color: var(--grey-color-1);
+    background-color: var(--grey-color);
 }
 
 //color
@@ -73,7 +74,7 @@
     color: var(--black-color);
 }
 .color-grey {
-    color: var(--grey-color-3);
+    color: var(--grey-color-2);
 }
 
 //border

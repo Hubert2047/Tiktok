@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames/bind'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '~/components/Button'
 import { FollowingIcon, HomeIcon, VideoIcon } from '~/components/Icons'
@@ -9,6 +9,7 @@ import UserContainer from '~/components/UserContainer'
 import { getFollowing, getSuggestFollowing } from '~/firebase'
 import { discovers, footerData } from '~/staticData'
 import DiscoverContainer from '../DiscoverContainer'
+import { FullScreenContainer, LoginPopup } from '../Popper'
 import styles from './Sidebar.module.scss'
 const clsx = classNames.bind(styles)
 
@@ -17,6 +18,7 @@ function Sidebar({ className }) {
     // console.log('re-render sidebar')
     const [suggestFollowingData, setSuggestFollowingData] = useState([])
     const [followingData, setFollowingData] = useState([])
+    const [showLogin, setShowLogin] = useState(false)
     const currentSuggestFollowingData = suggestFollowingData[suggestFollowingData?.length - 1]
     const [seeText, setSeeText] = useState('See all')
     const [isCallApi, setCallApi] = useState(false)
@@ -56,54 +58,70 @@ function Sidebar({ className }) {
             })
         }
     }
+    const handleShowLogin = function () {
+        setShowLogin((prev) => !prev)
+    }
     return (
-        <div className={clsx('wrapper', className)}>
-            <div className={clsx('action')}>
-                <Button
-                    to={'/'}
-                    size='size-big'
-                    icon={<HomeIcon />}
-                    title='For You'
-                    color={'color-primary'}
-                    className={clsx('action-btn')}
+        <Fragment>
+            {showLogin && (
+                <FullScreenContainer handleShowPopup={handleShowLogin}>
+                    <LoginPopup handleShowPopup={handleShowLogin} />
+                </FullScreenContainer>
+            )}
+            <div className={clsx('wrapper', className)}>
+                <div className={clsx('action')}>
+                    <Button
+                        to={'/'}
+                        size='size-big'
+                        icon={<HomeIcon />}
+                        title='For You'
+                        color={'color-primary'}
+                        className={clsx('action-btn')}
+                    />
+                    <Button
+                        to={'/'}
+                        size='size-big'
+                        icon={<FollowingIcon />}
+                        title='Following'
+                        color={'color-black'}
+                        className={clsx('action-btn')}
+                    />
+                    <Button
+                        to={'/'}
+                        size='size-big'
+                        icon={<VideoIcon />}
+                        title='LIVE'
+                        color={'color-black'}
+                        className={clsx('action-btn')}
+                    />
+                </div>
+                {!currentUser?.uid && (
+                    <div onClick={handleShowLogin} className={clsx('login-box', 'd-flex')}>
+                        <p className={clsx('login-text')}>Log in to follow creators, like videos, and view comments.</p>
+                        <Button title={'Login'} size='size-big' border='border-primary' color='color-primary' />
+                    </div>
+                )}
+                <UserContainer
+                    title={'Suggested Accounts'}
+                    handleSeeMoreClick={handleSeeMoreClick}
+                    data={currentSuggestFollowingData}
+                    seeText={seeText}
+                    className={clsx('suggest-list')}
                 />
-                <Button
-                    to={'/'}
-                    size='size-big'
-                    icon={<FollowingIcon />}
-                    title='Following'
-                    color={'color-black'}
-                    className={clsx('action-btn')}
+                <UserContainer
+                    title={'Following Accounts'}
+                    data={followingData}
+                    className={clsx('suggest-list', 'following-list')}
                 />
-                <Button
-                    to={'/'}
-                    size='size-big'
-                    icon={<VideoIcon />}
-                    title='LIVE'
-                    color={'color-black'}
-                    className={clsx('action-btn')}
-                />
+                <DiscoverContainer discovers={discovers} className={clsx('discover')} />
+                <div className={clsx('footer')}>
+                    {footerData?.map((data) => {
+                        return <LinkContainer key={data.id} data={data.data} />
+                    })}
+                    <div className={clsx('copy-right')}>© 2022 TikTok</div>
+                </div>
             </div>
-            <UserContainer
-                title={'Suggested Accounts'}
-                handleSeeMoreClick={handleSeeMoreClick}
-                data={currentSuggestFollowingData}
-                seeText={seeText}
-                className={clsx('suggest-list')}
-            />
-            <UserContainer
-                title={'Following Accounts'}
-                data={followingData}
-                className={clsx('suggest-list', 'following-list')}
-            />
-            <DiscoverContainer discovers={discovers} className={clsx('discover')} />
-            <div className={clsx('footer')}>
-                {footerData?.map((data) => {
-                    return <LinkContainer key={data.id} data={data.data} />
-                })}
-                <div className={clsx('copy-right')}>© 2022 TikTok</div>
-            </div>
-        </div>
+        </Fragment>
     )
 }
 

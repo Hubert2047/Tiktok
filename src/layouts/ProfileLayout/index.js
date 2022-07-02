@@ -8,7 +8,7 @@ const clsx = classNames.bind(styles)
 function ProfileLayout({ children }) {
     return (
         <div className={clsx('wrapper')}>
-            <Header />
+            <Header className={clsx('header')} />
             <div className={clsx('container')}>
                 <div>
                     <Sidebar className={clsx('sidebar')} />

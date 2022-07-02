@@ -15,10 +15,10 @@
     -ms-border-radius: var(--border-radius-sm);
     -o-border-radius: var(--border-radius-sm);
     border-radius: var(--border-radius-sm);
-    -webkit-transition: all 0.3s lin;
-    -moz-transition: all 0.3s lin;
-    -ms-transition: all 0.3s lin;
-    -o-transition: all 0.3s lin;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
     transition: all 0.3s linear;
 }
 .width {

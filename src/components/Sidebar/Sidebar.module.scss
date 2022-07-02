@@ -46,7 +46,16 @@
 
 .suggest-list {
 }
-
+.login-box {
+    border-top: 1px solid var(--grey-color);
+    padding: 2rem 0 2rem 1rem;
+    gap: 2rem;
+    flex-direction: column;
+}
+.login-text {
+    font-size: 1.6rem;
+    color: var(--grey-color-2);
+}
 //footer
 .footer {
     border-top: 1px solid var(--grey-color);

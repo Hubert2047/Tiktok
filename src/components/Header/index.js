@@ -50,6 +50,7 @@ function Header({ className }) {
         return (
             <Fragment>
                 <Button
+                    onClick={handleShowLoginPopup}
                     to='./'
                     type='btn-grey'
                     size='size-md'
