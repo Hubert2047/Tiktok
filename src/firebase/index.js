@@ -21,6 +21,7 @@ import {
     where,
     writeBatch,
 } from 'firebase/firestore'
+import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 
 const firebaseConfig = {
@@ -40,6 +41,7 @@ const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
+const storage = getStorage(firebaseApp)
 
 // handle Login
 const loginWithGoogle = async function () {
@@ -231,9 +233,29 @@ const updateFollower = async function (uid, updateCountFollower) {
 }
 
 //post
-const getPosts = function (callback, lastPost = 0) {
+const addPost = async function (newPost) {
+    try {
+        await setDoc(doc(db, 'posts', newPost.id), newPost)
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+const deletePost = async function (postId) {
+    try {
+        await deleteDoc(doc(db, 'posts', postId))
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+const getPosts = function (callback, lastPost = -1) {
     if (typeof callback !== 'function') return
-    const q = query(collection(db, 'posts'), orderBy('played'), startAfter(lastPost), limit(6))
+    const q = query(
+        collection(db, 'posts'),
+        orderBy('played'),
+        orderBy('createdAt', 'desc'),
+        startAfter(lastPost),
+        limit(6)
+    )
     const users = [] //store all getUser Promise
     onSnapshot(
         q,
@@ -245,11 +267,12 @@ const getPosts = function (callback, lastPost = 0) {
                 return { ...doc.data(), id: doc.id }
             })
             const allUsers = await Promise.all(users)
+            //get user create post
             posts = posts.map((post) => {
                 return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
             })
             const data = { posts, lastDoc }
-            // console.log(data)
+            // console.log(lastDoc.data())
             callback(data)
         },
         (err) => {
@@ -752,6 +775,22 @@ const updateNotificationReadState = async function (currentUser, notificationId)
         throw new Error(err.message)
     }
 }
+
+//upload file
+
+const uploadFile = async function (stringUrl, fileRef) {
+    const storageRef = ref(storage, fileRef)
+    return uploadString(storageRef, stringUrl, 'data_url').then((snapshot) => {
+        return getDownloadURL(snapshot.ref)
+            .then((downloadURL) => {
+                return downloadURL
+            })
+            .catch((err) => {
+                throw new Error(err.message)
+            })
+    })
+}
+
 export {
     db,
     loginWithGoogle,
@@ -768,6 +807,8 @@ export {
     updateFollower,
     getPosts,
     getPost,
+    deletePost,
+    addPost,
     searchPostByArray,
     handlePostLike,
     searchPost,
@@ -791,6 +832,6 @@ export {
     getNotifications,
     getNotificationCount,
     addNotifications,
-    // updateFollowingUserInNotification,
     updateNotificationReadState,
+    uploadFile,
 }

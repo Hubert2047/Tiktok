@@ -1,44 +1,26 @@
 import classNames from 'classnames/bind'
 import { useEffect, useRef, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
-import { SpinerBoxIcon } from '~/components/Icons'
-import Image from '~/components/Image'
 import { convertTimeStampToDate } from '~/helper'
 import styles from './MobileVideoFooter.module.scss'
+import Spiner from './Spiner'
 
 const clsx = classNames.bind(styles)
 
 function MobileVideoFooter({ className, post, play }) {
-    const spinerAnimated = useRef()
     const sloganAnimated = useRef()
-    const spinerRef = useRef()
     const sloganRef = useRef()
     const [reFlow, setReflow] = useState(false)
     const [showAllContent, setShowAllContent] = useState()
     useEffect(() => {
-        if (!spinerAnimated.current) return
+        if (!sloganAnimated.current) return
         if (play) {
-            spinerAnimated.current.play()
             sloganAnimated.current.play()
         } else {
-            spinerAnimated.current.pause()
             sloganAnimated.current.pause()
         }
     }, [play])
     useEffect(() => {
-        if (spinerRef.current) {
-            spinerAnimated.current = spinerRef.current.animate(
-                [
-                    { transform: ' translate(-50%, -50%) rotate(0deg)' },
-                    { transform: ' translate(-50%, -50%) rotate(360deg)' },
-                ],
-                {
-                    duration: 5000,
-                    iterations: Infinity,
-                }
-            )
-            spinerAnimated.current.pause()
-        }
         if (sloganRef.current) {
             sloganAnimated.current = sloganRef.current.animate(
                 [{ transform: ' translateX(100%)' }, { transform: 'translateX(-100%)' }],
@@ -96,14 +78,7 @@ function MobileVideoFooter({ className, post, play }) {
                         </p>
                     </div>
                 </div>
-                <div className={clsx('spiner-container')}>
-                    <div className={clsx('spiner-song', { 'song-animated': play })}></div>
-                    <div className={clsx('spiner-music', { 'song-animated': play })}></div>
-                    <SpinerBoxIcon className={clsx('spiner-box')} />
-                    <div ref={spinerRef} className={clsx('avatar-box')}>
-                        <Image className={clsx('avatar')} src={post?.user.avatar} />
-                    </div>
-                </div>
+                <Spiner post={post} isplay={play} className={clsx('spiner-container')} />
             </div>
         </div>
     )

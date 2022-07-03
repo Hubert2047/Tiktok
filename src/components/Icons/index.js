@@ -608,7 +608,7 @@ export function MobileAddIcon({ className, width = '15px', height = '15px' }) {
     )
 }
 
-export function ReportIcon({ className, width = '16px', height = '1.40px' }) {
+export function ReportIcon({ className, width = '16px', height = '14px' }) {
     return (
         <svg
             className={className}
@@ -900,7 +900,7 @@ export function XIcon({ onClick, className, width = '18px', height = '18px' }) {
     )
 }
 
-export function DownIcon({ className, width = '1.40px', height = '1.40px' }) {
+export function DownIcon({ className, width = '14px', height = '14px' }) {
     return (
         <svg
             className={className}
@@ -1046,7 +1046,7 @@ export function CopyLinkIcon({ className, width = '26px', height = '26px' }) {
     )
 }
 
-export function TeleGramIcon({ className, width = '2', height = '26px' }) {
+export function TeleGramIcon({ className, width = '26px', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -1071,7 +1071,7 @@ export function TeleGramIcon({ className, width = '2', height = '26px' }) {
     )
 }
 
-export function LinkedInIcon({ className, width = '2', height = '26px' }) {
+export function LinkedInIcon({ className, width = '26px', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -1094,7 +1094,7 @@ export function LinkedInIcon({ className, width = '2', height = '26px' }) {
     )
 }
 
-export function ReditIcon({ className, width = '26px', height = '26p' }) {
+export function ReditIcon({ className, width = '26px', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -1113,7 +1113,7 @@ export function ReditIcon({ className, width = '26px', height = '26p' }) {
     )
 }
 
-export function Pinterestcon({ className, width = '2', height = '26px' }) {
+export function Pinterestcon({ className, width = '26px', height = '26px' }) {
     return (
         <svg
             className={className}
@@ -1438,7 +1438,7 @@ export function EditIcon({ className, width = '20px', height = '20px' }) {
     )
 }
 
-export function CreateVideoIcon({ className, width = '7.5rem', height = '4.90px' }) {
+export function CreateVideoIcon({ className, width = '75px', height = '490px' }) {
     return (
         <svg
             className={className}
@@ -1480,7 +1480,7 @@ export function CreateVideoIcon({ className, width = '7.5rem', height = '4.90px'
     )
 }
 
-export function SpinerBoxIcon({ className, width = '4.5rem', height = '4.5rem' }) {
+export function SpinerBoxIcon({ className, width = '45px', height = '45px' }) {
     return (
         <svg
             className={className}

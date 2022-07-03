@@ -14,7 +14,7 @@ const toastSlice = createSlice({
             state.toasts = [...state.toasts, { ...actions.payload, id: uuidv4() }]
         },
         removeToast(state) {
-            state.toasts = state.toasts.filter((toast) => toast.id !== state.toasts.at(-1).id)
+            state.toasts = state.toasts.filter((toast) => toast.id !== state.toasts[state.toasts.length - 1].id)
         },
     },
 })

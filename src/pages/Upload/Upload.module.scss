@@ -2,7 +2,7 @@
     padding-top: 1.6rem;
 }
 .top {
-    max-width: 110rem;
+    max-width: 120rem;
     margin: 0 auto;
     padding: 2.4rem 5.6rem;
     -webkit-border-radius: var(--border-radius-md);
@@ -22,11 +22,15 @@
         color: var(--grey-color-2);
     }
 }
+.header-center {
+    text-align: center;
+}
 .main-content {
     margin-top: 2.4rem;
 }
 .left {
     height: 48.6rem;
+    width: 27.5rem;
     align-items: center;
     margin-top: 2.4rem;
     justify-content: center;
@@ -38,7 +42,123 @@
     -ms-border-radius: var(--border-radius-md);
     -o-border-radius: var(--border-radius-md);
     border-radius: var(--border-radius-md);
+    &:hover {
+        border: 2px dashed var(--primary-color);
+    }
 }
+.loading-text {
+    margin: 2rem 0;
+    font-size: 1.4rem;
+}
+.video-poster {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+.video-container {
+    flex-direction: column;
+}
+.preview-upload {
+    position: relative;
+    height: fit-content;
+    overflow: hidden;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 50%);
+    .spiner {
+        position: absolute;
+        bottom: 6rem;
+        right: 1.75rem;
+        height: 4rem;
+        width: 4rem;
+    }
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+.video-box {
+    max-height: calc(100vh - var(--default-header-height));
+    height: 55.6rem;
+    border: 2rem solid var(--black-color);
+    border-left: 1.25rem solid var(--black-color);
+    border-right: 1.25rem solid var(--black-color);
+    width: 28.4rem;
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+.video {
+    position: relative;
+    margin: 0 -1rem;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    background-color: var(--black-color);
+}
+.video-footer {
+    position: absolute;
+    align-items: center;
+    z-index: 11;
+    justify-content: space-between;
+    padding: 0 1rem 1rem 1rem;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 3rem;
+    .btn {
+        color: var(--white-color);
+        fill: var(--white-color);
+    }
+}
+.create-video {
+    height: 5rem;
+    width: 5rem;
+}
+.mobile-sidebar {
+    position: absolute;
+    top: 12rem;
+    right: 1.75rem;
+}
+.video-footer {
+    position: absolute;
+    bottom: 0.25rem;
+    left: 0;
+    width: 100%;
+}
+.change-video {
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1.2rem;
+    width: 30.9rem;
+    border: 1px solid rgba(22, 24, 35, 0.12);
+    -webkit-border-radius: var(--border-radius-md);
+    -moz-border-radius: var(--border-radius-md);
+    -ms-border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-md);
+    -o-border-radius: var(--border-radius-md);
+    span {
+        flex: 1;
+        font-size: 1.25rem;
+        color: var(--grey-color-3);
+    }
+    button {
+        font-size: 1.3rem;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+.canvas {
+    // width: 100%;
+    // max-width: 27.5rem;
+    // height: 100%;
+    display: none;
+}
+
 .text-main {
     font-size: 1.8rem;
     margin-top: 2.4rem;
@@ -54,9 +174,25 @@
     color: var(--grey-color-2);
     margin-bottom: 0.6rem;
 }
+.upload-btn-box {
+    position: relative;
+    width: 100%;
+    margin-top: 2.4rem;
+}
+.upload-input {
+    position: absolute;
+    z-index: 11;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3.6rem;
+    opacity: 0;
+    cursor: pointer;
+    // display: none;
+}
 .upload-btn {
     width: 100%;
-    margin-top: 2rem;
+    // margin-top: 2rem;
 }
 
 .footer {
@@ -69,7 +205,7 @@
 //right
 .right {
     flex: 1;
-    margin-left: 2.4rem;
+    margin-left: 3.4rem;
 }
 .caption {
     margin-bottom: 1rem;
@@ -94,6 +230,9 @@
     -o-border-radius: var(--border-radius-sm);
     border-radius: var(--border-radius-sm);
 }
+.limited-text {
+    color: var(--primary-color);
+}
 .caption-input {
     padding: 1.2rem 0;
     max-width: 100%;
@@ -112,13 +251,61 @@
 }
 .cover-container {
     padding: 1rem;
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
+    // gap: 0.25rem;
+    // height: 15rem;
+
     border: 1px solid var(--grey-color);
     border-radius: var(--border-radius-sm);
     -webkit-border-radius: var(--border-radius-sm);
     -moz-border-radius: var(--border-radius-sm);
     -ms-border-radius: var(--border-radius-sm);
     -o-border-radius: var(--border-radius-sm);
+}
+.poster {
+    // width: 8.4rem;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    &:hover {
+        opacity: 1;
+        z-index: 1;
+        border: 6px solid rgb(255, 255, 255);
+        box-shadow: rgb(34 90 89 / 50%) 4px 4px 20px;
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+        -webkit-border-radius: var(--border-radius-md);
+        -moz-border-radius: var(--border-radius-md);
+        -ms-border-radius: var(--border-radius-md);
+        -o-border-radius: var(--border-radius-md);
+        border-radius: var(--border-radius-md);
+    }
+    transition: all 0.2s linear;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -ms-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+}
+.poster-active {
+    opacity: 1;
+    z-index: 1;
+    border: 6px solid rgb(255, 255, 255);
+    box-shadow: rgb(34 90 89 / 50%) 4px 4px 20px;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-border-radius: var(--border-radius-md);
+    -moz-border-radius: var(--border-radius-md);
+    -ms-border-radius: var(--border-radius-md);
+    -o-border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-md);
 }
 .cover-candidate {
     width: 8.4rem;
@@ -225,6 +412,7 @@
     width: 1.6rem;
     height: 1.6rem;
     appearance: none;
+    -webkit-appearance: none;
     cursor: pointer;
 }
 .check-item {
@@ -235,10 +423,10 @@
     &:hover {
         border: 1px solid var(--primary-color);
     }
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    -ms-border-radius: 2px;
     -o-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-bzorder-radius: 2px;
     border-radius: 2px;
 }
 .checked {

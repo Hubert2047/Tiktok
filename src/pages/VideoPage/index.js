@@ -4,6 +4,7 @@ import React, { Fragment, memo, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useSelector } from 'react-redux'
+import Tippy from '@tippyjs/react/headless'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import { CommentContainer, CommentInput } from '~/components/Comment'
@@ -13,6 +14,7 @@ import {
     FaceBookIcon,
     HeartIcon,
     HeartPrimary,
+    HorizontalThreeDot,
     ReportIcon,
     SendToIcon,
     ShareIcon,
@@ -25,7 +27,7 @@ import { LoginPopup } from '~/components/Popper'
 import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
-import { getCommentCount, getPost } from '~/firebase'
+import { deletePost, getCommentCount, getPost } from '~/firebase'
 import { convertTimeStampToDate, formatCountNumber, handleFollowingUser, handleLikePost } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import styles from './VideoPage.module.scss'
@@ -101,6 +103,34 @@ function VideoPage() {
         //data is not realtime so we have to manually state
         setIsLikedPost(result?.isLikedPost)
     }
+    const handleDeletePost = async function (postId) {
+        await deletePost(postId)
+        navigate('/')
+    }
+    const Actions = function ({ placement }) {
+        return (
+            <Tippy
+                // trigger='click'
+                offset={[-10, 0]}
+                placement={placement}
+                interactive={true}
+                render={(attrs) => (
+                    <div className={clsx('action-options', 'd-flex')} tabIndex='-1' {...attrs}>
+                        <Button title='Private Setting' color='color-white' className={clsx('option-btn')} />
+                        <Button
+                            onClick={handleDeletePost}
+                            title='Delete'
+                            color='color-white'
+                            className={clsx('option-btn')}
+                        />
+                    </div>
+                )}>
+                <div className={clsx('conversation-btn-box')}>
+                    <HorizontalThreeDot className={clsx('conversation-btn')} />
+                </div>
+            </Tippy>
+        )
+    }
     return (
         <div>
             {loading && (
@@ -143,6 +173,8 @@ function VideoPage() {
                                         <p className={clsx('time')}>{convertTimeStampToDate(post?.createdAt)}</p>
                                     </div>
                                 </div>
+
+                                <Actions placement={'left-start'} />
                                 {currentUser?.uid !== post.uid && (
                                     <Button
                                         className={clsx('follow-btn')}

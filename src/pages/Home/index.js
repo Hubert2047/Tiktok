@@ -21,7 +21,7 @@ function Home() {
     const observer = useRef()
     const getPostsJSON = async function () {
         setLoading(true)
-        await getPosts((data) => {
+        getPosts((data) => {
             dispath(homeActions.setPost(data.posts))
             setLastPost(data.lastDoc)
             setLoading(false)

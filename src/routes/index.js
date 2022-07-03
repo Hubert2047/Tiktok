@@ -2,22 +2,23 @@ import config from '~/config'
 import BlankLayout from '~/layouts/BlankLayout'
 //layouts
 import MainLayout from '~/layouts/MainLayout'
-import UploadLayout from '~/layouts/UploadLayout'
 import ProfileLayout from '~/layouts/ProfileLayout'
 import SidebarLayout from '~/layouts/SidebarLayout'
+import UploadLayout from '~/layouts/UploadLayout'
 //pages
 import Following from '~/pages/Following'
 import Home from '~/pages/Home'
+import MessagesPage from '~/pages/MessagesPage'
 import Profile from '~/pages/Profile'
 import Upload from '~/pages/Upload'
 import VideoPage from '~/pages/VideoPage'
-import MessagesPage from '~/pages/MessagesPage'
 const publicRoutes = [
     { path: config.routes.home, page: Home, layout: SidebarLayout },
     { path: config.routes.following, page: Following, layout: SidebarLayout },
-    { path: config.routes.upload, page: Upload, layout: UploadLayout },
     { path: config.routes.profile(), page: Profile, layout: ProfileLayout },
     { path: config.routes.video(), page: VideoPage, layout: BlankLayout },
     { path: config.routes.messages(), page: MessagesPage, layout: MainLayout },
+    { path: '*', page: Home, layout: SidebarLayout },
 ]
-export { publicRoutes }
+const privateRoutes = [{ path: config.routes.upload, page: Upload, layout: UploadLayout }]
+export { publicRoutes, privateRoutes }

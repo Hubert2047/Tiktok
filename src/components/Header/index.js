@@ -45,6 +45,11 @@ function Header({ className }) {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    const handleRouteToUpdateVideo = function () {
+        setTimeout(() => {
+            navigate('/upload')
+        }, 0)
+    }
     const UnLoginUI = function () {
         // console.log('logout')
         return (
@@ -87,6 +92,7 @@ function Header({ className }) {
                     size='size-md'
                     border='border-grey'
                     icon={<IoMdAdd />}
+                    onClick={handleRouteToUpdateVideo}
                     title='Upload'></Button>
                 <Tippy content='Message' delay={[0, 50]}>
                     <button onClick={handleMessages} className={clsx('btn', 'd-flex')}>

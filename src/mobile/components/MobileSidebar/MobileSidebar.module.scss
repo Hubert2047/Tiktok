@@ -9,9 +9,10 @@
     position: relative;
     height: 4rem;
     width: 4rem;
+    -webkit-border-radius: 50%;
     border-radius: 50%;
     margin-bottom: 1.25rem;
-    outline: 1px solid var(--white-color);
+    border: 1.5px solid var(--grey-color);
 }
 .avatar {
     width: 100%;

@@ -7,7 +7,7 @@ import styles from './MobileVideo.module.scss'
 const clsx = classNames.bind(styles)
 
 const MobileVideo = forwardRef(({ post, className, onPlay, isCurrentPostPlaying }, ref) => {
-    console.log('re-render mobilevideo', post.id)
+    // console.log('re-render mobilevideo', post.id)
     const [play, setPlay] = useState()
     const videoRef = useRef()
     const observer = useRef()

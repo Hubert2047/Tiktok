@@ -158,7 +158,7 @@ function ConversationItem({ message, currentUser, isLastMsg, currentChat, isFrie
             )}
             {isLastMsg && isFriendSending && (
                 <div className={clsx('d-flex', 'dot-box')}>
-                    <UserAvatar user={currentChat.friendChat} height={'1.6rem'} />
+                    <UserAvatar user={currentChat.friendChat} height={'1.8rem'} />
                     <div className={clsx('dot', 'dot-1')}></div>
                     <div className={clsx('dot', 'dot-2')}></div>
                     <div className={clsx('dot', 'dot-3')}></div>

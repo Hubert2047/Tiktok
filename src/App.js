@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
 import { getUserRealyTime } from '~/firebase'
 import { userActions } from '~/redux/userSlice'
-import { publicRoutes } from '~/routes'
+import { privateRoutes, publicRoutes } from '~/routes'
 import styles from './App.module.scss'
 import ToastPortal from './components/ToastPortal'
 import MobileHomePage from './mobile/pages/MobileHomePage/index'
@@ -27,23 +27,43 @@ function App({ className }) {
         <Router>
             {viewWith > 500 ? (
                 <div className={clsx(className, 'app')}>
-                    <Routes>
-                        {publicRoutes.map((route, index) => {
-                            const Page = route.page
-                            const Layout = route.layout
-                            return (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={
-                                        <Layout>
-                                            <Page />
-                                        </Layout>
-                                    }
-                                />
-                            )
-                        })}
-                    </Routes>
+                    {!currentUserId ? (
+                        <Routes>
+                            {publicRoutes.map((route, index) => {
+                                const Page = route.page
+                                const Layout = route.layout
+                                return (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        element={
+                                            <Layout>
+                                                <Page />
+                                            </Layout>
+                                        }
+                                    />
+                                )
+                            })}
+                        </Routes>
+                    ) : (
+                        <Routes>
+                            {[...publicRoutes, ...privateRoutes].map((route, index) => {
+                                const Page = route.page
+                                const Layout = route.layout
+                                return (
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        element={
+                                            <Layout>
+                                                <Page />
+                                            </Layout>
+                                        }
+                                    />
+                                )
+                            })}
+                        </Routes>
+                    )}
                 </div>
             ) : (
                 <div className={clsx('mobile-app')}>

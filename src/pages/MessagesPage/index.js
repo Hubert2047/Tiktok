@@ -8,7 +8,7 @@ import ConversationItem from '~/components/ConversationItem'
 import MessageInput from '~/components/MessageInput'
 import UserAvatar from '~/components/UserAvatar'
 import UserSendMessage from '~/components/UserSendMessage'
-import { getChats, getUser, isFriendSendingMessage, likeMessage } from '~/firebase'
+import { getChats, getUser, isFriendSendingMessage } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
 import styles from './MessagesPage.module.scss'
 

@@ -14,7 +14,7 @@ function useToastAutoClose({ autoClose, autoCloseTime, toasts }) {
     useEffect(() => {
         if (autoClose && toasts?.length > 0) {
             setTimeout(() => {
-                setRemoving(toasts.at(-1).id)
+                setRemoving(toasts[toasts.length - 1].id)
             }, autoCloseTime)
         }
     }, [toasts, autoCloseTime, autoClose])
