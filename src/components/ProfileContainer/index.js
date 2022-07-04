@@ -3,20 +3,20 @@
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import UserName from '~/components/UserName'
 import { formatCountNumber, handleFollowingUser } from '~/helper'
 import { useProfileRoute } from '~/hooks'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
-import FullScreenModal from '../Popper/FullScreenModal'
 import UserAvatar from '../UserAvatar'
 import styles from './ProfileContainer.module.scss'
 const clsx = classNames.bind(styles)
 function ProfileContainer({ user, children, placement }) {
+    const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
-    const [showLogin, setShowLogin] = useState(false)
     const [isFollowing, setIsFollowing] = useState()
     useEffect(() => {
         setIsFollowing(currentUser?.following?.includes(user.id))
@@ -28,7 +28,7 @@ function ProfileContainer({ user, children, placement }) {
     const handleFollowing = async function () {
         try {
             const result = await handleFollowingUser(currentUser, user, isFollowing)
-            if (result?.showLogin) setShowLogin(true)
+            if (result?.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
             //data is realtime so we dont have to manually state
         } catch (error) {
             console.log(error)
@@ -71,11 +71,6 @@ function ProfileContainer({ user, children, placement }) {
     }
     return (
         <Fragment>
-            {showLogin && (
-                <FullScreenModal>
-                    <LoginPopup />
-                </FullScreenModal>
-            )}
             <Tippy
                 appendTo={() => document.body}
                 delay={[500, 50]} //delay to fade out

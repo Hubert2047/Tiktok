@@ -7,18 +7,19 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
+import EditProfile from '~/components/EditProfile'
 import { EditIcon, FriendIcon, HorizontalThreeDot, LockIcon, ShareWhiteIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
 import Menu from '~/components/Menu'
 import MovieContainer from '~/components/MovieContainer'
 import { LoginPopup } from '~/components/Popper'
-import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileLikeSection from '~/components/ProfileLikeSection'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
 import { getUser, searchPost } from '~/firebase'
 import { handleFollowingUser } from '~/helper'
 import { useMessageRoute } from '~/hooks'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { profileActions } from '~/redux/profileSlice'
 import { profileActionIcons, shareItems } from '~/staticData'
 import styles from './Profile.module.scss'
@@ -32,12 +33,10 @@ function Profile() {
     const profileUser = useSelector((state) => state.profile.profileUser)
     const currentUser = useSelector((state) => state.user.user)
     const [isFollowing, setIsFollowing] = useState()
-    const [showLogin, setShowLogin] = useState(false)
     const isCurrentUser = currentUser?.uid === profileUser?.uid
     const [reflow, setReflow] = useState(false)
     // console.log(params)
     const [userPosts, setUserPosts] = useState([])
-    const [loading, setLoading] = useState(false)
     const [likeBtnActive, setLikeBtnActive] = useState(false)
     const [showDesc, setShowDesc] = useState({
         state: false,
@@ -45,17 +44,17 @@ function Profile() {
     })
     const profileUserLikeCount = profileUser?.likes?.length || 0
     const getUserProfile = async function () {
-        setLoading(true)
+        dispath(containerPortalActions.setComponent(<Loading />))
         try {
             const data = await Promise.all([searchPost(params.uid), getUser(params.uid)])
             // console.log(data)
             setUserPosts(data[0])
             dispath(profileActions.setProfileUser(data[1]))
             setIsFollowing(currentUser?.following?.includes(data[1].uid) || false)
-            setLoading(false)
+            dispath(containerPortalActions.setComponent(null))
         } catch (err) {
             console.log(err)
-            setLoading(false)
+            dispath(containerPortalActions.setComponent(null))
         }
     }
     useEffect(() => {
@@ -80,13 +79,10 @@ function Profile() {
     const handleLikeBtnClick = function () {
         setLikeBtnActive(true)
     }
-    const handleShowLogin = function () {
-        setShowLogin((prev) => !prev)
-    }
     const handleFollowing = async function () {
         try {
             const result = await handleFollowingUser(currentUser, profileUser, isFollowing)
-            if (result.showLogin) setShowLogin(true)
+            if (result.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
             // data is not realtime so we have to update state
             if (result?.isFollowing) {
                 setIsFollowing(true)
@@ -113,19 +109,12 @@ function Profile() {
     const handleOnClickMessage = function () {
         navigate(useMessageRoute(profileUser))
     }
+    const handleEditProfile = function () {
+        dispath(containerPortalActions.setComponent(<EditProfile />))
+    }
 
     return (
         <Fragment>
-            {loading && (
-                <FullScreenModal>
-                    <Loading />
-                </FullScreenModal>
-            )}
-            {showLogin && (
-                <FullScreenModal handleShowPopup={handleShowLogin}>
-                    <LoginPopup handleShowPopup={handleShowLogin} />
-                </FullScreenModal>
-            )}
             {profileUser.uid && (
                 <div className={clsx('wrapper', 'd-flex')}>
                     <div className={clsx('header', 'd-flex')}>
@@ -169,6 +158,7 @@ function Profile() {
                                         </Fragment>
                                     ) : (
                                         <Button
+                                            onClick={handleEditProfile}
                                             className={clsx('edit-btn')}
                                             border='border-grey'
                                             title='Edit profile'

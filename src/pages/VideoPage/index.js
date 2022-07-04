@@ -24,7 +24,6 @@ import {
     WhatsAppIcon,
     XIcon,
 } from '~/components/Icons'
-import Image from '~/components/Image'
 import Loading from '~/components/Loading'
 import { LoginPopup } from '~/components/Popper'
 import ProfileContainer from '~/components/ProfileContainer'
@@ -69,12 +68,12 @@ function VideoPage() {
     const NotFoundPost = function () {
         return (
             <div className={clsx('not-found-post', 'd-flex')}>
-                <Image
+                {/* <Image
                     src={
                         'https://firebasestorage.googleapis.com/v0/b/tiktok-2da3a.appspot.com/o/images%2F404-not-found.jpeg?alt=media&token=057e62d5-79f0-4d41-b3e3-299f0ee10cf5'
                     }
                     className={clsx('not-found-img')}
-                />
+                /> */}
                 <p className={clsx('not-found-title')}>This post may have been deleted by the author</p>
                 <p className={clsx('not-found-desc')}>Check out more trending videos on TikTok</p>
                 <Button
