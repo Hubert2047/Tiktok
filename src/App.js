@@ -18,9 +18,13 @@ function App({ className }) {
 
     useEffect(() => {
         if (currentUserId) {
-            getUserRealyTime(currentUserId, (data) => {
-                dispath(userActions.setUser(data))
-            })
+            try {
+                getUserRealyTime(currentUserId, (data) => {
+                    dispath(userActions.setUser(data))
+                })
+            } catch (error) {
+                console.log(error)
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUserId])

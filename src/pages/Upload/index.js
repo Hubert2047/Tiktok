@@ -181,6 +181,7 @@ function Upload() {
             return
         }
         try {
+            window.scrollTo({ top: 0, behavior: 'smooth' }) //scroll to header so we can see video
             const storage = getStorage()
             const storageRef = ref(storage, `videos/${postPreview.fileName}`)
             const uploadTask = uploadBytesResumable(storageRef, postPreview.file)

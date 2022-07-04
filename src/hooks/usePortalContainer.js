@@ -11,6 +11,7 @@ function usePortalContainer(style) {
         document.getElementsByTagName('body')[0].prepend(div)
         setLoaded(true)
         return () => document.getElementsByTagName('body')[0].removeChild(div)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [portalId])
     return [loaded, portalId]
 }

@@ -62,6 +62,15 @@ const logOut = async function (callback) {
             // An error happened.
         })
 }
+const updateUser = async function (updateUser, uid) {
+    console.log(updateUser)
+    const updateUsertRef = doc(db, 'users', uid)
+    try {
+        await updateDoc(updateUsertRef, { ...updateUser })
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
 
 //user
 const searchUsers = async function (searchValue, type = 'less') {
@@ -102,10 +111,14 @@ const isExistUser = async function (uid) {
     return true
 }
 const getUserRealyTime = async function (uid, callback) {
-    onSnapshot(doc(db, 'users', uid), async (doc) => {
-        const user = { ...doc.data(), id: doc.id }
-        callback(user)
-    })
+    try {
+        onSnapshot(doc(db, 'users', uid), async (doc) => {
+            const user = { ...doc.data(), id: doc.id }
+            callback(user)
+        })
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 const addUser = async function (user) {
     // console.log(user)
@@ -796,6 +809,37 @@ const uploadFile = async function (stringUrl, fileRef) {
             })
     })
 }
+const uploadFileProgress = async function (url, locateRef, loadFunc) {
+    const storage = getStorage()
+    const storageRef = ref(storage, locateRef)
+
+    const uploadTask = uploadString(storageRef, url, 'data_url')
+    uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            loadFunc(progress)
+            switch (snapshot.state) {
+                case 'paused':
+                    console.log('Upload is paused')
+                    break
+                case 'running':
+                    console.log('Upload is running')
+                    break
+                default:
+            }
+        },
+        (error) => {
+            // Handle unsuccessful uploads
+        },
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                // callback(downloadURL)
+                console.log(downloadURL)
+            })
+        }
+    )
+}
 
 export {
     db,
@@ -806,6 +850,7 @@ export {
     getUser,
     getUserRealyTime,
     addUser,
+    updateUser,
     updateUserLikes,
     updateFollowing,
     getSuggestFollowing,
@@ -840,4 +885,5 @@ export {
     addNotifications,
     updateNotificationReadState,
     uploadFile,
+    uploadFileProgress,
 }

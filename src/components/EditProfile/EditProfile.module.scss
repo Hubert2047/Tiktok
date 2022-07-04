@@ -43,6 +43,7 @@
 }
 .close-icon {
     fill: var(--black-color);
+    cursor: pointer;
 }
 
 .middle {
@@ -131,13 +132,14 @@
     flex-direction: column;
 }
 .area-input {
+    font-size: 1.5rem;
+    padding: 1.2rem;
+    width: 36rem;
+    height: 8rem;
+    background-color: var(--grey-color);
     outline: none;
     resize: none;
     border: none;
-    padding: 1.2rem;
-    height: 10rem;
-    background-color: var(--grey-color);
-    width: 36rem;
     border-radius: var(--border-radius-sm);
     -webkit-border-radius: var(--border-radius-sm);
     -moz-border-radius: var(--border-radius-sm);
@@ -151,4 +153,7 @@
     font-size: 1.2rem;
     margin-top: 0.5rem;
     color: var(--grey-color-3);
+}
+.text-limited {
+    color: var(--primary-color);
 }

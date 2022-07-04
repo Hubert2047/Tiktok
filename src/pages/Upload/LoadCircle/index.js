@@ -2,7 +2,7 @@ import classNames from 'classnames/bind'
 import styles from './LoadCircle.module.scss'
 
 const clsx = classNames.bind(styles)
-function LoadCircle({ process, titleColor }) {
+function LoadCircle({ process, titleColor = 'white' }) {
     const _process = 226 - (226 * process) / 100
     return (
         <div className={clsx('wrapper')}>
