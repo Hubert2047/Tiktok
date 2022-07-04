@@ -3,5 +3,16 @@
     width: 100vw;
     height: 100vh;
     z-index: 9;
-    background-color: rgba(0, 0, 0, 0.5);
+    animation: portalAnimated 0.2s linear forwards;
+    -webkit-animation: portalAnimated 0.2s linear forwards;
+}
+
+@keyframes portalAnimated {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
 }

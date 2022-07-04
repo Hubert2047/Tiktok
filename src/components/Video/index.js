@@ -4,6 +4,8 @@ import classNames from 'classnames/bind'
 import { memo, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ReportIcon } from '~/components/Icons'
+import { useDispatch } from 'react-redux'
+import { toastActions } from '~/redux/toastSlice'
 import Image from '~/components/Image'
 import { useVideoPageRoute } from '~/hooks'
 import VideoFooter from '../VideoFooter'
@@ -11,6 +13,7 @@ import styles from './Video.module.scss'
 const clsx = classNames.bind(styles)
 function Video({ post, className, onMouseEnter, isCurrentPostPlaying }) {
     // console.log('re-render video', post.id)
+    const dispath = useDispatch()
     const videoRef = useRef()
     useEffect(() => {
         if (!videoRef.current) return
@@ -24,6 +27,10 @@ function Video({ post, className, onMouseEnter, isCurrentPostPlaying }) {
     const handleNavigate = function (e) {
         e.preventDefault()
         navigate(useVideoPageRoute(post))
+    }
+    const handleReport = function (e) {
+        e.stopPropagation()
+        dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
     }
     return (
         <div onMouseEnter={onMouseEnter} className={clsx('wrapper', 'd-flex', className)}>
@@ -42,7 +49,7 @@ function Video({ post, className, onMouseEnter, isCurrentPostPlaying }) {
                     src={post.video}
                     controls></video>
 
-                <div className={clsx('report-box')}>
+                <div onClick={handleReport} className={clsx('report-box')}>
                     <ReportIcon />
                     <span>Report</span>
                 </div>

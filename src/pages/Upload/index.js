@@ -20,6 +20,7 @@ import {
     WramIcon,
 } from '~/components/Icons'
 import Image from '~/components/Image'
+import { alertConstain } from '~/staticData'
 import { addPost, uploadFile } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
@@ -29,6 +30,7 @@ import LoadCircle from './LoadCircle'
 import styles from './Upload.module.scss'
 const clsx = classNames.bind(styles)
 
+let intervalId
 function Upload() {
     const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
@@ -70,7 +72,7 @@ function Upload() {
         const handlePreviewLoadingVideo = async function () {
             if (!videoRef.current || !postPreview.id || !videoPreviewDuration) return
             const imgs = []
-            const intervalId = setInterval(() => {
+            intervalId = setInterval(() => {
                 const seekTime = imgs?.length ? (videoPreviewDuration / 8) * imgs?.length : 0
                 videoRef.current.currentTime = seekTime
                 //set canvas height,width
@@ -81,13 +83,14 @@ function Upload() {
                 //push img to imgs
                 const url = canvasRef.current.toDataURL('image/png')
                 imgs.push(url)
-                //set progess to get 8 pictures
+                //set progess of get 8 pictures
                 const _currentProcess = ((imgs?.length || 0) * 100) / 8 + Math.floor(Math.random() * 10)
                 setProcess(_currentProcess > 100 ? 100 : _currentProcess)
                 // check if we already have 8 pictures then clear interval
                 if (imgs?.length === 8) {
                     clearInterval(intervalId)
                     setPosters(imgs)
+                    window.scrollTo({ top: 0, behavior: 'smooth' }) //scroll to header so we can see video
                     setOnloadVideoPriview(false) // when load imgs done , set onload video state to false
                     setData((prev) => {
                         return { ...prev, poster: imgs[0] }
@@ -128,7 +131,7 @@ function Upload() {
         reader.readAsDataURL(e.target.files[0])
         if (e.target.files[0].size > limitedSize) {
             setOnloadVideoPriview(false)
-            dispath(toastActions.addToast({ message: 'Limited file size', mode: 'success' }))
+            dispath(toastActions.addToast({ message: alertConstain.FILE_SIZE_LIMITED, mode: 'success' }))
             return
         }
         reader.onload = function () {
@@ -142,14 +145,19 @@ function Upload() {
         }
     }
     const handleCaptionInput = function (e) {
-        setData((prev) => {
-            return { ...prev, content: e.target.textContent }
-        })
+        if (e.target.textContent.length > 149 && data.content === '') {
+            e.target.textContent = ''
+            dispath(toastActions.addToast({ message: alertConstain.TEXT_LIMITED, mode: 'success' }))
+        } else {
+            setData((prev) => {
+                return { ...prev, content: e.target.textContent }
+            })
+        }
     }
     const handleKeyDownValue = function (e) {
         if (data?.content?.length > 149 && e.keyCode !== 8) {
             e.preventDefault()
-            dispath(toastActions.addToast({ message: 'Maximum 150 characters', mode: 'success' }))
+            dispath(toastActions.addToast({ message: alertConstain.TEXT_LIMITED, mode: 'success' }))
             return
         }
     }
@@ -164,6 +172,8 @@ function Upload() {
             contentRef.current.innerHTML = ''
             return { ...prev, content: '' }
         }) //reset content
+        if (intervalId) clearInterval(intervalId)
+        window.scrollTo({ top: 0, behavior: 'smooth' }) //scroll to header so we can see video
     }
     const handleAddPost = async function () {
         if (!postPreview.video || onloadVideoPrivew) {

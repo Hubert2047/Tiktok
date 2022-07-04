@@ -8,7 +8,7 @@ import Toast from '../Toast'
 import styles from './ToastPortal.module.scss'
 
 const clsx = classNames.bind(styles)
-function ToastPortal({ className, autoClose = true, autoCloseTime = 3000 }, ref) {
+function ToastPortal({ className, autoClose = true, autoCloseTime = 2000 }, ref) {
     const dispath = useDispatch()
     const toasts = useSelector((state) => state.toast.toasts)
     const [loaded, portalId] = usePortalContainer('position:fixed;top:10px;left:40%;z-index:9999')

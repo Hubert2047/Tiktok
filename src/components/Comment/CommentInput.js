@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { SmileIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
+import { alertConstain } from '~/staticData'
 import { addComment } from '~/firebase'
 import { commentActions } from '~/redux/commentSlice'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
@@ -88,7 +89,7 @@ function CommentInput({ post, className }) {
         //second run
         if (e.target.textContent?.length > 149) {
             e.preventDefault()
-            dispath(toastActions.addToast({ message: 'Text is limited ', mode: 'success' }))
+            dispath(toastActions.addToast({ message: alertConstain.TEXT_LIMITED, mode: 'success' }))
         }
     }
     const handleInput = function (e) {
@@ -96,7 +97,7 @@ function CommentInput({ post, className }) {
         //third run
         if (e.target.textContent.length > 149 && value === '') {
             e.target.textContent = ''
-            dispath(toastActions.addToast({ message: 'Text is limited ', mode: 'success' }))
+            dispath(toastActions.addToast({ message: alertConstain.TEXT_LIMITED, mode: 'success' }))
         }
     }
     const handleInputOnkeyUp = function (e) {

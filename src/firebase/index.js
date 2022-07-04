@@ -300,6 +300,7 @@ const getPosts = async function (callback, lastPost = -1) {
 const getPost = async function (postId) {
     const docRef = doc(db, 'posts', postId)
     const docSnap = await getDoc(docRef)
+    if (!docSnap.exists()) return false
     const user = await getUser(docSnap.data().uid)
     return { ...docSnap.data(), id: docSnap.id, user: user }
 }

@@ -1,10 +1,7 @@
 .wrapper {
     justify-content: flex-start;
     gap: 1.25rem;
-    &:hover .report-box {
-        display: flex;
-        opacity: 1;
-    }
+
     max-height: 70vh;
 }
 .video-box {
@@ -30,6 +27,10 @@
     cursor: pointer;
     border-radius: var(--border-radius-md);
 }
+.video:hover ~ .report-box {
+    display: flex;
+    opacity: 1;
+}
 .poster {
     // max-width: 100%;
     width: 100%;
@@ -47,10 +48,20 @@
     font-size: 1.6rem;
     padding: 0.5rem;
     opacity: 0;
+    background-color: rgba(0, 0, 0, 0.3);
     color: var(--white-color);
     transform: translate(-25%);
     transition: all 1.25s ease;
     cursor: pointer;
+    -webkit-border-radius: var(--border-radius-md);
+    -moz-border-radius: var(--border-radius-md);
+    -ms-border-radius: var(--border-radius-md);
+    -o-border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-md);
+    &:hover {
+        display: flex;
+        opacity: 1;
+    }
 }
 .video-footer {
     align-self: flex-end;

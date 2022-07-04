@@ -60,9 +60,7 @@ function Comment({ comment, post, rootCommentId }) {
     }
 
     const handleReportOnClick = function () {
-        dispath(
-            toastActions.addToast({ title: 'Reported!', message: 'thank you  for your reporting', mode: 'success' })
-        )
+        dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
     }
     const handleReplyOnClick = function () {
         //push reply user to redux then input could know what use have to send notification

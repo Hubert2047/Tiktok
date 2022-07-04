@@ -16,6 +16,7 @@ import {
     HeartIcon,
     HeartPrimary,
     HorizontalThreeDot,
+    PlayIcon,
     ReportIcon,
     SendToIcon,
     ShareIcon,
@@ -23,9 +24,9 @@ import {
     WhatsAppIcon,
     XIcon,
 } from '~/components/Icons'
+import Image from '~/components/Image'
 import Loading from '~/components/Loading'
 import { LoginPopup } from '~/components/Popper'
-import FullScreenModal from '~/components/Popper/FullScreenModal'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
 import { deletePost, getCommentCount, getPost } from '~/firebase'
@@ -36,7 +37,7 @@ import { toastActions } from '~/redux/toastSlice'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
-    console.log('re-render video page')
+    // console.log('re-render video page')
     const params = useParams()
     const dispath = useDispatch()
     // console.log(params)
@@ -45,9 +46,7 @@ function VideoPage() {
     const currentUser = useSelector((state) => state.user.user)
     const [post, setPost] = useState({})
     const [commentCount, setCommentCount] = useState(0)
-    const [loading, setLoading] = useState(true)
     const [showallContent, setShowAllContent] = useState(false)
-    const [showLogin, setShowLogin] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
     const [isFollowing, setIsFollowing] = useState()
     const [isLikedPost, setIsLikedPost] = useState()
@@ -64,17 +63,48 @@ function VideoPage() {
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [post])
+    const handleGoBackHome = function () {
+        navigate('/')
+    }
+    const NotFoundPost = function () {
+        return (
+            <div className={clsx('not-found-post', 'd-flex')}>
+                <Image
+                    src={
+                        'https://firebasestorage.googleapis.com/v0/b/tiktok-2da3a.appspot.com/o/images%2F404-not-found.jpeg?alt=media&token=057e62d5-79f0-4d41-b3e3-299f0ee10cf5'
+                    }
+                    className={clsx('not-found-img')}
+                />
+                <p className={clsx('not-found-title')}>This post may have been deleted by the author</p>
+                <p className={clsx('not-found-desc')}>Check out more trending videos on TikTok</p>
+                <Button
+                    icon={<PlayIcon />}
+                    onClick={handleGoBackHome}
+                    title='Watch Now'
+                    size='size-big'
+                    bg='bg-primary'
+                    color='color-white'
+                    className={clsx('back-home-btn')}
+                />
+            </div>
+        )
+    }
     useEffect(() => {
         const getPostJSON = async function () {
-            setLoading(true)
+            // setLoading(true)
+            dispath(containerPortalActions.setComponent(<Loading />))
             try {
                 const data = await getPost(postId)
+                if (!data) {
+                    dispath(containerPortalActions.setComponent(<NotFoundPost />))
+                    return
+                }
                 setPost(data)
                 setIsLikedPost(currentUser?.likes?.includes(data?.id) || false)
                 setIsFollowing(currentUser?.following?.includes(data?.user?.uid) || false)
-                setLoading(false)
+                dispath(containerPortalActions.setComponent(null)) //close loading
             } catch (e) {
-                setLoading(false)
+                dispath(containerPortalActions.setComponent(null)) //close loading
                 console.log(e)
             }
         }
@@ -84,13 +114,11 @@ function VideoPage() {
     const handleReflow = function (rleState) {
         setIsClamped(rleState.clamped)
     }
-    const handleShowLogin = function () {
-        setShowLogin((prev) => !prev)
-    }
+
     const handleFollowing = async function () {
         try {
             const result = await handleFollowingUser(currentUser, post.user, isFollowing)
-            if (result?.showLogin) handleShowLogin(true)
+            if (result?.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
             //data is not realtime so we have to manually state
             if (result?.isFollowing) {
                 setIsFollowing(true)
@@ -103,7 +131,7 @@ function VideoPage() {
     }
     const handleLikePostAction = async function () {
         const result = await handleLikePost(currentUser, post, isLikedPost)
-        if (result?.showLogin) handleShowLogin(true)
+        if (result?.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
         //data is not realtime so we have to manually state
         setIsLikedPost(result?.isLikedPost)
     }
@@ -111,10 +139,12 @@ function VideoPage() {
         try {
             dispath(containerPortalActions.setComponent(<Loading />))
             await deletePost(postId)
-            dispath(containerPortalActions.setComponent(null))
+            dispath(containerPortalActions.setComponent(null)) //close loading
             dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
             navigate(useProfileRoute(currentUser))
         } catch (error) {
+            dispath(containerPortalActions.setComponent(null))
+
             console.log(error)
         }
     }
@@ -128,6 +158,9 @@ function VideoPage() {
                 />
             )
         )
+    }
+    const handleOnReport = function () {
+        dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
     }
     const Actions = function ({ placement }) {
         return (
@@ -157,16 +190,6 @@ function VideoPage() {
     }
     return (
         <div>
-            {loading && (
-                <FullScreenModal className={clsx('loading')}>
-                    <Loading />
-                </FullScreenModal>
-            )}
-            {showLogin && (
-                <FullScreenModal handleShowPopup={handleShowLogin}>
-                    <LoginPopup handleShowPopup={handleShowLogin} />
-                </FullScreenModal>
-            )}
             {post.id && (
                 <div className={clsx('wrapper')}>
                     <div className={clsx('video-container', 'flex-center')}>
@@ -181,6 +204,7 @@ function VideoPage() {
                             title='Report'
                             color={'color-white'}
                             icon={<ReportIcon />}
+                            onClick={handleOnReport}
                             className={clsx('report-btn')}
                         />
                     </div>

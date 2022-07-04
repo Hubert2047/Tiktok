@@ -30,6 +30,7 @@ function GetApp({ className }) {
         window.scrollTo({ top: 0 })
     }
     const handleShowPopup = function () {
+        console.log('go')
         dispath(containerPortalActions.setComponent(<GetAppPopup />))
     }
     return (

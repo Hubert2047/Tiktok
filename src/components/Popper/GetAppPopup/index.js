@@ -3,19 +3,22 @@ import { AiFillApple } from 'react-icons/ai'
 import { IoLogoMicrosoft } from 'react-icons/io5'
 import { RiGooglePlayFill } from 'react-icons/ri'
 import { SiAmazon } from 'react-icons/si'
+import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import { XIcon } from '~/components/Icons'
 import Image from '~/components/Image'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import styles from './GetAppPopup.module.scss'
 const clsx = classNames.bind(styles)
-function GetAppPopup({ className, handleShowPopup }) {
+function GetAppPopup({ className }) {
+    const dispath = useDispatch()
     return (
         <div className={clsx('wrapper', `${className}`)}>
             <div className={clsx('header', 'd-flex')}>
                 <h4 className={clsx('title')}>Get TikTok App</h4>
                 <div
                     onClick={() => {
-                        handleShowPopup(false)
+                        dispath(containerPortalActions.setComponent(null))
                     }}>
                     <XIcon className={clsx('close-btn')} />
                 </div>
