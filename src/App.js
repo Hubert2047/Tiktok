@@ -6,6 +6,7 @@ import { getUserRealyTime } from '~/firebase'
 import { userActions } from '~/redux/userSlice'
 import { privateRoutes, publicRoutes } from '~/routes'
 import styles from './App.module.scss'
+import ContainerPortal from './components/ContainerPortal'
 import ToastPortal from './components/ToastPortal'
 import MobileHomePage from './mobile/pages/MobileHomePage/index'
 const clsx = classNames.bind(styles)
@@ -74,6 +75,7 @@ function App({ className }) {
                 </div>
             )}
             <ToastPortal />
+            <ContainerPortal />
         </Router>
     )
 }

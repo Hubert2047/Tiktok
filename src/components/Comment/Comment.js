@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import { forwardRef, memo, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
@@ -13,32 +13,30 @@ import { deleteComment, getComments, updateCommentLikes } from '~/firebase'
 import { convertTimeStampToDate } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { commentActions } from '~/redux/commentSlice'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
 import { notification } from '~/staticData'
 import Comfirm from '../Comfirm'
+import Loading from '../Loading'
 import { LoginPopup } from '../Popper'
-import FullScreenModal from '../Popper/FullScreenModal'
 import UserAvatar from '../UserAvatar'
 import styles from './Comment.module.scss'
 
 const clsx = classNames.bind(styles)
-
-const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
+function Comment({ comment, post, rootCommentId }) {
     const isRootCommnet = comment.parentId === 'null' || false
-    const avatarHeight = isRootCommnet ? '4rem' : '2.75rem'
+    const avatarHeight = isRootCommnet ? '4rem' : '2.75rem' //if is root comment then avatar height will be bigger than children cmt
     const dispath = useDispatch()
     const inputRef = useSelector((state) => state.comment.inputRef)
     const currentUser = useSelector((state) => state.user.user)
     const [childrenComments, setChildrenComments] = useState([])
-    const [showLogin, setShowLogin] = useState(false)
     const childrenCommentCount = childrenComments?.length || 0
-    const [viewReplies, setViewReplies] = useState(false)
-    const [showComfirm, setShowComfirm] = useState(false)
-    const isLiked = comment.likes.includes(currentUser.uid)
+    const [viewReplies, setViewReplies] = useState(false) // show all or hide cmts
+    const isLiked = comment.likes.includes(currentUser.uid) // has current user liked this cmt
     const navigate = useNavigate()
     // console.log('re-render comment', comment.id)
     const updateChildrenComments = function (data) {
-        setChildrenComments(data.comments)
+        setChildrenComments(data)
     }
     useEffect(() => {
         try {
@@ -46,18 +44,18 @@ const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
                 postId: post.id,
                 callback: updateChildrenComments,
                 parentId: comment.id,
-                lastDocComment: 0,
-                commentLimit: 'all',
-            })
+            }) //get all children comments
         } catch (e) {
             console.log(e)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     const handleRenderChildrenComments = function () {
+        //show or hide all children cmt
         setViewReplies((prev) => !prev)
     }
     const handleNavigate = function () {
+        //change route
         navigate(useProfileRoute(comment.user))
     }
 
@@ -67,6 +65,7 @@ const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
         )
     }
     const handleReplyOnClick = function () {
+        //push reply user to redux then input could know what use have to send notification
         inputRef?.focus()
         dispath(
             commentActions.setLastUserWasTouchedReplyInfor({
@@ -75,12 +74,9 @@ const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
             })
         )
     }
-    const handleShowLogin = function () {
-        setShowLogin((prev) => !prev)
-    }
     const updateCommentLikeToFirebase = async function () {
         if (!currentUser.uid) {
-            handleShowLogin()
+            dispath(containerPortalActions.setComponent(<LoginPopup />))
             return
         }
         let updateLikes = []
@@ -104,40 +100,37 @@ const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
         await updateCommentLikes(currentUser, comment.id, updateLikes, post.uid, newNotification, isLiked)
     }
     const handleDeleteOnClick = async function () {
-        setShowComfirm(true)
+        dispath(
+            containerPortalActions.setComponent(
+                <Comfirm
+                    question='Are you sure you want to delete this comment?'
+                    subMitTitle='Delete'
+                    onSubmit={handleOnComfirm}
+                />
+            )
+        )
     }
 
-    const handleOnCancelComfirm = function () {
-        setShowComfirm(false)
-    }
     const handleOnComfirm = async function () {
+        dispath(containerPortalActions.setComponent(<Loading />))
         const deleteCommentFunc = []
         if (childrenComments?.length > 0) {
+            //if delete cmt is a parent cmt, we also have to delete all children
             childrenComments.forEach((childrenComment) => {
                 deleteCommentFunc.push(deleteComment(childrenComment.id))
             })
         }
         await Promise.all([...deleteCommentFunc, deleteComment(comment.id)])
         dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
-        setShowComfirm(false)
+        dispath(containerPortalActions.setComponent(null))
     }
     return (
-        <div ref={ref} className={clsx('comment-item', 'd-flex')}>
+        <div className={clsx('comment-item', 'd-flex')}>
             {/* root comments */}
             <div className={clsx('comment', 'd-flex')}>
                 <ProfileContainer user={comment?.user} placement='left-start'>
                     <UserAvatar onclick={handleNavigate} height={avatarHeight} user={comment?.user} />
                 </ProfileContainer>
-                {showComfirm && (
-                    <FullScreenModal>
-                        <Comfirm
-                            question='Are you sure you want to delete this comment?'
-                            btnTitle='Delete'
-                            onCancel={handleOnCancelComfirm}
-                            onComfirm={handleOnComfirm}
-                        />
-                    </FullScreenModal>
-                )}
                 <div className={clsx('comment-content', 'd-flex')}>
                     <Button title={comment?.user?.full_name} className={clsx('name')} />
                     <p className={clsx('comment-text')}>{comment.content}</p>
@@ -166,7 +159,7 @@ const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
                                             onClick={handleReportOnClick}
                                             className={clsx('comment-action-btn')}
                                             title='Report'
-                                            icon={<ReportIcon height='2.4rem' width='2.4rem' />}
+                                            icon={<ReportIcon height='24px' width='24px' />}
                                         />
                                     )}
                                 </div>
@@ -215,13 +208,8 @@ const Comment = forwardRef(({ comment, post, rootCommentId }, ref) => {
                     {!viewReplies ? `View more replies(${childrenCommentCount})` : 'View less replies'}
                 </button>
             )}
-            {showLogin && (
-                <FullScreenModal handleShowPopup={handleShowLogin}>
-                    <LoginPopup handleShowPopup={handleShowLogin} />
-                </FullScreenModal>
-            )}
         </div>
     )
-})
+}
 
 export default memo(Comment)

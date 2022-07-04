@@ -1,13 +1,15 @@
 import classNames from 'classnames/bind'
 import { useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import { ForwardIcon } from '~/components/Icons'
-import { FullScreenContainer, GetAppPopup } from '~/components/Popper'
+import { GetAppPopup } from '~/components/Popper'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import styles from './GetApp.module.scss'
 const clsx = classNames.bind(styles)
 function GetApp({ className }) {
+    const dispath = useDispatch()
     const wrapperRef = useRef(null)
-    const [showPoppup, setShowPoppup] = useState(false)
     const [showUpHeader, setShowUpHeader] = useState('')
     useEffect(() => {
         const handleScroll = function () {
@@ -27,8 +29,8 @@ function GetApp({ className }) {
         wrapperRef.current.parentNode.scrollTo({ top: 0 })
         window.scrollTo({ top: 0 })
     }
-    const handleShowPopup = function (isShow) {
-        setShowPoppup(isShow)
+    const handleShowPopup = function () {
+        dispath(containerPortalActions.setComponent(<GetAppPopup />))
     }
     return (
         <div ref={wrapperRef} className={clsx('wrapper', className)}>
@@ -39,9 +41,7 @@ function GetApp({ className }) {
                     size='size-sm'
                     border={'border-grey'}
                     className={clsx('get-app-btn')}
-                    onClick={() => {
-                        handleShowPopup(true)
-                    }}
+                    onClick={handleShowPopup}
                 />
 
                 <Button
@@ -54,11 +54,6 @@ function GetApp({ className }) {
                     className={clsx('scroll-btn')}
                 />
             </div>
-            {showPoppup && (
-                <FullScreenContainer handleShowPopup={handleShowPopup}>
-                    <GetAppPopup handleShowPopup={handleShowPopup} />
-                </FullScreenContainer>
-            )}
         </div>
     )
 }

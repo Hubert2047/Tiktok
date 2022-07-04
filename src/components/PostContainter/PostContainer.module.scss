@@ -1,6 +1,7 @@
 .wrapper {
     position: relative;
     gap: 1.2rem;
+    min-height: 70vh;
     padding: 2rem 1rem;
     border-bottom: 1.5px solid var(--grey-color);
     scroll-snap-align: start;
@@ -20,7 +21,7 @@
 }
 .content {
     flex-direction: column;
-    min-height: 70vh;
+    // min-height: 70vh;
 }
 .header {
     flex-direction: column;

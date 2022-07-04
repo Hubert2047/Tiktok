@@ -2,7 +2,7 @@ import classNames from 'classnames/bind'
 import styles from './LoadCircle.module.scss'
 
 const clsx = classNames.bind(styles)
-function LoadCircle({ process }) {
+function LoadCircle({ process, titleColor }) {
     const _process = 226 - (226 * process) / 100
     return (
         <div className={clsx('wrapper')}>
@@ -12,7 +12,7 @@ function LoadCircle({ process }) {
                     <circle strokeDashoffset={_process} strokeDasharray={226} cx='36' cy='36' r='36'></circle>
                 </svg>
                 <div>
-                    <h4 className={clsx('process', 'flex-center')}>
+                    <h4 className={clsx('process', 'flex-center', titleColor)}>
                         {process}
                         <span>%</span>
                     </h4>

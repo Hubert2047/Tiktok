@@ -2,16 +2,16 @@ import classNames from 'classnames/bind'
 import { forwardRef } from 'react'
 import * as ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useToast, useToastAutoClose } from '~/hooks'
+import { usePortalContainer, useToastAutoClose } from '~/hooks'
 import { toastActions } from '~/redux/toastSlice'
 import Toast from '../Toast'
 import styles from './ToastPortal.module.scss'
 
 const clsx = classNames.bind(styles)
-function ToastPortal({ className, autoClose = true, autoCloseTime = 3500 }, ref) {
+function ToastPortal({ className, autoClose = true, autoCloseTime = 3000 }, ref) {
     const dispath = useDispatch()
     const toasts = useSelector((state) => state.toast.toasts)
-    const [loaded, portalId] = useToast()
+    const [loaded, portalId] = usePortalContainer('position:fixed;top:10px;left:40%;z-index:9999')
     // useImperativeHandle(ref, () => ({
     //     addToast(toast) {
     //         setToasts([...(toasts || []), { ...toast, id: uuidv4() }])

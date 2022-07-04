@@ -20,8 +20,8 @@ import {
     WramIcon,
 } from '~/components/Icons'
 import Image from '~/components/Image'
-import { FullScreenContainer } from '~/components/Popper'
 import { addPost, uploadFile } from '~/firebase'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
 import MobileSidebar from '../../mobile/components/MobileSidebar/index'
 import Spiner from '../../mobile/components/MobileVideoFooter/Spiner'
@@ -37,7 +37,6 @@ function Upload() {
     const [copyrightCheck, setCopyrightCheck] = useState(false)
     const [posters, setPosters] = useState([])
     const [onloadVideoPrivew, setOnloadVideoPriview] = useState(false)
-    const [showLoadingPost, setShowLoadingPost] = useState(false)
     const [activePosterIndex, setActivePosterIndex] = useState(0)
     const [shareState, setShareState] = useState('Public')
     const [process, setProcess] = useState(0)
@@ -167,25 +166,29 @@ function Upload() {
         }) //reset content
     }
     const handleAddPost = async function () {
-        if (!postPreview.video) {
+        if (!postPreview.video || onloadVideoPrivew) {
             dispath(toastActions.addToast({ message: 'Video is null.', mode: 'success' }))
             return
         }
         try {
-            setShowLoadingPost(true)
             const storage = getStorage()
             const storageRef = ref(storage, `videos/${postPreview.fileName}`)
             const uploadTask = uploadBytesResumable(storageRef, postPreview.file)
-            setShowLoadingPost(true)
+            // setShowLoadingPost(true)
             uploadTask.on(
                 'state_changed',
                 (snapshot) => {
-                    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100) //5% to wait update to firedatabase
-                    setProcess(progress < 5 ? progress : progress - 5)
+                    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100) //1% to wait update to firedatabase
+                    // setProcess(progress < 5 ? progress : progress - 5)
+                    dispath(
+                        containerPortalActions.setComponent(
+                            <LoadCircle process={progress < 5 ? progress : progress - 1} titleColor='white' />
+                        )
+                    )
                 },
                 (error) => {
                     console.log(error)
-                    setShowLoadingPost(false)
+                    dispath(containerPortalActions.setComponent(null))
                 },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
@@ -198,23 +201,18 @@ function Upload() {
                         addPost(newPost).catch((error) => {
                             console.log(error)
                         })
-                        setShowLoadingPost(false)
+                        dispath(containerPortalActions.setComponent(null))
                         dispath(toastActions.addToast({ message: 'Your video is being uploaded .', mode: 'success' }))
                     })
                 }
             )
         } catch (error) {
             console.log(error)
-            setShowLoadingPost(false)
+            dispath(containerPortalActions.setComponent(null))
         }
     }
     return (
         <div className={clsx('wrapper')}>
-            {showLoadingPost && (
-                <FullScreenContainer>
-                    <LoadCircle process={process} />
-                </FullScreenContainer>
-            )}
             <div className={clsx('top', 'd-flex')}>
                 {postPreview?.id && !onloadVideoPrivew && (
                     <div className={clsx('video-container', 'd-flex')}>
@@ -283,7 +281,7 @@ function Upload() {
                         {onloadVideoPrivew && (
                             <div className={clsx('left', 'd-flex')}>
                                 <Fragment>
-                                    <LoadCircle process={process} />
+                                    <LoadCircle process={process} titleColor='black' />
                                     <p className={clsx('loading-text')}>{`Uploading ${postPreview?.fileName || ''}`}</p>
                                     <Button
                                         onClick={handleResetOnChangeVideo}
@@ -439,8 +437,8 @@ function Upload() {
                                 <Button
                                     onClick={handleAddPost}
                                     title='Post'
-                                    bg={!postPreview?.video ? 'bg-grey' : 'bg-primary'}
-                                    color={!postPreview?.video ? 'color-grey' : 'color-white'}
+                                    bg={!postPreview?.video && !onloadVideoPrivew ? 'bg-grey' : 'bg-primary'}
+                                    color={!postPreview?.video && !onloadVideoPrivew ? 'color-grey' : 'color-white'}
                                     className={clsx('action-btn')}
                                 />
                             </div>

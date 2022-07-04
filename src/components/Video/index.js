@@ -34,6 +34,7 @@ function Video({ post, className, onMouseEnter, isCurrentPostPlaying }) {
                     webkit-playsinline='true'
                     playsInline={true}
                     autoPlay={true}
+                    preload='none'
                     // muted='muted'
                     // controlsList='nofullscreen'
                     className={clsx('video')}

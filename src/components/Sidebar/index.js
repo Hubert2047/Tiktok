@@ -1,24 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Button from '~/components/Button'
 import { FollowingIcon, HomeIcon, VideoIcon } from '~/components/Icons'
 import LinkContainer from '~/components/LinkContainer'
 import UserContainer from '~/components/UserContainer'
 import { getFollowing, getSuggestFollowing } from '~/firebase'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { discovers, footerData } from '~/staticData'
 import DiscoverContainer from '../DiscoverContainer'
-import { FullScreenContainer, LoginPopup } from '../Popper'
+import { LoginPopup } from '../Popper'
 import styles from './Sidebar.module.scss'
 const clsx = classNames.bind(styles)
 
 function Sidebar({ className }) {
+    const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
     // console.log('re-render sidebar')
     const [suggestFollowingData, setSuggestFollowingData] = useState([])
     const [followingData, setFollowingData] = useState([])
-    const [showLogin, setShowLogin] = useState(false)
     const currentSuggestFollowingData = suggestFollowingData[suggestFollowingData?.length - 1]
     const [seeText, setSeeText] = useState('See all')
     const [isCallApi, setCallApi] = useState(false)
@@ -59,15 +60,10 @@ function Sidebar({ className }) {
         }
     }
     const handleShowLogin = function () {
-        setShowLogin((prev) => !prev)
+        dispath(containerPortalActions.setComponent(<LoginPopup />))
     }
     return (
         <Fragment>
-            {showLogin && (
-                <FullScreenContainer handleShowPopup={handleShowLogin}>
-                    <LoginPopup handleShowPopup={handleShowLogin} />
-                </FullScreenContainer>
-            )}
             <div className={clsx('wrapper', className)}>
                 <div className={clsx('action')}>
                     <Button

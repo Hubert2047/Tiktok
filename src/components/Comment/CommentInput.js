@@ -1,14 +1,16 @@
 import classNames from 'classnames/bind'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { SmileIcon } from '~/components/Icons'
+import Loading from '~/components/Loading'
 import { addComment } from '~/firebase'
 import { commentActions } from '~/redux/commentSlice'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
+import { toastActions } from '~/redux/toastSlice'
 import { notification } from '~/staticData'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
-import FullScreenModal from '../Popper/FullScreenModal'
 import UserAvatar from '../UserAvatar'
 import styles from './Comment.module.scss'
 const clsx = classNames.bind(styles)
@@ -19,45 +21,16 @@ function CommentInput({ post, className }) {
     const lastUserWasTouchedReplyInfor = useSelector((state) => state.comment.lastUserWasTouchedReplyInfor)
     const currentUser = useSelector((state) => state.user.user)
     const [value, setValue] = useState('')
-    const [showLogin, setShowLogin] = useState(false)
-    const handleOnchange = function (e) {
-        setValue(e.target.value)
-    }
     // console.log(currentParentId, lastUserWasTouchedReply)
-    const btnColor = value ? 'color-primary' : 'color-grey'
-    const disabled = !value ? true : false
     const isExistReply = lastUserWasTouchedReplyInfor?.userWasTouched?.uid && true
     const callbackInput = useCallback((node) => {
         dispath(commentActions.setInputRef(node))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
-        if (inputRef) {
-            inputRef.addEventListener('keydown', (e) => {
-                if (e.keyCode === 8 && e.target.value.length === 0) {
-                    dispath(
-                        commentActions.setLastUserWasTouchedReplyInfor({
-                            commentParentId: 'null',
-                            userWasTouched: {},
-                        })
-                    )
-                }
-            })
-            inputRef.addEventListener('keyup', (e) => {
-                inputRef.style.height = '1.5rem'
-                let scheight = e.target.scrollHeight
-                if (scheight > 230) {
-                    inputRef.style.height = `230px`
-                    return
-                }
-                inputRef.style.height = `${scheight}px`
-            })
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [inputRef])
+    }, []) // when it moused then dispath input element to redux, then reply buttom can acces
     async function addCommentToFireBase(e) {
         e.preventDefault()
+        // open loading
+        dispath(containerPortalActions.setComponent(<Loading />))
         const newComment = {
             id: uuidv4(),
             parentId: lastUserWasTouchedReplyInfor.commentParentId,
@@ -79,6 +52,7 @@ function CommentInput({ post, className }) {
         }
         try {
             await addComment(currentUser, post.uid, newComment, newNotification)
+            inputRef.textContent = ''
             //reset current reply user
             dispath(
                 commentActions.setLastUserWasTouchedReplyInfor({
@@ -88,13 +62,56 @@ function CommentInput({ post, className }) {
             )
             //reset input
             setValue('')
-            inputRef.style.height = '1.5rem' //reset inbox height
+            //close loading
+            dispath(containerPortalActions.setComponent(null))
         } catch (e) {
             console.log(e)
         }
     }
     const handleShowLogin = function () {
-        setShowLogin((prev) => !prev)
+        dispath(containerPortalActions.setComponent(<LoginPopup />))
+    }
+    // console.log(value)
+    const handleKeyDown = function (e) {
+        //run first
+        if (e.keyCode === 13 && value.length > 0) {
+            try {
+                addCommentToFireBase(e)
+                e.preventDefault()
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+    const handleKeyPress = function (e) {
+        //handle limit text. if text >150 then prevent key event so div input can not display value
+        //second run
+        if (e.target.textContent?.length > 149) {
+            e.preventDefault()
+            dispath(toastActions.addToast({ message: 'Text is limited ', mode: 'success' }))
+        }
+    }
+    const handleInput = function (e) {
+        //check if user copy  content >150
+        //third run
+        if (e.target.textContent.length > 149 && value === '') {
+            e.target.textContent = ''
+            dispath(toastActions.addToast({ message: 'Text is limited ', mode: 'success' }))
+        }
+    }
+    const handleInputOnkeyUp = function (e) {
+        //four run
+        if (e.keyCode === 8 && value?.length === 0 && isExistReply) {
+            //check to clear reply user.
+            dispath(
+                commentActions.setLastUserWasTouchedReplyInfor({
+                    commentParentId: 'null',
+                    userWasTouched: {},
+                })
+            )
+        }
+        //set value
+        setValue(e.target.textContent)
     }
     return (
         <div>
@@ -104,46 +121,41 @@ function CommentInput({ post, className }) {
                         <UserAvatar user={currentUser} />
                     </div>
                     <div className={clsx('input-box', 'd-flex')}>
-                        {/* {isExistReply && (
-                            <span
-                                className={clsx(
-                                    'tag'
-                                )}>{`Reply to @${lastUserWasTouchedReplyInfor?.userWasTouched?.full_name} :`}</span>
-                        )} */}
-                        <textarea
+                        {isExistReply && (
+                            <span className={clsx('tag')}>
+                                {`Reply to @${lastUserWasTouchedReplyInfor?.userWasTouched?.full_name} :`}
+                            </span>
+                        )}
+                        <div
                             ref={callbackInput}
-                            placeholder={`${
-                                isExistReply
-                                    ? `Reply to @${lastUserWasTouchedReplyInfor?.userWasTouched?.full_name}`
-                                    : 'Add comment ...'
-                            }`}
-                            value={value}
-                            maxLength={150}
-                            require='true'
-                            onChange={handleOnchange}
+                            suppressContentEditableWarning={true}
+                            contentEditable={true}
+                            data-placeholder={!isExistReply ? 'Add comment ...' : ''}
                             className={clsx('input')}
-                        />
-                        <span className={clsx('limit-text')}>{`${value?.length}/150`}</span>
+                            onKeyDown={handleKeyDown}
+                            onKeyUp={handleInputOnkeyUp}
+                            onKeyPress={handleKeyPress}
+                            onInput={handleInput}></div>
+                        <span
+                            className={clsx('limit-text', {
+                                limited: value.length > 149,
+                            })}>{`${value?.length}/150`}</span>
                         <SmileIcon />
                     </div>
-
-                    <Button
-                        onClick={addCommentToFireBase}
-                        title='Post'
-                        color={btnColor}
-                        className={clsx('btn')}
-                        disabled={disabled}
-                    />
+                    {value.length > 0 && (
+                        <Button
+                            onClick={addCommentToFireBase}
+                            title='Post'
+                            color={'color-white'}
+                            bg='bg-primary'
+                            className={clsx('btn')}
+                        />
+                    )}
                 </div>
             ) : (
                 <div onClick={handleShowLogin} className={clsx('lets-login')}>
                     Please log in to comment
                 </div>
-            )}
-            {showLogin && (
-                <FullScreenModal handleShowPopup={handleShowLogin}>
-                    <LoginPopup handleShowPopup={handleShowLogin} />
-                </FullScreenModal>
             )}
         </div>
     )

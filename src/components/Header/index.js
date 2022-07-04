@@ -3,7 +3,7 @@ import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import images from '~/assets/images'
@@ -11,26 +11,25 @@ import Button from '~/components/Button'
 import { InboxIcon, MessengerIcon, ThreeDotIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import Menu from '~/components/Menu'
-import { LoginPopup } from '~/components/Popper'
-import FullScreenModal from '~/components/Popper/FullScreenModal'
 import Search from '~/components/Search'
 import config from '~/config'
 import { getNotificationCount, getUnReadMessages } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import Notifications from '../Notifications'
+import { LoginPopup } from '../Popper'
 import styles from './Header.module.scss'
 const clsx = classNames.bind(styles)
 
 function Header({ className }) {
-    const [showLogin, setShowLogin] = useState(false)
     const navigate = useNavigate()
+    const dispath = useDispatch()
     const [unReadMsg, setUnReadMsg] = useState(0)
     const [notificationCount, setNotificationCount] = useState(0)
-    // const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
     const handleShowLoginPopup = function () {
-        setShowLogin((prev) => !prev)
+        dispath(containerPortalActions.setComponent(<LoginPopup />))
     }
     const handleMessages = function () {
         navigate(useMessageRoute(currentUser))
@@ -70,11 +69,6 @@ function Header({ className }) {
                     bg='bg-primary'
                     size='size-md'
                     title='Log in'></Button>
-                {showLogin && (
-                    <FullScreenModal handleShowPopup={handleShowLoginPopup}>
-                        <LoginPopup handleShowPopup={handleShowLoginPopup} />
-                    </FullScreenModal>
-                )}
                 <Menu menu={UNLOGIN_MENU_ITEM}>
                     <ThreeDotIcon className={clsx('icon')} />
                 </Menu>

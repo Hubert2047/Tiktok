@@ -195,21 +195,26 @@
 }
 .input {
     font-size: 1.5rem;
-    width: 100%;
-    border: none;
+    flex: 1;
+    word-wrap: break-word;
+    word-break: break-all;
     outline: none;
-    height: 1.8rem;
     background-color: transparent;
     color: var(--text-color);
-    resize: none;
     caret-color: var(--primary-color);
-    &::-webkit-scrollbar {
-        width: 0;
+    background-color: var(--grey-color);
+    &:empty::before {
+        content: attr(data-placeholder);
+        color: var(--grey-color-2);
     }
+    cursor: text;
 }
 .limit-text {
     font-size: 1.45rem;
     color: var(--grey-color-2);
+}
+.limited {
+    color: var(--primary-color);
 }
 .tag {
     display: flex;
@@ -218,7 +223,9 @@
     width: 100%;
     margin-right: -0.25rem;
     max-width: fit-content;
+    color: var(--grey-color-2);
 }
+
 .btn {
     font-size: 1.4rem;
     padding: 1rem;

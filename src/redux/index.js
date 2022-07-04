@@ -3,14 +3,15 @@ import { persistReducer, persistStore } from 'reduxjs-toolkit-persist'
 import storage from 'reduxjs-toolkit-persist/lib/storage'
 import appSlice from './appSlice'
 import commentSlice from './commentSlice'
+import containerPortalSlice from './containerPortalSlice'
 import headerSlice from './headerSlice'
 import homeSlice from './homeSlice'
+import messageSlice from './messageSlice'
 import mobileHomeSlice from './mobile/mobileHomeSlice'
 import postSlice from './postSlice'
 import profileSlice from './profileSlice'
 import toastSlice from './toastSlice'
 import userSlice from './userSlice'
-import messageSlice from './messageSlice'
 
 const persistConfig = {
     key: 'root',
@@ -29,6 +30,7 @@ const store = configureStore({
         comment: commentSlice.reducer,
         toast: toastSlice.reducer,
         message: messageSlice.reducer,
+        alert: containerPortalSlice.reducer,
         mobileHome: mobileHomeSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>

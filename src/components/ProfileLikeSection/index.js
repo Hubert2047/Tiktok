@@ -17,7 +17,6 @@ function ProfileLikeSection({ user, isCurrentUser, className }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
-    console.log(user?.likes?.length)
     return (
         <div className={clsx('wrapper', className)}>
             {!isCurrentUser ? (

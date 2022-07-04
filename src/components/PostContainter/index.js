@@ -43,7 +43,7 @@ const PostContainer = forwardRef(({ post }, ref) => {
                     time = setTimeout(() => {
                         // console.log('run', post.id)
                         dispath(homeActions.setCurrentPostPlayingId(post.id))
-                    }, 800)
+                    }, 500) //wait 800ms then dispath
                 }
             },
             { threshold: 0.5 }

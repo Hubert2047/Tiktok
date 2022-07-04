@@ -247,7 +247,7 @@ const deletePost = async function (postId) {
         throw new Error(error.message)
     }
 }
-const getPosts = function (callback, lastPost = -1) {
+const getPosts = async function (callback, lastPost = -1) {
     if (typeof callback !== 'function') return
     const q = query(
         collection(db, 'posts'),
@@ -257,6 +257,22 @@ const getPosts = function (callback, lastPost = -1) {
         limit(6)
     )
     const users = [] //store all getUser Promise
+    // const querySnapshot = await getDocs(q)
+    // const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+    // if (querySnapshot.size < 1) return []
+    // let posts = querySnapshot.docs.map((doc) => {
+    //     users.push(getUser(doc.data().uid))
+    //     return { ...doc.data(), id: doc.id }
+    // })
+    // const allUsers = await Promise.all(users)
+    // //get users create post
+    // posts = posts.map((post) => {
+    //     return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
+    // })
+    // const data = { posts, lastDoc }
+    // callback(data)
+
+    //realtime
     onSnapshot(
         q,
         async (querySnapshot) => {
@@ -272,6 +288,7 @@ const getPosts = function (callback, lastPost = -1) {
                 return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
             })
             const data = { posts, lastDoc }
+            console.log('data', data)
             // console.log(lastDoc.data())
             callback(data)
         },
@@ -292,7 +309,7 @@ const searchPostByArray = async function (array = [], callback) {
     const q = query(collection(db, 'posts'), where('id', 'in', array))
     const querySnapshot = await getDocs(q)
     try {
-        console.log(querySnapshot.size)
+        // console.log(querySnapshot.size)
         if (querySnapshot.size < 1) return []
         const posts = querySnapshot.docs?.map((doc) => {
             return { id: doc.id, ...doc.data() }
@@ -376,41 +393,29 @@ const getCommentNotRealTime = async function (postId) {
     })
     return comments
 }
-const getComments = async function ({ postId, callback, parentId, lastDocComment, commentLimit }) {
+const getComments = async function ({ postId, callback, parentId = 'null' }) {
     if (typeof callback !== 'function') return
     let q = query(
         collection(db, 'comments'),
         where('postId', '==', postId),
         where('parentId', '==', parentId),
-        orderBy('createdAt'),
-        startAfter(lastDocComment),
-        limit(commentLimit)
+        orderBy('createdAt')
     )
-    if (commentLimit === 'all') {
-        q = query(
-            collection(db, 'comments'),
-            where('postId', '==', postId),
-            where('parentId', '==', parentId),
-            orderBy('createdAt'),
-            startAfter(lastDocComment)
-        )
-    }
     onSnapshot(
         q,
         async (querySnapshot) => {
-            const data = []
-            const getUserFunc = []
-            const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+            if (querySnapshot.size < 1) return
+            const comments = []
+            const getUserFunc = [] //get all user information then merge  to comments
             querySnapshot.docs.forEach((doc) => {
                 getUserFunc.push(getUser(doc.data().uid))
-                data.push({ id: doc.id, ...doc.data() })
+                comments.push({ id: doc.id, ...doc.data() })
             })
             const users = await Promise.all(getUserFunc)
-            const comments = data?.map((item) => {
-                return { ...item, user: users?.find((user) => user?.uid === item?.uid) }
+            const data = comments?.map((comment) => {
+                return { ...comment, user: users?.find((user) => user?.uid === comment?.uid) }
             })
-            // console.log(comments)
-            callback({ comments, lastDoc })
+            callback(data)
         },
         (err) => {
             throw new Error(err.message)

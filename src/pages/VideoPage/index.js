@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
 import React, { Fragment, memo, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
-import { useSelector } from 'react-redux'
-import Tippy from '@tippyjs/react/headless'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
+import Comfirm from '~/components/Comfirm'
 import { CommentContainer, CommentInput } from '~/components/Comment'
 import {
     CommentIcon,
@@ -30,11 +31,14 @@ import UserAvatar from '~/components/UserAvatar'
 import { deletePost, getCommentCount, getPost } from '~/firebase'
 import { convertTimeStampToDate, formatCountNumber, handleFollowingUser, handleLikePost } from '~/helper'
 import { useProfileRoute } from '~/hooks'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
+import { toastActions } from '~/redux/toastSlice'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
     console.log('re-render video page')
     const params = useParams()
+    const dispath = useDispatch()
     // console.log(params)
     // const dispath = useDispatch()
     const navigate = useNavigate()
@@ -67,7 +71,7 @@ function VideoPage() {
                 const data = await getPost(postId)
                 setPost(data)
                 setIsLikedPost(currentUser?.likes?.includes(data?.id) || false)
-                setIsFollowing(currentUser?.following?.includes(post?.user?.uid) || false)
+                setIsFollowing(currentUser?.following?.includes(data?.user?.uid) || false)
                 setLoading(false)
             } catch (e) {
                 setLoading(false)
@@ -103,14 +107,34 @@ function VideoPage() {
         //data is not realtime so we have to manually state
         setIsLikedPost(result?.isLikedPost)
     }
+    const handleDeletePostOnSubmit = async function () {
+        try {
+            dispath(containerPortalActions.setComponent(<Loading />))
+            await deletePost(postId)
+            dispath(containerPortalActions.setComponent(null))
+            dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
+            navigate(useProfileRoute(currentUser))
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const handleDeletePost = async function (postId) {
-        await deletePost(postId)
-        navigate('/')
+        dispath(
+            containerPortalActions.setComponent(
+                <Comfirm
+                    question='Are you sure you want to delete this video?'
+                    subMitTitle='Delete'
+                    onSubmit={handleDeletePostOnSubmit}
+                />
+            )
+        )
     }
     const Actions = function ({ placement }) {
         return (
             <Tippy
                 // trigger='click'
+                // hideOnClick={true}
+                // disabled={true}
                 offset={[-10, 0]}
                 placement={placement}
                 interactive={true}
@@ -174,8 +198,9 @@ function VideoPage() {
                                     </div>
                                 </div>
 
-                                <Actions placement={'left-start'} />
-                                {currentUser?.uid !== post.uid && (
+                                {currentUser?.uid === post?.user.uid ? (
+                                    <Actions placement={'left-start'} />
+                                ) : (
                                     <Button
                                         className={clsx('follow-btn')}
                                         title={isFollowing ? 'Following' : 'Follow'}
@@ -233,7 +258,7 @@ function VideoPage() {
                                     <WhatsAppIcon />
                                     <FaceBookIcon className={clsx('fb-icon')} />
                                     <TwitterIcon />
-                                    <ShareIcon width='2.4rem' height='2.4rem' />
+                                    <ShareIcon width='24px' height='24px' />
                                 </div>
                             </div>
                             <div className={clsx('copy-link', 'd-flex')}>
