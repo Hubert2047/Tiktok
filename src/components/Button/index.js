@@ -9,7 +9,22 @@ const clsx = classNames.bind(styles)
 //href: a
 //default: button
 
-function Button({ to, href, type, size, icon, bg, color, border, disabled, title, className, rightIcon, onClick }) {
+function Button({
+    to,
+    href,
+    type,
+    size,
+    icon,
+    bg,
+    color,
+    border,
+    disabled,
+    title,
+    className,
+    rightIcon,
+    onClick,
+    style,
+}) {
     let Comp = 'button'
     const props = {
         onClick,
@@ -34,7 +49,7 @@ function Button({ to, href, type, size, icon, bg, color, border, disabled, title
         disabled: disabled,
     })
     return (
-        <Comp className={classes} {...props}>
+        <Comp className={classes} style={style} {...props}>
             {icon && !rightIcon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}
             {title && <span className={clsx('title', 'ellipsis')}>{title}</span>}
             {icon && rightIcon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}

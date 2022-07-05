@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames/bind'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { HiOutlineCheckCircle } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import Button from '~/components/Button'
 import {
@@ -21,6 +23,7 @@ import {
 } from '~/components/Icons'
 import Image from '~/components/Image'
 import { addPost, uploadFile } from '~/firebase'
+import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
 import { alertConstain } from '~/staticData'
@@ -33,6 +36,7 @@ const clsx = classNames.bind(styles)
 let intervalId
 function Upload() {
     const dispath = useDispatch()
+    const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
     const contentRef = useRef()
     const [showMenu, setShowMenu] = useState(false)
@@ -161,6 +165,7 @@ function Upload() {
             return
         }
     }
+
     const handleResetOnChangeVideo = function () {
         setPostPreview({})
         setPosters({})
@@ -174,6 +179,48 @@ function Upload() {
         }) //reset content
         if (intervalId) clearInterval(intervalId)
         window.scrollTo({ top: 0, behavior: 'smooth' }) //scroll to header so we can see video
+    }
+    const UpLoadModal = function () {
+        const buttonStyle = {
+            fontSize: '1.5rem',
+            width: '100%',
+            padding: '1.6rem',
+            borderTop: '1px solid rgba(22, 24, 35, 0.12)',
+        }
+        const handleToUploadAnotherVideo = function () {
+            dispath(containerPortalActions.setComponent(null))
+            window.location.reload()
+        }
+        const handleViewProfile = function () {
+            navigate(useProfileRoute(currentUser))
+            window.location.reload()
+        }
+        return (
+            <div
+                style={{
+                    backgroundColor: 'var(--white-color)',
+                    borderRadius: 'var(--border-radius-md)',
+                    flexDirection: 'column',
+                    width: '31rem',
+                }}
+                className={clsx('flex-center')}>
+                <h4
+                    style={{
+                        padding: '3.2rem 2.4rem',
+                        fontSize: '2rem',
+                        textAlign: 'center',
+                    }}>
+                    Your video is being uploaded to TikTok!
+                </h4>
+                <Button
+                    onClick={handleToUploadAnotherVideo}
+                    style={buttonStyle}
+                    title='Upload another video'
+                    color='color-primary'
+                />
+                <Button onClick={handleViewProfile} style={buttonStyle} title='View profile' color='color-grey' />
+            </div>
+        )
     }
     const handleAddPost = async function () {
         if (!postPreview.video || onloadVideoPrivew) {
@@ -192,9 +239,12 @@ function Upload() {
                     const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100) //1% to wait update to firedatabase
                     // setProcess(progress < 5 ? progress : progress - 5)
                     dispath(
-                        containerPortalActions.setComponent(
-                            <LoadCircle process={progress < 5 ? progress : progress - 1} titleColor='white' />
-                        )
+                        containerPortalActions.setComponent({
+                            component: (
+                                <LoadCircle process={progress < 5 ? progress : progress - 1} titleColor='white' />
+                            ),
+                            onClickOutside: true,
+                        })
                     )
                 },
                 (error) => {
@@ -212,8 +262,9 @@ function Upload() {
                         addPost(newPost).catch((error) => {
                             console.log(error)
                         })
-                        dispath(containerPortalActions.setComponent(null))
-                        dispath(toastActions.addToast({ message: 'Your video is being uploaded .', mode: 'success' }))
+                        dispath(
+                            containerPortalActions.setComponent({ component: <UpLoadModal />, onClickOutside: false })
+                        )
                     })
                 }
             )
@@ -230,7 +281,6 @@ function Upload() {
                         <div className={clsx('preview-upload')}>
                             <div className={clsx('video-box', 'd-flex')}>
                                 <video
-                                    // ref={videoRef}
                                     autoPlay={true}
                                     loop={true}
                                     controls={true}

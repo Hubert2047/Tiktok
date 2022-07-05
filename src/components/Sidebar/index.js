@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
+import { IoMdAdd } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Button from '~/components/Button'
 import { FollowingIcon, HomeIcon, VideoIcon } from '~/components/Icons'
 import LinkContainer from '~/components/LinkContainer'
@@ -17,6 +19,8 @@ const clsx = classNames.bind(styles)
 function Sidebar({ className }) {
     const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
+    const navigate = useNavigate()
+
     // console.log('re-render sidebar')
     const [suggestFollowingData, setSuggestFollowingData] = useState([])
     const [followingData, setFollowingData] = useState([])
@@ -60,7 +64,12 @@ function Sidebar({ className }) {
         }
     }
     const handleShowLogin = function () {
-        dispath(containerPortalActions.setComponent(<LoginPopup />))
+        dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
+    }
+    const handleRouteToUpdateVideo = function () {
+        setTimeout(() => {
+            navigate('/upload')
+        }, 0)
     }
     return (
         <Fragment>
@@ -81,6 +90,15 @@ function Sidebar({ className }) {
                         title='Following'
                         color={'color-black'}
                         className={clsx('action-btn')}
+                    />
+                    <Button
+                        to='./'
+                        type='btn-grey'
+                        size='size-md'
+                        icon={<IoMdAdd />}
+                        className={clsx('action-btn', 'upload')}
+                        onClick={handleRouteToUpdateVideo}
+                        title='Upload'
                     />
                     <Button
                         to={'/'}

@@ -34,7 +34,7 @@ function GetApp({ className }) {
         window.scrollTo({ top: 0, behavior: 'smooth' }) //scroll to header so we can see video
     }
     const handleShowPopup = function () {
-        dispath(containerPortalActions.setComponent(<GetAppPopup />))
+        dispath(containerPortalActions.setComponent({ component: <GetAppPopup />, onClickOutside: true }))
     }
     return (
         <div ref={wrapperRef} className={clsx('wrapper', className)}>

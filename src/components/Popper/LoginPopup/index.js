@@ -14,7 +14,7 @@ function LoginPopup() {
     const handleLogin = async function (handleLoginFeature) {
         // console.log(handleLoginFeature)
         try {
-            dispath(containerPortalActions.setComponent(<Loading />))
+            dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
 
             const data = await handleLoginFeature()
             let checkUser = await isExistUser(data.uid)

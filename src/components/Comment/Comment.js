@@ -74,7 +74,7 @@ function Comment({ comment, post, rootCommentId }) {
     }
     const updateCommentLikeToFirebase = async function () {
         if (!currentUser.uid) {
-            dispath(containerPortalActions.setComponent(<LoginPopup />))
+            dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
             return
         }
         let updateLikes = []
@@ -99,18 +99,21 @@ function Comment({ comment, post, rootCommentId }) {
     }
     const handleDeleteOnClick = async function () {
         dispath(
-            containerPortalActions.setComponent(
-                <Comfirm
-                    question='Are you sure you want to delete this comment?'
-                    subMitTitle='Delete'
-                    onSubmit={handleOnComfirm}
-                />
-            )
+            containerPortalActions.setComponent({
+                component: (
+                    <Comfirm
+                        question='Are you sure you want to delete this comment?'
+                        subMitTitle='Delete'
+                        onSubmit={handleOnComfirm}
+                    />
+                ),
+                onClickOutside: true,
+            })
         )
     }
 
     const handleOnComfirm = async function () {
-        dispath(containerPortalActions.setComponent(<Loading />))
+        dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
         const deleteCommentFunc = []
         if (childrenComments?.length > 0) {
             //if delete cmt is a parent cmt, we also have to delete all children

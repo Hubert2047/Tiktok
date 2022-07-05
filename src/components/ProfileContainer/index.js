@@ -29,7 +29,7 @@ function ProfileContainer({ user, children, placement }) {
         try {
             const result = await handleFollowingUser(currentUser, user, isFollowing)
             if (result?.showLogin) {
-                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
                 return
             }
             //data is realtime so we dont have to manually state

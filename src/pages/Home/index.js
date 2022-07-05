@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 import classNames from 'classnames/bind'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import GetApp from '~/components/GetApp'
 import Loading from '~/components/Loading'
@@ -16,62 +16,46 @@ function Home() {
     console.log('re-render home')
     const dispath = useDispatch()
     const posts = useSelector((state) => state.home.posts)
-    const [lastPost, setLastPost] = useState()
-    const [hasMorePost, setHasMorePost] = useState(true)
+    const hasMorePost = useSelector((state) => state.home.hasMorePost)
+    const lastPost = useSelector((state) => state.home.lastApiPost)
     const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
     const observer = useRef()
-    const getPostsJSON = function () {
-        if (posts?.length > 0) return
-        dispath(containerPortalActions.setComponent(<Loading />))
-        getPosts((data) => {
-            dispath(homeActions.setPost(data.posts))
-            setLastPost(data.lastDoc)
-            setTimeout(() => {
-                dispath(containerPortalActions.setComponent(null))
-                console.log('time out')
-            }, 0) //wait video render
-        })
-    }
+
     useEffect(() => {
+        const getPostsJSON = function () {
+            if (posts?.length > 0) return
+            dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
+            getPosts((data) => {
+                dispath(homeActions.setPost(data.posts))
+                dispath(homeActions.setLastApiPost(data.lastDoc))
+                setTimeout(() => {
+                    dispath(containerPortalActions.setComponent(null))
+                }, 100) //wait video render
+            })
+        }
         getPostsJSON()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    useEffect(() => {
-        //check if page not active/change tab then stop play video
-        const handleOnChangePageTab = function () {
-            if (document.visibilityState === 'visible') {
-                dispath(homeActions.setIsPageActive(true))
-            } else {
-                dispath(homeActions.setIsPageActive(false))
-            }
-        }
-        document.addEventListener('visibilitychange', handleOnChangePageTab)
 
-        return () => {
-            document.removeEventListener('visibilitychange', handleOnChangePageTab)
-        }
-    }, [])
-    console.log('hasmore', hasMorePost)
     const getMorePostsJSON = function (lastPost) {
-        if (!hasMorePost) return
+        if (!hasMorePost) {
+            return
+        }
         getPosts((data) => {
             if (!data?.posts?.length) {
-                console.log('nothing')
-                setHasMorePost(false)
+                dispath(homeActions.setHasMorePost(false))
                 return
             }
             dispath(homeActions.setPost([...posts, ...data.posts]))
-            setLastPost(data.lastDoc)
+            dispath(homeActions.setLastApiPost(data.lastDoc))
         }, lastPost)
     }
-
-    // useEffect(() => {
-    //     // return () => {
-    //     //     dispath(homeActions.setCurrentPostPlayingId(null))
-    //     //     dispath(homeActions.setPost([]))
-    //     // }
-    //     //reset post when component unmouse
-    // }, [])
+    useEffect(() => {
+        //reset currentplaying post id when component unmouse
+        return () => {
+            dispath(homeActions.setCurrentPostPlayingId(null))
+        }
+    }, [])
 
     //lazy loaded
     const lastPostCallBack = useCallback(

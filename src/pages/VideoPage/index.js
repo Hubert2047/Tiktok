@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import { Fragment, memo, useEffect, useState } from 'react'
+import { Fragment, memo, useEffect, useRef, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
@@ -38,6 +39,7 @@ import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
     // console.log('re-render video page')
+    const isPageActive = useSelector((state) => state.home.isPageActive)
     const params = useParams()
     const dispath = useDispatch()
     // console.log(params)
@@ -52,14 +54,15 @@ function VideoPage() {
     const [isLikedPost, setIsLikedPost] = useState()
     const postId = params.id
     // console.log(postId)
+    const videoRef = useRef()
     useEffect(() => {
         const getPostJSON = async function () {
             // setLoading(true)
-            dispath(containerPortalActions.setComponent(<Loading />))
+            dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
             try {
                 const data = await getPost(postId)
                 if (!data) {
-                    dispath(containerPortalActions.setComponent(<NotFoundPost />))
+                    dispath(containerPortalActions.setComponent({ component: <NotFoundPost />, onClickOutside: true }))
                     return
                 }
                 setPost(data)
@@ -92,6 +95,14 @@ function VideoPage() {
     const handleGoBackHome = function () {
         window.history.back()
     }
+    useEffect(() => {
+        if (!videoRef.current) return
+        if (isPageActive) {
+            videoRef.current.play()
+        } else {
+            videoRef.current.pause()
+        }
+    }, [isPageActive])
     const NotFoundPost = function () {
         return (
             <div className={clsx('not-found-post', 'd-flex')}>
@@ -120,7 +131,7 @@ function VideoPage() {
         try {
             const result = await handleFollowingUser(currentUser, post.user, isFollowing)
             if (result?.showLogin) {
-                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
                 return
             }
             //data is not realtime so we have to manually state
@@ -136,19 +147,26 @@ function VideoPage() {
     const handleLikePostAction = async function () {
         const result = await handleLikePost(currentUser, post, isLikedPost)
         if (result?.showLogin) {
-            dispath(containerPortalActions.setComponent(<LoginPopup />))
+            dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
             return
         }
         //data is not realtime so we have to manually state
         setIsLikedPost(result?.isLikedPost)
-        setPost((prev) => {
-            if (result.isLikedPost) return { ...prev, likes: prev.likes + 1 }
-            return { ...prev, likes: prev.likes - 1 }
-        })
+        if (result.isLikedPost) {
+            setPost((prev) => {
+                return { ...prev, likes: prev.likes + 1 }
+            })
+            dispath(homeActions.setUpdateLikes({ postId: post.id, value: 1 }))
+        } else {
+            dispath(homeActions.setUpdateLikes({ postId: post.id, value: -1 }))
+            setPost((prev) => {
+                return { ...prev, likes: prev.likes - 1 }
+            })
+        }
     }
     const handleDeletePostOnSubmit = async function () {
         try {
-            dispath(containerPortalActions.setComponent(<Loading />))
+            dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
             await deletePost(postId)
             dispath(containerPortalActions.setComponent(null)) //close loading
             dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
@@ -161,13 +179,16 @@ function VideoPage() {
     }
     const handleDeletePost = async function (postId) {
         dispath(
-            containerPortalActions.setComponent(
-                <Comfirm
-                    question='Are you sure you want to delete this video?'
-                    subMitTitle='Delete'
-                    onSubmit={handleDeletePostOnSubmit}
-                />
-            )
+            containerPortalActions.setComponent({
+                component: (
+                    <Comfirm
+                        question='Are you sure you want to delete this video?'
+                        subMitTitle='Delete'
+                        onSubmit={handleDeletePostOnSubmit}
+                    />
+                ),
+                onClickOutside: true,
+            })
         )
     }
     const handleOnReport = function () {
@@ -205,6 +226,7 @@ function VideoPage() {
                 <div className={clsx('wrapper')}>
                     <div className={clsx('video-container', 'flex-center')}>
                         <video
+                            ref={videoRef}
                             loop={true}
                             controls={true}
                             autoPlay={true}

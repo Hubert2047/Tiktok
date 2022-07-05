@@ -3,7 +3,7 @@
 
 import classNames from 'classnames/bind'
 import { increment } from 'firebase/firestore'
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ReportIcon } from '~/components/Icons'
@@ -36,7 +36,7 @@ function Video({ post, isCurrentPlaying, className }) {
         navigate(useVideoPageRoute(post))
     }
     const handleReport = function (e) {
-        e.stopPropagatsion()
+        e.stopPropagation()
         dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
     }
     const handleOnloadedData = function () {

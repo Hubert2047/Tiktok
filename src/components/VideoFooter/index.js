@@ -10,6 +10,7 @@ import { getCommentCount } from '~/firebase'
 import { formatCountNumber, handleLikePost } from '~/helper'
 import { useVideoPageRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
+import { homeActions } from '~/redux/homeSlice'
 import { shareItems } from '~/staticData'
 import styles from './VideoFooter.module.scss'
 
@@ -40,8 +41,13 @@ function VideoFooter({ className, post }) {
         try {
             const result = await handleLikePost(currentUser, post, isLikedPost)
             if (result?.showLogin) {
-                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
                 return
+            }
+            if (result.isLikedPost) {
+                dispath(homeActions.setUpdateLikes({ postId: post.id, value: 1 }))
+            } else {
+                dispath(homeActions.setUpdateLikes({ postId: post.id, value: -1 }))
             }
         } catch (error) {
             console.log(error)

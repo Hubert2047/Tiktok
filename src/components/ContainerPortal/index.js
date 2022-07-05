@@ -11,10 +11,11 @@ const clsx = classNames.bind(styles)
 function ContainerPortal() {
     const dispath = useDispatch()
     const [loaded, portalId] = usePortalContainer('position:fixed;top:0;left:0;z-index:9999')
-    const component = useSelector((state) => state.containerPortal.component)
+    const children = useSelector((state) => state.containerPortal.component)
     const divRef = useRef()
-    const isExsit = component !== null
+
     const handleOnClick = function (e) {
+        if (!children?.onClickOutside) return
         if (e.target === divRef.current) {
             dispath(containerPortalActions.setComponent(null))
         }
@@ -22,9 +23,9 @@ function ContainerPortal() {
     return loaded ? (
         ReactDOM.createPortal(
             <>
-                {isExsit && (
+                {children && (
                     <div ref={divRef} onClick={handleOnClick} className={clsx('wrapper', 'flex-center')}>
-                        {component}
+                        {children?.component}
                     </div>
                 )}
             </>,

@@ -3,6 +3,9 @@
     align-items: center;
     gap: 1.25rem;
     padding: 0.5rem 2.4rem;
+    @media screen and (max-width: 768px) {
+        padding: 0.5rem 1.2rem;
+    }
     cursor: pointer;
     &:hover {
         background-color: var(--hover-bg-color);
@@ -21,6 +24,9 @@
     width: 100%;
     flex: 1;
     gap: 1rem;
+    @media screen and (max-width: 768px) {
+        display: none !important;
+    }
 }
 .user-infor {
     flex-direction: column;

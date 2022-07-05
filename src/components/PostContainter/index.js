@@ -67,7 +67,7 @@ const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
         try {
             const result = await handleFollowingUser(currentUser, post.user, isFollowing)
             if (result.showLogin) {
-                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
                 return
             }
             //data is realtime so we dont have to update state
@@ -77,13 +77,23 @@ const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
     }
     return (
         <div ref={ref} className={clsx('wrapper', 'd-flex')}>
-            <ProfileContainer user={post.user} placement='left-start'>
-                <UserAvatar onClick={handleNavigate} user={post.user} height='5.6rem' className={clsx('avatar')} />
-            </ProfileContainer>
+            <div className={clsx('pc-avatar')}>
+                <ProfileContainer user={post.user} placement='left-start'>
+                    <UserAvatar onClick={handleNavigate} user={post.user} height='5.6rem' className={clsx('avatar')} />
+                </ProfileContainer>
+            </div>
 
             <div ref={postRef} className={clsx('content', 'd-flex')}>
                 <div className={clsx('header', 'd-flex')}>
-                    <UserName user={post.user} className={clsx('name')} />
+                    <div className={clsx('name-box', 'd-flex')}>
+                        <UserAvatar
+                            onClick={handleNavigate}
+                            user={post.user}
+                            height='5.6rem'
+                            className={clsx('avatar', 'mobile-avatar')}
+                        />
+                        <UserName user={post.user} className={clsx('name')} />
+                    </div>
                     <div className={clsx('content-box', 'd-flex')}>
                         {!showallContent ? (
                             <LinesEllipsis
@@ -94,7 +104,7 @@ const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
                                 onReflow={handleReflow}
                             />
                         ) : (
-                            <p className={clsx('disc')}>{post?.content}</p>
+                            <p className={clsx('desc')}>{post?.content}</p>
                         )}
                         {isClamped && (
                             <button

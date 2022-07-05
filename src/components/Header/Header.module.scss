@@ -21,6 +21,7 @@
 }
 .logo {
     align-items: center;
+    cursor: pointer;
 }
 
 //right container
@@ -31,7 +32,11 @@
     cursor: pointer;
     // flex: 2;
 }
-
+.upload-btn {
+    @media screen and (max-width: 479px) {
+        display: none !important;
+    }
+}
 .upload-icon {
     font-size: 2rem;
 }

@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { SmileIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
-import { alertConstain } from '~/staticData'
 import { addComment } from '~/firebase'
 import { commentActions } from '~/redux/commentSlice'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
-import { notification } from '~/staticData'
+import { alertConstain, notification } from '~/staticData'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import UserAvatar from '../UserAvatar'
@@ -31,7 +30,7 @@ function CommentInput({ post, className }) {
     async function addCommentToFireBase(e) {
         e.preventDefault()
         // open loading
-        dispath(containerPortalActions.setComponent(<Loading />))
+        dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
         const newComment = {
             id: uuidv4(),
             parentId: lastUserWasTouchedReplyInfor.commentParentId,
@@ -70,7 +69,7 @@ function CommentInput({ post, className }) {
         }
     }
     const handleShowLogin = function () {
-        dispath(containerPortalActions.setComponent(<LoginPopup />))
+        dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
     }
     // console.log(value)
     const handleKeyDown = function (e) {

@@ -1,6 +1,7 @@
 .wrapper {
-    max-width: 100vw;
+    max-width: 90vw;
     max-height: 100vh;
+    margin: 0 auto;
     background-color: var(--white-color);
     border-radius: var(--border-radius-md);
     -webkit-border-radius: var(--border-radius-md);
@@ -10,16 +11,27 @@
 }
 .item-box {
     padding: 1.4rem 4rem;
+    @media screen and (max-width: 675px) {
+        padding: 1.4rem 1rem;
+    }
     &:not(:first-child) {
         border-top: 1px solid rgba(22, 24, 35, 0.12);
     }
 }
 .right-text {
+    flex-shrink: 0;
     width: 12rem;
+    @media screen and (max-width: 675px) {
+        width: 10rem;
+    }
 }
 .input {
     width: 100%;
     max-width: 46rem;
+
+    @media screen and (max-width: 675px) {
+        max-width: 30rem;
+    }
     background-color: var(--grey-color);
     padding: 1rem;
     flex: 1;
@@ -48,6 +60,9 @@
 
 .middle {
     padding: 0.8rem 2.4rem;
+    @media screen and (max-width: 675px) {
+        padding: 0.8rem 0;
+    }
 }
 
 //photo
@@ -130,11 +145,15 @@
 //bio
 .input-box {
     flex-direction: column;
+    flex: 1;
 }
 .area-input {
     font-size: 1.5rem;
     padding: 1.2rem;
     width: 36rem;
+    @media screen and (max-width: 675px) {
+        width: 100%;
+    }
     height: 8rem;
     background-color: var(--grey-color);
     outline: none;

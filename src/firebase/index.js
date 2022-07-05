@@ -67,7 +67,7 @@ const logOut = async function (callback) {
     }
 }
 const updateUser = async function (updateUser, uid) {
-    console.log(updateUser)
+    // console.log(updateUser)
     const updateUsertRef = doc(db, 'users', uid)
     try {
         await updateDoc(updateUsertRef, { ...updateUser })
@@ -292,21 +292,21 @@ const deletePost = async function (postId) {
 }
 const updatePost = async function (postid, newPost) {
     try {
-        console.log({ ...newPost })
+        // console.log({ ...newPost })
         const updatePostRef = doc(db, 'posts', postid)
         await updateDoc(updatePostRef, { ...newPost })
     } catch (error) {
         throw new Error(error.message)
     }
 }
-const getPosts = async function (callback, lastPost = 0) {
+const getPosts = async function (callback, lastPost = -1) {
     if (typeof callback !== 'function') return
     const q = query(
         collection(db, 'posts'),
         orderBy('played'),
         orderBy('createdAt', 'desc'),
         startAfter(lastPost),
-        limit(6)
+        limit(10)
     )
 
     const users = [] //store all getUser Promise
@@ -327,6 +327,7 @@ const getPosts = async function (callback, lastPost = 0) {
         return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
     })
     const data = { posts, lastDoc }
+    // console.log(posts)
     callback(data)
 
     //realtime

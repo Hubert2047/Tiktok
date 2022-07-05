@@ -17,7 +17,7 @@ import ProfileLikeSection from '~/components/ProfileLikeSection'
 import UserAvatar from '~/components/UserAvatar'
 import UserName from '~/components/UserName'
 import { getUser, searchPost } from '~/firebase'
-import { handleFollowingUser } from '~/helper'
+import { formatCountNumber, handleFollowingUser } from '~/helper'
 import { useMessageRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { profileActions } from '~/redux/profileSlice'
@@ -44,7 +44,7 @@ function Profile() {
     })
     const profileUserLikeCount = profileUser?.likes?.length || 0
     const getUserProfile = async function () {
-        dispath(containerPortalActions.setComponent(<Loading />))
+        dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
         try {
             const data = await Promise.all([searchPost(params.uid), getUser(params.uid)])
             // console.log(data)
@@ -83,7 +83,7 @@ function Profile() {
         try {
             const result = await handleFollowingUser(currentUser, profileUser, isFollowing)
             if (result.showLogin) {
-                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
                 return
             }
             // data is not realtime so we have to update state
@@ -113,7 +113,7 @@ function Profile() {
         navigate(useMessageRoute(profileUser))
     }
     const handleEditProfile = function () {
-        dispath(containerPortalActions.setComponent(<EditProfile />))
+        dispath(containerPortalActions.setComponent({ component: <EditProfile />, onClickOutside: true }))
     }
 
     return (
@@ -172,15 +172,15 @@ function Profile() {
                             </div>
                             <div className={clsx('count-infor', 'd-flex')}>
                                 <div className={clsx('count-infor-box', 'd-flex')}>
-                                    <strong>{profileUser.following?.length || 0}</strong>
+                                    <strong>{formatCountNumber(profileUser.following?.length)}</strong>
                                     <span>Following</span>
                                 </div>
                                 <div className={clsx('count-infor-box', 'd-flex')}>
-                                    <strong>{profileUser.followers || 0}</strong>
+                                    <strong>{formatCountNumber(profileUser.followers)}</strong>
                                     <span>Followers</span>
                                 </div>
                                 <div className={clsx('count-infor-box', 'd-flex')}>
-                                    <strong>{profileUserLikeCount || 0}</strong>
+                                    <strong>{formatCountNumber(profileUserLikeCount)}</strong>
                                     <span>{profileUserLikeCount > 1 ? 'Likes' : 'Like'}</span>
                                 </div>
                             </div>

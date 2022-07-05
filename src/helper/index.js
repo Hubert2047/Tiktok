@@ -117,7 +117,7 @@ export const handleLikePost = async function (currentUser, post, isLikedPost) {
     }
 
     try {
-        handlePostLike(currentUser, post, updateUserLikePost, isLikedPost, newNotification)
+        await handlePostLike(currentUser, post, updateUserLikePost, isLikedPost, newNotification)
         return {
             isLikedPost: !isLikedPost,
         }
@@ -125,3 +125,4 @@ export const handleLikePost = async function (currentUser, post, isLikedPost) {
         throw new Error(error.message)
     }
 }
+export const goBackHome = function () {}

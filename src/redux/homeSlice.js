@@ -6,6 +6,8 @@ const homeSlice = createSlice({
         posts: [],
         currentPostPlayingId: null,
         isPageActive: true,
+        hasMorePost: true,
+        lastApiPost: null,
     },
     reducers: {
         setPost(state, actions) {
@@ -16,6 +18,20 @@ const homeSlice = createSlice({
         },
         setIsPageActive(state, actions) {
             state.isPageActive = actions.payload
+        },
+        setHasMorePost(state, actions) {
+            state.hasMorePost = actions.payload
+        },
+        setLastApiPost(state, actions) {
+            state.lastApiPost = actions.payload
+        },
+        setUpdateLikes(state, actions) {
+            state.posts = state.posts.map((post) => {
+                if (post.id === actions.payload.postId) {
+                    return { ...post, likes: post.likes + actions.payload.value }
+                }
+                return post
+            })
         },
     },
 })

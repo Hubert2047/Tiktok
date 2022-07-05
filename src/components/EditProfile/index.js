@@ -81,7 +81,7 @@ function EditProfile() {
             dispath(containerPortalActions.setComponent(null)) //close edit profile
             let photoUrl = data.avatar
             if (photoUrl !== currentUser.avatar) {
-                dispath(containerPortalActions.setComponent(<Loading />))
+                dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
                 //upload image to firebase
                 photoUrl = await uploadFile(data.avatar, `images/${fileName}`)
                 dispath(containerPortalActions.setComponent(null)) //close edit profile

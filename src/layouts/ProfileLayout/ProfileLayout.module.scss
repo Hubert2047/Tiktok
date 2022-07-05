@@ -14,6 +14,14 @@
     grid-template-columns: var(--sidebar-width) 1fr;
     gap: 1rem;
     margin-top: var(--default-header-height);
+    @media only screen and (max-width: 487px) {
+        grid-template-columns: 1fr;
+    }
+}
+.sidebar-box {
+    @media only screen and (max-width: 487px) {
+        display: none;
+    }
 }
 .sidebar {
     width: var(--sidebar-width);
