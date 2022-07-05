@@ -54,13 +54,17 @@ const loginWithGoogle = async function () {
         })
 }
 const logOut = async function (callback) {
-    signOut(auth)
-        .then(() => {
-            callback()
-        })
-        .catch((error) => {
-            // An error happened.
-        })
+    try {
+        signOut(auth)
+            .then(() => {
+                callback()
+            })
+            .catch((error) => {
+                // An error happened.
+            })
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 const updateUser = async function (updateUser, uid) {
     console.log(updateUser)
@@ -76,39 +80,50 @@ const updateUser = async function (updateUser, uid) {
 const searchUsers = async function (searchValue, type = 'less') {
     // console.log('run')
     let q = query(collection(db, 'users'), orderBy('full_name'))
-    const querySnapshot = await getDocs(q)
-    const data = []
-    querySnapshot.docs.forEach((doc) => {
-        const user = { id: doc.id, ...doc.data() }
-        if (user.full_name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
-            data.push(user)
+    try {
+        const querySnapshot = await getDocs(q)
+        const data = []
+        querySnapshot.docs.forEach((doc) => {
+            const user = { id: doc.id, ...doc.data() }
+            if (user.full_name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1) {
+                data.push(user)
+            }
+        })
+        let result
+        if (type === 'less') {
+            result = data.slice(0, 5)
+        } else {
+            result = data.slice(0, 10)
         }
-    })
-    let result
-    if (type === 'less') {
-        result = data.slice(0, 5)
-    } else {
-        result = data.slice(0, 10)
+        return result
+    } catch (error) {
+        throw new Error(error.message)
     }
-    return result
 }
 const getUser = async function (uid) {
     const q = query(collection(db, 'users'), where('uid', '==', uid))
-
-    const querySnapshot = await getDocs(q)
-    if (querySnapshot.docs.length < 1) {
-        return undefined
+    try {
+        const querySnapshot = await getDocs(q)
+        if (querySnapshot.docs.length < 1) {
+            return undefined
+        }
+        return { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0].id }
+    } catch (error) {
+        throw new Error(error.message)
     }
-    return { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0].id }
 }
 const isExistUser = async function (uid) {
-    const q = query(collection(db, 'users'), where('uid', '==', uid))
+    try {
+        const q = query(collection(db, 'users'), where('uid', '==', uid))
 
-    const querySnapshot = await getDocs(q)
-    if (querySnapshot.docs.length < 1) {
-        return false
+        const querySnapshot = await getDocs(q)
+        if (querySnapshot.docs.length < 1) {
+            return false
+        }
+        return true
+    } catch (error) {
+        throw new Error(error.message)
     }
-    return true
 }
 const getUserRealyTime = async function (uid, callback) {
     try {
@@ -121,8 +136,12 @@ const getUserRealyTime = async function (uid, callback) {
     }
 }
 const addUser = async function (user) {
+    try {
+        await setDoc(doc(db, 'users', user.uid), user)
+    } catch (error) {
+        throw new Error(error.message)
+    }
     // console.log(user)
-    await setDoc(doc(db, 'users', user.uid), user)
 }
 const updateFollowing = async function (
     currentUserId,
@@ -206,8 +225,12 @@ const updateFollowing = async function (
 //     }
 // }
 const updateUserLikes = async function (uid, updateLike) {
-    const updateUserLiketRef = doc(db, 'users', uid)
-    await updateDoc(updateUserLiketRef, { likes: updateLike })
+    try {
+        const updateUserLiketRef = doc(db, 'users', uid)
+        await updateDoc(updateUserLiketRef, { likes: updateLike })
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 
 //sidebar
@@ -223,13 +246,16 @@ const getSuggestFollowing = async function (currentUser, limitValue = 5) {
     } else {
         q = query(collection(db, 'users'), limit(limitValue))
     }
-
-    const querySnapshot = await getDocs(q)
-    if (querySnapshot.docs.size < 1) return
-    const suggestFollowingData = querySnapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id }
-    })
-    return suggestFollowingData
+    try {
+        const querySnapshot = await getDocs(q)
+        if (querySnapshot.docs.size < 1) return
+        const suggestFollowingData = querySnapshot.docs.map((doc) => {
+            return { ...doc.data(), id: doc.id }
+        })
+        return suggestFollowingData
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 const getFollowing = async function (followingArray) {
     if (followingArray?.length < 1) return
@@ -241,8 +267,12 @@ const getFollowing = async function (followingArray) {
     return followingData
 }
 const updateFollower = async function (uid, updateCountFollower) {
-    const updateFollowerRef = doc(db, 'users', uid)
-    await updateDoc(updateFollowerRef, { followers: updateCountFollower })
+    try {
+        const updateFollowerRef = doc(db, 'users', uid)
+        await updateDoc(updateFollowerRef, { followers: updateCountFollower })
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 
 //post
@@ -260,7 +290,16 @@ const deletePost = async function (postId) {
         throw new Error(error.message)
     }
 }
-const getPosts = async function (callback, lastPost = -1) {
+const updatePost = async function (postid, newPost) {
+    try {
+        console.log({ ...newPost })
+        const updatePostRef = doc(db, 'posts', postid)
+        await updateDoc(updatePostRef, { ...newPost })
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+const getPosts = async function (callback, lastPost = 0) {
     if (typeof callback !== 'function') return
     const q = query(
         collection(db, 'posts'),
@@ -269,53 +308,62 @@ const getPosts = async function (callback, lastPost = -1) {
         startAfter(lastPost),
         limit(6)
     )
+
     const users = [] //store all getUser Promise
-    // const querySnapshot = await getDocs(q)
-    // const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
-    // if (querySnapshot.size < 1) return []
-    // let posts = querySnapshot.docs.map((doc) => {
-    //     users.push(getUser(doc.data().uid))
-    //     return { ...doc.data(), id: doc.id }
-    // })
-    // const allUsers = await Promise.all(users)
-    // //get users create post
-    // posts = posts.map((post) => {
-    //     return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
-    // })
-    // const data = { posts, lastDoc }
-    // callback(data)
+
+    //not realtime
+
+    const querySnapshot = await getDocs(q)
+    const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+    if (querySnapshot.size < 1) return callback({})
+
+    let posts = querySnapshot.docs.map((doc) => {
+        users.push(getUser(doc.data().uid))
+        return { ...doc.data(), id: doc.id }
+    })
+    const allUsers = await Promise.all(users)
+    //get users create post
+    posts = posts.map((post) => {
+        return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
+    })
+    const data = { posts, lastDoc }
+    callback(data)
 
     //realtime
-    onSnapshot(
-        q,
-        async (querySnapshot) => {
-            const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
-            if (querySnapshot.size < 1) return []
-            let posts = querySnapshot.docs.map((doc) => {
-                users.push(getUser(doc.data().uid))
-                return { ...doc.data(), id: doc.id }
-            })
-            const allUsers = await Promise.all(users)
-            //get user create post
-            posts = posts.map((post) => {
-                return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
-            })
-            const data = { posts, lastDoc }
-            console.log('data', data)
-            // console.log(lastDoc.data())
-            callback(data)
-        },
-        (err) => {
-            throw new Error(err.message)
-        }
-    )
+    // onSnapshot(
+    //     q,
+    //     async (querySnapshot) => {
+    //         const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+    //         if (querySnapshot.size < 1)  callback({})
+    //         let posts = querySnapshot.docs.map((doc) => {
+    //             users.push(getUser(doc.data().uid))
+    //             return { ...doc.data(), id: doc.id }
+    //         })
+    //         const allUsers = await Promise.all(users)
+    //         //get user create post
+    //         posts = posts.map((post) => {
+    //             return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
+    //         })
+    //         const data = { posts, lastDoc }
+    //         // console.log('data', data)
+    //         // console.log(lastDoc.data())
+    //         callback(data)
+    //     },
+    //     (err) => {
+    //         throw new Error(err.message)
+    //     }
+    // )
 }
 const getPost = async function (postId) {
-    const docRef = doc(db, 'posts', postId)
-    const docSnap = await getDoc(docRef)
-    if (!docSnap.exists()) return false
-    const user = await getUser(docSnap.data().uid)
-    return { ...docSnap.data(), id: docSnap.id, user: user }
+    try {
+        const docRef = doc(db, 'posts', postId)
+        const docSnap = await getDoc(docRef)
+        if (!docSnap.exists()) return false
+        const user = await getUser(docSnap.data().uid)
+        return { ...docSnap.data(), id: docSnap.id, user: user }
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 //search post with an array
 const searchPostByArray = async function (array = [], callback) {
@@ -353,35 +401,39 @@ const handlePostLike = async function (currentUser, post, updateLikes, isLikedPo
     const updatePostLiketRef = doc(db, 'posts', post.id)
     const currentUserRef = doc(db, 'users', currentUser.uid)
     //update user like
-    batch.update(currentUserRef, {
-        likes: updateLikes,
-    })
-    //update post like
-    batch.update(updatePostLiketRef, {
-        likes: isLikedPost ? increment(-1) : increment(1),
-    })
-    // update notification
-    if (currentUser.uid !== post.uid) {
-        //send notification to user of the post
-        if (!isLikedPost) {
-            batch.set(doc(db, `users/${post.uid}/notifications`, uuidv4()), notifications)
-        } else {
-            // delete notification
-            const q = query(
-                collection(db, `users/${post.uid}/notifications`),
-                where('fromUid', '==', currentUser.uid),
-                where('notificationType', '==', 'Likes'),
-                where('likeType', '==', 'video')
-            )
-            const _notification = await getDocs(q)
-            if (_notification?.size > 0) {
-                const oldNotificationId = _notification.docs[0].id
-                batch.delete(doc(db, `users/${post.uid}/notifications/${oldNotificationId}`))
+    try {
+        batch.update(currentUserRef, {
+            likes: updateLikes,
+        })
+        //update post like
+        batch.update(updatePostLiketRef, {
+            likes: isLikedPost ? increment(-1) : increment(1),
+        })
+        // update notification
+        if (currentUser.uid !== post.uid) {
+            //send notification to user of the post
+            if (!isLikedPost) {
+                batch.set(doc(db, `users/${post.uid}/notifications`, uuidv4()), notifications)
+            } else {
+                // delete notification
+                const q = query(
+                    collection(db, `users/${post.uid}/notifications`),
+                    where('fromUid', '==', currentUser.uid),
+                    where('notificationType', '==', 'Likes'),
+                    where('likeType', '==', 'video')
+                )
+                const _notification = await getDocs(q)
+                if (_notification?.size > 0) {
+                    const oldNotificationId = _notification.docs[0].id
+                    batch.delete(doc(db, `users/${post.uid}/notifications/${oldNotificationId}`))
+                }
             }
         }
-    }
 
-    await batch.commit()
+        await batch.commit()
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 
 //comment
@@ -400,12 +452,15 @@ const getCommentCount = async function (postId, callback) {
 }
 const getCommentNotRealTime = async function (postId) {
     const q = query(collection(db, 'comments'), where('postId', '==', postId))
-
-    const querySnapshot = await getDocs(q)
-    const comments = querySnapshot.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() }
-    })
-    return comments
+    try {
+        const querySnapshot = await getDocs(q)
+        const comments = querySnapshot.docs.map((doc) => {
+            return { id: doc.id, ...doc.data() }
+        })
+        return comments
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 const getComments = async function ({ postId, callback, parentId = 'null' }) {
     if (typeof callback !== 'function') return
@@ -440,30 +495,33 @@ const updateCommentLikes = async (currentUser, commentId, likes, notificationToU
     const batch = writeBatch(db)
 
     const updateCommentRef = doc(db, 'comments', commentId)
+    try {
+        batch.update(updateCommentRef, {
+            likes: likes,
+        })
 
-    batch.update(updateCommentRef, {
-        likes: likes,
-    })
-
-    //add
-    if (currentUser.uid !== notificationToUid) {
-        if (!isLiked) {
-            batch.set(doc(db, `users/${notificationToUid}/notifications`, newNotification.id), newNotification)
-        } else {
-            const q = query(
-                collection(db, `users/${notificationToUid}/notifications`),
-                where('fromUid', '==', currentUser.uid),
-                where('notificationType', '==', 'Likes')
-            )
-            const _notification = await getDocs(q)
-            if (_notification?.size > 0) {
-                const oldNotificationId = _notification.docs[0].id
-                batch.delete(doc(db, `users/${notificationToUid}/notifications/${oldNotificationId}`))
+        //add
+        if (currentUser.uid !== notificationToUid) {
+            if (!isLiked) {
+                batch.set(doc(db, `users/${notificationToUid}/notifications`, newNotification.id), newNotification)
+            } else {
+                const q = query(
+                    collection(db, `users/${notificationToUid}/notifications`),
+                    where('fromUid', '==', currentUser.uid),
+                    where('notificationType', '==', 'Likes')
+                )
+                const _notification = await getDocs(q)
+                if (_notification?.size > 0) {
+                    const oldNotificationId = _notification.docs[0].id
+                    batch.delete(doc(db, `users/${notificationToUid}/notifications/${oldNotificationId}`))
+                }
             }
         }
-    }
 
-    await batch.commit()
+        await batch.commit()
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 const addComment = async function (currentUser, notificationToUid, comment, newNotification) {
     try {
@@ -480,7 +538,11 @@ const addComment = async function (currentUser, notificationToUid, comment, newN
     }
 }
 const deleteComment = async function (commentId) {
-    await deleteDoc(doc(db, 'comments', commentId))
+    try {
+        await deleteDoc(doc(db, 'comments', commentId))
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 
 // messages
@@ -531,18 +593,26 @@ const addChat = async function (currentUser, friendUid, msg) {
 }
 const removeMessage = async function (currentUser, friendUid, msg) {
     const removeMessageRef = doc(db, `users/${currentUser.uid}/chats`, friendUid)
-    await updateDoc(removeMessageRef, {
-        messages: arrayRemove(msg),
-    })
+    try {
+        await updateDoc(removeMessageRef, {
+            messages: arrayRemove(msg),
+        })
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 const isFriendSendingMessage = async function (currentUser, friendUid) {
     if (!currentUser.uid || !friendUid) return false
     const currentUserDoc = doc(db, `users/${currentUser.uid}/chats`, friendUid)
-    const friend = await getDoc(currentUserDoc)
-    if (friend?.data() < 1) {
-        return false
+    try {
+        const friend = await getDoc(currentUserDoc)
+        if (friend?.data() < 1) {
+            return false
+        }
+        return friend?.data()?.isFriendSending || false
+    } catch (error) {
+        throw new Error(error.message)
     }
-    return friend?.data()?.isFriendSending || false
 }
 const updateSendingMessageState = async function (currentUser, friendUid, state) {
     const friendDoc = doc(db, `users/${friendUid}/chats`, currentUser.uid)
@@ -571,16 +641,19 @@ const unSendMessage = async function (currentUser, friendUid, unSendMsg) {
         }
         return message
     })
+    try {
+        batch.update(fromDoc, {
+            messages: fromMessages,
+        })
+        batch.update(toDoc, {
+            unReadMsg: unSendMsg.isRead ? increment(0) : increment(-1),
+            messages: toMessages,
+        })
 
-    batch.update(fromDoc, {
-        messages: fromMessages,
-    })
-    batch.update(toDoc, {
-        unReadMsg: unSendMsg.isRead ? increment(0) : increment(-1),
-        messages: toMessages,
-    })
-
-    await batch.commit()
+        await batch.commit()
+    } catch (error) {
+        throw new Error(error.message)
+    }
 }
 const getChats = async function (currentUser, callback) {
     if (typeof callback !== 'function' || !currentUser?.uid) return
@@ -627,29 +700,37 @@ const likeMessage = async function (currentUser, friendUid, updateMsg) {
         }
         return msg
     })
+    try {
+        const batch = writeBatch(db)
+
+        batch.update(currentUserDoc, {
+            messages: currentUserMessages,
+        })
+        batch.update(friendDoc, {
+            messages: friendMessages,
+        })
+
+        await batch.commit()
+    } catch (error) {
+        throw new Error(error.message)
+    }
     // console.log(friendMessages)
-    const batch = writeBatch(db)
-
-    batch.update(currentUserDoc, {
-        messages: currentUserMessages,
-    })
-    batch.update(friendDoc, {
-        messages: friendMessages,
-    })
-
-    await batch.commit()
 }
 const getLikeMessageUserInfor = async function (users) {
     if (users?.length < 1) return
     const q = query(collection(db, 'users'), where('uid', 'in', users))
-    const querySnapshot = await getDocs(q)
-    if (querySnapshot.docs.length < 1) {
-        return []
+    try {
+        const querySnapshot = await getDocs(q)
+        if (querySnapshot.docs.length < 1) {
+            return []
+        }
+        const data = querySnapshot.docs.map((doc) => {
+            return { ...doc.data(), id: doc.id }
+        })
+        return data
+    } catch (error) {
+        throw new Error(error.message)
     }
-    const data = querySnapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id }
-    })
-    return data
 }
 const getUnReadMessages = async function (currentUser, callback) {
     if (typeof callback !== 'function' || !currentUser?.uid) return
@@ -688,17 +769,20 @@ const updateReadMessageState = async function (currentUser, friendUid) {
         }
         return msg
     })
+    try {
+        batch.update(fromDoc, {
+            unReadMsg: 0,
+            messages: fromMessages,
+        })
+        batch.update(toDoc, {
+            unReadMsg: 0,
+            messages: toMessages,
+        })
 
-    batch.update(fromDoc, {
-        unReadMsg: 0,
-        messages: fromMessages,
-    })
-    batch.update(toDoc, {
-        unReadMsg: 0,
-        messages: toMessages,
-    })
-
-    await batch.commit()
+        await batch.commit()
+    } catch (error) {
+        throw new Error(error.message)
+    }
 
     // console.log(fromMessages, toMessages)
 }
@@ -759,31 +843,31 @@ const getNotifications = async function (currentUser, callback) {
         }
     )
 }
-const getNewNotification = async function (currentUser, callback) {
-    if (typeof callback !== 'function' || !currentUser?.uid) return
-    const q = query(
-        collection(db, `users/${currentUser.uid}/notifications`),
-        orderBy('isRead'),
-        orderBy('createdAt', 'desc'),
-        limit(1)
-    )
+// const getNewNotification = async function (currentUser, callback) {
+//     if (typeof callback !== 'function' || !currentUser?.uid) return
+//     const q = query(
+//         collection(db, `users/${currentUser.uid}/notifications`),
+//         orderBy('isRead'),
+//         orderBy('createdAt', 'desc'),
+//         limit(1)
+//     )
 
-    onSnapshot(
-        q,
-        async (querySnapshot) => {
-            if (querySnapshot.size < 1) return callback(null)
-            const notification = { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0] }
-            const user = await getUser(notification?.fromUid)
-            if (!user.uid) return callback(null)
-            const data = { ...notification, fromUser: user }
-            console.log(data)
-            callback(data)
-        },
-        (err) => {
-            throw new Error(err.message)
-        }
-    )
-}
+//     onSnapshot(
+//         q,
+//         async (querySnapshot) => {
+//             if (querySnapshot.size < 1) return callback(null)
+//             const notification = { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0] }
+//             const user = await getUser(notification?.fromUid)
+//             if (!user.uid) return callback(null)
+//             const data = { ...notification, fromUser: user }
+//             console.log(data)
+//             callback(data)
+//         },
+//         (err) => {
+//             throw new Error(err.message)
+//         }
+//     )
+// }
 const addNotifications = async function (toUid, newNotifications) {
     try {
         // console.log(_comment)
@@ -883,6 +967,7 @@ export {
     updateFollower,
     getPosts,
     getPost,
+    updatePost,
     deletePost,
     addPost,
     searchPostByArray,
@@ -907,7 +992,7 @@ export {
     updateSendingMessageState,
     getNotifications,
     getNotificationCount,
-    getNewNotification,
+    // getNewNotification,
     addNotifications,
     updateNotificationReadState,
     uploadFile,

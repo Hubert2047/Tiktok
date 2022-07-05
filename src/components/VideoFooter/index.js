@@ -1,27 +1,25 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CommentIcon, HeartIcon, HeartPrimary, ShareIcon } from '~/components/Icons'
 import Menu from '~/components/Menu'
 import { LoginPopup } from '~/components/Popper'
-import FullScreenModal from '~/components/Popper/FullScreenModal'
 import { getCommentCount } from '~/firebase'
 import { formatCountNumber, handleLikePost } from '~/helper'
 import { useVideoPageRoute } from '~/hooks'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { shareItems } from '~/staticData'
 import styles from './VideoFooter.module.scss'
 
 const clsx = classNames.bind(styles)
 function VideoFooter({ className, post }) {
-    // const dispath = useDispatch()
+    const dispath = useDispatch()
     // console.log('re-render video footer')
     const currentUser = useSelector((state) => state.user.user)
     // console.log(currentUser, post.id)
     const [isLikedPost, setIsLikedPost] = useState(currentUser?.likes?.includes(post?.id) || false)
-    // console.log(isLikedPost, post.id)
-    const [showLogin, setShowLogin] = useState(false)
     const navigate = useNavigate()
     const handleOnClickComment = function () {
         navigate(useVideoPageRoute(post))
@@ -37,14 +35,13 @@ function VideoFooter({ className, post }) {
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    const handleShowLogin = function () {
-        setShowLogin((prev) => !prev)
-    }
+
     const handleLikePostAction = async function () {
         try {
             const result = await handleLikePost(currentUser, post, isLikedPost)
             if (result?.showLogin) {
-                handleShowLogin(true)
+                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                return
             }
         } catch (error) {
             console.log(error)
@@ -52,11 +49,6 @@ function VideoFooter({ className, post }) {
     }
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
-            {showLogin && (
-                <FullScreenModal handleShowPopup={handleShowLogin}>
-                    <LoginPopup handleShowPopup={handleShowLogin} />
-                </FullScreenModal>
-            )}
             <div className={clsx('action-container', 'd-flex')}>
                 <div onClick={handleLikePostAction} className={clsx('box', 'flex-center')}>
                     <Fragment>{!isLikedPost ? <HeartIcon /> : <HeartPrimary />}</Fragment>

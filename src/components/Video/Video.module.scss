@@ -37,14 +37,14 @@
 .report-box {
     display: none;
     position: absolute;
+    width: 8rem;
     z-index: 5;
-    top: 5%;
-    right: 5rem;
+    top: 1rem;
+    right: 1rem;
     align-items: center;
     gap: 0.25rem;
     font-size: 1.6rem;
     padding: 0.5rem;
-    opacity: 0;
     background-color: rgba(0, 0, 0, 0.3);
     color: var(--white-color);
     transition: all 1.25s ease;

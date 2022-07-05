@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import * as ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePortalContainer } from '~/hooks'
@@ -11,7 +11,7 @@ const clsx = classNames.bind(styles)
 function ContainerPortal() {
     const dispath = useDispatch()
     const [loaded, portalId] = usePortalContainer('position:fixed;top:0;left:0;z-index:9999')
-    const component = useSelector((state) => state.alert.component)
+    const component = useSelector((state) => state.containerPortal.component)
     const divRef = useRef()
     const isExsit = component !== null
     const handleOnClick = function (e) {

@@ -10,32 +10,35 @@ const clsx = classNames.bind(styles)
 function GetApp({ className }) {
     const dispath = useDispatch()
     const wrapperRef = useRef(null)
-    const [showUpHeader, setShowUpHeader] = useState('')
+    const [showUpHeader, setShowUpHeader] = useState(false)
     useEffect(() => {
         const handleScroll = function () {
-            if (wrapperRef.current.parentNode.scrollTop === 0) {
-                setShowUpHeader('')
+            // if (wrapperRef.current.parentNode.scrollTop === 0) {
+            //     setShowUpHeader('')
+            // } else {
+            //     setShowUpHeader(clsx('show-btn'))
+            // }
+            if (window.scrollY === 0) {
+                setShowUpHeader(false)
             } else {
-                setShowUpHeader(clsx('show-btn'))
+                setShowUpHeader(true)
             }
         }
-        wrapperRef.current.parentNode.addEventListener('scroll', handleScroll)
+        window.addEventListener('scroll', handleScroll)
         return () => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
-            // wrapperRef.current.parentNode.removeEventListener('scroll', handleScroll)
+            window.removeEventListener('scroll', handleScroll)
         }
     })
     const handleUpToHeaderBtnOnClick = function () {
-        wrapperRef.current.parentNode.scrollTo({ top: 0 })
-        window.scrollTo({ top: 0 })
+        window.scrollTo({ top: 0, behavior: 'smooth' }) //scroll to header so we can see video
     }
     const handleShowPopup = function () {
-        console.log('go')
         dispath(containerPortalActions.setComponent(<GetAppPopup />))
     }
     return (
         <div ref={wrapperRef} className={clsx('wrapper', className)}>
-            <div className={clsx('app-btn', 'd-flex', { [showUpHeader]: showUpHeader })}>
+            <div className={clsx('app-btn', 'd-flex', { 'show-btn': showUpHeader })}>
                 <Button
                     title='Get app'
                     type='btn-rounded'

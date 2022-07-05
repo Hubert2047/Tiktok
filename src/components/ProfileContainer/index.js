@@ -28,7 +28,10 @@ function ProfileContainer({ user, children, placement }) {
     const handleFollowing = async function () {
         try {
             const result = await handleFollowingUser(currentUser, user, isFollowing)
-            if (result?.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
+            if (result?.showLogin) {
+                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                return
+            }
             //data is realtime so we dont have to manually state
         } catch (error) {
             console.log(error)
@@ -77,7 +80,6 @@ function ProfileContainer({ user, children, placement }) {
                 // offset={[0, -150]} //change position
                 placement={placement}
                 interactive={true}
-                className={clsx('tippy-box')}
                 // visible={true}
                 // trigger={'click'}
                 render={renderProfileContainer}>

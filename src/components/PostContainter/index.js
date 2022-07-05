@@ -11,29 +11,26 @@ import UserName from '~/components/UserName'
 import Video from '~/components/Video'
 import { handleFollowingUser } from '~/helper'
 import { useProfileRoute } from '~/hooks'
+import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
-import FullScreenModal from '../Popper/FullScreenModal'
 import styles from './PostContainer.module.scss'
 let time
 const clsx = classNames.bind(styles)
-const PostContainer = forwardRef(({ post }, ref) => {
+const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
     // console.log('re-render post container', post.id)
     const dispath = useDispatch()
     const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
     const [showallContent, setShowAllContent] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
-    const [showLogin, setShowLogin] = useState(false)
     const [isFollowing, setIsFollowing] = useState()
-    const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
+    // const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
+
     const observer = useRef()
     const postRef = useRef()
-    const handleOnMouseEnter = useCallback(() => {
-        setShowAllContent(setIsClamped(false))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
     useEffect(() => {
         observer.current = new IntersectionObserver(
             (entries) => {
@@ -41,9 +38,8 @@ const PostContainer = forwardRef(({ post }, ref) => {
                     if (time) clearTimeout(time)
                     // console.log('intersecting', post.id)
                     time = setTimeout(() => {
-                        // console.log('run', post.id)
                         dispath(homeActions.setCurrentPostPlayingId(post.id))
-                    }, 500) //wait 800ms then dispath
+                    }, 800) //wait 800 then dispath
                 }
             },
             { threshold: 0.75 }
@@ -67,14 +63,12 @@ const PostContainer = forwardRef(({ post }, ref) => {
     const handleReflow = function (rleState) {
         setIsClamped(rleState.clamped)
     }
-    const handleShowLogin = function () {
-        setShowLogin((prev) => !prev)
-    }
     const handleFollowing = async function () {
         try {
             const result = await handleFollowingUser(currentUser, post.user, isFollowing)
             if (result.showLogin) {
-                setShowLogin(true)
+                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                return
             }
             //data is realtime so we dont have to update state
         } catch (error) {
@@ -83,12 +77,6 @@ const PostContainer = forwardRef(({ post }, ref) => {
     }
     return (
         <div ref={ref} className={clsx('wrapper', 'd-flex')}>
-            {showLogin && (
-                <FullScreenModal handleShowPopup={handleShowLogin}>
-                    <LoginPopup handleShowPopup={handleShowLogin} />
-                </FullScreenModal>
-            )}
-
             <ProfileContainer user={post.user} placement='left-start'>
                 <UserAvatar onClick={handleNavigate} user={post.user} height='5.6rem' className={clsx('avatar')} />
             </ProfileContainer>
@@ -120,12 +108,7 @@ const PostContainer = forwardRef(({ post }, ref) => {
                     </div>
                 </div>
 
-                <Video
-                    post={post}
-                    onMouseEnter={handleOnMouseEnter}
-                    isCurrentPostPlaying={currentPostPlayingId === post.id}
-                    className={clsx('video')}
-                />
+                <Video post={post} className={clsx('video')} isCurrentPlaying={isCurrentPlaying} />
             </div>
             {currentUser?.uid !== post.uid && (
                 <Button

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import React, { Fragment, memo, useEffect, useState } from 'react'
+import { Fragment, memo, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
@@ -32,6 +32,7 @@ import { deletePost, getCommentCount, getPost } from '~/firebase'
 import { convertTimeStampToDate, formatCountNumber, handleFollowingUser, handleLikePost } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
+import { homeActions } from '~/redux/homeSlice'
 import { toastActions } from '~/redux/toastSlice'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
@@ -51,6 +52,32 @@ function VideoPage() {
     const [isLikedPost, setIsLikedPost] = useState()
     const postId = params.id
     // console.log(postId)
+    useEffect(() => {
+        const getPostJSON = async function () {
+            // setLoading(true)
+            dispath(containerPortalActions.setComponent(<Loading />))
+            try {
+                const data = await getPost(postId)
+                if (!data) {
+                    dispath(containerPortalActions.setComponent(<NotFoundPost />))
+                    return
+                }
+                setPost(data)
+                setIsLikedPost(currentUser?.likes?.includes(data?.id) || false)
+                setIsFollowing(currentUser?.following?.includes(data?.user?.uid) || false)
+                dispath(homeActions.setCurrentPostPlayingId(data.id)) //close loading
+                dispath(containerPortalActions.setComponent(null)) //close loading
+            } catch (e) {
+                dispath(containerPortalActions.setComponent(null)) //close loading
+                console.log(e)
+            }
+        }
+        getPostJSON()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    const handleReflow = function (rleState) {
+        setIsClamped(rleState.clamped)
+    }
     const handleNavigate = function () {
         navigate(useProfileRoute(post.user))
     }
@@ -63,7 +90,7 @@ function VideoPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [post])
     const handleGoBackHome = function () {
-        navigate('/')
+        window.history.back()
     }
     const NotFoundPost = function () {
         return (
@@ -88,36 +115,14 @@ function VideoPage() {
             </div>
         )
     }
-    useEffect(() => {
-        const getPostJSON = async function () {
-            // setLoading(true)
-            dispath(containerPortalActions.setComponent(<Loading />))
-            try {
-                const data = await getPost(postId)
-                if (!data) {
-                    dispath(containerPortalActions.setComponent(<NotFoundPost />))
-                    return
-                }
-                setPost(data)
-                setIsLikedPost(currentUser?.likes?.includes(data?.id) || false)
-                setIsFollowing(currentUser?.following?.includes(data?.user?.uid) || false)
-                dispath(containerPortalActions.setComponent(null)) //close loading
-            } catch (e) {
-                dispath(containerPortalActions.setComponent(null)) //close loading
-                console.log(e)
-            }
-        }
-        getPostJSON()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-    const handleReflow = function (rleState) {
-        setIsClamped(rleState.clamped)
-    }
 
     const handleFollowing = async function () {
         try {
             const result = await handleFollowingUser(currentUser, post.user, isFollowing)
-            if (result?.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
+            if (result?.showLogin) {
+                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                return
+            }
             //data is not realtime so we have to manually state
             if (result?.isFollowing) {
                 setIsFollowing(true)
@@ -130,7 +135,10 @@ function VideoPage() {
     }
     const handleLikePostAction = async function () {
         const result = await handleLikePost(currentUser, post, isLikedPost)
-        if (result?.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
+        if (result?.showLogin) {
+            dispath(containerPortalActions.setComponent(<LoginPopup />))
+            return
+        }
         //data is not realtime so we have to manually state
         setIsLikedPost(result?.isLikedPost)
         setPost((prev) => {
@@ -202,7 +210,12 @@ function VideoPage() {
                             autoPlay={true}
                             className={clsx('video')}
                             src={post?.video}></video>
-                        <Button to={'/'} icon={<XIcon />} type='btn-all-rounded' className={clsx('close-btn')} />
+                        <Button
+                            onClick={handleGoBackHome}
+                            icon={<XIcon />}
+                            type='btn-all-rounded'
+                            className={clsx('close-btn')}
+                        />
                         <Button
                             title='Report'
                             color={'color-white'}

@@ -30,7 +30,7 @@ const store = configureStore({
         comment: commentSlice.reducer,
         toast: toastSlice.reducer,
         message: messageSlice.reducer,
-        alert: containerPortalSlice.reducer,
+        containerPortal: containerPortalSlice.reducer,
         mobileHome: mobileHomeSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>

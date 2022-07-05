@@ -82,7 +82,10 @@ function Profile() {
     const handleFollowing = async function () {
         try {
             const result = await handleFollowingUser(currentUser, profileUser, isFollowing)
-            if (result.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
+            if (result.showLogin) {
+                dispath(containerPortalActions.setComponent(<LoginPopup />))
+                return
+            }
             // data is not realtime so we have to update state
             if (result?.isFollowing) {
                 setIsFollowing(true)

@@ -3,9 +3,9 @@
 import classNames from 'classnames/bind'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import GetApp from '~/components/GetApp'
 import Loading from '~/components/Loading'
 import PostContainer from '~/components/PostContainter'
-import SnapScrollContainer from '~/components/SnapCrollContainer'
 import { getPosts } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
@@ -13,11 +13,12 @@ import styles from './Home.module.scss'
 const clsx = classNames.bind(styles)
 
 function Home() {
-    // console.log('re-render home')
+    console.log('re-render home')
     const dispath = useDispatch()
     const posts = useSelector((state) => state.home.posts)
     const [lastPost, setLastPost] = useState()
     const [hasMorePost, setHasMorePost] = useState(true)
+    const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
     const observer = useRef()
     const getPostsJSON = function () {
         if (posts?.length > 0) return
@@ -27,12 +28,15 @@ function Home() {
             setLastPost(data.lastDoc)
             setTimeout(() => {
                 dispath(containerPortalActions.setComponent(null))
-            }, 1000) //wait video loaded 1s
+                console.log('time out')
+            }, 0) //wait video render
         })
     }
     useEffect(() => {
-        //reload page then scroll to top of page
-        window.scrollTo(0, 0)
+        getPostsJSON()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    useEffect(() => {
         //check if page not active/change tab then stop play video
         const handleOnChangePageTab = function () {
             if (document.visibilityState === 'visible') {
@@ -47,9 +51,12 @@ function Home() {
             document.removeEventListener('visibilitychange', handleOnChangePageTab)
         }
     }, [])
+    console.log('hasmore', hasMorePost)
     const getMorePostsJSON = function (lastPost) {
+        if (!hasMorePost) return
         getPosts((data) => {
             if (!data?.posts?.length) {
+                console.log('nothing')
                 setHasMorePost(false)
                 return
             }
@@ -57,10 +64,7 @@ function Home() {
             setLastPost(data.lastDoc)
         }, lastPost)
     }
-    useEffect(() => {
-        getPostsJSON()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
     // useEffect(() => {
     //     // return () => {
     //     //     dispath(homeActions.setCurrentPostPlayingId(null))
@@ -89,23 +93,34 @@ function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [lastPost]
     )
-    // const onTest = function () {
-    //     console.log('test')
-    //     dispath(containerPortalActions.setComponent(<LoadCircle process={1} />))
-    // }
     return (
         <div className={clsx('wrapper')}>
-            {/* <button onClick={onTest}>click me</button> */}
-            <SnapScrollContainer>
-                {posts?.map((post, index) => {
-                    //check the last post
-                    if (posts.length - 2 === index) {
-                        return <PostContainer className={clsx('post')} ref={lastPostCallBack} key={index} post={post} />
-                    } else {
-                        return <PostContainer className={clsx('post')} key={index} post={post} />
-                    }
-                })}
-            </SnapScrollContainer>
+            {/* <SnapScrollContainer> */}
+            {posts?.map((post, index) => {
+                //check the last post to know when have to get new post
+                if (posts.length - 2 === index) {
+                    return (
+                        <PostContainer
+                            className={clsx('post')}
+                            ref={lastPostCallBack}
+                            key={index}
+                            post={post}
+                            isCurrentPlaying={currentPostPlayingId === post.id}
+                        />
+                    )
+                } else {
+                    return (
+                        <PostContainer
+                            className={clsx('post')}
+                            key={index}
+                            post={post}
+                            isCurrentPlaying={currentPostPlayingId === post.id}
+                        />
+                    )
+                }
+            })}
+            {/* </SnapScrollContainer> */}
+            <GetApp />
         </div>
     )
 }
