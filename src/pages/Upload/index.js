@@ -20,10 +20,10 @@ import {
     WramIcon,
 } from '~/components/Icons'
 import Image from '~/components/Image'
-import { alertConstain } from '~/staticData'
 import { addPost, uploadFile } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
+import { alertConstain } from '~/staticData'
 import MobileSidebar from '../../mobile/components/MobileSidebar/index'
 import Spiner from '../../mobile/components/MobileVideoFooter/Spiner'
 import LoadCircle from './LoadCircle'
@@ -57,8 +57,8 @@ function Upload() {
         content: '',
         poster: '',
         video: '',
-        likes: 0,
-        shares: 0,
+        likes: Math.floor(Math.random() * 10000),
+        shares: Math.floor(Math.random() * 10000),
         played: 0,
         uid: currentUser.uid,
     })

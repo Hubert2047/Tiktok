@@ -92,7 +92,7 @@ function Sidebar({ className }) {
                     />
                 </div>
                 {!currentUser?.uid && (
-                    <div onClick={handleShowLogin} className={clsx('login-box', 'd-flex')}>
+                    <div onClick={handleShowLogin} className={clsx('login-box')}>
                         <p className={clsx('login-text')}>Log in to follow creators, like videos, and view comments.</p>
                         <Button title={'Login'} size='size-big' border='border-primary' color='color-primary' />
                     </div>

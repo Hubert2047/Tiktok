@@ -5,10 +5,12 @@
     padding: 2rem 1rem;
     border-bottom: 1.5px solid var(--grey-color);
     scroll-snap-align: start;
+    align-items: flex-start;
 }
 .avatar {
     height: fit-content;
 }
+
 .content-box {
     flex-direction: column;
     justify-content: flex-start;

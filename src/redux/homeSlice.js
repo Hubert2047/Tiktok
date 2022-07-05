@@ -5,6 +5,7 @@ const homeSlice = createSlice({
     initialState: {
         posts: [],
         currentPostPlayingId: null,
+        isPageActive: true,
     },
     reducers: {
         setPost(state, actions) {
@@ -12,6 +13,9 @@ const homeSlice = createSlice({
         },
         setCurrentPostPlayingId(state, actions) {
             state.currentPostPlayingId = actions.payload
+        },
+        setIsPageActive(state, actions) {
+            state.isPageActive = actions.payload
         },
     },
 })

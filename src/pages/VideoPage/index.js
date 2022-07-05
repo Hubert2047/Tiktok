@@ -133,6 +133,10 @@ function VideoPage() {
         if (result?.showLogin) dispath(containerPortalActions.setComponent(<LoginPopup />))
         //data is not realtime so we have to manually state
         setIsLikedPost(result?.isLikedPost)
+        setPost((prev) => {
+            if (result.isLikedPost) return { ...prev, likes: prev.likes + 1 }
+            return { ...prev, likes: prev.likes - 1 }
+        })
     }
     const handleDeletePostOnSubmit = async function () {
         try {

@@ -31,7 +31,21 @@ function Home() {
         })
     }
     useEffect(() => {
+        //reload page then scroll to top of page
         window.scrollTo(0, 0)
+        //check if page not active/change tab then stop play video
+        const handleOnChangePageTab = function () {
+            if (document.visibilityState === 'visible') {
+                dispath(homeActions.setIsPageActive(true))
+            } else {
+                dispath(homeActions.setIsPageActive(false))
+            }
+        }
+        document.addEventListener('visibilitychange', handleOnChangePageTab)
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleOnChangePageTab)
+        }
     }, [])
     const getMorePostsJSON = function (lastPost) {
         getPosts((data) => {
@@ -47,13 +61,15 @@ function Home() {
         getPostsJSON()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    useEffect(() => {
-        return () => {
-            dispath(homeActions.setCurrentPostPlayingId(null))
-            dispath(homeActions.setPost([]))
-        }
-        //reset post when component unmouse
-    }, [])
+    // useEffect(() => {
+    //     // return () => {
+    //     //     dispath(homeActions.setCurrentPostPlayingId(null))
+    //     //     dispath(homeActions.setPost([]))
+    //     // }
+    //     //reset post when component unmouse
+    // }, [])
+
+    //lazy loaded
     const lastPostCallBack = useCallback(
         (node) => {
             if (observer.current) observer.current.disconnect()

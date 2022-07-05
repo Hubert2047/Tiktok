@@ -759,6 +759,31 @@ const getNotifications = async function (currentUser, callback) {
         }
     )
 }
+const getNewNotification = async function (currentUser, callback) {
+    if (typeof callback !== 'function' || !currentUser?.uid) return
+    const q = query(
+        collection(db, `users/${currentUser.uid}/notifications`),
+        orderBy('isRead'),
+        orderBy('createdAt', 'desc'),
+        limit(1)
+    )
+
+    onSnapshot(
+        q,
+        async (querySnapshot) => {
+            if (querySnapshot.size < 1) return callback(null)
+            const notification = { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0] }
+            const user = await getUser(notification?.fromUid)
+            if (!user.uid) return callback(null)
+            const data = { ...notification, fromUser: user }
+            console.log(data)
+            callback(data)
+        },
+        (err) => {
+            throw new Error(err.message)
+        }
+    )
+}
 const addNotifications = async function (toUid, newNotifications) {
     try {
         // console.log(_comment)
@@ -882,6 +907,7 @@ export {
     updateSendingMessageState,
     getNotifications,
     getNotificationCount,
+    getNewNotification,
     addNotifications,
     updateNotificationReadState,
     uploadFile,

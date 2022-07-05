@@ -77,6 +77,7 @@ function ProfileContainer({ user, children, placement }) {
                 // offset={[0, -150]} //change position
                 placement={placement}
                 interactive={true}
+                className={clsx('tippy-box')}
                 // visible={true}
                 // trigger={'click'}
                 render={renderProfileContainer}>

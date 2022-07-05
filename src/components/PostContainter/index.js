@@ -46,7 +46,7 @@ const PostContainer = forwardRef(({ post }, ref) => {
                     }, 500) //wait 800ms then dispath
                 }
             },
-            { threshold: 0.5 }
+            { threshold: 0.75 }
         )
         if (postRef.current) {
             observer.current.observe(postRef.current)
