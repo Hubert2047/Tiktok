@@ -24,7 +24,7 @@
     0%,
     100% {
         top: 0.5em;
-        left: 0px;
+        right: 0px;
         width: 1.8em;
         height: 1.8em;
         z-index: 0;
@@ -34,20 +34,24 @@
         height: 3.5em;
         width: 3.5em;
         z-index: 1;
-        left: 1.8em;
+        right: 1.2em;
         transform: scale(1);
     }
     50% {
         top: 5px;
         width: 1.8em;
         height: 1.8em;
-        left: 4em;
+        right: 2.4em;
     }
     75% {
         top: 0.8em;
         width: 2.4em;
         height: 2.4em;
-        left: 1.8em;
-        transform: scale(0.9);
+        right: 1.2em;
+        transform: scale(0.95);
+        -webkit-transform: scale(0.95);
+        -moz-transform: scale(0.95);
+        -ms-transform: scale(0.95);
+        -o-transform: scale(0.95);
     }
 }

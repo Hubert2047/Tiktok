@@ -16,6 +16,12 @@
     @media screen and (max-width: 375px) {
         display: flex;
         justify-content: flex-start;
+        overflow-x: overlay;
+        &::-webkit-scrollbar {
+            border-radius: 0;
+            width: 0px;
+            height: 0px;
+        }
     }
 }
 .conversation-container {

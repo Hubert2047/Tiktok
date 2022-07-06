@@ -18,6 +18,9 @@
     margin: 0 auto;
     padding: 0 var(--default-layout-horizontal-space);
     background-color: var(--white-color);
+    @media screen and(max-width: 375px) {
+        padding: 0 0.25rem;
+    }
 }
 .logo {
     align-items: center;
@@ -31,13 +34,18 @@
     gap: 1.75rem;
     cursor: pointer;
     // flex: 2;
-    @media screen and (max-width: 479px) {
+    @media screen and (max-width: 425px) {
         gap: 1rem;
     }
 }
 .upload-btn {
-    @media screen and (max-width: 479px) {
-        display: none !important;
+    @media screen and (max-width: 425px) {
+        width: fit-content;
+        border: none;
+        font-size: 2rem;
+        & > span {
+            display: none;
+        }
     }
 }
 .upload-icon {

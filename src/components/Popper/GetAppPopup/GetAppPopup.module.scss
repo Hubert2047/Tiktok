@@ -4,6 +4,15 @@
     //     width: 40vw;
     width: 40rem;
     box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
+    @media screen and (max-width: 768px) {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        -o-border-radius: 0;
+    }
 }
 .header {
     justify-content: space-between;

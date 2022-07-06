@@ -9,6 +9,9 @@
     -ms-border-radius: var(--border-radius-md);
     -o-border-radius: var(--border-radius-md);
     border-radius: var(--border-radius-md);
+    @media screen and (max-width: 375px) {
+        width: 100vw;
+    }
 }
 .header {
     padding: 2.4rem 1.6rem;
@@ -20,10 +23,11 @@
 }
 .group-container {
     gap: 0.8rem;
+
     padding: 0 1.6rem;
     @media screen and (max-width: 375px) {
-        padding: 0 0.25rem;
-        gap: 0.25rem;
+        justify-content: space-between;
+        padding: 0 1rem;
     }
 }
 

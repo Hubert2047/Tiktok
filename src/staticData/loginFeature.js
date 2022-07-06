@@ -1,4 +1,14 @@
-import { CopyLinkIcon, GooogleIcon, ProfileIcon } from '~/components/Icons'
+import {
+    CopyLinkIcon,
+    GooogleIcon,
+    ProfileIcon,
+    LineIcon,
+    TwitterIcon,
+    TalkIcon,
+    AppleIcon,
+    IstalgramIcon,
+    FaceBookIcon,
+} from '~/components/Icons'
 import { v4 as uuidv4 } from 'uuid'
 import { loginWithGoogle } from '~/firebase'
 const quickLogin = function () {
@@ -43,13 +53,13 @@ export const loginFeatureBtns = [
             incomingFeature('Use Phone')
         },
     },
-    // { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: incomingFeature },
     { id: 4, title: 'Continue with Google', icon: <GooogleIcon />, onClick: loginWithGoogle },
-    // { id: 5, title: 'Continue with Line', icon: <LineIcon />, onClick: incomingFeature },
-    // { id: 6, title: 'Continue with Twitter', icon: <TwitterIcon />, onClick: incomingFeature },
-    // { id: 7, title: 'Continue with KakaoTalk', icon: <TalkIcon />, onClick: incomingFeature },
-    // { id: 8, title: 'Continue with Apple', icon: <AppleIcon />, onClick: incomingFeature },
-    // { id: 9, title: 'Continue with Instagram', icon: <IstalgramIcon />, onClick: incomingFeature },
+    { id: 3, title: 'Continue with Facebook', icon: <FaceBookIcon />, onClick: incomingFeature },
+    { id: 5, title: 'Continue with Line', icon: <LineIcon />, onClick: incomingFeature },
+    { id: 6, title: 'Continue with Twitter', icon: <TwitterIcon />, onClick: incomingFeature },
+    { id: 7, title: 'Continue with KakaoTalk', icon: <TalkIcon />, onClick: incomingFeature },
+    { id: 8, title: 'Continue with Apple', icon: <AppleIcon />, onClick: incomingFeature },
+    { id: 9, title: 'Continue with Instagram', icon: <IstalgramIcon />, onClick: incomingFeature },
 ]
 
 function incomingFeature(feature = 'this feature') {

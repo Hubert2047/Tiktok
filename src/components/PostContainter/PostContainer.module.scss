@@ -33,7 +33,14 @@
 .content-box {
     flex-direction: column;
     justify-content: flex-start;
-    max-width: 80%;
+    max-width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
 }
 .show-content-btn {
     width: fit-content;
