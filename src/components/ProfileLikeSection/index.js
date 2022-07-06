@@ -6,17 +6,20 @@ import { searchPostByArray } from '~/firebase'
 import styles from './ProfileLikeSection.module.scss'
 const clsx = classNames.bind(styles)
 function ProfileLikeSection({ user, isCurrentUser, className }) {
-    const [userLikePost, setUserLikePost] = useState([])
+    const [userLikePosts, setUserLikePosts] = useState([])
+    const [lastIndex, setlastIndex] = useState(0)
+    const limit = 39
     useEffect(() => {
-        if (user?.likes?.length > 0) {
-            searchPostByArray(user.likes, (data) => {
-                setUserLikePost(data)
+        if (user?.likes?.length > 0 && user.likes?.length > lastIndex && userLikePosts?.length < limit) {
+            searchPostByArray(user.likes.slice(lastIndex, lastIndex + 10), (data) => {
+                setUserLikePosts((prev) => [...prev, ...data])
+                setlastIndex((prev) => prev + 11)
             }).catch((err) => {
                 console.log(err)
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user])
+    }, [user, lastIndex])
     return (
         <div className={clsx('wrapper', className)}>
             {!isCurrentUser ? (
@@ -34,7 +37,7 @@ function ProfileLikeSection({ user, isCurrentUser, className }) {
                             <p>Videos you liked will appear here</p>
                         </div>
                     ) : (
-                        <MovieContainer posts={userLikePost} className={clsx('main-content')} />
+                        <MovieContainer posts={userLikePosts} className={clsx('main-content')} />
                     )}
                 </div>
             )}

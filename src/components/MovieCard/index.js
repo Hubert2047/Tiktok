@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { increment } from 'firebase/firestore'
 import { memo, useRef } from 'react'
@@ -7,6 +8,7 @@ import { PlayIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import { updatePost } from '~/firebase'
 import { formatCountNumber } from '~/helper'
+import { useVideoPageRoute } from '~/hooks'
 import styles from './MovieCard.module.scss'
 const clsx = classNames.bind(styles)
 function MovieCard({ post, isPlaying, onHover }) {
@@ -24,7 +26,7 @@ function MovieCard({ post, isPlaying, onHover }) {
     }
     const handleOnClick = function () {
         updatePost(post.id, { shares: increment(1), played: increment(1) })
-        navigate(`/${profileUser.full_name}/video/${post.id}`)
+        navigate(useVideoPageRoute({ ...post }))
     }
     return (
         <div

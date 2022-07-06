@@ -366,6 +366,27 @@ const getPost = async function (postId) {
         throw new Error(error.message)
     }
 }
+const getUserPosts = async function (uid) {
+    try {
+        const q = query(collection(db, 'posts'), where('uid', '==', uid))
+        const querySnapshot = await getDocs(q)
+        if (querySnapshot.size < 1) return []
+        const userPromise = []
+        const posts = querySnapshot.docs?.map((doc) => {
+            userPromise.push(getUser(doc.data().uid))
+            return { id: doc.id, ...doc.data() }
+        })
+        const users = await Promise.all(userPromise)
+        const data = posts.map((post) => {
+            const postUser = users.find((user) => user.uid === post.uid)
+            return { ...post, postUser: postUser }
+        })
+        // console.log(data)
+        return data
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
 //search post with an array
 const searchPostByArray = async function (array = [], callback) {
     // console.log(array)
@@ -373,12 +394,18 @@ const searchPostByArray = async function (array = [], callback) {
     const querySnapshot = await getDocs(q)
     try {
         // console.log(querySnapshot.size)
+        const usersPromise = []
         if (querySnapshot.size < 1) return []
         const posts = querySnapshot.docs?.map((doc) => {
+            usersPromise.push(getUser(doc.data().uid))
             return { id: doc.id, ...doc.data() }
         })
+        const users = await Promise.all(usersPromise)
+        const data = posts.map((post) => {
+            return { ...post, user: users.find((user) => user.uid === post.uid) }
+        })
 
-        callback(posts)
+        callback(data)
     } catch (err) {
         throw new Error(err.message)
     }
@@ -971,6 +998,7 @@ export {
     updatePost,
     deletePost,
     addPost,
+    getUserPosts,
     searchPostByArray,
     handlePostLike,
     searchPost,

@@ -1,0 +1,27 @@
+.wrapper {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 3rem;
+    margin: 0 0.5rem;
+    border-radius: var(--border-radius-md);
+    -webkit-border-radius: var(--border-radius-md);
+    -moz-border-radius: var(--border-radius-md);
+    -ms-border-radius: var(--border-radius-md);
+    -o-border-radius: var(--border-radius-md);
+}
+.title {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.desc {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 2rem 0;
+    text-align: center;
+}
+.back-home-btn {
+    width: 50%;
+}

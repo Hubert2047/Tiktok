@@ -2,9 +2,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import { Fragment, memo, useEffect, useRef, useState } from 'react'
+import { Fragment, memo, useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
@@ -17,24 +16,23 @@ import {
     HeartIcon,
     HeartPrimary,
     HorizontalThreeDot,
-    PlayIcon,
-    ReportIcon,
     SendToIcon,
     ShareIcon,
     TwitterIcon,
     WhatsAppIcon,
-    XIcon,
 } from '~/components/Icons'
 import Loading from '~/components/Loading'
 import { LoginPopup } from '~/components/Popper'
 import ProfileContainer from '~/components/ProfileContainer'
 import UserAvatar from '~/components/UserAvatar'
-import { deletePost, getCommentCount, getPost } from '~/firebase'
+import { deletePost, getCommentCount, getUserPosts } from '~/firebase'
 import { convertTimeStampToDate, formatCountNumber, handleFollowingUser, handleLikePost } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
 import { toastActions } from '~/redux/toastSlice'
+import VideoContainer from './VideoContainer'
+import VideoNotFound from './VideoNotFound'
 import styles from './VideoPage.module.scss'
 const clsx = classNames.bind(styles)
 function VideoPage() {
@@ -42,132 +40,109 @@ function VideoPage() {
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const params = useParams()
     const dispath = useDispatch()
-    // console.log(params)
-    // const dispath = useDispatch()
     const navigate = useNavigate()
     const currentUser = useSelector((state) => state.user.user)
-    const [post, setPost] = useState({})
+    const [posts, setPosts] = useState({})
+    const [currentPlayVideoId, setcurrentPlayVideoId] = useState(params.id)
     const [commentCount, setCommentCount] = useState(0)
-    const [showallContent, setShowAllContent] = useState(false)
-    const [isClamped, setIsClamped] = useState(false)
-    const [isFollowing, setIsFollowing] = useState()
-    const [isLikedPost, setIsLikedPost] = useState()
-    const postId = params.id
-    // console.log(postId)
-    const videoRef = useRef()
-    useEffect(() => {
-        const getPostJSON = async function () {
-            // setLoading(true)
-            dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
-            try {
-                const data = await getPost(postId)
-                if (!data) {
-                    dispath(containerPortalActions.setComponent({ component: <NotFoundPost />, onClickOutside: true }))
-                    return
-                }
-                setPost(data)
-                setIsLikedPost(currentUser?.likes?.includes(data?.id) || false)
-                setIsFollowing(currentUser?.following?.includes(data?.user?.uid) || false)
-                dispath(homeActions.setCurrentPostPlayingId(data.id)) //close loading
-                dispath(containerPortalActions.setComponent(null)) //close loading
-            } catch (e) {
-                dispath(containerPortalActions.setComponent(null)) //close loading
-                console.log(e)
-            }
-        }
-        getPostJSON()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-    const handleReflow = function (rleState) {
-        setIsClamped(rleState.clamped)
-    }
+
     const handleNavigate = function () {
-        navigate(useProfileRoute(post.user))
+        navigate(useProfileRoute(currentPlayVideo.postUser))
     }
 
+    const currentPlayVideo = useMemo(() => {
+        if (!posts?.length > 0) return
+        return posts?.find((post) => post?.id === currentPlayVideoId)
+    }, [currentPlayVideoId, posts])
+
+    //if there are many users can use this way
+    const isFollowing = useMemo(() => {
+        return currentUser?.following?.includes(currentPlayVideo?.postUser?.uid)
+    }, [currentUser])
+    const isLikedPost = useMemo(() => currentUser?.likes?.includes(currentPlayVideo?.id), [currentUser])
+
     useEffect(() => {
-        if (post.id)
-            getCommentCount(post.id, (commentCount) => {
+        const getPosts = async function () {
+            //open loading
+            dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
+            try {
+                const data = await getUserPosts(params.uid)
+                if (!data?.length > 0) {
+                    dispath(
+                        containerPortalActions.setComponent({ component: <VideoNotFound />, onClickOutside: false })
+                    )
+                    return
+                }
+                //try to put search post to the first of list
+
+                const paramPost = data.find((item) => item.id === params.id)
+                if (!paramPost) {
+                    dispath(
+                        containerPortalActions.setComponent({ component: <VideoNotFound />, onClickOutside: false })
+                    )
+                    return
+                }
+
+                const paramPostIndex = data.findIndex((item) => item === paramPost)
+                data.splice(paramPostIndex, 1)
+                setPosts([paramPost, ...data])
+
+                //close loading , wait video loading 500ms
+                setTimeout(() => {
+                    dispath(containerPortalActions.setComponent(null))
+                }, 500)
+            } catch (error) {
+                console.log(error)
+                dispath(containerPortalActions.setComponent(null))
+            }
+        }
+        getPosts()
+    }, [])
+
+    useEffect(() => {
+        if (currentPlayVideo?.id)
+            getCommentCount(currentPlayVideo.id, (commentCount) => {
                 setCommentCount(commentCount)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [post])
-    const handleGoBackHome = function () {
-        window.history.back()
-    }
-    useEffect(() => {
-        if (!videoRef.current) return
-        if (isPageActive) {
-            videoRef.current.play()
-        } else {
-            videoRef.current.pause()
-        }
-    }, [isPageActive])
-    const NotFoundPost = function () {
-        return (
-            <div className={clsx('not-found-post', 'd-flex')}>
-                {/* <Image
-                    src={
-                        'https://firebasestorage.googleapis.com/v0/b/tiktok-2da3a.appspot.com/o/images%2F404-not-found.jpeg?alt=media&token=057e62d5-79f0-4d41-b3e3-299f0ee10cf5'
-                    }
-                    className={clsx('not-found-img')}
-                /> */}
-                <p className={clsx('not-found-title')}>This post may have been deleted by the author</p>
-                <p className={clsx('not-found-desc')}>Check out more trending videos on TikTok</p>
-                <Button
-                    icon={<PlayIcon />}
-                    onClick={handleGoBackHome}
-                    title='Watch Now'
-                    size='size-big'
-                    bg='bg-primary'
-                    color='color-white'
-                    className={clsx('back-home-btn')}
-                />
-            </div>
-        )
-    }
+    }, [currentPlayVideo])
 
     const handleFollowing = async function () {
         try {
-            const result = await handleFollowingUser(currentUser, post.user, isFollowing)
+            const result = await handleFollowingUser(currentUser, currentPlayVideo.postUser, isFollowing)
             if (result?.showLogin) {
                 dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
                 return
             }
-            //data is not realtime so we have to manually state
-            if (result?.isFollowing) {
-                setIsFollowing(true)
-            } else {
-                setIsFollowing(false)
-            }
+            // }
         } catch (error) {
             console.log(error)
         }
     }
     const handleLikePostAction = async function () {
-        const result = await handleLikePost(currentUser, post, isLikedPost)
+        const result = await handleLikePost(currentUser, currentPlayVideo, isLikedPost)
         if (result?.showLogin) {
             dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
             return
         }
         //data is not realtime so we have to manually state
-        setIsLikedPost(result?.isLikedPost)
-        if (result.isLikedPost) {
-            setPost((prev) => {
-                return { ...prev, likes: prev.likes + 1 }
+
+        //update data because data is not realtime, it does not call back data again when go back home page
+        dispath(homeActions.setUpdateLikes({ postId: currentPlayVideo.id, value: result.value }))
+        //update current video post list
+        setPosts((prev) => {
+            return prev.map((post) => {
+                if (post.id === currentPlayVideo.id) {
+                    return { ...post, likes: post.likes + result.value }
+                }
+                return post
             })
-            dispath(homeActions.setUpdateLikes({ postId: post.id, value: 1 }))
-        } else {
-            dispath(homeActions.setUpdateLikes({ postId: post.id, value: -1 }))
-            setPost((prev) => {
-                return { ...prev, likes: prev.likes - 1 }
-            })
-        }
+        })
     }
     const handleDeletePostOnSubmit = async function () {
         try {
             dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
-            await deletePost(postId)
+            await deletePost(currentPlayVideo.id)
             dispath(containerPortalActions.setComponent(null)) //close loading
             dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
             navigate(useProfileRoute(currentUser))
@@ -191,25 +166,29 @@ function VideoPage() {
             })
         )
     }
-    const handleOnReport = function () {
-        dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
-    }
+
     const handleCopyLink = function () {
         dispath(toastActions.addToast({ message: 'Copied!', mode: 'success' }))
     }
+    const handleOnObserver = function (videoId) {
+        setcurrentPlayVideoId(videoId)
+    }
+
     const Actions = function ({ placement }) {
         return (
             <Tippy
                 // trigger='click'
                 // hideOnClick={true}
+                // visible={visible}
                 // disabled={true}
                 offset={[-10, 0]}
                 placement={placement}
                 interactive={true}
                 render={(attrs) => (
                     <div className={clsx('action-options', 'd-flex')} tabIndex='-1' {...attrs}>
-                        <Button title='Private Setting' color='color-white' className={clsx('option-btn')} />
+                        <Button to='.' title='Private Setting' color='color-white' className={clsx('option-btn')} />
                         <Button
+                            to='.'
                             onClick={handleDeletePost}
                             title='Delete'
                             color='color-white'
@@ -225,62 +204,43 @@ function VideoPage() {
     }
     return (
         <div>
-            {post.id && (
+            {posts?.length > 0 && (
                 <div className={clsx('wrapper')}>
-                    <div className={clsx('video-container', 'flex-center')}>
-                        <div className={clsx('list-video', 'd-flex')}>
-                            <video
-                                ref={videoRef}
-                                loop={true}
-                                controls={true}
-                                autoPlay={true}
-                                className={clsx('video')}
-                                src={post?.video}></video>
-                            <video
-                                ref={videoRef}
-                                loop={true}
-                                controls={true}
-                                autoPlay={true}
-                                className={clsx('video')}
-                                src={post?.video}></video>
-                            <video
-                                ref={videoRef}
-                                loop={true}
-                                controls={true}
-                                autoPlay={true}
-                                className={clsx('video')}
-                                src={post?.video}></video>
-                        </div>
-                        <Button
-                            onClick={handleGoBackHome}
-                            icon={<XIcon />}
-                            type='btn-all-rounded'
-                            className={clsx('close-btn')}
-                        />
-                        <Button
-                            title='Report'
-                            color={'color-white'}
-                            icon={<ReportIcon />}
-                            onClick={handleOnReport}
-                            className={clsx('report-btn')}
-                        />
+                    <div className={clsx('list-video', 'd-flex')}>
+                        {posts?.map((post) => {
+                            return (
+                                <VideoContainer
+                                    key={post.id}
+                                    post={post}
+                                    isPlaying={post?.id === currentPlayVideo?.id && isPageActive}
+                                    onObserver={handleOnObserver}
+                                    className={clsx('video')}
+                                />
+                            )
+                        })}
                     </div>
                     <div className={clsx('right-container', 'd-flex')}>
                         <div className={clsx('top', 'd-flex')}>
                             <div className={clsx('header', 'd-flex')}>
-                                <ProfileContainer user={post?.user}>
-                                    <UserAvatar onClick={handleNavigate} height={'4rem'} user={post?.user} />
+                                <ProfileContainer user={currentPlayVideo?.postUser}>
+                                    <UserAvatar
+                                        onClick={handleNavigate}
+                                        height={'4rem'}
+                                        user={currentPlayVideo?.postUser}
+                                    />
                                 </ProfileContainer>
                                 <div className={clsx('name-box', 'd-flex')}>
-                                    <p className={clsx('full-name')}>{post?.user?.full_name}</p>
+                                    <p className={clsx('full-name')}>{currentPlayVideo?.postUser?.full_name}</p>
                                     <div className={clsx('d-flex', 'other-infor')}>
-                                        <p className={clsx('nickname')}>{post?.user?.nickname}</p>
-                                        <p className={clsx('time')}>{convertTimeStampToDate(post?.createdAt)}</p>
+                                        <p className={clsx('nickname')}>{currentPlayVideo?.postUser?.nickname}</p>
+                                        <p className={clsx('time')}>
+                                            {convertTimeStampToDate(currentPlayVideo?.createdAt)}
+                                        </p>
                                     </div>
                                 </div>
 
-                                {currentUser?.uid === post?.user.uid ? (
-                                    <Actions placement={'left-start'} />
+                                {currentUser?.uid === currentPlayVideo?.uid ? (
+                                    <Actions placement={'auto-start'} />
                                 ) : (
                                     <Button
                                         className={clsx('follow-btn')}
@@ -292,39 +252,14 @@ function VideoPage() {
                                     />
                                 )}
                             </div>
-                            <div className={clsx('content')}>
-                                {!showallContent ? (
-                                    <LinesEllipsis
-                                        text={post.content}
-                                        maxLine={2}
-                                        ellipsis={' ...'}
-                                        basedOn='words'
-                                        onReflow={handleReflow}
-                                    />
-                                ) : (
-                                    showallContent && (
-                                        <div>
-                                            <p>{post.content}</p>
-                                        </div>
-                                    )
-                                )}
-                                {isClamped && (
-                                    <button
-                                        onClick={() => {
-                                            setShowAllContent((prev) => !prev)
-                                        }}
-                                        className={clsx('btn-see-more')}>
-                                        {!showallContent ? ' See more ...' : 'See less ...'}
-                                    </button>
-                                )}
-                            </div>
+                            <div className={clsx('content')}>{currentPlayVideo.content}</div>
                             <div className={clsx('actions', 'd-flex')}>
                                 <div className={clsx('action-left', 'd-flex')}>
                                     <div className={clsx('action-box', 'd-flex')}>
                                         <div onClick={handleLikePostAction} className={clsx('icon-box', 'flex-center')}>
                                             <Fragment>{!isLikedPost ? <HeartIcon /> : <HeartPrimary />}</Fragment>
                                         </div>
-                                        <span>{formatCountNumber(post?.likes)}</span>
+                                        <span>{formatCountNumber(currentPlayVideo?.likes)}</span>
                                     </div>
                                     <div className={clsx('action-box', 'd-flex')}>
                                         <div className={clsx('icon-box', 'flex-center')}>
@@ -343,8 +278,12 @@ function VideoPage() {
                                 </div>
                             </div>
                             <div className={clsx('copy-link', 'd-flex')}>
-                                <input readOnly='readonly' value={post?.video} className={clsx('input-link')} />
-                                <CopyToClipboard text={post?.video}>
+                                <input
+                                    readOnly='readonly'
+                                    value={currentPlayVideo?.video}
+                                    className={clsx('input-link')}
+                                />
+                                <CopyToClipboard text={currentPlayVideo?.video}>
                                     <Button
                                         onClick={handleCopyLink}
                                         title='Copy link'
@@ -354,8 +293,8 @@ function VideoPage() {
                                 </CopyToClipboard>
                             </div>
                         </div>
-                        <CommentContainer post={post} className={clsx('comment-container')} />
-                        <CommentInput className={clsx('cu-input')} post={post} />
+                        <CommentContainer post={currentPlayVideo} className={clsx('comment-container')} />
+                        <CommentInput className={clsx('cu-input')} post={currentPlayVideo} />
                     </div>
                 </div>
             )}

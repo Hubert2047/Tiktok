@@ -14,14 +14,16 @@ function MovieContainer({ posts, children }) {
     }, [])
     return (
         <div className={clsx('wrapper')}>
-            {posts?.map((post) => (
-                <MovieCard
-                    key={post.id}
-                    post={post}
-                    onHover={handleHover}
-                    isPlaying={moviePlayingId === post.id && isPageActive}
-                />
-            ))}
+            {posts?.map((post) => {
+                return (
+                    <MovieCard
+                        key={post.id}
+                        post={post}
+                        onHover={handleHover}
+                        isPlaying={moviePlayingId === post.id && isPageActive}
+                    />
+                )
+            })}
             {children}
         </div>
     )

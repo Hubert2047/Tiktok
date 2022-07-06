@@ -117,7 +117,7 @@ function CommentInput({ post, className }) {
         <div>
             {currentUser?.uid ? (
                 <div className={clsx('comment-input', className)}>
-                    <div>
+                    <div className={clsx('input-avatar')}>
                         <UserAvatar user={currentUser} />
                     </div>
                     <div className={clsx('input-box', 'd-flex')}>
@@ -140,7 +140,7 @@ function CommentInput({ post, className }) {
                             className={clsx('limit-text', {
                                 limited: value.length > 149,
                             })}>{`${value?.length}/150`}</span>
-                        <SmileIcon />
+                        <SmileIcon className={clsx('input-smile-icon')} />
                     </div>
                     {value.length > 0 && (
                         <Button

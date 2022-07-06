@@ -3,10 +3,11 @@
 
 import classNames from 'classnames/bind'
 import { increment } from 'firebase/firestore'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
+import { IoPlay } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ReportIcon } from '~/components/Icons'
+import { ReportIcon, StartIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import { updatePost } from '~/firebase'
 import { useVideoPageRoute } from '~/hooks'
@@ -19,16 +20,20 @@ function Video({ post, isCurrentPlaying, className }) {
     // console.log('re-render video', post.id)
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const dispath = useDispatch()
+    const [start, setStart] = useState(false)
     // const [loaded, setLoaded] = useState(false)
     const videoRef = useRef()
     useEffect(() => {
         if (!videoRef.current) return
         if (isCurrentPlaying && isPageActive && videoRef.current.paused) {
+            setStart(true)
             videoRef.current.play()
             return
         }
         videoRef.current.pause()
+        setStart(true)
     }, [isCurrentPlaying, isPageActive])
+
     const navigate = useNavigate()
     const handleNavigate = async function (e) {
         e.preventDefault()
@@ -42,6 +47,14 @@ function Video({ post, isCurrentPlaying, className }) {
     const handleOnloadedData = function () {
         if (!isCurrentPlaying) videoRef.current.pause()
         // setLoaded(true)
+    }
+    const handleStartVideo = function () {
+        if (start) {
+            videoRef.current.pause()
+        } else {
+            videoRef.current.play()
+        }
+        setStart((prev) => !prev)
     }
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
@@ -57,13 +70,15 @@ function Video({ post, isCurrentPlaying, className }) {
                     // controlsList='nofullscreen'
                     className={clsx('video')}
                     loop
-                    src={post.video}
-                    controls></video>
+                    src={post.video}></video>
 
                 <div onClick={handleReport} className={clsx('report-box')}>
                     <ReportIcon />
                     <span>Report</span>
                 </div>
+            </div>
+            <div onClick={handleStartVideo} className={clsx('start-icon-box')}>
+                {start ? <StartIcon className={clsx('start-icon')} /> : <IoPlay className={clsx('stop-icon')} />}
             </div>
             <VideoFooter post={post} className={clsx('video-footer')} />
         </div>

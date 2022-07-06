@@ -17,7 +17,7 @@ function Like({ like, itemActive, className }) {
         navigate(
             useVideoPageRoute({
                 id: like.postId,
-                user: { uid: like.creatPostBy, full_name: like.fromUser.full_name },
+                user: { uid: like.createPostBy, full_name: like.fromUser.full_name },
             })
         )
     }
