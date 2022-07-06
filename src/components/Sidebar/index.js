@@ -22,6 +22,7 @@ function Sidebar({ className }) {
     const navigate = useNavigate()
 
     // console.log('re-render sidebar')
+    const [activeBtnTitle, setActiveBtnTitle] = useState('For You')
     const [suggestFollowingData, setSuggestFollowingData] = useState([])
     const [followingData, setFollowingData] = useState([])
     const currentSuggestFollowingData = suggestFollowingData[suggestFollowingData?.length - 1]
@@ -71,42 +72,54 @@ function Sidebar({ className }) {
             navigate('/upload')
         }, 0)
     }
+    const handleBtnOnClick = function (title) {
+        setActiveBtnTitle(title)
+    }
     return (
         <Fragment>
             <div className={clsx('wrapper', className)}>
                 <div className={clsx('action')}>
                     <Button
+                        onClick={() => {
+                            handleBtnOnClick('For You')
+                        }}
                         to={'/'}
                         size='size-big'
-                        icon={<HomeIcon />}
+                        icon={<HomeIcon className={clsx({ 'active-btn': activeBtnTitle === 'For You' })} />}
                         title='For You'
-                        color={'color-primary'}
-                        className={clsx('action-btn')}
+                        color={'color-grey'}
+                        className={clsx('action-btn', { 'active-btn': activeBtnTitle === 'For You' })}
                     />
                     <Button
                         to={'/'}
+                        onClick={() => {
+                            handleBtnOnClick('Following')
+                        }}
                         size='size-big'
-                        icon={<FollowingIcon />}
+                        icon={<FollowingIcon className={clsx({ 'active-btn': activeBtnTitle === 'Following' })} />}
                         title='Following'
-                        color={'color-black'}
-                        className={clsx('action-btn')}
+                        color={'color-grey'}
+                        className={clsx('action-btn', { 'active-btn': activeBtnTitle === 'Following' })}
                     />
                     <Button
                         to='./'
                         type='btn-grey'
                         size='size-md'
-                        icon={<IoMdAdd />}
+                        icon={<IoMdAdd className={clsx({ 'active-btn': activeBtnTitle === 'Upload' })} />}
                         className={clsx('action-btn', 'upload')}
                         onClick={handleRouteToUpdateVideo}
                         title='Upload'
                     />
                     <Button
                         to={'/'}
+                        onClick={() => {
+                            handleBtnOnClick('LIVE')
+                        }}
                         size='size-big'
-                        icon={<VideoIcon />}
+                        icon={<VideoIcon className={clsx({ 'active-btn': activeBtnTitle === 'LIVE' })} />}
                         title='LIVE'
-                        color={'color-black'}
-                        className={clsx('action-btn')}
+                        color={'color-grey'}
+                        className={clsx('action-btn', { 'active-btn': activeBtnTitle === 'LIVE' })}
                     />
                 </div>
                 {!currentUser?.uid && (

@@ -15,11 +15,15 @@
         border-radius: 0;
         width: 0px;
     }
+    .video-cls {
+        fill: red;
+    }
 
     .action-btn {
         font-size: 1.8rem;
         justify-content: flex-start;
         padding-left: 1rem;
+        fill: red;
         // margin-left: -1rem;
         &:hover {
             background-color: var(--hover-bg-color);
@@ -33,10 +37,17 @@
             }
         }
     }
+    .active-btn {
+        color: var(--primary-color);
+        fill: var(--primary-color);
+    }
     .following-list {
         @media only screen and (max-width: 56.25em) {
             display: none;
         }
+    }
+    @media only screen and (max-width: 475px) {
+        display: none !important;
     }
 }
 .upload {
@@ -45,6 +56,11 @@
     }
 }
 .action {
+    transform: translatX(-50%);
+    -webkit-transform: translatX(-50%);
+    -moz-transform: translatX(-50%);
+    -ms-transform: translatX(-50%);
+    -o-transform: translatX(-50%);
 }
 //suggest
 .suggest-account {

@@ -50,9 +50,8 @@ function Video({ post, isCurrentPlaying, className }) {
                 <video
                     ref={videoRef}
                     webkit-playsinline='true'
-                    // playsInline={true}
+                    playsInline={true}
                     autoPlay={true}
-                    preload='none'
                     onLoadedData={handleOnloadedData}
                     // muted='muted'
                     // controlsList='nofullscreen'

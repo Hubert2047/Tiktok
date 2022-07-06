@@ -3,7 +3,7 @@
     height: 110vh;
     width: 100%;
     overflow: overlay;
-    // scroll-snap-type: y mandatory;
+    scroll-snap-type: y mandatory;
     -webkit-scroll-behavior: smooth;
     scroll-behavior: smooth;
     &:hover::-webkit-scrollbar {

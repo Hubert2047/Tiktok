@@ -7,15 +7,27 @@
         grid-template-columns: max-content 1fr;
     }
     gap: 1.6rem;
+    @media screen and (max-width: 375px) {
+        display: flex;
+        flex-direction: column;
+    }
 }
-.conversation-list,
+.list-content {
+    @media screen and (max-width: 375px) {
+        display: flex;
+        justify-content: flex-start;
+    }
+}
 .conversation-container {
-    box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+    @media screen and (max-width: 375px) {
+        flex: 1;
+    }
 }
 .conversation-list,
 .conversation-container {
     background-color: var(--white-color);
     overflow: hidden;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
     border-radius: var(--border-radius-big);
     -webkit-border-radius: var(--border-radius-big);
     -moz-border-radius: var(--border-radius-big);

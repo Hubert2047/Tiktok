@@ -15,6 +15,7 @@
     border-radius: var(--border-radius-md);
     background-color: var(--white-color);
     @media screen and(max-width: 768px) {
+        flex-direction: column;
         padding: 2.4rem 1rem;
     }
 }
@@ -73,6 +74,10 @@
 }
 .video-container {
     flex-direction: column;
+    @media screen and(max-width: 768px) {
+        align-items: center;
+        margin-bottom: 2rem;
+    }
 }
 .preview-upload {
     position: relative;
@@ -91,6 +96,9 @@
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
+    @media screen and(max-width: 768px) {
+        width: fit-content;
+    }
 }
 .video-box {
     max-height: calc(100vh - var(--default-header-height));
@@ -136,6 +144,10 @@
     position: absolute;
     top: 12rem;
     right: 1.75rem;
+    @media screen and(max-width: 768px) {
+        align-items: center;
+        margin-bottom: 2rem;
+    }
 }
 .video-footer {
     position: absolute;
@@ -225,6 +237,9 @@
 .right {
     flex: 1;
     margin-left: 3.4rem;
+    @media screen and(max-width: 768px) {
+        margin: 0 1rem;
+    }
 }
 .caption {
     margin-bottom: 1rem;

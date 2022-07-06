@@ -18,6 +18,16 @@
     @media only screen and (max-width: 56.25em) {
         gap: 0;
     }
+    @media only screen and (max-width: 475px) {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+.sidebar-box {
+    @media only screen and (max-width: 475px) {
+        display: none !important;
+    }
 }
 .sidebar {
     width: var(--sidebar-width);

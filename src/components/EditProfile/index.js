@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind'
-import React, { Fragment, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '~/components/Button'
 import { ChangeIcon, XIcon } from '~/components/Icons'
@@ -34,7 +34,12 @@ function EditProfile() {
         )
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
-
+    useEffect(() => {
+        document.body.style.overflow = 'hidden'
+        return () => {
+            document.body.style.overflow = 'auto'
+        }
+    }, [])
     const handleOnChange = function (e) {
         setData((prev) => {
             return { ...prev, [e.target.name]: e.target.value }

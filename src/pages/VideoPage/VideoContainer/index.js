@@ -35,9 +35,9 @@ import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
 import { toastActions } from '~/redux/toastSlice'
-import styles from './VideoPage.module.scss'
+import styles from './VideoContainer.module.scss'
 const clsx = classNames.bind(styles)
-function VideoPage() {
+function VideoContainer() {
     // console.log('re-render video page')
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const params = useParams()
@@ -363,4 +363,4 @@ function VideoPage() {
     )
 }
 
-export default memo(VideoPage)
+export default memo(VideoContainer)

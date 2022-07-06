@@ -1,3 +1,4 @@
+export * as alertConstain from './alertConstain'
 export { discovers } from './discovers'
 export { footerData } from './footerData'
 export { loginFeatureBtns } from './loginFeature'
@@ -5,4 +6,3 @@ export { LOGIN_MENU_ITEM, LOG_OUT, UNLOGIN_MENU_ITEM, VIEW_PROFILE } from './men
 export * as notification from './notifications'
 export { profileActionIcons } from './profileActionIcons'
 export { shareItems } from './shareItems'
-export * as alertConstain from './alertConstain'

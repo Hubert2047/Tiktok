@@ -8,12 +8,13 @@ import { useNavigate } from 'react-router-dom'
 import 'tippy.js/dist/tippy.css'
 import images from '~/assets/images'
 import Button from '~/components/Button'
-import { InboxIcon, MessengerIcon, ThreeDotIcon } from '~/components/Icons'
+import { InboxIcon, MessengerIcon, SearchIcon, ThreeDotIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import Menu from '~/components/Menu'
 import Search from '~/components/Search'
 import { getNotificationCount, getUnReadMessages } from '~/firebase'
 import { useMessageRoute } from '~/hooks'
+import MobileSearch from '~/mobile/components/MobileSearch'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { LOGIN_MENU_ITEM, UNLOGIN_MENU_ITEM } from '~/staticData'
 import Notifications from '../Notifications'
@@ -52,10 +53,20 @@ function Header({ className }) {
         navigate('/')
         window.scrollTo({ top: 0, behavior: 'smooth' }) //scroll to header so we can see video
     }
+    const handleShowSearchInMobile = function () {
+        console.log('run')
+        dispath(containerPortalActions.setComponent({ component: <MobileSearch />, onClickOutside: true }))
+    }
     const UnLoginUI = function () {
         // console.log('logout')
         return (
             <Fragment>
+                <SearchIcon
+                    className={clsx('search-mobile')}
+                    onClick={handleShowSearchInMobile}
+                    width='30px'
+                    height='30px'
+                />
                 <Button
                     onClick={handleShowLoginPopup}
                     to='./'
@@ -84,6 +95,12 @@ function Header({ className }) {
         // console.log('login')
         return (
             <Fragment>
+                <SearchIcon
+                    className={clsx('search-mobile')}
+                    onClick={handleShowSearchInMobile}
+                    width='30px'
+                    height='30px'
+                />
                 <Button
                     to='./'
                     type='btn-grey'

@@ -3,11 +3,17 @@
     // height: 110vh;
     // width: fit-content;
     padding: 3.2rem 3rem 0 2rem;
+    @media only screen and (max-width: 385px) {
+        padding: 1rem;
+    }
 }
 .header-left {
     padding-right: 13vw;
     @media only screen and (max-width: 670px) {
         padding-right: 2rem;
+    }
+    @media only screen and (max-width: 385px) {
+        padding-right: 0;
     }
 }
 .share-infor {
@@ -95,12 +101,20 @@
         height: 1px;
         background-color: var(--grey-color);
     }
+    @media only screen and (max-width: 670px) {
+        flex: 1;
+        width: 100%;
+        justify-content: center;
+    }
 }
 .video-btn,
 .liked-btn {
     height: 4.4rem;
     width: 23rem;
     font-size: 1.8rem;
+    @media only screen and (max-width: 670px) {
+        width: 100%;
+    }
 }
 .video-btn {
     color: var(--black-color);
@@ -114,6 +128,9 @@
     @media only screen and (max-width: 37.5em) {
         width: fit-content;
         padding: 0 5rem;
+    }
+    @media only screen and (max-width: 385px) {
+        padding: 0 2rem;
     }
 }
 .like-active-btn {

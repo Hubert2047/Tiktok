@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import HeadlessTippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { BiLoaderCircle } from 'react-icons/bi'
 import { IoIosCloseCircleOutline } from 'react-icons/io'
 import { PopperWrapper } from '~/components/Popper'
 import UserSearch from '~/components/UserSearch'
-import { useDebounce } from '~/hooks'
 // import * as apiServices from '~/services'
 import { searchUsers } from '~/firebase'
+import { useDebounce } from '~/hooks'
 import { SearchIcon } from '../Icons/index'
 import styles from './Search.module.scss'
-import { memo } from 'react'
 const clsx = classNames.bind(styles)
 
-function Search({ className }) {
+function Search({ className, resultClass }) {
     const [searchValue, setSearchValue] = useState('')
     const [loading, setLoading] = useState(false)
     const [isShowSearchResult, setIsShowSearchResult] = useState(true)
@@ -65,11 +64,14 @@ function Search({ className }) {
     }
     return (
         <HeadlessTippy
+            content='auto'
+            expanded='false'
             appendTo={() => document.body}
+            placement={'auto-start'}
             visible={isShowSearchResult && searchResult?.length > 0}
             interactive={true}
             render={(attrs) => (
-                <div className={clsx('search-result')} tabIndex='-1' {...attrs}>
+                <div className={clsx('search-result', resultClass)} tabIndex='-1' {...attrs}>
                     <PopperWrapper>
                         <h4 className={clsx('search-result-title')}>Accounts</h4>
                         {searchResult?.map?.((user) => (

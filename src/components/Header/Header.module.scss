@@ -31,6 +31,9 @@
     gap: 1.75rem;
     cursor: pointer;
     // flex: 2;
+    @media screen and (max-width: 479px) {
+        gap: 1rem;
+    }
 }
 .upload-btn {
     @media screen and (max-width: 479px) {
@@ -84,6 +87,11 @@
 }
 .search {
     @media only screen and (max-width: 760px) {
+        display: none;
+    }
+}
+.search-mobile {
+    @media only screen and (min-width: 760px) {
         display: none;
     }
 }

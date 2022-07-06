@@ -26,7 +26,9 @@ function ToastPortal({ className, autoClose = true, autoCloseTime = 2000 }, ref)
     //     // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, [])
     const toasts = useSelector((state) => state.toast.toasts)
-    const [loaded, portalId] = usePortalContainer('position:fixed;top:10px;left:40%;z-index:9999')
+    const [loaded, portalId] = usePortalContainer(
+        'position:fixed;top:1%;right:50%;z-index:9999; transform:translateX(50%);'
+    )
     // useImperativeHandle(ref, () => ({
     //     addToast(toast) {
     //         setToasts([...(toasts || []), { ...toast, id: uuidv4() }])
