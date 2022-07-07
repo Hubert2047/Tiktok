@@ -16,6 +16,7 @@ import {
     HeartIcon,
     HeartPrimary,
     HorizontalThreeDot,
+    LiveIcon,
     SendToIcon,
     ShareIcon,
     TwitterIcon,
@@ -47,6 +48,7 @@ function VideoPage() {
     const [commentCount, setCommentCount] = useState(0)
     const videoContainerRef = useRef()
     const scrollCommentRef = useRef()
+    const videoPageRef = useRef()
     const handleNavigate = function () {
         navigate(useProfileRoute(currentPlayVideo.postUser))
     }
@@ -153,6 +155,13 @@ function VideoPage() {
             console.log(error)
         }
     }
+    // useEffect(() => {
+    //     window.scrollTo({ top: 0, behavior: 'smooth' })
+    //     document.body.style.overflow = 'hidden'
+    //     return () => {
+    //         document.body.style.overflow = 'visible'
+    //     }
+    // }, [])
     const handleDeletePost = async function (postId) {
         dispath(
             containerPortalActions.setComponent({
@@ -205,10 +214,11 @@ function VideoPage() {
     }
     const handleWatchVideo = function () {
         window.scrollTo({ top: 0, behavior: 'smooth' })
-        videoContainerRef.current.handleStartVideo()
+        videoContainerRef.current.handleStartVideo(true)
+        console.log('run')
     }
     return (
-        <div>
+        <div ref={videoPageRef}>
             {posts?.length > 0 && (
                 <div className={clsx('wrapper')}>
                     <div className={clsx('list-video', 'd-flex')}>
@@ -247,28 +257,26 @@ function VideoPage() {
                                         </p>
                                     </div>
                                 </div>
-                                <Button
-                                    onClick={handleWatchVideo}
-                                    title='Watch video'
-                                    bg='bg-primary'
-                                    color='color-white'
-                                    size='size-sm'
-                                    className={clsx('watch-video')}
-                                />
+
+                                <div onClick={handleWatchVideo} className={clsx('watch-box')}>
+                                    <LiveIcon className={clsx('watch-video')} />
+                                </div>
 
                                 {currentUser?.uid === currentPlayVideo?.uid ? (
-                                    <div className={clsx('action-box')}>
+                                    <div className={clsx('header-action-box')}>
                                         <Actions placement={'left-start'} />
                                     </div>
                                 ) : (
-                                    <Button
-                                        className={clsx('follow-btn')}
-                                        title={isFollowing ? 'Following' : 'Follow'}
-                                        onClick={handleFollowing}
-                                        border={isFollowing ? 'border-grey' : 'border-primary'}
-                                        color={isFollowing ? 'color-grey' : 'color-primary'}
-                                        size={'size-md'}
-                                    />
+                                    <div className={clsx('header-action-box')}>
+                                        <Button
+                                            className={clsx('follow-btn')}
+                                            title={isFollowing ? 'Following' : 'Follow'}
+                                            onClick={handleFollowing}
+                                            border={isFollowing ? 'border-grey' : 'border-primary'}
+                                            color={isFollowing ? 'color-grey' : 'color-primary'}
+                                            size={'size-md'}
+                                        />
+                                    </div>
                                 )}
                             </div>
                             <div className={clsx('content')}>{currentPlayVideo.content}</div>

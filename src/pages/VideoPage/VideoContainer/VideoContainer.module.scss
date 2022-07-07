@@ -1,6 +1,6 @@
 .wrapper {
     position: relative;
-    min-height: 100vh;
+    min-height: 100%;
     width: 90%;
     padding: 0 1rem;
     scroll-snap-align: start;
@@ -10,13 +10,13 @@
         justify-content: center;
         margin: 0 auto;
         width: 100vw;
-        // max-height: 100vh;
     }
 }
 .video-box {
     position: relative;
     width: 90%;
     height: 100vh;
+    min-height: -webkit-fill-available;
     margin: 0 auto;
 }
 .video {
@@ -64,18 +64,13 @@
 .spiner {
     position: absolute;
     display: none;
-    bottom: 1.75rem;
-    left: 50%;
+    bottom: 15rem;
+    right: 0.5rem;
     width: 6rem;
     height: 6rem;
     @media screen and (max-width: 375px) {
         display: block;
     }
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
 }
 
 .top-box {
@@ -118,6 +113,10 @@
     -ms-border-radius: var(--border-radius-bigest);
     -o-border-radius: var(--border-radius-bigest);
     @media screen and (min-width: 901px) {
-        display: none;
+        display: none !important;
+    }
+    @media screen and (max-width: 375px) {
+        position: relative;
+        margin-left: 1.75rem;
     }
 }
