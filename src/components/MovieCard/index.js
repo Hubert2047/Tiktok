@@ -14,7 +14,6 @@ const clsx = classNames.bind(styles)
 function MovieCard({ post, isPlaying, onHover }) {
     const navigate = useNavigate()
     const hoverRef = useRef(null)
-    const profileUser = useSelector((state) => state.profile.profileUser)
     //wait for user hover 1000ms then play video
     const handleMounseEnter = function () {
         hoverRef.current = setTimeout(() => {
