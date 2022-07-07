@@ -240,7 +240,7 @@ const getSuggestFollowing = async function (currentUser, limitValue = 5) {
     if (currentUser?.uid) {
         q = query(
             collection(db, 'users'),
-            where('uid', 'not-in', [...(currentUser?.following || []), currentUser.uid] || []),
+            where('uid', 'not-in', [...(currentUser?.following || []), currentUser.uid].slice(0, 10) || []),
             limit(limitValue)
         )
     } else {

@@ -2,7 +2,6 @@
 import classNames from 'classnames/bind'
 import { increment } from 'firebase/firestore'
 import { memo, useRef } from 'react'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { PlayIcon } from '~/components/Icons'
 import Image from '~/components/Image'

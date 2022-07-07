@@ -31,30 +31,13 @@
         &:last-child {
             margin-bottom: 0.75rem;
         }
-        & > span {
-            @media only screen and (max-width: 56.25em) {
-                display: none;
-            }
-        }
     }
     .active-btn {
         color: var(--primary-color);
         fill: var(--primary-color);
     }
-    .following-list {
-        @media only screen and (max-width: 56.25em) {
-            display: none;
-        }
-    }
-    @media only screen and (max-width: 475px) {
-        display: none !important;
-    }
 }
-.upload {
-    @media only screen and (min-width: 479px) {
-        display: none !important;
-    }
-}
+
 .action {
     transform: translatX(-50%);
     -webkit-transform: translatX(-50%);
@@ -74,9 +57,6 @@
     padding: 2rem 0 2rem 1rem;
     gap: 2rem;
     flex-direction: column;
-    @media only screen and (max-width: 56.25em) {
-        display: none;
-    }
 }
 .login-text {
     font-size: 1.6rem;
@@ -86,9 +66,6 @@
 .footer {
     border-top: 1px solid var(--grey-color);
     padding: 1.25rem 0;
-    @media only screen and (max-width: 56.25em) {
-        display: none;
-    }
 }
 
 .copy-right {
@@ -96,10 +73,4 @@
     font-weight: 600;
     margin-top: 1rem;
     color: var(--grey-color-2);
-}
-
-.discover {
-    @media only screen and (max-width: 56.25em) {
-        display: none;
-    }
 }

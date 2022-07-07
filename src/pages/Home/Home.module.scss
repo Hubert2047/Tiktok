@@ -2,3 +2,41 @@
     // padding: 1rem 0 1rem 1rem;
     padding: 1rem;
 }
+.mobile-sidebar {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.mobile-sidebar-btn {
+    position: fixed;
+    z-index: 100;
+    right: 2rem;
+    top: 50%;
+    width: 5rem;
+    height: 5rem;
+    display: none;
+    box-shadow: var(--box-shadow-sm);
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    @media screen and (max-width: 425px) {
+        width: 4rem;
+        height: 4rem;
+    }
+    @media screen and (max-width: 900px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+.mobile-sidebar-icon {
+    color: var(--white-color);
+    font-size: 3.5rem;
+    @media screen and (max-width: 425px) {
+        font-size: 2.5rem;
+    }
+}

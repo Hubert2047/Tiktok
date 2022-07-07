@@ -1,8 +1,5 @@
 .wrapper {
     --sidebar-width: 35rem;
-    @media only screen and (max-width: 56.25em) {
-        --sidebar-width: 7.2rem;
-    }
 }
 .header {
     max-width: var(--PC-max-width);
@@ -15,24 +12,20 @@
     max-width: var(--PC-max-width);
     margin: 0 auto;
     margin-top: var(--default-header-height);
-    @media only screen and (max-width: 56.25em) {
-        gap: 0;
-    }
-    @media only screen and (max-width: 475px) {
-        width: 100%;
+    @media only screen and (max-width: 900px) {
         display: flex;
+        width: 100%;
         justify-content: center;
     }
 }
 .sidebar-box {
-    @media only screen and (max-width: 475px) {
-        display: none !important;
+    @media only screen and (max-width: 900px) {
+        display: none;
     }
 }
 .sidebar {
     width: var(--sidebar-width);
-    @media only screen and (max-width: 56.25em) {
-        box-shadow: 0px 2px 8px rgb(0 0 0 / 6%);
-        border-right: 1px solid rgba(22, 24, 35, 0.12);
+    @media only screen and (max-width: 900px) {
+        display: none;
     }
 }

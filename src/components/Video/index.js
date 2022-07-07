@@ -21,6 +21,7 @@ function Video({ post, isCurrentPlaying, className }) {
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const dispath = useDispatch()
     const [start, setStart] = useState(false)
+    const [doubleClick, setDoubleClick] = useState(false)
     // const [loaded, setLoaded] = useState(false)
     const videoRef = useRef()
     useEffect(() => {
@@ -35,11 +36,6 @@ function Video({ post, isCurrentPlaying, className }) {
     }, [isCurrentPlaying, isPageActive])
 
     const navigate = useNavigate()
-    const handleNavigate = async function (e) {
-        e.preventDefault()
-        updatePost(post.id, { shares: increment(1), played: increment(1) })
-        navigate(useVideoPageRoute(post))
-    }
     const handleReport = function (e) {
         e.stopPropagation()
         dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
@@ -49,16 +45,25 @@ function Video({ post, isCurrentPlaying, className }) {
         // setLoaded(true)
     }
     const handleStartVideo = function () {
+        if (doubleClick) {
+            updatePost(post.id, { shares: increment(1), played: increment(1) })
+            navigate(useVideoPageRoute(post))
+            return
+        }
         if (start) {
             videoRef.current.pause()
         } else {
             videoRef.current.play()
         }
+        setDoubleClick(true)
         setStart((prev) => !prev)
+        setTimeout(() => {
+            setDoubleClick(false)
+        }, 300)
     }
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
-            <div onClick={handleNavigate} className={clsx('video-box')}>
+            <div onClick={handleStartVideo} className={clsx('video-box')}>
                 <Image src={post.poster || ''} className={clsx('poster', { 'display-poster': !isCurrentPlaying })} />
                 <video
                     ref={videoRef}
@@ -77,7 +82,7 @@ function Video({ post, isCurrentPlaying, className }) {
                     <span>Report</span>
                 </div>
             </div>
-            <div onClick={handleStartVideo} className={clsx('start-icon-box')}>
+            <div className={clsx('start-icon-box')}>
                 {start ? <StartIcon className={clsx('start-icon')} /> : <IoPlay className={clsx('stop-icon')} />}
             </div>
             <VideoFooter post={post} className={clsx('video-footer')} />

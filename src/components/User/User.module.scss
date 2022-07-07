@@ -2,16 +2,10 @@
     align-items: center;
     gap: 1rem;
     padding: 0.5rem 1rem;
-    //     margin-left: -0.5rem;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     &:hover {
         background-color: var(--hover-bg-color);
-    }
-    .user-name {
-        @media only screen and (max-width: 56.25em) {
-            display: none;
-        }
     }
 }
 

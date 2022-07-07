@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import GetApp from '~/components/GetApp'
 import Loading from '~/components/Loading'
 import PostContainer from '~/components/PostContainter'
+import { HiMenuAlt2 } from 'react-icons/hi'
 import { getPosts } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
 import styles from './Home.module.scss'
+import Sidebar from '~/components/Sidebar'
 const clsx = classNames.bind(styles)
 
 function Home() {
@@ -77,8 +79,19 @@ function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [lastPost]
     )
+    const handleOpenSidebar = function () {
+        dispath(
+            containerPortalActions.setComponent({
+                component: <Sidebar className={clsx('mobile-sidebar')} />,
+                onClickOutside: false,
+            })
+        )
+    }
     return (
         <div className={clsx('wrapper')}>
+            <div onClick={handleOpenSidebar} className={clsx('mobile-sidebar-btn')}>
+                <HiMenuAlt2 className={clsx('mobile-sidebar-icon')} />
+            </div>
             {/* <SnapScrollContainer> */}
             {posts?.map((post, index) => {
                 //check the last post to know when have to get new post
