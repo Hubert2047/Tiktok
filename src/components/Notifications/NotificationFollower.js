@@ -42,6 +42,7 @@ function NotificationFollower({ follower, currentUser }) {
                     title='Follow Back'
                     onClick={(e) => {
                         e.stopPropagation()
+                        e.preventDefault()
                         handleFollowing()
                     }}
                     bg='bg-primary'

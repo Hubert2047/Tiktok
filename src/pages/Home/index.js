@@ -2,16 +2,16 @@
 /* eslint-disable no-undef */
 import classNames from 'classnames/bind'
 import { useCallback, useEffect, useRef } from 'react'
+import { HiMenuAlt2 } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
 import GetApp from '~/components/GetApp'
 import Loading from '~/components/Loading'
 import PostContainer from '~/components/PostContainter'
-import { HiMenuAlt2 } from 'react-icons/hi'
 import { getPosts } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
 import styles from './Home.module.scss'
-import Sidebar from '~/components/Sidebar'
+import MobileMenu from './MobileMenu'
 const clsx = classNames.bind(styles)
 
 function Home() {
@@ -82,7 +82,7 @@ function Home() {
     const handleOpenSidebar = function () {
         dispath(
             containerPortalActions.setComponent({
-                component: <Sidebar className={clsx('mobile-sidebar')} />,
+                component: <MobileMenu className={clsx('mobile-sidebar')} />,
                 onClickOutside: false,
             })
         )

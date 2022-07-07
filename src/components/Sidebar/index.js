@@ -2,6 +2,7 @@
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Button from '~/components/Button'
 import { FollowingIcon, HomeIcon, VideoIcon } from '~/components/Icons'
 import LinkContainer from '~/components/LinkContainer'
@@ -17,7 +18,7 @@ const clsx = classNames.bind(styles)
 function Sidebar({ className }) {
     const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     // console.log('re-render sidebar')
     const [activeBtnTitle, setActiveBtnTitle] = useState('For You')
@@ -28,7 +29,7 @@ function Sidebar({ className }) {
     const [isCallApi, setCallApi] = useState(false)
     useEffect(() => {
         const getFollowingData = async function () {
-            const data = await getFollowing(currentUser?.following.slice(0, 9) || [])
+            const data = await getFollowing(currentUser?.following?.slice(0, 9) || [])
             setFollowingData(data)
         }
         const getSunggestFollowingData = async function () {
@@ -67,6 +68,8 @@ function Sidebar({ className }) {
     }
     const handleBtnOnClick = function (title) {
         setActiveBtnTitle(title)
+        navigate('./')
+        dispath(containerPortalActions.setComponent(null))
     }
     return (
         <Fragment>

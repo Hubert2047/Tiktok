@@ -43,7 +43,7 @@ function Header({ className }) {
         })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [currentUser])
     const handleRouteToUpdateVideo = function () {
         setTimeout(() => {
             navigate('/upload')
@@ -117,14 +117,14 @@ function Header({ className }) {
                     </button>
                 </Tippy>
                 <Notifications>
-                    <Tippy content='Inbox' delay={[0, 50]}>
-                        <button className={clsx('btn', 'd-flex')}>
-                            <InboxIcon />
-                            {notificationCount > 0 && (
-                                <span className={clsx('inbox-notification')}>{notificationCount}</span>
-                            )}
-                        </button>
-                    </Tippy>
+                    {/* <Tippy content='Inbox' delay={[0, 50]}> */}
+                    <button className={clsx('btn', 'd-flex')}>
+                        <InboxIcon />
+                        {notificationCount > 0 && (
+                            <span className={clsx('inbox-notification')}>{notificationCount}</span>
+                        )}
+                    </button>
+                    {/* </Tippy> */}
                 </Notifications>
                 <Menu menu={LOGIN_MENU_ITEM}>
                     <Image src={currentUser.avatar} alt='avatar' className={clsx('avatar', 'd-flex')} />

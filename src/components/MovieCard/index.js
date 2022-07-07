@@ -33,7 +33,7 @@ function MovieCard({ post, isPlaying, onHover }) {
             onMouseEnter={handleMounseEnter}
             className={clsx('wrapper')}>
             <div className={clsx('top-movie')}>
-                {isPlaying && <video loop={true} autoPlay={true} className={clsx('video')} src={post.video}></video>}
+                {isPlaying && <video loop={true} autoPlay={true} className={clsx('video')} src={post?.video}></video>}
                 <Image className={clsx('poster')} src={post?.poster} />
 
                 <div className={clsx('count-play', 'd-flex')}>

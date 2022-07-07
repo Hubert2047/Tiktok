@@ -7,9 +7,10 @@
         grid-template-columns: max-content 1fr;
     }
     gap: 1.6rem;
-    @media screen and (max-width: 375px) {
+    @media screen and (max-width: 425px) {
         display: flex;
         flex-direction: column;
+        gap: 0.75rem;
     }
 }
 .list-content {
@@ -68,10 +69,12 @@
 }
 .conversation-header {
     border-bottom: 0.5px solid rgba(22, 24, 35, 0.12);
-
     align-items: center;
     gap: 1.2rem;
     padding: 1.6rem;
+    @media screen and (max-width: 425px) {
+        padding: 0.5rem 1rem;
+    }
 }
 .conversation-infor {
     flex-direction: column;

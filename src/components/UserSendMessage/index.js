@@ -17,10 +17,10 @@ function UserSendMessage({ chat, onClickChatFriend, currentUser }) {
                     onClick={() => {
                         onClickChatFriend(chat, isLastMessageUnread)
                     }}>
-                    <UserAvatar user={chat?.friendChat} height={'5.6rem'} className={clsx('list-user-avatar')} />
+                    <UserAvatar user={chat?.friendChat} height={'56px'} className={clsx('user-avatar')} />
                     <div className={clsx('user-infor-box', 'd-flex')}>
                         <div className={clsx('user-infor', 'd-flex')}>
-                            <span className={clsx('list-user-name')}>{chat?.friendChat?.full_name}</span>
+                            <span className={clsx('user-name')}>{chat?.friendChat?.full_name}</span>
 
                             <div className={clsx('infor-extract-box', 'd-flex')}>
                                 {lastMessage?.content && (
@@ -31,7 +31,7 @@ function UserSendMessage({ chat, onClickChatFriend, currentUser }) {
                                         {chat.unReadMsg > 1 ? `sent ${chat.unReadMsg} messages` : lastMessage?.content}
                                     </span>
                                 )}
-                                <span className={clsx('list-user-time')}>
+                                <span className={clsx('user-time')}>
                                     {formatMessageTime(lastMessage?.createdAt) || new Date().toLocaleTimeString()}
                                 </span>
                             </div>

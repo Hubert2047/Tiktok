@@ -232,7 +232,9 @@ function VideoPage() {
                                 <div className={clsx('name-box', 'd-flex')}>
                                     <p className={clsx('full-name')}>{currentPlayVideo?.postUser?.full_name}</p>
                                     <div className={clsx('d-flex', 'other-infor')}>
-                                        <p className={clsx('nickname')}>{currentPlayVideo?.postUser?.nickname}</p>
+                                        {currentPlayVideo?.postUser?.nickname && (
+                                            <p className={clsx('nickname')}>{currentPlayVideo?.postUser?.nickname}</p>
+                                        )}
                                         <p className={clsx('time')}>
                                             {convertTimeStampToDate(currentPlayVideo?.createdAt)}
                                         </p>

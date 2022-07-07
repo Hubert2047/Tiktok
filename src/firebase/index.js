@@ -24,20 +24,30 @@ import {
 import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 
-const firebaseConfig = {
-    apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
-    authDomain: 'tiktok-2da3a.firebaseapp.com',
-    projectId: 'tiktok-2da3a',
-    storageBucket: 'tiktok-2da3a.appspot.com',
-    messagingSenderId: '194147259918',
-    appId: '1:194147259918:web:60fdc3ed843f725b2cce5f',
-    measurementId: 'G-0N45C1N94Q',
-}
+//hubert
+// const firebaseConfig = {
+//     apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
+//     authDomain: 'tiktok-2da3a.firebaseapp.com',
+//     projectId: 'tiktok-2da3a',
+//     storageBucket: 'tiktok-2da3a.appspot.com',
+//     messagingSenderId: '194147259918',
+//     appId: '1:194147259918:web:60fdc3ed843f725b2cce5f',
+//     measurementId: 'G-0N45C1N94Q',
+// }
 
-// Initialize Firebase
+const firebaseConfig0707 = {
+    apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
+    authDomain: 'tiktok-clone-0707.firebaseapp.com',
+    projectId: 'tiktok-clone-0707',
+    storageBucket: 'tiktok-clone-0707.appspot.com',
+    messagingSenderId: '196448174114',
+    appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
+    measurementId: 'G-XPFHRLSLK4',
+}
+// Initialize Firebase hubert
 //provider
 // doc(database,collection,keyvalue) database =getFireStore(app)
-const firebaseApp = initializeApp(firebaseConfig)
+const firebaseApp = initializeApp(firebaseConfig0707)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
@@ -413,13 +423,19 @@ const searchPostByArray = async function (array = [], callback) {
 //search post by user id
 const searchPost = async function (uid) {
     try {
+        const usersPromise = []
         const q = query(collection(db, 'posts'), where('uid', '==', uid))
         const querySnapshot = await getDocs(q)
         if (querySnapshot.size < 1) return []
         const posts = querySnapshot.docs?.map((doc) => {
+            usersPromise.push(getUser(doc.data().uid))
             return { id: doc.id, ...doc.data() }
         })
-        return posts
+        const users = await Promise.all(usersPromise)
+        const data = posts.map((post) => {
+            return { ...post, user: users.find((user) => user.uid === post.uid) }
+        })
+        return data
     } catch (err) {
         throw new Error(err.message)
     }
@@ -841,6 +857,7 @@ const addMessage = async function (currentUser, friendUid, newMessage) {
 
 //notifications
 const getNotifications = async function (currentUser, callback) {
+    // console.log(currentUser)
     if (typeof callback !== 'function' || !currentUser?.uid) return
     const q = query(
         collection(db, `users/${currentUser.uid}/notifications`),

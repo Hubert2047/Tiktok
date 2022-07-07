@@ -14,21 +14,17 @@
     grid-template-columns: var(--sidebar-width) 1fr;
     gap: 1rem;
     margin-top: var(--default-header-height);
-    @media only screen and (max-width: 487px) {
+    @media only screen and (max-width: 900px) {
         grid-template-columns: 1fr;
     }
 }
 .sidebar-box {
-    @media only screen and (max-width: 487px) {
+    @media only screen and (max-width: 900px) {
         display: none;
     }
 }
 .sidebar {
     width: var(--sidebar-width);
-    @media only screen and (max-width: 56.25em) {
-        box-shadow: 0px 2px 8px rgb(0 0 0 / 6%);
-        border-right: 1px solid rgba(22, 24, 35, 0.12);
-    }
 }
 .content {
     padding-left: 4rem;

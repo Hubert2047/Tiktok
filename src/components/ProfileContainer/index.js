@@ -48,15 +48,17 @@ function ProfileContainer({ user, children, placement }) {
                         className={clsx('avatar')}
                         showLive
                     />
-                    <Button
-                        onClick={handleFollowing}
-                        title={isFollowing ? 'Following' : 'Follow'}
-                        border={isFollowing ? 'border-grey' : 'border-primary'}
-                        color={isFollowing ? 'color-grey' : 'color-white'}
-                        size='size-md'
-                        bg={isFollowing ? '' : 'bg-primary'}
-                        className={clsx('btn')}
-                    />
+                    {currentUser.uid !== user?.uid && (
+                        <Button
+                            onClick={handleFollowing}
+                            title={isFollowing ? 'Following' : 'Follow'}
+                            border={isFollowing ? 'border-grey' : 'border-primary'}
+                            color={isFollowing ? 'color-grey' : 'color-white'}
+                            size='size-md'
+                            bg={isFollowing ? '' : 'bg-primary'}
+                            className={clsx('btn')}
+                        />
+                    )}
                 </div>
                 <UserName user={user} />
                 <div className={clsx('footer', 'd-flex')}>

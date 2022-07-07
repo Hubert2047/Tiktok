@@ -94,28 +94,30 @@ const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
                         />
                         <UserName user={post.user} className={clsx('name')} />
                     </div>
-                    <div className={clsx('content-box', 'd-flex')}>
-                        {!showallContent ? (
-                            <LinesEllipsis
-                                text={post?.content}
-                                maxLine={1}
-                                ellipsis={' ...'}
-                                basedOn='words'
-                                onReflow={handleReflow}
-                            />
-                        ) : (
-                            <p className={clsx('desc')}>{post?.content}</p>
-                        )}
-                        {isClamped && (
-                            <button
-                                className={clsx('show-content-btn')}
-                                onClick={() => {
-                                    setShowAllContent((prev) => !prev)
-                                }}>
-                                {!showallContent ? ' See more ...' : 'See less ...'}
-                            </button>
-                        )}
-                    </div>
+                    {post?.content && (
+                        <div className={clsx('content-box', 'd-flex')}>
+                            {!showallContent ? (
+                                <LinesEllipsis
+                                    text={post?.content}
+                                    maxLine={1}
+                                    ellipsis={' ...'}
+                                    basedOn='words'
+                                    onReflow={handleReflow}
+                                />
+                            ) : (
+                                <p className={clsx('desc')}>{post?.content}</p>
+                            )}
+                            {isClamped && (
+                                <button
+                                    className={clsx('show-content-btn')}
+                                    onClick={() => {
+                                        setShowAllContent((prev) => !prev)
+                                    }}>
+                                    {!showallContent ? ' See more ...' : 'See less ...'}
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <Video post={post} className={clsx('video')} isCurrentPlaying={isCurrentPlaying} />

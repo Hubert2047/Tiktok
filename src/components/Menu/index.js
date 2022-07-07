@@ -35,7 +35,10 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
                     logOut(() => {
                         dispath(userActions.setUser({}))
                         dispath(userActions.setCurrentUserId(null))
-                        navigate('/')
+                        navigate('./')
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 0)
                     })
                     break
                 case VIEW_PROFILE:

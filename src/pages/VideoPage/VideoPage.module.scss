@@ -44,7 +44,7 @@
     flex-direction: column;
     padding: 6rem 3rem 0 3rem;
     @media only screen and (max-width: 768px) {
-        padding: 1.5rem;
+        padding: 1.5rem 1.5rem 0 1.5rem;
     }
 }
 //header
@@ -54,6 +54,7 @@
     align-items: center;
     @media only screen and (max-width: 768px) {
         max-width: 100%;
+        gap: 1rem;
     }
 }
 .video-setting {
@@ -95,6 +96,7 @@
 .other-infor {
     gap: 1rem;
     font-size: 1.4rem;
+    flex: 1;
 }
 .nickname {
     color: var(--black-color);
@@ -189,5 +191,10 @@
     font-weight: 600;
 }
 .comment-container {
+    flex: 1;
+}
+
+.conversation-btn-box {
+    text-align: right;
     flex: 1;
 }

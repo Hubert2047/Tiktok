@@ -18,6 +18,11 @@
         justify-content: center;
     }
 }
+.content {
+    @media only screen and (max-width: 900px) {
+        flex: 1;
+    }
+}
 .sidebar-box {
     @media only screen and (max-width: 900px) {
         display: none;
