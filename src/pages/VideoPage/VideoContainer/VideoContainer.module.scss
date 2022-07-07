@@ -118,6 +118,10 @@
     -ms-border-radius: var(--border-radius-bigest);
     -o-border-radius: var(--border-radius-bigest);
     @media screen and (min-width: 901px) {
-        display: none;
+        display: none !important;
+    }
+    @media screen and (max-width: 375px) {
+        position: relative;
+        margin-left: 1.75rem;
     }
 }

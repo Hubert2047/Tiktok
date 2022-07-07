@@ -57,24 +57,31 @@ function VideoContainer({ post, isPlaying, onObserver, scrollCommentRef, classNa
     const handleOnLoadedData = function () {
         if (!videoRef.current) videoRef.current.pause()
     }
-    const handleStartVideo = function () {
-        if (start) {
+    const handleStartVideo = function (startVideo) {
+        if (!startVideo) {
             videoRef.current.pause()
+            setStart(startVideo)
         } else {
             videoRef.current.play()
+            setStart(startVideo)
+
             setShowStartBtn(true)
             setTimeout(() => {
                 setShowStartBtn(false)
             }, 1000)
         }
-        setStart((prev) => !prev)
     }
     const handleWatchComment = function (e) {
-        // e.stopPropagation()
+        e.stopPropagation()
+        handleStartVideo(false)
         if (scrollCommentRef.current) scrollCommentRef.current.scrollIntoView({ behavior: 'smooth' })
     }
     return (
-        <div onClick={handleStartVideo} className={clsx('wrapper', className)}>
+        <div
+            onClick={() => {
+                handleStartVideo(!start)
+            }}
+            className={clsx('wrapper', className)}>
             <div className={clsx('video-box')}>
                 <video
                     key={post.id}
