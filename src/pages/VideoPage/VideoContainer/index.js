@@ -1,24 +1,30 @@
 import classNames from 'classnames/bind'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, memo, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { IoPlay } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import { ReportIcon, StartIcon, XIcon } from '~/components/Icons'
+import Spiner from '~/mobile/components/MobileVideoFooter/Spiner/Spiner'
 import { toastActions } from '~/redux/toastSlice'
 import styles from './VideoContainer.module.scss'
 const clsx = classNames.bind(styles)
 let time
-function VideoContainer({ post, isPlaying, onObserver, className }) {
+function VideoContainer({ post, isPlaying, onObserver, scrollCommentRef, className }, ref) {
     const dispath = useDispatch()
     const videoRef = useRef()
     const observer = useRef()
+    const [showStartBtn, setShowStartBtn] = useState(false)
     const [start, setStart] = useState(false)
-    const handleOnReport = function () {
+    const handleOnReport = function (e) {
+        e.stopPropagation()
         dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
     }
     function handleGoBackHome() {
         window.history.back()
     }
+    useImperativeHandle(ref, () => {
+        return { handleStartVideo }
+    })
     useEffect(() => {
         observer.current = new IntersectionObserver(
             (entries) => {
@@ -52,12 +58,23 @@ function VideoContainer({ post, isPlaying, onObserver, className }) {
         if (!videoRef.current) videoRef.current.pause()
     }
     const handleStartVideo = function () {
-        if (start) videoRef.current.pause()
-        else videoRef.current.play()
+        if (start) {
+            videoRef.current.pause()
+        } else {
+            videoRef.current.play()
+            setShowStartBtn(true)
+            setTimeout(() => {
+                setShowStartBtn(false)
+            }, 1000)
+        }
         setStart((prev) => !prev)
     }
+    const handleWatchComment = function (e) {
+        // e.stopPropagation()
+        if (scrollCommentRef.current) scrollCommentRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
     return (
-        <div className={clsx('wrapper', className)}>
+        <div onClick={handleStartVideo} className={clsx('wrapper', className)}>
             <div className={clsx('video-box')}>
                 <video
                     key={post.id}
@@ -69,20 +86,36 @@ function VideoContainer({ post, isPlaying, onObserver, className }) {
                     className={clsx('video')}
                     src={post?.video}
                 />
-                <div onClick={handleStartVideo} className={clsx('actions')}>
-                    {start ? <StartIcon className={clsx('start-icon')} /> : <IoPlay className={clsx('stop-icon')} />}
+                <div className={clsx('actions')}>
+                    {/* {start ? <StartIcon className={clsx('start-icon')} /> : <IoPlay className={clsx('stop-icon')} />} */}
+                    {!start && <IoPlay className={clsx('stop-icon')} />}
+                    {start && <StartIcon className={clsx('start-icon', { 'show-opacity': showStartBtn })} />}
                 </div>
+                <Spiner isPlaying={start} post={{ ...post, user: post.postUser }} className={clsx('spiner')} />
             </div>
-            <Button onClick={handleGoBackHome} icon={<XIcon />} type='btn-all-rounded' className={clsx('close-btn')} />
-            <Button
-                title='Report'
-                color={'color-white'}
-                icon={<ReportIcon />}
-                onClick={handleOnReport}
-                className={clsx('report-btn')}
-            />
+            <div className={clsx('top-box', 'd-flex')}>
+                <Button
+                    onClick={handleGoBackHome}
+                    icon={<XIcon />}
+                    type='btn-all-rounded'
+                    className={clsx('close-btn')}
+                />
+                <Button
+                    onClick={handleWatchComment}
+                    title='Watch comments'
+                    className={clsx('watch-comment')}
+                    color='color-white'
+                />
+                <Button
+                    title='Report'
+                    color={'color-white'}
+                    icon={<ReportIcon />}
+                    onClick={handleOnReport}
+                    className={clsx('report-btn')}
+                />
+            </div>
         </div>
     )
 }
 
-export default VideoContainer
+export default memo(forwardRef(VideoContainer))

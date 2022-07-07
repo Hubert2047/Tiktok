@@ -3,7 +3,7 @@ import { forwardRef, memo } from 'react'
 import Image from '~/components/Image'
 import styles from './UserAvatar.module.scss'
 const clsx = classNames.bind(styles)
-const UserAvatar = forwardRef(({ user, onClick, className, height = '3.2rem', showLive }, ref) => {
+const UserAvatar = forwardRef(({ user, onClick, className, height = '32px', showLive }, ref) => {
     return (
         <div onClick={onClick} className={clsx('wrapper')}>
             <Image

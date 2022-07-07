@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import { Fragment, memo, useEffect, useMemo, useState } from 'react'
+import { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -45,7 +45,8 @@ function VideoPage() {
     const [posts, setPosts] = useState({})
     const [currentPlayVideoId, setcurrentPlayVideoId] = useState(params.id)
     const [commentCount, setCommentCount] = useState(0)
-
+    const videoContainerRef = useRef()
+    const scrollCommentRef = useRef()
     const handleNavigate = function () {
         navigate(useProfileRoute(currentPlayVideo.postUser))
     }
@@ -202,6 +203,10 @@ function VideoPage() {
             </Tippy>
         )
     }
+    const handleWatchVideo = function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        videoContainerRef.current.handleStartVideo()
+    }
     return (
         <div>
             {posts?.length > 0 && (
@@ -211,7 +216,9 @@ function VideoPage() {
                             return (
                                 <VideoContainer
                                     key={post.id}
+                                    scrollCommentRef={scrollCommentRef}
                                     post={post}
+                                    ref={videoContainerRef}
                                     isPlaying={post?.id === currentPlayVideo?.id && isPageActive}
                                     onObserver={handleOnObserver}
                                     className={clsx('video')}
@@ -240,9 +247,19 @@ function VideoPage() {
                                         </p>
                                     </div>
                                 </div>
+                                <Button
+                                    onClick={handleWatchVideo}
+                                    title='Watch video'
+                                    bg='bg-primary'
+                                    color='color-white'
+                                    size='size-sm'
+                                    className={clsx('watch-video')}
+                                />
 
                                 {currentUser?.uid === currentPlayVideo?.uid ? (
-                                    <Actions placement={'auto-start'} />
+                                    <div className={clsx('action-box')}>
+                                        <Actions placement={'left-start'} />
+                                    </div>
                                 ) : (
                                     <Button
                                         className={clsx('follow-btn')}
@@ -295,6 +312,7 @@ function VideoPage() {
                                 </CopyToClipboard>
                             </div>
                         </div>
+                        <div ref={scrollCommentRef}></div>
                         <CommentContainer post={currentPlayVideo} className={clsx('comment-container')} />
                         <CommentInput className={clsx('cu-input')} post={currentPlayVideo} />
                     </div>

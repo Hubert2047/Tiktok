@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { convertTimeStampToDate } from '~/helper'
 import styles from './MobileVideoFooter.module.scss'
-import Spiner from './Spiner'
+import Spiner from './Spiner/Spiner'
 
 const clsx = classNames.bind(styles)
 

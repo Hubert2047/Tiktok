@@ -28,7 +28,7 @@ import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
 import { alertConstain } from '~/staticData'
 import MobileSidebar from '../../mobile/components/MobileSidebar/index'
-import Spiner from '../../mobile/components/MobileVideoFooter/Spiner'
+import Spiner from '../../mobile/components/MobileVideoFooter/Spiner/Spiner'
 import LoadCircle from './LoadCircle'
 import styles from './Upload.module.scss'
 const clsx = classNames.bind(styles)
@@ -288,7 +288,7 @@ function Upload() {
                                     src={postPreview.video}></video>
                             </div>
                             <MobileSidebar className={clsx('mobile-sidebar')} post={postPreview} />
-                            <Spiner post={postPreview} isplay={true} className={clsx('spiner')} />
+                            <Spiner post={postPreview} isPlaying={true} className={clsx('spiner')} />
                             <div className={clsx('video-footer', 'd-flex')}>
                                 <HomeIcon className={clsx('btn', 'home-btn')} height={'30px'} width={'30px'} />
                                 <SearchIcon className={clsx('btn', 'search-btn')} height={'30px'} width={'30px'} />

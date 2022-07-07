@@ -5,6 +5,10 @@
     padding: 1rem 2rem;
     // width: 25vw;
     min-width: 25rem;
+    @media screen and (max-width: 425px) {
+        min-width: unset;
+        padding: 1rem 3rem;
+    }
     -webkit-border-radius: var(--border-radius-sm);
     -moz-border-radius: var(--border-radius-sm);
     -ms-border-radius: var(--border-radius-sm);
