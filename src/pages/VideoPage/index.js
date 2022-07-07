@@ -215,7 +215,7 @@ function VideoPage() {
     const handleWatchVideo = function () {
         window.scrollTo({ top: 0, behavior: 'smooth' })
         videoContainerRef.current.handleStartVideo(true)
-        console.log('run')
+        // console.log('run')
     }
     return (
         <div ref={videoPageRef}>
