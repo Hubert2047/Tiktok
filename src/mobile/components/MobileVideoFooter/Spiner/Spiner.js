@@ -37,7 +37,7 @@ function Spiner({ isPlaying, post, className, avatarHeight = '24px' }) {
             <div className={clsx('spiner-music', { 'song-animated': isPlaying })}></div>
             <SpinerBoxIcon className={clsx('spiner-box')} />
             <div ref={spinerRef} className={clsx('avatar-box')} style={{ height: avatarHeight, width: avatarHeight }}>
-                <Image className={clsx('avatar')} src={post?.user?.avatar} />
+                <Image className={clsx('avatar')} src={post?.postUser?.avatar} />
             </div>
         </div>
     )

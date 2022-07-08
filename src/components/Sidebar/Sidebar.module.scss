@@ -4,8 +4,8 @@
     bottom: 0;
     z-index: 9;
     padding: 1.75rem 0.8rem;
-    background-color: var(--white-color);
-    transition: all 0.5s linear;
+    background-color: var(--bg-theme);
+    // transition: all 0.5s linear;
     overflow: scroll;
     overflow: overlay;
     &:hover::-webkit-scrollbar {
@@ -26,7 +26,7 @@
         fill: red;
         // margin-left: -1rem;
         &:hover {
-            background-color: var(--hover-bg-color);
+            background-color: var(--hover-theme);
         }
         &:last-child {
             margin-bottom: 0.75rem;
@@ -35,6 +35,9 @@
     .active-btn {
         color: var(--primary-color);
         fill: var(--primary-color);
+        & > span {
+            color: var(--primary-color);
+        }
     }
 }
 
@@ -64,7 +67,7 @@
 }
 //footer
 .footer {
-    border-top: 1px solid var(--grey-color);
+    border-top: 1px solid var(--border-theme);
     padding: 1.25rem 0;
 }
 

@@ -6,7 +6,8 @@
     width: 100%;
     outline: none;
     box-shadow: var(--box-shadow-sm);
-    background-color: var(--white-color);
+    border-bottom: 1px solid var(--border-theme-2);
+    background-color: var(--bg-theme);
 }
 .inner {
     justify-content: space-between;
@@ -17,7 +18,7 @@
     max-width: var(--PC-max-width);
     margin: 0 auto;
     padding: 0 var(--default-layout-horizontal-space);
-    background-color: var(--white-color);
+    background-color: var(--light-theme);
     @media screen and(max-width: 375px) {
         padding: 0 0.75rem;
     }
@@ -25,6 +26,9 @@
 .logo {
     align-items: center;
     cursor: pointer;
+}
+.text-logo {
+    color: var(--text-theme);
 }
 
 //right container
@@ -52,7 +56,7 @@
     }
 }
 .upload-icon {
-    font-size: 2rem;
+    fill: var(--icon-theme);
 }
 
 .icon {
@@ -70,6 +74,13 @@
     align-items: center;
     cursor: pointer;
     font-family: var(--font-family);
+}
+.inbox-icon {
+    fill: var(--icon-theme);
+}
+.message-icon {
+    // fill: var(--text-theme);
+    fill: var(--icon-theme);
 }
 .inbox-notification,
 .inbox-messages {
@@ -102,7 +113,13 @@
     }
 }
 .search-mobile {
+    color: var(--icon-theme);
     @media only screen and (min-width: 760px) {
         display: none;
+    }
+}
+.theme-mode {
+    @media screen and (max-width: 900px) {
+        display: none !important;
     }
 }

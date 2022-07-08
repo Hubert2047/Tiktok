@@ -95,7 +95,7 @@ export function UploadIcon({ className, width = '40px', height = '29px' }) {
                 fillRule='evenodd'
                 clipRule='evenodd'
                 d='M21.5001 29H30.5C35.7467 29 40 24.7467 40 19.5C40 14.7115 36.4571 10.7504 31.8497 10.0951C30.937 4.37297 25.9792 0 20 0C13.3726 0 8 5.37258 8 12L8.00001 12.0145C3.53831 12.2733 0 15.9734 0 20.5C0 25.1944 3.80558 29 8.5 29H18.5001V17.1213L15.9143 19.7071C15.7191 19.9024 15.4025 19.9024 15.2072 19.7071L13.793 18.2929C13.5977 18.0976 13.5977 17.781 13.793 17.5858L18.9395 12.4393C19.5252 11.8536 20.475 11.8536 21.0608 12.4393L26.2072 17.5858C26.4025 17.781 26.4025 18.0976 26.2072 18.2929L24.793 19.7071C24.5977 19.9024 24.2812 19.9024 24.0859 19.7071L21.5001 17.1213V29Z'
-                fill='#161823'
+                // fill='#161823'
                 fillOpacity='0.34'
             />
         </svg>
@@ -250,7 +250,7 @@ export function FollowingIcon({ className, width = '32px', height = '32px' }) {
     return (
         <svg
             className={className}
-            fill='rgba(22, 24, 35, 1.0)'
+            // fill='rgba(22, 24, 35, 1.0)'
             width={width}
             height={height}
             viewBox='0 0 48 48'
@@ -276,7 +276,7 @@ export function VideoIcon({ className, width = '32px', height = '32px' }) {
         <svg
             className={className}
             width={width}
-            fill='rgba(22, 24, 35, 1.0)'
+            // fill='rgba(22, 24, 35, 1.0)'
             height={height}
             viewBox='0 0 32 32'
             xmlns='http://www.w3.org/2000/svg'>
@@ -291,13 +291,7 @@ export function VideoIcon({ className, width = '32px', height = '32px' }) {
 
 export function HomeIcon({ className, width = '30px', height = '30px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='var(--black-color'
-            height={height}
-            viewBox='0 0 48 48'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
@@ -443,7 +437,7 @@ export function ShareIcon({ className, width = '24px', height = '24px' }) {
         <svg
             className={className}
             width={width}
-            fill='currentColor'
+            // fill='currentColor'
             height={height}
             viewBox='0 0 20 20'
             xmlns='http://www.w3.org/2000/svg'>
@@ -453,13 +447,13 @@ export function ShareIcon({ className, width = '24px', height = '24px' }) {
                 d='M10.9376 3.17495C10.9376 2.58272 11.6469 2.27873 12.0758 2.68715L18.6021 8.90241C19.1764 9.44937 19.1564 10.3717 18.5588 10.8931L12.0541 16.5689C11.6184 16.9491 10.9376 16.6397 10.9376 16.0614V13.4894C10.9376 13.4894 3.95344 12.2312 1.7131 16.3434C1.50423 16.7268 0.690072 16.8609 0.855563 14.948C1.54761 11.4273 2.96196 5.93084 10.9376 5.93084V3.17495Z'
                 fill='#161823'></path>
             <path
-                opacity='0.03'
+                // opacity='0.03'
                 fillRule='evenodd'
                 clipRule='evenodd'
                 d='M15.7538 6.21161L17.0486 8.80136C17.2777 9.25947 17.1677 9.81453 16.7812 10.1506L10.9824 15.193C10.9824 15.193 10.7017 16.5964 11.5437 16.5964C12.3857 16.5964 19.1218 10.4217 19.1218 10.4217C19.1218 10.4217 19.4025 9.57964 18.5605 8.73763C17.7185 7.89563 15.7538 6.21161 15.7538 6.21161Z'
                 fill='#161823'></path>
             <path
-                opacity='0.09'
+                // opacity='0.09'
                 fillRule='evenodd'
                 clipRule='evenodd'
                 d='M10.9374 6.22983V13.5272C10.9374 13.5272 4.25359 12.5854 2.16026 15.7726C0.146021 18.8394 0.331011 12.3091 3.36331 9.05711C6.39561 5.8051 10.9374 6.22983 10.9374 6.22983Z'
@@ -1458,7 +1452,7 @@ export function EditIcon({ className, width = '20px', height = '20px' }) {
         <svg
             className={className}
             width={width}
-            fill='currentColor'
+            // fill='currentColor'
             height={height}
             viewBox='0 0 20 20'
             xmlns='http://www.w3.org/2000/svg'>

@@ -1,5 +1,5 @@
 .wrapper {
-    background-color: var(--grey-color);
+    background-color: var(--bg-theme);
 }
 .children {
     width: 100%;
@@ -9,6 +9,7 @@
     margin: 0 auto;
     margin-top: var(--default-header-height);
     padding: 1.6rem 1rem;
+    background-color: var(--bg-theme-2);
     @media screen and (max-width: 425px) {
         padding: 1rem;
     }

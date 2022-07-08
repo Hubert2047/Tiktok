@@ -10,6 +10,7 @@ import messageSlice from './messageSlice'
 import mobileHomeSlice from './mobile/mobileHomeSlice'
 import postSlice from './postSlice'
 import profileSlice from './profileSlice'
+import themeSlice from './themeSlice'
 import toastSlice from './toastSlice'
 import userSlice from './userSlice'
 
@@ -19,6 +20,7 @@ const persistConfig = {
 }
 const appPersistedReducer = persistReducer(persistConfig, appSlice.reducer)
 const userPersistedReducer = persistReducer(persistConfig, userSlice.reducer)
+const themePersistedReducer = persistReducer(persistConfig, themeSlice.reducer)
 const store = configureStore({
     reducer: {
         app: appPersistedReducer, //save to store
@@ -32,6 +34,7 @@ const store = configureStore({
         message: messageSlice.reducer,
         containerPortal: containerPortalSlice.reducer,
         mobileHome: mobileHomeSlice.reducer,
+        theme: themePersistedReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

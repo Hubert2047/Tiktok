@@ -3,12 +3,13 @@
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
+import { BiEdit } from 'react-icons/bi'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import EditProfile from '~/components/EditProfile'
-import { EditIcon, FriendIcon, HorizontalThreeDot, LockIcon, ShareWhiteIcon } from '~/components/Icons'
+import { FriendIcon, HorizontalThreeDot, LockIcon, ShareWhiteIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
 import Menu from '~/components/Menu'
 import MovieContainer from '~/components/MovieContainer'
@@ -165,7 +166,7 @@ function Profile() {
                                             className={clsx('edit-btn')}
                                             border='border-grey'
                                             title='Edit profile'
-                                            icon={<EditIcon />}
+                                            icon={<BiEdit className={clsx('edit-icon')} />}
                                         />
                                     )}
                                 </div>
@@ -207,7 +208,7 @@ function Profile() {
                             </Menu>
                             {!isCurrentUser && (
                                 <Menu menu={profileActionIcons}>
-                                    <HorizontalThreeDot />
+                                    <HorizontalThreeDot className={clsx('three-dot')} />
                                 </Menu>
                             )}
                         </div>

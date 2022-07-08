@@ -14,11 +14,10 @@ const clsx = classNames.bind(styles)
 function App({ className }) {
     // const viewWith = document.documentElement.clientWidth
     const viewWith = 600 //wait mobile version
-
     console.log('re-render app')
     const dispath = useDispatch()
     const currentUserId = useSelector((state) => state.user.currentUserId)
-
+    // console.log(document.documentElement.style.getPropertyPriority('--white-color'))
     useEffect(() => {
         if (currentUserId) {
             try {

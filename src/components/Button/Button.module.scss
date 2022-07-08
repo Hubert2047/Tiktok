@@ -14,10 +14,13 @@
 }
 .title {
     font-size: 1em;
+    color: var(--text-theme);
 }
 .icon {
     align-items: center;
     font-size: 1.5em;
+    fill: var(--icon-theme);
+    color: var(--icon-theme);
 }
 //size
 .size-sm {
@@ -82,7 +85,8 @@
     border: 1px solid var(--primary-color);
 }
 .border-grey {
-    border: 1px solid rgba(22, 24, 35, 0.12);
+    // border: 1px solid rgba(22, 24, 35, 0.12);
+    border: 1px solid var(--border-theme);
 }
 
 //disable

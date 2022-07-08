@@ -184,7 +184,7 @@ function EditProfile() {
                             onClick={handleUpdateUser}
                             title={'Save'}
                             border={hasUserChangedData ? '' : 'border-grey'}
-                            bg={hasUserChangedData ? 'bg-primary' : 'bg-grey'}
+                            bg={hasUserChangedData ? 'bg-primary' : 'var(--bg-theme)'}
                             color={hasUserChangedData ? 'color-white' : 'color-grey'}
                             size='size-md'
                             disabled={!hasUserChangedData}

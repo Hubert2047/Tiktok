@@ -50,7 +50,7 @@ function GetApp({ className }) {
 
                 <Button
                     onClick={handleUpToHeaderBtnOnClick}
-                    icon={<ForwardIcon />}
+                    icon={<ForwardIcon className={'forward-icon'} />}
                     color={'color-white'}
                     bg={'bg-primary'}
                     type={'btn-all-rounded'}

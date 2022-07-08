@@ -1,8 +1,9 @@
 .wrapper {
-    background-color: var(--white-color);
+    background-color: var(--bg-theme);
     max-width: 31rem;
     text-align: center;
     font-weight: 600;
+    border: 1px solid var(--border-theme);
     -webkit-border-radius: var(--border-radius-md);
     -moz-border-radius: var(--border-radius-md);
     -ms-border-radius: var(--border-radius-md);
@@ -12,13 +13,14 @@
 .question {
     font-size: 2.4rem;
     padding: 3rem 2.4rem;
+    color: var(--text-theme);
 }
 .comfirm-btn,
 .cancel-btn {
     padding: 1.5rem;
     width: 100%;
-    border-top: 1px solid var(--grey-color);
+    border-top: 1px solid var(--border-theme);
 }
 .cancel-btn {
-    color: var(--grey-color-1);
+    color: var(--grey-color-3);
 }

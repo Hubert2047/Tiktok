@@ -5,6 +5,7 @@
     width: var(--default-search-width);
     padding: 1.1rem 1.6rem;
     background-color: var(--grey-color);
+    background-color: var(--bg-theme-2);
     border-radius: var(--border-radius-bigest);
     overflow: hidden;
     input {
@@ -20,6 +21,9 @@
 
         &:not(:placeholder-shown) ~ .search-btn {
             color: var(--black-color);
+        }
+        &:placeholder-shown {
+            color: var(--text-theme);
         }
     }
     &:focus-within {
@@ -71,6 +75,7 @@
 
 .search-icon {
     font-size: 1.8rem;
+    fill: var(--icon-theme);
 }
 .search-result {
     width: var(--default-search-width);

@@ -32,7 +32,7 @@
 }
 .conversation-list,
 .conversation-container {
-    background-color: var(--white-color);
+    background-color: var(--bg-theme);
     overflow: hidden;
     box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
     border-radius: var(--border-radius-big);
@@ -50,6 +50,7 @@
     font-size: 2.4rem;
     padding: 1rem 2.4rem 2rem;
     letter-spacing: 1px;
+    color: var(--text-theme);
     @media screen and (max-width: 768px) {
         display: none;
     }
@@ -58,17 +59,19 @@
 .full-name {
     font-size: 1.8rem;
     font-weight: 600;
+    color: var(--text-theme);
 }
 .nickname {
     font-size: 1.6rem;
-    color: var(--grey-color-2);
+    color: var(--text-theme);
 }
 
 // conversation container
 .conversation-container {
 }
 .conversation-header {
-    border-bottom: 0.5px solid rgba(22, 24, 35, 0.12);
+    // border-bottom: 0.5px solid rgba(22, 24, 35, 0.12);
+    border-bottom: 0.5px solid var(--border-theme);
     align-items: center;
     gap: 1.2rem;
     padding: 1.6rem;
@@ -80,7 +83,8 @@
     flex-direction: column;
 }
 .conversation-bottom {
-    border-top: 0.5px solid rgba(22, 24, 35, 0.12);
+    // border-top: 0.5px solid rgba(22, 24, 35, 0.12);
+    border-top: 0.5px solid var(--border-theme);
 }
 
 // conversation items

@@ -9,6 +9,7 @@
     cursor: pointer;
     span {
         font-size: 1.2rem;
+        color: var(--text-theme);
     }
 }
 .box {
@@ -22,11 +23,17 @@
     border-radius: 50%;
     background-color: var(--grey-color);
     &:hover {
-        background-color: rgba(22, 24, 35, 0.1);
+        // background-color: rgba(22, 24, 35, 0.1);
+        background-color: var(--hover-theme);
         transform: scale(1.05);
     }
     &:active {
         animation: btnActiveAnimated 0.3s linear;
         transform: scale(1);
     }
+}
+.icon {
+    fill: var(--icon-theme);
+    color: var(--icon-theme);
+    font-size: 2.6rem;
 }

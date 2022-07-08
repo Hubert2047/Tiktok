@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
+import { IoIosShareAlt } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { CommentIcon, HeartIcon, HeartPrimary, ShareIcon } from '~/components/Icons'
+import { CommentIcon, HeartIcon, HeartPrimary } from '~/components/Icons'
 import Menu from '~/components/Menu'
 import { LoginPopup } from '~/components/Popper'
 import { getCommentCount } from '~/firebase'
@@ -57,21 +58,21 @@ function VideoFooter({ className, post }) {
         <div className={clsx('wrapper', 'd-flex', className)}>
             <div className={clsx('action-container', 'd-flex')}>
                 <div onClick={handleLikePostAction} className={clsx('box', 'flex-center')}>
-                    <Fragment>{!isLikedPost ? <HeartIcon /> : <HeartPrimary />}</Fragment>
+                    <Fragment>{!isLikedPost ? <HeartIcon className={clsx('icon')} /> : <HeartPrimary />}</Fragment>
                     {/* <HeartIcon /> */}
                 </div>
                 <span>{formatCountNumber(post?.likes)}</span>
             </div>
             <div onClick={handleOnClickComment} className={clsx('action-container', 'd-flex')}>
                 <div className={clsx('box', 'flex-center')}>
-                    <CommentIcon />
+                    <CommentIcon className={clsx('icon')} />
                 </div>
                 <span>{commentCount}</span>
             </div>
             <div className={clsx('action-container', 'd-flex')}>
                 <Menu menu={shareItems} placement={'top-start'} link={post.video}>
                     <div className={clsx('box', 'flex-center')}>
-                        <ShareIcon />
+                        <IoIosShareAlt className={clsx('icon')} />
                     </div>
                 </Menu>
                 <span>{formatCountNumber(post?.shares)}</span>

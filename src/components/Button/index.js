@@ -51,17 +51,9 @@ function Button({
     })
     return (
         <Comp className={classes} style={style} {...props}>
-            {icon && !rightIcon && (
-                <div fill={fill} className={clsx('icon', 'd-flex')}>
-                    {icon}
-                </div>
-            )}
+            {icon && !rightIcon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}
             {title && <span className={clsx('title', 'ellipsis')}>{title}</span>}
-            {icon && rightIcon && (
-                <div fill={fill} className={clsx('icon', 'd-flex')}>
-                    {icon}
-                </div>
-            )}
+            {icon && rightIcon && <div className={clsx('icon', 'd-flex')}>{icon}</div>}
         </Comp>
     )
 }

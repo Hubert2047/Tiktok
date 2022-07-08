@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import GetApp from '~/components/GetApp'
 import Loading from '~/components/Loading'
 import PostContainer from '~/components/PostContainter'
+import ThemeMode from '~/components/ThemeMode'
 import { getPosts } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
@@ -91,6 +92,9 @@ function Home() {
         <div className={clsx('wrapper')}>
             <div onClick={handleOpenSidebar} className={clsx('mobile-sidebar-btn')}>
                 <HiMenuAlt2 className={clsx('mobile-sidebar-icon')} />
+            </div>
+            <div className={clsx('theme-mode-box')}>
+                <ThemeMode className={clsx('theme-mode')} vertical={true} />
             </div>
             {/* <SnapScrollContainer> */}
             {posts?.map((post, index) => {

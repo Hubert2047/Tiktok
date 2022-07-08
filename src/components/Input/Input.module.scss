@@ -6,7 +6,7 @@
     word-break: break-all;
     padding-left: 1rem;
     caret-color: var(--primary-color);
-    background-color: var(--grey-color);
+    background-color: var(--text-theme);
     &:empty::before {
         content: attr(data-placeholder);
         color: var(--grey-color-2);

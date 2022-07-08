@@ -22,6 +22,7 @@ import {
     WramIcon,
 } from '~/components/Icons'
 import Image from '~/components/Image'
+import Switch from '~/components/Switch'
 import { addPost, uploadFile } from '~/firebase'
 import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
@@ -143,7 +144,7 @@ function Upload() {
             setPostPreview({
                 id: 1,
                 video: reader.result,
-                user: currentUser,
+                postUser: currentUser,
                 fileName: e.target.files[0].name,
                 file: e.target.files[0],
             })
@@ -300,13 +301,15 @@ function Upload() {
                             </div>
                         </div>
                         <div className={clsx('change-video', 'd-flex')}>
-                            <HiOutlineCheckCircle />
+                            <HiOutlineCheckCircle className={clsx('change-video-icon')} />
                             <span className={clsx('ellipsis')}>{postPreview.fileName}</span>
-                            <button onClick={handleResetOnChangeVideo}>Change video</button>
+                            <button onClick={handleResetOnChangeVideo} className={clsx('change-video-btn')}>
+                                Change video
+                            </button>
                         </div>
                     </div>
                 )}
-                <div>
+                <div className={clsx('right-container')}>
                     <div className={clsx('header', { 'header-center': postPreview?.id && !onloadVideoPrivew })}>
                         <p>Upload Video</p>
                         <span>Post a video to your account</span>
@@ -315,7 +318,7 @@ function Upload() {
                         {!postPreview?.id && !onloadVideoPrivew && (
                             <div className={clsx('left', 'd-flex')}>
                                 <Fragment>
-                                    <UploadIcon />
+                                    <UploadIcon className={clsx('upload-icon')} />
                                     <span className={clsx('text-main')}>Select video to upload</span>
                                     <span className={clsx('text-sub')}>Or drag and drop a file</span>
                                     <span className={clsx('text-video')}>Mp4 or WebM</span>
@@ -471,11 +474,7 @@ function Upload() {
                             <div className={clsx('copy-right')}>
                                 <div className={clsx('copy-right-header', 'd-flex')}>
                                     <span>Run a copy right check</span>
-                                    <div
-                                        onClick={handleCopyRightCheck}
-                                        className={clsx('switch', 'd-flex', { 'switch-action': copyrightCheck })}>
-                                        <div className={clsx('switch-inner', { 'inner-action': copyrightCheck })}></div>
-                                    </div>
+                                    <Switch onClick={handleCopyRightCheck} checked={copyrightCheck} />
                                 </div>
                                 {!copyrightCheck ? (
                                     <p className={clsx('desc')}>
@@ -499,7 +498,8 @@ function Upload() {
                                 <Button
                                     onClick={handleAddPost}
                                     title='Post'
-                                    bg={!postPreview?.video && !onloadVideoPrivew ? 'bg-grey' : 'bg-primary'}
+                                    border='border-grey'
+                                    bg={!postPreview?.video && !onloadVideoPrivew ? 'var(--bg-theme)' : 'bg-primary'}
                                     color={!postPreview?.video && !onloadVideoPrivew ? 'color-grey' : 'color-white'}
                                     className={clsx('action-btn')}
                                 />

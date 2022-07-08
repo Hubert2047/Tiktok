@@ -157,13 +157,15 @@ function VideoPageRight({
                     <div className={clsx('action-left', 'd-flex')}>
                         <div className={clsx('action-box', 'd-flex')}>
                             <div onClick={handleLikePostAction} className={clsx('icon-box', 'flex-center')}>
-                                <Fragment>{!isLikedPost ? <HeartIcon /> : <HeartPrimary />}</Fragment>
+                                <Fragment>
+                                    {!isLikedPost ? <HeartIcon className={clsx('action-icon')} /> : <HeartPrimary />}
+                                </Fragment>
                             </div>
                             <span>{formatCountNumber(currentPlayVideo?.likes)}</span>
                         </div>
                         <div className={clsx('action-box', 'd-flex')}>
                             <div className={clsx('icon-box', 'flex-center')}>
-                                <CommentIcon />
+                                <CommentIcon className={clsx('action-icon')} />
                             </div>
                             <span>{commentCount || 0}</span>
                         </div>

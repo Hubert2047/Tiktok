@@ -2,6 +2,7 @@
     flex-direction: column;
     min-height: 100vh;
     // width: fit-content;
+    background-color: var(--bg-theme);
     padding: 3.2rem 3rem 0 2rem;
     @media only screen and (max-width: 385px) {
         padding: 1rem;
@@ -49,15 +50,19 @@
     padding: 0.75rem 1.9rem;
     font-weight: 500;
 }
+.edit-icon {
+    color: var(--icon-color);
+}
 
 .count-infor {
     gap: 1.5rem;
     margin-top: 2rem;
+    color: var(--text-theme);
 }
 .count-infor-box {
     gap: 0.5rem;
     span {
-        color: var(--grey-color-2);
+        color: var(--text-theme);
     }
 }
 .desc-infor {
@@ -65,9 +70,10 @@
     margin-top: 1rem;
     line-height: 1.3;
     text-align: left;
+    color: var(--text-theme);
 }
 .desc-btn {
-    color: var(--grey-color-2);
+    color: var(--text-theme);
     cursor: pointer;
     margin-top: 0.5rem;
 }
@@ -78,7 +84,10 @@
     cursor: pointer;
 }
 .share-icon-btn {
-    fill: var(--white-color);
+    fill: var(--icon-theme);
+}
+.three-dot {
+    fill: var(--icon-theme);
 }
 
 //content
@@ -99,7 +108,7 @@
         bottom: 0;
         width: 100%;
         height: 1px;
-        background-color: var(--grey-color);
+        background-color: var(--bg-theme);
     }
     @media only screen and (max-width: 768px) {
         width: 100%;
@@ -116,11 +125,11 @@
     }
 }
 .video-btn {
-    color: var(--black-color);
+    color: var(--text-theme);
     font-weight: 600;
 }
 .liked-btn {
-    color: var(--grey-color-2);
+    color: var(--text-theme);
 }
 .liked-btn,
 .video-btn {
@@ -142,7 +151,8 @@
     width: 50%;
     height: 1.5px;
     transition: all 0.3s linear;
-    background-color: rgba(22, 24, 35, 1);
+    // background-color: rgba(22, 24, 35, 1);
+    background-color: var(--bg-theme-2);
 }
 .like-section-box {
     flex: 1;

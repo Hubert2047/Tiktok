@@ -158,7 +158,7 @@ function Comment({ comment, post, rootCommentId }) {
                                             onClick={handleDeleteOnClick}
                                             className={clsx('comment-action-btn')}
                                             title='Delete'
-                                            icon={<DeleteIcon />}
+                                            icon={<DeleteIcon className={clsx('delete-icon')} />}
                                         />
                                     ) : (
                                         <Button

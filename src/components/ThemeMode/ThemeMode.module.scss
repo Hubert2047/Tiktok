@@ -1,0 +1,27 @@
+.theme-mode {
+    align-items: center;
+    gap: 0.5rem;
+}
+.mode-box {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    //     color: var(--white-color);
+    // background-color: var(--grey-color);
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.active-mode-black {
+    background-color: var(--white-color);
+    color: var(--black-color);
+}
+.active-mode-white {
+    background-color: var(--grey-color);
+    // color: var(--white-color);
+}
+.theme-mode-icon {
+    color: var(--icon-theme);
+}

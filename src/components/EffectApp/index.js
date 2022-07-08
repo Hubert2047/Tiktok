@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { usePortalContainer } from '~/hooks'
 import { homeActions } from '~/redux/homeSlice'
 
 function EffectApp() {
     const dispath = useDispatch()
     const [loaded, portalId] = usePortalContainer('position:fixed;top:0;left:0;')
+    const theme = useSelector((state) => state.theme.theme)
+    useEffect(() => {
+        theme?.styles?.forEach((style) => {
+            document.documentElement.style.setProperty(style.property, style.value)
+        })
+    }, [theme])
 
     useEffect(() => {
         //check if page not active/change tab then stop play video

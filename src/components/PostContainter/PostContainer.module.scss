@@ -5,7 +5,7 @@
     padding: 2rem 1rem;
     // max-width: 30rem;
 
-    border-bottom: 1.5px solid var(--grey-color);
+    border-bottom: 1.5px solid var(--border-theme);
     // scroll-snap-align: start;
     align-items: flex-start;
 }
@@ -73,7 +73,7 @@
     right: 2rem;
     padding: 0.5rem;
     flex: 1;
-    background-color: var(--white-color);
+    background-color: var(--bg-theme);
 }
 .video {
     // max-height: 50rem;

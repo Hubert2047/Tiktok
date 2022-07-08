@@ -1,0 +1,114 @@
+.switch {
+    position: relative;
+    width: 4.4rem;
+    height: 2.4rem;
+    padding: 0 0.25rem;
+    align-items: center;
+    background-color: var(--grey-color-1);
+    -webkit-border-radius: var(--border-radius-bigest);
+    -moz-border-radius: var(--border-radius-bigest);
+    -ms-border-radius: var(--border-radius-bigest);
+    -o-border-radius: var(--border-radius-bigest);
+    border-radius: var(--border-radius-bigest);
+    cursor: pointer;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.switch-inner {
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    background-color: var(--white-color);
+    width: 2rem;
+    height: 2rem;
+    transform: translateY(-50%);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+.inner-action {
+    //switch//-moz-transform: translateX(95%);
+    //-ms-transform: translateX(95%);
+    //-o-transform: translateX(95%);
+    //-webkit-transform: translateX(95%);
+    //transform: translateX(95%);
+    left: calc(100% - 2px);
+    transform: translate(-100%, -50%);
+    -webkit-transform: translate(-100%, -50%);
+    -moz-transform: translate(-100%, -50%);
+    -ms-transform: translate(-100%, -50%);
+    -o-transform: translate(-100%, -50%);
+}
+.switch-action {
+    //change background-color
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), rgb(11, 224, 155);
+}
+
+//vertical-swtich
+
+.verical-switch {
+    position: relative;
+    width: 2.4rem;
+    height: 4.4rem;
+    padding: 0 0.25rem;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--grey-color-1);
+    -webkit-border-radius: var(--border-radius-bigest);
+    -moz-border-radius: var(--border-radius-bigest);
+    -ms-border-radius: var(--border-radius-bigest);
+    -o-border-radius: var(--border-radius-bigest);
+    border-radius: var(--border-radius-bigest);
+    cursor: pointer;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.verical-switch-inner {
+    position: absolute;
+    left: 50%;
+    top: 2px;
+    background-color: var(--white-color);
+    width: 2rem;
+    height: 2rem;
+    transform: translateX(-50%);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+.verical-inner-action {
+    //switch//-moz-transform: translateX(95%);
+    //-ms-transform: translateX(95%);
+    //-o-transform: translateX(95%);
+    //-webkit-transform: translateX(95%);
+    //transform: translateX(95%);
+    top: calc(100% - 2px);
+    transform: translate(-50%, -100%);
+    -webkit-transform: translate(-50%, -100%);
+    -moz-transform: translate(-50%, -100%);
+    -ms-transform: translate(-50%, -100%);
+    -o-transform: translate(-50%, -100%);
+}
+.verical-switch-action {
+    //change background-color
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), rgb(11, 224, 155);
+}

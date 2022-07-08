@@ -1,7 +1,8 @@
 .wrapper {
     position: relative;
-    background-color: var(--white-color);
+    background-color: var(--bg-theme);
     border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-theme);
     overflow: hidden;
     padding: 3rem 2rem 0 2rem;
     @media only screen and (max-width: 768px) {
@@ -39,6 +40,7 @@
     width: fit-content;
     padding-top: 3rem;
     margin: 0 auto;
+    color: var(--text-theme);
     @media only screen and (max-width: 450px) {
         font-size: 2rem;
         padding-top: 1.5rem;
@@ -63,8 +65,12 @@
     gap: 4rem;
     font-size: 1.5rem;
     justify-content: space-between;
-    border: 1px solid rgba(22, 24, 35, 0.12);
+    // border: 1px solid rgba(22, 24, 35, 0.12);
+    border: 1px solid var(--border-theme);
     border-radius: var(--border-radius-sm);
+    &:hover {
+        background-color: var(--hover-theme);
+    }
     & > :last-child {
         flex: 1;
         align-items: center;
@@ -84,4 +90,5 @@
     align-items: center;
     justify-content: center;
     padding: 1rem 0 2rem;
+    color: var(--text-theme);
 }

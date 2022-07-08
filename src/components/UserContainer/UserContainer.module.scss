@@ -1,13 +1,14 @@
 .wrapper {
     padding: 1.25rem 0;
-    border-top: 1px solid var(--grey-color);
+    border-top: 1px solid var(--border-theme);
 }
 .title {
     font-size: 1.5rem;
     font-weight: 500;
     padding-left: 1rem;
     margin-bottom: 0.75rem;
-    color: rgba(22, 24, 35, 0.75);
+    // color: rgba(22, 24, 35, 0.75);
+    color: var(--text-theme);
 }
 .seemore {
     font-weight: 400;
