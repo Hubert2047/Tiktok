@@ -15,13 +15,13 @@ import UserAvatar from '../UserAvatar'
 import styles from './ProfileContainer.module.scss'
 const clsx = classNames.bind(styles)
 function ProfileContainer({ user, children, placement }) {
+    const navigate = useNavigate()
     const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
     const [isFollowing, setIsFollowing] = useState()
     useEffect(() => {
         setIsFollowing(currentUser?.following?.includes(user.id))
     }, [currentUser])
-    const navigate = useNavigate()
     const handleNavigate = function () {
         navigate(useProfileRoute(user))
     }
@@ -41,13 +41,7 @@ function ProfileContainer({ user, children, placement }) {
         return (
             <div className={clsx('wrapper', 'd-flex')} tabIndex='-1'>
                 <div className={clsx('header', 'd-flex')}>
-                    <UserAvatar
-                        onClick={handleNavigate}
-                        height={'5.5rem'}
-                        user={user}
-                        className={clsx('avatar')}
-                        showLive
-                    />
+                    <UserAvatar height={'5.5rem'} user={user} className={clsx('avatar')} showLive />
                     {currentUser.uid !== user?.uid && (
                         <Button
                             onClick={handleFollowing}
@@ -85,7 +79,7 @@ function ProfileContainer({ user, children, placement }) {
                 // visible={true}
                 // trigger={'click'}
                 render={renderProfileContainer}>
-                <div>{children}</div>
+                <div onClick={handleNavigate}>{children}</div>
             </Tippy>
         </Fragment>
     )

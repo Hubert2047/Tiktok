@@ -104,7 +104,7 @@ function Comment({ comment, post, rootCommentId }) {
                     <Comfirm
                         question='Are you sure you want to delete this comment?'
                         subMitTitle='Delete'
-                        onSubmit={handleOnComfirm}
+                        onSubmit={handleOnDeleteComfirm}
                     />
                 ),
                 onClickOutside: true,
@@ -112,7 +112,7 @@ function Comment({ comment, post, rootCommentId }) {
         )
     }
 
-    const handleOnComfirm = async function () {
+    const handleOnDeleteComfirm = async function () {
         dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
         const deleteCommentFunc = []
         if (childrenComments?.length > 0) {
@@ -121,9 +121,14 @@ function Comment({ comment, post, rootCommentId }) {
                 deleteCommentFunc.push(deleteComment(childrenComment.id))
             })
         }
-        await Promise.all([...deleteCommentFunc, deleteComment(comment.id)])
-        dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
-        dispath(containerPortalActions.setComponent(null))
+        try {
+            await Promise.all([...deleteCommentFunc, deleteComment(comment.id)])
+            dispath(toastActions.addToast({ message: 'Deleted', mode: 'success' }))
+            dispath(containerPortalActions.setComponent(null))
+        } catch (error) {
+            console.log(error)
+            dispath(containerPortalActions.setComponent(null))
+        }
     }
     return (
         <div className={clsx('comment-item', 'd-flex')}>

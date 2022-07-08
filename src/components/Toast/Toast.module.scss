@@ -7,6 +7,7 @@
     min-width: 25rem;
     @media screen and (max-width: 425px) {
         min-width: unset;
+        max-width: 80vw;
         padding: 1rem 3rem;
     }
     -webkit-border-radius: var(--border-radius-sm);
@@ -38,6 +39,9 @@
 }
 .message {
     font-size: 1.5rem;
+    width: fit-content;
+    // word-wrap: break-word;
+    // word-break: break-all;
 }
 .success {
     background-color: rgba(84, 84, 84, 0.92);

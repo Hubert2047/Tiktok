@@ -10,8 +10,9 @@
     &:hover {
         background-color: var(--hover-bg-color);
     }
-    @media screen and (max-width: 375px) {
+    @media screen and (max-width: 425px) {
         width: auto;
+        padding: 0.5rem;
     }
 }
 .user-avatar {

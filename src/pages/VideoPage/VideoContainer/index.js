@@ -4,17 +4,21 @@ import { IoPlay } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import { ReportIcon, StartIcon, XIcon } from '~/components/Icons'
+import MobileSidebar from '~/mobile/components/MobileSidebar'
 import Spiner from '~/mobile/components/MobileVideoFooter/Spiner/Spiner'
 import { toastActions } from '~/redux/toastSlice'
 import styles from './VideoContainer.module.scss'
 const clsx = classNames.bind(styles)
 let time
-function VideoContainer({ post, isPlaying, onObserver, scrollCommentRef, className }, ref) {
+function VideoContainer(
+    { post, isPlaying, onObserver, className, handleWatchComment, currentPlayVideo, commentCount },
+    ref
+) {
     const dispath = useDispatch()
     const videoRef = useRef()
     const observer = useRef()
     const [showStartBtn, setShowStartBtn] = useState(false)
-    const [start, setStart] = useState(false)
+    const [start, setStart] = useState(true)
     const handleOnReport = function (e) {
         e.stopPropagation()
         dispath(toastActions.addToast({ message: 'Reported!', mode: 'success' }))
@@ -30,9 +34,10 @@ function VideoContainer({ post, isPlaying, onObserver, scrollCommentRef, classNa
             (entries) => {
                 if (entries[0].isIntersecting) {
                     if (time) clearTimeout(time)
-                    // console.log('intersecting', post.id)
+                    console.log('intersecting', post.id)
                     time = setTimeout(() => {
                         // console.log('setime out run')
+                        setStart(true)
                         onObserver(post.id)
                     }, 100) //wait 800 then dispath
                 }
@@ -46,36 +51,25 @@ function VideoContainer({ post, isPlaying, onObserver, scrollCommentRef, classNa
     }, [])
     useEffect(() => {
         if (!videoRef.current) return
-        if (isPlaying) {
+        if (isPlaying && start) {
             videoRef.current.play()
             setStart(true)
-        } else {
-            videoRef.current.pause()
-            setStart(false)
-        }
-    }, [isPlaying])
-    const handleOnLoadedData = function () {
-        if (!videoRef.current) videoRef.current.pause()
-    }
-    const handleStartVideo = function (startVideo) {
-        if (!startVideo) {
-            videoRef.current.pause()
-            setStart(startVideo)
-        } else {
-            videoRef.current.play()
-            setStart(startVideo)
-
             setShowStartBtn(true)
             setTimeout(() => {
                 setShowStartBtn(false)
             }, 1000)
+        } else {
+            videoRef.current.pause()
+            setStart(false)
         }
+    }, [isPlaying, start])
+    const handleOnLoadedData = function () {
+        if (!videoRef.current) videoRef.current.pause()
     }
-    const handleWatchComment = function (e) {
-        e.stopPropagation()
-        handleStartVideo(false)
-        if (scrollCommentRef.current) scrollCommentRef.current.scrollIntoView({ behavior: 'smooth' })
+    const handleStartVideo = function (startVideo) {
+        setStart(startVideo)
     }
+
     return (
         <div
             onClick={() => {
@@ -99,6 +93,12 @@ function VideoContainer({ post, isPlaying, onObserver, scrollCommentRef, classNa
                     {start && <StartIcon className={clsx('start-icon', { 'show-opacity': showStartBtn })} />}
                 </div>
                 <Spiner isPlaying={start} post={{ ...post, user: post.postUser }} className={clsx('spiner')} />
+                <MobileSidebar
+                    post={currentPlayVideo}
+                    commentCount={commentCount}
+                    className={clsx('video-sidebar')}
+                    handleWatchComment={handleWatchComment}
+                />
             </div>
             <div className={clsx('top-box', 'd-flex')}>
                 <Button
@@ -106,12 +106,6 @@ function VideoContainer({ post, isPlaying, onObserver, scrollCommentRef, classNa
                     icon={<XIcon />}
                     type='btn-all-rounded'
                     className={clsx('close-btn')}
-                />
-                <Button
-                    onClick={handleWatchComment}
-                    title='Watch comments'
-                    className={clsx('watch-comment')}
-                    color='color-white'
                 />
                 <Button
                     title='Report'

@@ -5,7 +5,7 @@ import Image from '~/components/Image'
 import styles from './Spiner.module.scss'
 
 const clsx = classNames.bind(styles)
-function Spiner({ isPlaying, post, className, avatarHeight = '36px' }) {
+function Spiner({ isPlaying, post, className, avatarHeight = '24px' }) {
     const spinerRef = useRef()
     const spinerAnimated = useRef()
     useEffect(() => {

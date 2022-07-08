@@ -9,7 +9,8 @@ import styles from './UserSearch.module.scss'
 const clsx = classNames.bind(styles)
 function UserSearch({ user, onClearResults }) {
     const navigate = useNavigate()
-    const handleNavigate = function () {
+    const handleNavigate = function (e) {
+        e.stopPropagation()
         navigate(useProfileRoute(user))
         onClearResults()
     }

@@ -21,7 +21,7 @@ function NotificationMenu({ currentNotificationGroup, itemActive, handleOnClickI
                 <div className={clsx('group-container', 'd-flex')}>
                     {_notification.GROUP_ITEMS.map((item) => (
                         <Button
-                            onClick={() => handleOnClickItem(item)}
+                            onClick={(e) => handleOnClickItem(item, e)}
                             key={item.id}
                             className={clsx('group-item', { 'group-item-active': itemActive.id === item.id })}
                             title={item.title}

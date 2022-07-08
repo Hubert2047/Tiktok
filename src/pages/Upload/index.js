@@ -62,7 +62,8 @@ function Upload() {
         poster: '',
         video: '',
         likes: Math.floor(Math.random() * 10000),
-        shares: Math.floor(Math.random() * 10000),
+        shares: Math.floor(Math.random() * 10000), //fake data
+        bookmark: Math.floor(Math.random() * 10000),
         played: 0,
         uid: currentUser.uid,
     })

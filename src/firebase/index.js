@@ -35,7 +35,7 @@ import { v4 as uuidv4 } from 'uuid'
 //     measurementId: 'G-0N45C1N94Q',
 // }
 
-const firebaseConfig0707 = {
+const firebaseConfig2 = {
     apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
     authDomain: 'tiktok-clone-0707.firebaseapp.com',
     projectId: 'tiktok-clone-0707',
@@ -44,10 +44,11 @@ const firebaseConfig0707 = {
     appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
     measurementId: 'G-XPFHRLSLK4',
 }
+
 // Initialize Firebase hubert
 //provider
 // doc(database,collection,keyvalue) database =getFireStore(app)
-const firebaseApp = initializeApp(firebaseConfig0707)
+const firebaseApp = initializeApp(firebaseConfig2)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
@@ -89,7 +90,7 @@ const updateUser = async function (updateUser, uid) {
 //user
 const searchUsers = async function (searchValue, type = 'less') {
     // console.log('run')
-    let q = query(collection(db, 'users'), orderBy('full_name'))
+    let q = query(collection(db, 'users'), orderBy('uid'), orderBy('full_name'))
     try {
         const querySnapshot = await getDocs(q)
         const data = []
@@ -294,8 +295,11 @@ const addPost = async function (newPost) {
     }
 }
 const deletePost = async function (postId) {
+    //also Delete comment
     try {
         await deleteDoc(doc(db, 'posts', postId))
+        //handle delete comment belong to post
+        //implement
     } catch (error) {
         throw new Error(error.message)
     }

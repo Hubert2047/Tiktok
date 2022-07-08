@@ -7,9 +7,10 @@ const clsx = classNames.bind(styles)
 function MovieContainer({ posts, children }) {
     const [moviePlayingId, setMoviePlaying] = useState(null)
     const isPageActive = useSelector((state) => state.home.isPageActive)
-    // console.log('re-render')
-    // console.log('posts', posts)
-    const handleHover = useCallback((id) => {
+    const [clientWidth] = useState(() => {
+        return document.documentElement.clientWidth
+    })
+    const handleOnMovieActive = useCallback((id) => {
         setMoviePlaying(id)
     }, [])
     return (
@@ -18,8 +19,9 @@ function MovieContainer({ posts, children }) {
                 return (
                     <MovieCard
                         key={post.id}
+                        clientWidth={clientWidth}
                         post={post}
-                        onHover={handleHover}
+                        onMovieActive={handleOnMovieActive}
                         isPlaying={moviePlayingId === post.id && isPageActive}
                     />
                 )

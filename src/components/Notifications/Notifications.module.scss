@@ -56,9 +56,9 @@
 }
 .main-content {
     height: calc(75vh - var(--default-header-height));
-    @media screen and (max-width: 425px) {
-        height: calc(100vh - var(--default-header-height) - 15rem);
-    }
+    // @media screen and (max-width: 425px) {
+    //     height: calc(100vh - var(--default-header-height) - 15rem);
+    // }
     margin-top: 2.5rem;
     flex-direction: column;
     gap: 0.75rem;

@@ -18,11 +18,11 @@ function Notifications({ children }, ref) {
     const [notifications, setNotifications] = useState([])
     const [currentNotificationGroup, setCurrentNotificationGroup] = useState([])
 
-    const handleOnClickItem = function (item) {
+    const handleOnClickItem = function (item, e) {
         setItemActive(item)
     }
     useEffect(() => {
-        console.log('run notification')
+        // console.log('run notification')
         getNotifications(currentUser, (data) => {
             setNotifications(data)
         })
@@ -50,12 +50,16 @@ function Notifications({ children }, ref) {
         )
     }
     const handleOnClick = function (e) {
-        e.stopPropagation()
         setVisible((prev) => !prev)
     }
     return (
         <div className={clsx('wrapper')}>
-            <Tippy offset={[0, 14]} interactive={true} visible={visible} render={renderMenu}>
+            <Tippy
+                onClickOutside={handleOnClick}
+                offset={[0, 14]}
+                interactive={true}
+                visible={visible}
+                render={renderMenu}>
                 <div onClick={handleOnClick}>{children} </div>
             </Tippy>
         </div>

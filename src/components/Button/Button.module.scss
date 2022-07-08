@@ -8,9 +8,9 @@
     color: var(--black-color);
     border-radius: var(--border-radius-sm);
     cursor: pointer;
-    &:active {
-        opacity: 0.5;
-    }
+    // &:active {
+    //     opacity: 0.5;
+    // }
 }
 .title {
     font-size: 1em;
