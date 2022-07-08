@@ -4,6 +4,7 @@
     max-width: 90vw;
     max-height: 90%;
     margin: 0 auto;
+    overflow: overlay;
     background-color: var(--bg-theme);
     border-radius: var(--border-radius-md);
     -webkit-border-radius: var(--border-radius-md);
@@ -82,6 +83,7 @@
 
 .middle {
     flex: 1;
+    flex-direction: column;
     overflow: overlay;
     padding: 0.8rem 2.4rem;
     @media screen and (max-width: 768px) {
@@ -180,10 +182,14 @@
     flex-direction: column;
     flex: 1;
 }
+.bio {
+    flex: 1;
+}
 .area-input {
     font-size: 1.5rem;
     padding: 1.2rem;
     width: 36rem;
+    flex: 1;
     color: var(--text-theme);
     @media screen and (max-width: 768px) {
         width: 100%;

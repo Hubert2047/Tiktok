@@ -3,7 +3,7 @@
     gap: 1rem;
     padding: 0.75rem 1.25rem;
     &:hover {
-        background-color: var(--hover-bg-color);
+        background-color: var(--hover-theme);
     }
 }
 .img {
@@ -12,7 +12,7 @@
     aspect-ratio: 1/1;
 }
 .content {
-    color: var(--text-color);
+    color: var(--text-theme);
 }
 .title {
     align-items: center;
@@ -25,5 +25,4 @@
 }
 .desc {
     font-size: 1.4rem;
-    color: var(--grey-color-2);
 }

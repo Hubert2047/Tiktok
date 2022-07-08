@@ -16,6 +16,7 @@ const clsx = classNames.bind(styles)
 function EditProfile() {
     const dispath = useDispatch()
     const currentUser = useSelector((state) => state.user.user)
+    const limited = 1000
     const [inputValue, setInputValue] = useState(1)
     const [img, setImg] = useState(null)
     const [fileName, setFileName] = useState('') //just for testing to save photo to firebase storage
@@ -44,7 +45,7 @@ function EditProfile() {
         setData((prev) => {
             return { ...prev, [e.target.name]: e.target.value }
         })
-        if (e.target.name === 'desc' && e.target.value.length > 79) {
+        if (e.target.name === 'desc' && e.target.value.length > limited) {
             dispath(toastActions.addToast({ message: alertConstain.TEXT_LIMITED, mode: 'success' }))
         }
     }
@@ -119,7 +120,7 @@ function EditProfile() {
                         <h4 className={clsx('title')}>Edit profile</h4>
                         <XIcon onClick={handleOnCancle} className={clsx('close-icon')} />
                     </div>
-                    <div className={clsx('middle')}>
+                    <div className={clsx('middle', 'd-flex')}>
                         <div className={clsx('item-box', 'd-flex')}>
                             <p className={clsx('right-text')}>Profile photo</p>
                             <div className={clsx('img-box')}>
@@ -160,21 +161,21 @@ function EditProfile() {
                                 value={data.nickname}
                             />
                         </div>
-                        <div className={clsx('item-box', 'd-flex')}>
+                        <div className={clsx('item-box', 'bio', 'd-flex')}>
                             <p className={clsx('right-text')}>Bio</p>
                             <div className={clsx('input-box', 'valid', 'd-flex')}>
                                 <textarea
                                     onChange={handleOnChange}
                                     value={data?.desc}
                                     name='desc'
-                                    maxLength={80}
+                                    maxLength={limited}
                                     className={clsx('area-input', 'valid')}
                                     placeholder='Bio'
                                 />
                                 <span
                                     className={clsx('text-limit', {
-                                        'text-limited': data.desc?.length > 79,
-                                    })}>{`${data.desc?.length}/80`}</span>
+                                        'text-limited': data.desc?.length > limited,
+                                    })}>{`${data.desc?.length}/${limited}`}</span>
                             </div>
                         </div>
                     </div>
