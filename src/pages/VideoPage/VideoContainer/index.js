@@ -92,13 +92,15 @@ function VideoContainer(
                     {!start && <IoPlay className={clsx('stop-icon')} />}
                     {start && <StartIcon className={clsx('start-icon', { 'show-opacity': showStartBtn })} />}
                 </div>
-                <Spiner isPlaying={start} post={{ ...post, user: post.postUser }} className={clsx('spiner')} />
-                <MobileSidebar
-                    post={currentPlayVideo}
-                    commentCount={commentCount}
-                    className={clsx('video-sidebar')}
-                    handleWatchComment={handleWatchComment}
-                />
+
+                <div className={clsx('video-sidebar')}>
+                    <MobileSidebar
+                        post={currentPlayVideo}
+                        commentCount={commentCount}
+                        handleWatchComment={handleWatchComment}
+                    />
+                    <Spiner isPlaying={start} post={{ ...post, user: post.postUser }} className={clsx('spiner')} />
+                </div>
             </div>
             <div className={clsx('top-box', 'd-flex')}>
                 <Button

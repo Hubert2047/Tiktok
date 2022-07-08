@@ -1576,6 +1576,57 @@ export function BookMarkIcon({ className, width = '20px', height = '20px' }) {
         </svg>
     )
 }
+export function VolumIcon({ onClick, className, width = '40px', height = '40px' }) {
+    return (
+        <svg
+            onClick={onClick}
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 48 48'
+            xmlns='http://www.w3.org/2000/svg'>
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M21 16.9118C21 15.2513 20.8942 15.0909 20.709 15.0221C20.5238 14.9763 20.3122 14.9992 20.1799 15.1138L15.0741 19.5258H11.4762C11.2116 19.5258 11 19.7092 11 19.9384V28.084C11 28.3132 11.2116 28.4965 11.4762 28.4965H15.0741L20.1799 32.8862C20.3122 33.0008 20.5238 33.0237 20.709 32.9779C20.8942 32.9091 21 32.7487 21 32.5882V16.9118Z'
+                fill='white'></path>
+            <path
+                d='M30.6653 15C32.7348 17.2304 34.0001 20.2174 34.0001 23.5C34.0001 26.7826 32.7348 29.7696 30.6653 32'
+                stroke='white'
+                strokeWidth='2.5'
+                strokeLinecap='round'></path>
+            <path
+                d='M26.8799 17.8833C28.1994 19.381 28.9999 21.347 28.9999 23.5C28.9999 25.653 28.1994 27.6191 26.8799 29.1168'
+                stroke='white'
+                strokeWidth='2.5'
+                strokeLinecap='round'></path>
+        </svg>
+    )
+}
+export function VolumMuteIcon({ onClick, className, width = '41px', height = '41px' }) {
+    return (
+        <svg
+            onClick={onClick}
+            className={className}
+            width={width}
+            fill='currentColor'
+            height={height}
+            viewBox='0 0 48 48'
+            xmlns='http://www.w3.org/2000/svg'>
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M21 16.9118C21 15.2513 20.8942 15.0909 20.709 15.0221C20.5238 14.9763 20.3122 14.9992 20.1799 15.1138L15.0741 19.5258H11.4762C11.2116 19.5258 11 19.7092 11 19.9384V28.084C11 28.3132 11.2116 28.4965 11.4762 28.4965H15.0741L20.1799 32.8862C20.3122 33.0008 20.5238 33.0237 20.709 32.9779C20.8942 32.9091 21 32.7487 21 32.5882V16.9118Z'
+                fill='white'></path>
+            <path
+                fillRule='evenodd'
+                clipRule='evenodd'
+                d='M35.098 18.9489C34.5998 18.4508 33.7921 18.4508 33.2939 18.949L30.1368 22.1061L26.9797 18.949C26.4815 18.4508 25.6738 18.4508 25.1756 18.9489C24.6775 19.4471 24.6775 20.2548 25.1756 20.753L28.3327 23.9101L25.1757 27.0672C24.6775 27.5654 24.6775 28.3731 25.1757 28.8713C25.6738 29.3694 26.4815 29.3694 26.9797 28.8713L30.1368 25.7142L33.2939 28.8713C33.7921 29.3694 34.5998 29.3694 35.0979 28.8713C35.5961 28.3731 35.5961 27.5654 35.0979 27.0672L31.9409 23.9101L35.098 20.753C35.5962 20.2548 35.5962 19.4471 35.098 18.9489Z'
+                fill='white'></path>
+        </svg>
+    )
+}
 export function LiveIcon({ className, width = '20px', height = '20px' }) {
     return (
         <svg

@@ -7,7 +7,7 @@ import { memo, useEffect, useRef, useState } from 'react'
 import { IoPlay } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ReportIcon, StartIcon } from '~/components/Icons'
+import { ReportIcon, StartIcon, VolumIcon, VolumMuteIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import { updatePost } from '~/firebase'
 import { useVideoPageRoute } from '~/hooks'
@@ -20,9 +20,10 @@ function Video({ post, isCurrentPlaying, className }) {
     // console.log('re-render video', post.id)
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const dispath = useDispatch()
-    const [start, setStart] = useState(false)
+    const [start, setStart] = useState(true)
     const [doubleClick, setDoubleClick] = useState(false)
-    // const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(false)
+    const [muted, setMuted] = useState(false)
     const videoRef = useRef()
     useEffect(() => {
         if (!videoRef.current) return
@@ -42,7 +43,7 @@ function Video({ post, isCurrentPlaying, className }) {
     }
     const handleOnloadedData = function () {
         if (!isCurrentPlaying) videoRef.current.pause()
-        // setLoaded(true)
+        setLoaded(true)
     }
     const handleStartVideo = function () {
         if (doubleClick) {
@@ -61,10 +62,24 @@ function Video({ post, isCurrentPlaying, className }) {
             setDoubleClick(false)
         }, 300)
     }
+    const handleOnMuteVolum = function (e) {
+        e.stopPropagation()
+        setMuted(true)
+        videoRef.current.muted = true
+    }
+    const handleOnUnMuteVolum = function (e) {
+        e.stopPropagation()
+        setMuted(false)
+        videoRef.current.muted = false
+    }
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
             <div onClick={handleStartVideo} className={clsx('video-box')}>
-                <Image src={post.poster || ''} className={clsx('poster', { 'display-poster': !isCurrentPlaying })} />
+                <Image
+                    src={post.poster || ''}
+                    className={clsx('poster', { 'display-poster': !isCurrentPlaying && loaded })}
+                />
+
                 <video
                     ref={videoRef}
                     webkit-playsinline='true'
@@ -81,9 +96,16 @@ function Video({ post, isCurrentPlaying, className }) {
                     <ReportIcon />
                     <span>Report</span>
                 </div>
-            </div>
-            <div className={clsx('start-icon-box')}>
-                {start ? <StartIcon className={clsx('start-icon')} /> : <IoPlay className={clsx('stop-icon')} />}
+                <div className={clsx('control-box', 'd-flex')}>
+                    {start ? <StartIcon className={clsx('start-icon')} /> : <IoPlay className={clsx('stop-icon')} />}
+                    <div className={clsx('volum-box')}>
+                        {!muted ? (
+                            <VolumIcon onClick={handleOnMuteVolum} />
+                        ) : (
+                            <VolumMuteIcon onClick={handleOnUnMuteVolum} />
+                        )}
+                    </div>
+                </div>
             </div>
             <VideoFooter post={post} className={clsx('video-footer')} />
         </div>
