@@ -7,7 +7,8 @@ export const color = {
     GREY_3: 'rgba(255, 255, 255, 0.1)',
     GREY_4: '#3a3b3c',
     GREY_5: '#65676B',
-    PRIMARY_TEXT: ' #E4E6EB',
+    PRIMARY_TEXT: '#E4E6EB',
+    SECOND_TEXT: '#050505',
 }
 const BORDER = '--border-theme'
 const BORDER_2 = '--border-theme-2'
@@ -67,7 +68,7 @@ export const styleThemes = {
         },
         {
             property: TEXT,
-            value: color.DARK,
+            value: color.SECOND_TEXT,
         },
         {
             property: ICON,

@@ -30,6 +30,7 @@ function Header({ className }) {
     const [notificationCount, setNotificationCount] = useState(0)
     const currentUser = useSelector((state) => state.user.user)
     const theme = useSelector((state) => state.theme.theme)
+    console.log(theme.name)
     const handleShowLoginPopup = function () {
         dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
     }
@@ -85,6 +86,7 @@ function Header({ className }) {
                     color='color-white'
                     bg='bg-primary'
                     size='size-md'
+                    className={clsx('login-btn')}
                     title='Log in'></Button>
                 <Menu menu={UNLOGIN_MENU_ITEM}>
                     <ThreeDotIcon className={clsx('icon')} />
@@ -140,7 +142,7 @@ function Header({ className }) {
             <div className={clsx('inner', 'd-flex', className)}>
                 {/* logo */}
                 <div onClick={handleBackHome} className={clsx('logo', 'd-flex')}>
-                    {theme.name !== 'dark' ? (
+                    {theme.name === 'light' ? (
                         <img src={images.logo} alt='logo' />
                     ) : (
                         <h1 className={clsx('text-logo')}>TikTok</h1>

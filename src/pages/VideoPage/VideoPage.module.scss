@@ -88,7 +88,6 @@
 .name-box {
     flex: 1;
     flex-direction: column;
-    color: var(--text-theme);
     gap: 0.25rem;
     @media only screen and (max-width: 900px) {
         // max-width: fit-content;
@@ -103,7 +102,6 @@
 .content {
     max-width: 80%;
     text-align: left;
-    color: var(--text-theme);
     word-wrap: break-word;
     word-break: break-all;
     white-space: pre-wrap;
@@ -117,7 +115,6 @@
 }
 .btn-see-more {
     margin: 0.5rem 0;
-    color: var(--text-theme);
     cursor: pointer;
 }
 .full-name {
@@ -130,16 +127,12 @@
     font-size: 1.4rem;
     flex: 1;
 }
-.nickname {
-    color: var(--text-theme);
-}
 
 //actions
 .actions {
     align-items: center;
     justify-content: space-between;
     margin: 1rem 0;
-    color: var(--text-theme);
 }
 .copy-link {
     height: 3.4rem;
@@ -147,7 +140,6 @@
     // border: 1px solid rgba(22, 24, 35, 0.12);
     border: 1px solid var(--border-theme);
     overflow: hidden;
-    color: var(--text-theme);
     margin-bottom: 0.5rem;
     @media only screen and (max-width: 768px) {
         display: none !important;
@@ -161,7 +153,6 @@
     padding: 1rem;
     outline: none;
     -webkit-outline: none;
-    color: var(--text-theme);
     background-color: var(--bg-theme);
     border: 1px solid var(--border-theme);
     box-shadow: var(--box-shadow-md);
@@ -175,7 +166,6 @@
     font-size: 1.5rem;
     justify-content: flex-start;
     padding: 1rem 4rem;
-    color: var(--text-theme);
     &:hover {
         background-color: var(--hover-theme);
     }
@@ -219,7 +209,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     background-color: var(--bg-theme);
-    color: var(--text-theme);
 }
 .link-btn {
     border-radius: 0;
@@ -291,7 +280,6 @@
     left: 50%;
     z-index: 1;
     transform: translate(-50%, -50%);
-    color: var(--text-theme);
 }
 @keyframes watch-amimation {
     0% {

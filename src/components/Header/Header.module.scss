@@ -52,6 +52,7 @@
         font-size: 2rem;
         & > span {
             display: none;
+            color: var(--white-color);
         }
     }
 }
@@ -79,7 +80,6 @@
     fill: var(--icon-theme);
 }
 .message-icon {
-    // fill: var(--text-theme);
     fill: var(--icon-theme);
 }
 .inbox-notification,
@@ -113,7 +113,7 @@
     }
 }
 .search-mobile {
-    color: var(--icon-theme);
+    fill: var(--icon-theme);
     @media only screen and (min-width: 760px) {
         display: none;
     }
@@ -121,5 +121,10 @@
 .theme-mode {
     @media screen and (max-width: 900px) {
         display: none !important;
+    }
+}
+.login-btn {
+    & > span {
+        color: var(--white-color);
     }
 }

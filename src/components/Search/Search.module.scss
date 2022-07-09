@@ -13,7 +13,6 @@
         flex: 1;
         height: 2.2rem;
         font-size: 1.6rem;
-        color: var(--text-theme);
         caret-color: var(--primary-color);
         background-color: transparent;
         font-weight: 400;
@@ -22,9 +21,6 @@
 
         &:not(:placeholder-shown) ~ .search-btn {
             color: var(--black-color);
-        }
-        &:placeholder-shown {
-            color: var(--text-theme);
         }
     }
     &:focus-within {
@@ -90,7 +86,6 @@
     font-size: 1.5rem;
     padding: 0.25rem 1.25rem;
     font-weight: 400;
-    color: var(--text-theme);
 }
 
 @keyframes loading {

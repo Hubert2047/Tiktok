@@ -488,10 +488,23 @@ const handlePostLike = async function (currentUser, post, updateLikes, isLikedPo
 const getCommentCount = async function (postId, callback) {
     // console.log(postId)
     let q = query(collection(db, 'comments'), where('postId', '==', postId))
+    // try {
+    //     const querySnapshot = await getDocs(q)
+    //     const comments = querySnapshot.docs.map((doc) => {
+    //         return { id: doc.id, ...doc.data() }
+    //     })
+    //     return comments
+    // } catch (error) {
+    //     throw new Error(error.message)
+    // }
     onSnapshot(
         q,
         async (querySnapshot) => {
             callback(querySnapshot.size)
+            const comments = querySnapshot.docs.map((doc) => {
+                return { id: doc.id, ...doc.data() }
+            })
+            console.log(comments)
         },
         (err) => {
             throw new Error(err.message)

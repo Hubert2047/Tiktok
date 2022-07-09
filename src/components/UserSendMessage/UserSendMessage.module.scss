@@ -28,7 +28,6 @@
 .user-name {
     font-size: 1.6rem;
     font-weight: 600;
-    color: var(--text-theme);
 }
 .user-infor-box {
     justify-content: space-between;
@@ -69,7 +68,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--text-theme);
 }
 .unread {
     color: var(--primary-color);
@@ -77,5 +75,4 @@
 }
 .user-time {
     padding-left: 0.5rem;
-    color: var(--text-theme);
 }

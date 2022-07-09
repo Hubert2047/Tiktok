@@ -28,8 +28,6 @@
     flex: 1;
 }
 .header {
-    color: var(--text-theme);
-
     p {
         font-size: 2.4rem;
         margin-bottom: 1rem;
@@ -73,9 +71,9 @@
     }
 }
 .loading-text {
+    text-align: center;
     margin: 2rem 0;
     font-size: 1.4rem;
-    color: var(--text-theme);
 }
 .video-poster {
     width: 0;
@@ -181,7 +179,6 @@
     span {
         flex: 1;
         font-size: 1.25rem;
-        color: var(--text-theme);
     }
     button {
         font-size: 1.3rem;
@@ -191,9 +188,7 @@
         }
     }
 }
-.change-video-btn {
-    color: var(--text-theme);
-}
+
 .change-video-icon {
     color: var(--icon-theme);
 }
@@ -207,16 +202,13 @@
 .text-main {
     font-size: 1.8rem;
     margin-top: 2.4rem;
-    color: var(--text-theme);
 }
 .text-sub {
     margin: 0.4rem 0 2.4rem;
     font-size: 1.4rem;
-    color: var(--text-theme);
 }
 .text-video {
     font-size: 1.4rem;
-    color: var(--text-theme);
     margin-bottom: 0.6rem;
 }
 .upload-btn-box {
@@ -241,7 +233,9 @@
 }
 .upload-btn {
     width: 100%;
-    // margin-top: 2rem;
+    & > span {
+        color: var(--white-color);
+    }
 }
 
 .footer {
@@ -267,12 +261,10 @@
     justify-content: space-between;
     p {
         font-size: 1.6rem;
-        color: var(--text-theme);
     }
 }
 .require-text {
     font-size: 1.3rem;
-    color: var(--text-theme);
 }
 .input-box {
     align-items: center;
@@ -304,9 +296,7 @@
 .cover {
     margin-top: 2.4rem;
 }
-.cover-text {
-    color: var(--text-theme);
-}
+
 .cover-container {
     padding: 1rem;
     margin-top: 1.5rem;
@@ -374,7 +364,6 @@
 }
 .share-text {
     margin: 2.4rem 0 1rem;
-    color: var(--text-theme);
 }
 
 .share-select {
@@ -393,7 +382,6 @@
     cursor: pointer;
     span {
         font-size: 1.6rem;
-        color: var(--text-theme);
     }
 }
 .list-item {
@@ -405,7 +393,8 @@
     width: 100%;
     opacity: 0;
     list-style: none;
-    background-color: var(--text-theme);
+    background-color: var(--bg-theme);
+    border: 1px solid var(--border-theme);
     box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
     -webkit-border-radius: var(--border-radius-sm);
     -moz-border-radius: var(--border-radius-sm);
@@ -427,7 +416,7 @@
     padding: 1rem 1.2rem;
     font-size: 1.6rem;
     &:hover {
-        background: rgba(22, 24, 35, 0.03);
+        background: var(--hover-theme);
     }
 }
 .show-menu {
@@ -439,9 +428,10 @@
     transform: translateY(105%);
 }
 .select-active {
-    background-color: var(--bg-theme);
+    background-color: var(--bg-theme-2);
 }
 .arrow {
+    fill: var(--icon-theme);
     -webkit-transition: all 0.3s linear;
     -moz-transition: all 0.3s linear;
     -ms-transition: all 0.3s linear;
@@ -471,9 +461,6 @@
     @media screen and(max-width: 465px) {
         width: 100%;
     }
-    label {
-        color: var(--text-theme);
-    }
 }
 .input-check {
     position: relative;
@@ -481,6 +468,7 @@
     width: 1.6rem;
     height: 1.6rem;
     appearance: none;
+    // border: 1px solid var(--primary-color);
     -webkit-appearance: none;
     cursor: pointer;
 }
@@ -488,7 +476,7 @@
     position: relative;
     height: 1.6rem;
     width: 1.6rem;
-    border: 1px solid var(--grey-color-2);
+    border: 1px solid var(--text-theme);
 
     &:hover {
         border: 1px solid var(--primary-color);
@@ -510,7 +498,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    color: var(--text-theme);
+    fill: var(--white-color);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
@@ -526,7 +514,6 @@
     align-items: center;
     span {
         font-size: 1.6rem;
-        color: var(--text-theme);
     }
 }
 .switch {
@@ -550,7 +537,6 @@
 .desc {
     font-size: 1.25rem;
     height: 3.6rem;
-    color: var(--text-theme);
     margin-top: 1rem;
 }
 .wraning-box {
@@ -562,7 +548,6 @@
     border: 1px solid var(--border-theme);
     p {
         font-size: 1.4rem;
-        color: var(--text-theme);
     }
     -webkit-border-radius: var(--border-radius-sm);
     -moz-border-radius: var(--border-radius-sm);

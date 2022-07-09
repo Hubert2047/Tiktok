@@ -14,7 +14,7 @@ function LoadCircle({ process, titleColor = 'white' }) {
                 <div>
                     <h4 className={clsx('process', 'flex-center', titleColor)}>
                         {process}
-                        <span>%</span>
+                        <span style={{ color: 'var(--text-theme' }}>%</span>
                     </h4>
                 </div>
             </div>

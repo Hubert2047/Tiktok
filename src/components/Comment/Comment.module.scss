@@ -38,7 +38,6 @@
 }
 .comment-text {
     font-size: 1.5rem;
-    color: var(--text-theme);
 }
 .name {
     justify-content: flex-start;
@@ -48,17 +47,15 @@
     width: 100%;
     align-items: center;
     gap: 2rem;
-    color: var(--text-theme);
     width: fit-content;
 }
 .time {
     font-size: 1.4rem;
-    color: var(--text-theme);
     display: inline-block;
 }
 .action-btn {
     font-size: 1.25rem;
-    color: var(--text-theme);
+    color: var(--icon-theme);
 }
 .comment-actions {
     gap: 0.5rem;
@@ -71,10 +68,10 @@
 }
 .like-count {
     font-size: 1.5rem;
-    color: var(--grey-color-2);
+    // color: var(--grey-color-2);
 }
 .action-icon {
-    color: var(--grey-color-2);
+    color: var(--icon-theme);
     cursor: pointer;
 }
 .three-dot {
@@ -91,8 +88,8 @@
     padding: 2rem 10rem 2rem 2rem;
     font-weight: 600;
     justify-content: flex-start;
-    color: var(--black-color);
-    fill: var(--black-color);
+    color: var(--icon-theme);
+    fill: var(--icon-theme);
 }
 // custom heart animation
 .icon {
@@ -228,6 +225,7 @@
     }
 }
 .input-smile-icon {
+    fill: var(--icon-theme);
     @media screen and(max-width: 768px) {
         display: none;
     }

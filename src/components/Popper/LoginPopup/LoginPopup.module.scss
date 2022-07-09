@@ -40,7 +40,6 @@
     width: fit-content;
     padding-top: 3rem;
     margin: 0 auto;
-    color: var(--text-theme);
     @media only screen and (max-width: 450px) {
         font-size: 2rem;
         padding-top: 1.5rem;
@@ -90,5 +89,4 @@
     align-items: center;
     justify-content: center;
     padding: 1rem 0 2rem;
-    color: var(--text-theme);
 }

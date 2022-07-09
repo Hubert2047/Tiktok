@@ -4,12 +4,13 @@ import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
 import { Fragment, useEffect, useState } from 'react'
 import { BiEdit } from 'react-icons/bi'
+import { IoIosShareAlt } from 'react-icons/io'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Button from '~/components/Button'
 import EditProfile from '~/components/EditProfile'
-import { FriendIcon, HorizontalThreeDot, LockIcon, ShareWhiteIcon } from '~/components/Icons'
+import { FriendIcon, HorizontalThreeDot, LockIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
 import Menu from '~/components/Menu'
 import MovieContainer from '~/components/MovieContainer'
@@ -203,7 +204,7 @@ function Profile() {
                         <div className={clsx('header-right', 'd-flex')}>
                             <Menu menu={shareItems}>
                                 <div>
-                                    <ShareWhiteIcon className={clsx('share-icon-btn')} />
+                                    <IoIosShareAlt className={clsx('share-icon-btn')} />
                                 </div>
                             </Menu>
                             {!isCurrentUser && (

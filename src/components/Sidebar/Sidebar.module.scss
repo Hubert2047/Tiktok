@@ -56,14 +56,13 @@
 }
 .login-box {
     display: flex;
-    border-top: 1px solid var(--grey-color);
+    border-top: 1px solid var(--border-theme);
     padding: 2rem 0 2rem 1rem;
     gap: 2rem;
     flex-direction: column;
 }
 .login-text {
     font-size: 1.6rem;
-    color: var(--grey-color-2);
 }
 //footer
 .footer {

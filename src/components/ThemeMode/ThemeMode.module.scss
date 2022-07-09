@@ -15,13 +15,13 @@
     -o-border-radius: 50%;
 }
 .active-mode-black {
-    background-color: var(--white-color);
+    background-color: var(--grey-color-1);
+    opacity: 0.9;
     color: var(--black-color);
+    & svg {
+        fill: var(--black-color);
+    }
 }
 .active-mode-white {
     background-color: var(--grey-color);
-    // color: var(--white-color);
-}
-.theme-mode-icon {
-    color: var(--icon-theme);
 }

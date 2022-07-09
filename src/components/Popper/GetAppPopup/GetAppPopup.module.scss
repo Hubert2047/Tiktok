@@ -1,6 +1,7 @@
 .wrapper {
-    background-color: var(--white-color);
+    background-color: var(--bg-theme);
     border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-theme);
     //     width: 40vw;
     width: 40rem;
     box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
@@ -23,7 +24,7 @@
 .title {
 }
 .close-btn {
-    fill: var(--grey-color-3);
+    fill: var(--icon-theme);
     cursor: pointer;
 }
 .mid {

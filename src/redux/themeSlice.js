@@ -3,7 +3,7 @@ import { theme } from '~/staticData'
 const themeSlice = createSlice({
     name: 'theme',
     initialState: {
-        theme: { name: 'light', styles: theme.styleThemes.dark },
+        theme: { name: 'light', styles: theme.styleThemes.light },
     },
     reducers: {
         setTheme(state, actions) {

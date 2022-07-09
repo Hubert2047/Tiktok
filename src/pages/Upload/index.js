@@ -27,7 +27,7 @@ import { addPost, uploadFile } from '~/firebase'
 import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
-import { alertConstain } from '~/staticData'
+import { alertConstain, sharePermissions } from '~/staticData'
 import MobileSidebar from '../../mobile/components/MobileSidebar/index'
 import Spiner from '../../mobile/components/MobileVideoFooter/Spiner/Spiner'
 import LoadCircle from './LoadCircle'
@@ -45,7 +45,7 @@ function Upload() {
     const [posters, setPosters] = useState([])
     const [onloadVideoPrivew, setOnloadVideoPriview] = useState(false)
     const [activePosterIndex, setActivePosterIndex] = useState(0)
-    const [shareState, setShareState] = useState('Public')
+    const [shareItem, setShareItem] = useState({ id: 1, permission: 'Public' })
     const [process, setProcess] = useState(0)
     const [videoPreviewDuration, setVideoPreviewDuration] = useState()
     const [permissionCheck, setPermissionCheck] = useState({
@@ -107,8 +107,8 @@ function Upload() {
 
         handlePreviewLoadingVideo()
     }, [videoPreviewDuration])
-    const handleShare = function (e) {
-        setShareState(e.target.innerText)
+    const handleShare = function (share) {
+        setShareItem(share)
     }
     const handleShowMenuSelect = function () {
         setShowMenu((prev) => !prev)
@@ -187,7 +187,7 @@ function Upload() {
             fontSize: '1.5rem',
             width: '100%',
             padding: '1.6rem',
-            borderTop: '1px solid rgba(22, 24, 35, 0.12)',
+            borderTop: '1px solid var(--border-theme)',
         }
         const handleToUploadAnotherVideo = function () {
             dispath(containerPortalActions.setComponent(null))
@@ -200,10 +200,11 @@ function Upload() {
         return (
             <div
                 style={{
-                    backgroundColor: 'var(--white-color)',
+                    backgroundColor: 'var(--bg-theme)',
                     borderRadius: 'var(--border-radius-md)',
                     flexDirection: 'column',
                     width: '31rem',
+                    border: '1px solid var(--border-theme)',
                 }}
                 className={clsx('flex-center')}>
                 <h4
@@ -346,7 +347,7 @@ function Upload() {
                         {onloadVideoPrivew && (
                             <div className={clsx('left', 'd-flex')}>
                                 <Fragment>
-                                    <LoadCircle process={process} titleColor='black' />
+                                    <LoadCircle process={process} titleColor='var(--text-theme' />
                                     <p className={clsx('loading-text')}>{`Uploading ${postPreview?.fileName || ''}`}</p>
                                     <Button
                                         onClick={handleResetOnChangeVideo}
@@ -409,19 +410,22 @@ function Upload() {
                             <div className={clsx('share-premission')}>
                                 <p className={clsx('share-text')}>Who can view this video</p>
                                 <div onClick={handleShowMenuSelect} className={clsx('share-select', 'd-flex')}>
-                                    <span>{shareState}</span>
+                                    <span>{shareItem.permission}</span>
                                     <ArrowIcon className={clsx({ 'arrow-rotate': showMenu }, 'arrow')} />
                                     {showMenu && (
                                         <ul className={clsx('list-item', { 'show-menu': showMenu })}>
-                                            <li onClick={handleShare} className={clsx('item', 'select-active')}>
-                                                Public
-                                            </li>
-                                            <li onClick={handleShare} className={clsx('item')}>
-                                                Friends
-                                            </li>
-                                            <li onClick={handleShare} className={clsx('item')}>
-                                                Private
-                                            </li>
+                                            {sharePermissions.map((share) => (
+                                                <li
+                                                    key={share.id}
+                                                    onClick={() => {
+                                                        handleShare(share)
+                                                    }}
+                                                    className={clsx('item', {
+                                                        'select-active': share.id === shareItem.id,
+                                                    })}>
+                                                    <span>{share.permission}</span>
+                                                </li>
+                                            ))}
                                         </ul>
                                     )}
                                 </div>
@@ -437,7 +441,9 @@ function Upload() {
                                                 id='comment'
                                                 name='comment'
                                             />
-                                            <CheckBoxIcon className={clsx('check-icon')} />
+                                            {permissionCheck?.comment && (
+                                                <CheckBoxIcon className={clsx('check-icon')} />
+                                            )}
                                         </div>
                                         <label htmlFor='comment'>Comment</label>
                                     </div>
@@ -451,7 +457,7 @@ function Upload() {
                                                 id='duet'
                                                 name='duet'
                                             />
-                                            <CheckBoxIcon className={clsx('check-icon')} />
+                                            {permissionCheck?.duet && <CheckBoxIcon className={clsx('check-icon')} />}
                                         </div>
                                         <label htmlFor='duet'>Duet</label>
                                     </div>
@@ -465,7 +471,7 @@ function Upload() {
                                                 id='stitch'
                                                 name='stitch'
                                             />
-                                            <CheckBoxIcon className={clsx('check-icon')} />
+                                            {permissionCheck?.stitch && <CheckBoxIcon className={clsx('check-icon')} />}
                                         </div>
                                         <label htmlFor='stitch'>Stitch</label>
                                     </div>
