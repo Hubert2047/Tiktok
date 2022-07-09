@@ -1596,7 +1596,7 @@ export function VolumIcon({ onClick, className, width = '40px', height = '40px' 
         </svg>
     )
 }
-export function VolumMuteIcon({ onClick, className, width = '41px', height = '41px' }) {
+export function VolumMuteIcon({ onClick, className, width = '40px', height = '40px' }) {
     return (
         <svg
             onClick={onClick}

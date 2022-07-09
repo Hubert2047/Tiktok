@@ -10,7 +10,6 @@ function CommentContainer({ post, className }) {
     const updateCommentState = function (data) {
         // console.log(data.comment)
         setRootComments(data)
-        console.log('data comemet', data, post.id)
         // setLastDocComment(data.lastDoc)
     }
 
@@ -20,7 +19,6 @@ function CommentContainer({ post, className }) {
             callback: updateCommentState,
             parentId: 'null',
         }).catch((e) => console.log(e))
-        console.log('run commentcontainer', post.id)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [post])
 

@@ -4,6 +4,7 @@ import { IoPlay } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import { ReportIcon, StartIcon, XIcon } from '~/components/Icons'
+import VideoControl from '~/components/VideoControl'
 import MobileSidebar from '~/mobile/components/MobileSidebar'
 import Spiner from '~/mobile/components/MobileVideoFooter/Spiner/Spiner'
 import { toastActions } from '~/redux/toastSlice'
@@ -34,7 +35,7 @@ function VideoContainer(
             (entries) => {
                 if (entries[0].isIntersecting) {
                     if (time) clearTimeout(time)
-                    console.log('intersecting', post.id)
+                    // console.log('intersecting', post.id)
                     time = setTimeout(() => {
                         // console.log('setime out run')
                         setStart(true)
@@ -118,6 +119,7 @@ function VideoContainer(
                     className={clsx('report-btn')}
                 />
             </div>
+            {videoRef.current && <VideoControl video={videoRef.current} />}
         </div>
     )
 }

@@ -24,7 +24,7 @@ import styles from './Comment.module.scss'
 
 const clsx = classNames.bind(styles)
 function Comment({ comment, post, rootCommentId }) {
-    console.log('re-render cmt', post.id)
+    // console.log('re-render cmt', post.id)
     const isRootCommnet = comment.parentId === 'null' || false
     const avatarHeight = isRootCommnet ? '4rem' : '2.75rem' //if is root comment then avatar height will be bigger than children cmt
     const dispath = useDispatch()

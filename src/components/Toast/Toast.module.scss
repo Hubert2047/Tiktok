@@ -6,8 +6,8 @@
     // width: 25vw;
     min-width: 25rem;
     @media screen and (max-width: 425px) {
-        min-width: unset;
-        max-width: 80vw;
+        // min-width: unset;
+        min-width: 90vw;
         padding: 1rem 3rem;
     }
     -webkit-border-radius: var(--border-radius-sm);

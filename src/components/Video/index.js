@@ -7,11 +7,12 @@ import { memo, useEffect, useRef, useState } from 'react'
 import { IoPlay } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { ReportIcon, StartIcon, VolumIcon, VolumMuteIcon } from '~/components/Icons'
+import { ReportIcon, StartIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import { updatePost } from '~/firebase'
 import { useVideoPageRoute } from '~/hooks'
 import { toastActions } from '~/redux/toastSlice'
+import VideoControl from '../VideoControl'
 import VideoFooter from '../VideoFooter'
 import styles from './Video.module.scss'
 
@@ -21,20 +22,28 @@ function Video({ post, isCurrentPlaying, className }) {
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const dispath = useDispatch()
     const [start, setStart] = useState(true)
+    const [isShowIconStart, setIsShowIconStart] = useState(false)
     const [doubleClick, setDoubleClick] = useState(false)
     const [loaded, setLoaded] = useState(false)
-    const [muted, setMuted] = useState(false)
     const videoRef = useRef()
     useEffect(() => {
         if (!videoRef.current) return
-        if (isCurrentPlaying && isPageActive && videoRef.current.paused) {
-            setStart(true)
+        if (isCurrentPlaying && isPageActive && videoRef.current.paused && start) {
+            //handle show icon start
+            setIsShowIconStart(true)
+            setTimeout(() => {
+                setIsShowIconStart(false)
+            }, 1000)
             videoRef.current.play()
             return
         }
         videoRef.current.pause()
-        setStart(true)
-    }, [isCurrentPlaying, isPageActive])
+        //handle show icon start
+        setIsShowIconStart(true)
+        setTimeout(() => {
+            setIsShowIconStart(false)
+        }, 1000)
+    }, [isCurrentPlaying, isPageActive, start])
 
     const navigate = useNavigate()
     const handleReport = function (e) {
@@ -46,31 +55,20 @@ function Video({ post, isCurrentPlaying, className }) {
         setLoaded(true)
     }
     const handleStartVideo = function () {
+        //handle double click
         if (doubleClick) {
             updatePost(post.id, { shares: increment(1), played: increment(1) })
             navigate(useVideoPageRoute(post))
             return
         }
-        if (start) {
-            videoRef.current.pause()
-        } else {
-            videoRef.current.play()
-        }
-        setDoubleClick(true)
+        //handle start state
         setStart((prev) => !prev)
+
+        //handle one click
+        setDoubleClick(true)
         setTimeout(() => {
             setDoubleClick(false)
         }, 300)
-    }
-    const handleOnMuteVolum = function (e) {
-        e.stopPropagation()
-        setMuted(true)
-        videoRef.current.muted = true
-    }
-    const handleOnUnMuteVolum = function (e) {
-        e.stopPropagation()
-        setMuted(false)
-        videoRef.current.muted = false
     }
     return (
         <div className={clsx('wrapper', 'd-flex', className)}>
@@ -96,16 +94,16 @@ function Video({ post, isCurrentPlaying, className }) {
                     <ReportIcon />
                     <span>Report</span>
                 </div>
-                <div className={clsx('control-box', 'd-flex')}>
-                    {start ? <StartIcon className={clsx('start-icon')} /> : <IoPlay className={clsx('stop-icon')} />}
-                    <div className={clsx('volum-box')}>
-                        {!muted ? (
-                            <VolumIcon onClick={handleOnMuteVolum} />
-                        ) : (
-                            <VolumMuteIcon onClick={handleOnUnMuteVolum} />
-                        )}
-                    </div>
+
+                <div className={clsx('play-box', 'd-flex')}>
+                    {start ? (
+                        <StartIcon className={clsx('start-icon', { 'start-animated': isShowIconStart })} />
+                    ) : (
+                        <IoPlay className={clsx('stop-icon')} />
+                    )}
                 </div>
+
+                {videoRef?.current && <VideoControl video={videoRef.current} />}
             </div>
             <VideoFooter post={post} className={clsx('video-footer')} />
         </div>

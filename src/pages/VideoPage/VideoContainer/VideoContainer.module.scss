@@ -4,6 +4,10 @@
     width: 90%;
     padding: 0 1rem;
     scroll-snap-align: start;
+    @media only screen and (max-width: 425px) {
+        width: 100%;
+        padding: 0;
+    }
 }
 .video-box {
     position: relative;
@@ -21,9 +25,10 @@
     height: var(--window-height);
     width: 100%;
     // padding: 1rem 0;
-    // @media only screen and (max-width: 768px) {
-    //     padding: 0 2rem;
-    // }
+    @media only screen and (max-width: 425px) {
+        object-fit: cover;
+        height: 85%;
+    }
     // object-fit: cover;
 }
 .actions {
@@ -70,7 +75,7 @@
 }
 .video-sidebar {
     position: absolute;
-    top: 25%;
+    bottom: 15%;
     right: 1rem;
     z-index: 1;
     @media screen and (min-width: 900px) {

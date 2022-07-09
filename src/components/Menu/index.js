@@ -9,6 +9,7 @@ import MenuItem from '~/components/Menu/MenuItem'
 import { PopperWrapper } from '~/components/Popper'
 import { logOut } from '~/firebase'
 import { useProfileRoute } from '~/hooks'
+import { toastActions } from '~/redux/toastSlice'
 import { userActions } from '~/redux/userSlice'
 import { LOG_OUT, VIEW_PROFILE } from '~/staticData'
 import { DownIcon } from '../Icons'
@@ -30,6 +31,7 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
             setMenuList((prev) => [...prev, item.children])
         } else {
             //handle when it doesnt have childrent
+            console.log('run')
             switch (item.type) {
                 case LOG_OUT:
                     logOut(() => {
@@ -47,7 +49,7 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
                     }, 0)
                     break
                 default:
-                    return
+                    dispath(toastActions.addToast({ message: 'This Feature will coming soon', mode: 'success' }))
             }
         }
     }

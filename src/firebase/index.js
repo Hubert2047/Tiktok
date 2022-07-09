@@ -501,10 +501,6 @@ const getCommentCount = async function (postId, callback) {
         q,
         async (querySnapshot) => {
             callback(querySnapshot.size)
-            const comments = querySnapshot.docs.map((doc) => {
-                return { id: doc.id, ...doc.data() }
-            })
-            console.log(comments)
         },
         (err) => {
             throw new Error(err.message)
@@ -534,7 +530,7 @@ const getComments = async function ({ postId, callback, parentId = 'null' }) {
     onSnapshot(
         q,
         async (querySnapshot) => {
-            if (querySnapshot.size < 1) return
+            if (querySnapshot.size < 1) return callback([])
             const comments = []
             const getUserFunc = [] //get all user information then merge  to comments
             querySnapshot.docs.forEach((doc) => {

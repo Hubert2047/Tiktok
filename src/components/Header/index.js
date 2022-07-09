@@ -30,7 +30,6 @@ function Header({ className }) {
     const [notificationCount, setNotificationCount] = useState(0)
     const currentUser = useSelector((state) => state.user.user)
     const theme = useSelector((state) => state.theme.theme)
-    console.log(theme.name)
     const handleShowLoginPopup = function () {
         dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
     }

@@ -53,7 +53,7 @@ function VideoPage() {
                     )
                     return
                 }
-                //try to put search post to the first of list
+                //try to put post search  to the first of list
 
                 const paramPost = data.find((item) => item.id === params.id)
                 if (!paramPost) {

@@ -1,18 +1,35 @@
 import classNames from 'classnames/bind'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
+import Comfirm from '~/components/Comfirm'
 import { XIcon } from '~/components/Icons'
 import Loading from '~/components/Loading'
 import { addUser, isExistUser } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
+import { toastActions } from '~/redux/toastSlice'
 import { userActions } from '~/redux/userSlice'
 import { loginFeatureBtns } from '~/staticData'
 import styles from './LoginPopup.module.scss'
 const clsx = classNames.bind(styles)
 function LoginPopup() {
     const dispath = useDispatch()
-    const handleLogin = async function (handleLoginFeature) {
-        // console.log(handleLoginFeature)
+    const [deviceWidth] = useState(() => {
+        return document.documentElement.clientWidth
+    })
+    const handleLogin = async function (handleLoginFeature, type = '') {
+        //check if do not implement function feature
+        if (typeof handleLoginFeature !== 'function') {
+            dispath(
+                toastActions.addToast({
+                    message: 'This feature will be comming soon. Please login with google or others',
+                    mode: 'success',
+                })
+            )
+            return
+        }
+
+        // running login if already implement function feature
         try {
             dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
 
@@ -37,7 +54,23 @@ function LoginPopup() {
             closePopup()
             dispath(containerPortalActions.setComponent(null))
         } catch (err) {
-            console.log(err)
+            if (type === 'google' && deviceWidth < 425) {
+                dispath(
+                    containerPortalActions.setComponent({
+                        component: (
+                            <Comfirm
+                                question='You are logging with a mobile device. So you have to login to google first and then log back in, or login with others feauture.'
+                                subMitTitle='Ok !'
+                                onSubmit={() => {
+                                    dispath(containerPortalActions.setComponent(null))
+                                }}
+                            />
+                        ),
+                        onClickOutside: true,
+                    })
+                )
+                return
+            }
             closePopup()
             dispath(containerPortalActions.setComponent(null))
         }
@@ -59,14 +92,14 @@ function LoginPopup() {
                         title={loginFeatureBtn.title}
                         icon={loginFeatureBtn.icon}
                         onClick={() => {
-                            handleLogin(loginFeatureBtn.onClick)
+                            handleLogin(loginFeatureBtn.onClick, loginFeatureBtn.type)
                         }}
                     />
                 ))}
             </div>
             <div className={clsx('bottom', 'd-flex')}>
                 <p>Don’t have an account?</p>
-                <Button title='Sign up' color='color-primary' />
+                <Button title='Sign up' className={clsx('sign-up-btn')} />
             </div>
         </div>
     )
