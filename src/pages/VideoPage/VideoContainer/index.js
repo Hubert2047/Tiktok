@@ -119,7 +119,7 @@ function VideoContainer(
                     className={clsx('report-btn')}
                 />
             </div>
-            {videoRef.current && <VideoControl video={videoRef.current} />}
+            {videoRef.current && isPlaying && <VideoControl video={videoRef.current} />}
         </div>
     )
 }

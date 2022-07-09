@@ -27,9 +27,14 @@
     position: absolute;
     left: 2%;
     bottom: 8%;
-    color: var(--white-color);
     gap: 0.5rem;
     align-items: center;
+    & > span {
+        color: var(--white-color);
+    }
+    & > svg {
+        fill: var(--white-color);
+    }
 }
 .title {
     padding: 0.5rem;

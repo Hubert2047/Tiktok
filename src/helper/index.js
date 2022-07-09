@@ -7,6 +7,21 @@ export const windowHeight = function () {
     doc.style.setProperty('--window-height', `${window.innerHeight}px`)
     console.log(window.innerHeight)
 }
+export const formatVideoTime = function (seconds) {
+    if (seconds < 10) return `00:0${seconds}`
+    if (seconds < 60) return `00:${seconds}`
+    const minutes = seconds / 60
+    const minuteMod = seconds % 60
+    if (minutes < 10) {
+        if (minuteMod < 10) return `0${minutes}:0${minuteMod}`
+        else return `0${minutes}:${minuteMod}`
+    }
+    if (minutes > 10) {
+        if (minuteMod < 10) return `${minutes}:0${minuteMod}`
+        else return `${minutes}:${minuteMod}`
+    }
+    return ''
+}
 export const convertTimeStampToDate = function (timeStamp) {
     if (!timeStamp) return
     const timeStampDate = new Date(timeStamp.seconds * 1000)

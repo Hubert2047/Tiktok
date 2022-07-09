@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import { VolumIcon, VolumMuteIcon } from '~/components/Icons'
+import { formatVideoTime } from '~/helper'
 import styles from './VideoControl.module.scss'
 
 const clsx = classNames.bind(styles)
@@ -8,6 +9,8 @@ function VideoControl({ video }) {
     const [progress, setProgress] = useState(0)
     const [paused, setPaused] = useState(false)
     const [muted, setMuted] = useState(video.muted)
+    const [labelText, setLabelText] = useState({ isShow: false, value: '' })
+    const timeOutRef = useRef()
     const getProgress = function () {
         setProgress(Math.round((video.currentTime / video.duration) * 100))
     }
@@ -42,7 +45,7 @@ function VideoControl({ video }) {
     const barRunStyle = {
         width: `${progress + (100 - progress) / 100}%`,
     }
-    const dotsStyle = {
+    const dotStyle = {
         left: `${progress}%`,
         transform: `translate(-${progress}%,-50%)`,
     }
@@ -52,15 +55,36 @@ function VideoControl({ video }) {
         setProgress(_process)
         const currentTime = (_process * video.duration) / 100
         video.currentTime = currentTime
+        setLabelText({ isShow: true, value: formatVideoTime(Math.floor(currentTime)) })
+        if (timeOutRef?.current) clearTimeout(timeOutRef.current)
+        timeOutRef.current = setTimeout(() => {
+            setLabelText((prev) => {
+                return { ...prev, isShow: false }
+            })
+        }, 300)
     }
     return (
         <div className={clsx('wrapper', 'd-flex', { 'wrapper-paused': paused })}>
             <div className={clsx('bar-box', 'flex-center')}>
                 <div className={clsx('bar-container', { 'bar-container-paused': paused })}>
                     <div className={clsx('bar')}></div>
-                    <input type='range' value={progress} onChange={handleOnChange} className={clsx('bar-change')} />
+                    <input
+                        type='range'
+                        value={progress}
+                        onChange={handleOnChange}
+                        max={100}
+                        min={0}
+                        step={1}
+                        className={clsx('bar-change')}
+                    />
                     <div style={barRunStyle} className={clsx('bar-run')}></div>
-                    <div style={dotsStyle} className={clsx('dot', { 'dot-paused': paused })}></div>
+                    <div style={dotStyle} className={clsx('dot', { 'dot-paused': paused })}>
+                        {labelText.isShow && (
+                            <div className={clsx('label', 'flex-center')}>
+                                <span>{labelText.value}</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
             <div className={clsx('volum-box', 'flex-center')}>

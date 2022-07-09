@@ -24,10 +24,13 @@
     scroll-behavior: smooth;
     -webkit-scroll-behavior: smooth;
     background-color: #000;
-    // @media only screen and (max-width: 900px) {
-    //     flex-direction: row;
-    //     scroll-snap-type: x mandatory;
-    // }
+    @media only screen and (max-width: 425px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
     &::-webkit-scrollbar {
         width: 0; //hide
         height: 0;
@@ -56,7 +59,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 999;
+    z-index: 9999;
     display: flex !important;
 }
 

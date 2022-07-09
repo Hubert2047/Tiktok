@@ -32,6 +32,7 @@ function MovieCard({ post, isPlaying, onMovieActive, clientWidth }) {
     }
     const handleMouseLeave = () => {
         clearTimeout(hoverRef.current)
+        setStart(false)
     }
     const handleOnPCClick = () => {
         updatePost(post.id, { shares: increment(1), played: increment(1) })

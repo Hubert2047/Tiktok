@@ -9,9 +9,8 @@
         padding: 0.5rem 0.75rem;
         font-size: 1.25rem;
         flex-grow: 0;
-        color: var(--grey-color-3);
         &:hover {
-            background-color: var(--hover-bg-color);
+            background-color: var(--hover-theme);
         }
     }
 }

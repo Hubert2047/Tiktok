@@ -8,9 +8,15 @@
 }
 .btn {
     font-size: 1.3rem;
+    border: 1px solid var(--border-theme);
+    padding: 0.25rem 0.75rem;
     width: fit-content;
-    color: var(--grey-color-2);
     &:hover {
         text-decoration: underline;
     }
+    border-radius: var(--border-radius-bigest);
+    -webkit-border-radius: var(--border-radius-bigest);
+    -moz-border-radius: var(--border-radius-bigest);
+    -ms-border-radius: var(--border-radius-bigest);
+    -o-border-radius: var(--border-radius-bigest);
 }

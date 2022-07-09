@@ -332,13 +332,7 @@ export function StartIcon({ className, width = '20px', height = '20px' }) {
 
 export function MusicIcon({ className, width = '16px', height = '16px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='rgba(22, 24, 35, 1.0'
-            height={height}
-            viewBox='0 0 48 48'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
@@ -348,13 +342,7 @@ export function MusicIcon({ className, width = '16px', height = '16px' }) {
 }
 export function HagTag({ className, width = '16px', height = '16px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='rgba(22, 24, 35, 1.0'
-            height={height}
-            viewBox='0 0 48 48'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
