@@ -5,6 +5,8 @@ import Button from '~/components/Button'
 import { ChangeIcon, XIcon } from '~/components/Icons'
 import Image from '~/components/Image'
 import { updateUser, uploadFile } from '~/firebase'
+import { windowHeight } from '~/helper'
+import useOverflow from '~/hooks/useOverflow'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
 import { alertConstain } from '~/staticData'
@@ -35,10 +37,12 @@ function EditProfile() {
         )
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
+    useOverflow()
     useEffect(() => {
-        document.body.style.overflow = 'hidden'
+        windowHeight()
+        window.addEventListener('resize', windowHeight)
         return () => {
-            document.body.style.overflow = 'auto'
+            window.removeEventListener('resize', windowHeight)
         }
     }, [])
     const handleOnChange = function (e) {

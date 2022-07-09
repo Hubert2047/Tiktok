@@ -2,6 +2,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { handlePostLike, updateFollowing } from '~/firebase'
 import { notification } from '~/staticData'
 /* eslint-disable react-hooks/rules-of-hooks */
+export const windowHeight = function () {
+    const doc = document.documentElement
+    doc.style.setProperty('--window-height', `${window.innerHeight}px`)
+    console.log(window.innerHeight)
+}
 export const convertTimeStampToDate = function (timeStamp) {
     if (!timeStamp) return
     const timeStampDate = new Date(timeStamp.seconds * 1000)

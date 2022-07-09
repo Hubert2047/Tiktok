@@ -49,6 +49,7 @@ function VideoContainer(
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
     useEffect(() => {
         if (!videoRef.current) return
         if (isPlaying && start) {

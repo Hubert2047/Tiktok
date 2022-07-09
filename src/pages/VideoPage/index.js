@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 import Loading from '~/components/Loading'
 import { LoginPopup } from '~/components/Popper'
 import { getCommentCount, getUserPosts } from '~/firebase'
-import { handleFollowingUser, handleLikePost } from '~/helper'
+import { handleFollowingUser, handleLikePost, windowHeight } from '~/helper'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { homeActions } from '~/redux/homeSlice'
 import VideoContainer from './VideoContainer'
@@ -119,6 +119,13 @@ function VideoPage() {
             })
         })
     }
+    useEffect(() => {
+        windowHeight()
+        window.addEventListener('resize', windowHeight)
+        return () => {
+            window.removeEventListener('resize', windowHeight)
+        }
+    }, [])
     const handleWatchComment = function (e) {
         e.stopPropagation()
         videoContainerRef?.current?.handleStartVideo(false)

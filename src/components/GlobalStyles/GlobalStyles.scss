@@ -71,7 +71,7 @@
     --app-footer-height: 4.5rem;
     //font-family
     --font-family: 'Proxima, sans-serif';
-
+    --window-height: 100vh;
     //box-shadow
     --box-shadow-sm-round: 0px 0px 2px rgb(0 0 0 / 12%);
     --box-shadow-sm: 0px 1px 1px rgb(0 0 0 / 12%);
@@ -100,7 +100,7 @@ html {
     //make snap can work
     height: 100%;
     scroll-snap-type: y mandatory;
-    overflow: overlay; //scrollbar overlay
+    // overflow: overlay; //scrollbar overlay
 }
 body {
     // font-family: 'IBM Plex Sans', sans-serif;

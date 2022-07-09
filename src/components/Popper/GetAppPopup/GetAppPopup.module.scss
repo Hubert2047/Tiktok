@@ -59,6 +59,7 @@
     justify-content: flex-start;
     padding: 0.75rem 2.5rem;
     border-radius: var(--border-radius-sm);
-    background-color: #0a0b09;
-    color: var(--white-color);
+    border: 1px solid var(--border-theme);
+    background-color: var(--bg-theme);
+    color: var(--text-theme);
 }

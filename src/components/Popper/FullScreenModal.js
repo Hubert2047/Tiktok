@@ -1,15 +1,11 @@
 import classNames from 'classnames/bind'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import { useOverflow } from '~/hooks'
 import styles from './Popper.module.scss'
 const clsx = classNames.bind(styles)
 function FullScreenModal({ children, className, handleShowPopup }) {
     const divRef = useRef(null)
-    useEffect(() => {
-        document.body.style.overflow = 'hidden'
-        return () => {
-            document.body.style.overflow = 'auto'
-        }
-    }, [])
+    useOverflow()
     const handleOnclick = (e) => {
         if (divRef.current === e.target) handleShowPopup(false)
     }

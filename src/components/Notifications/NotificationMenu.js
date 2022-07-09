@@ -1,6 +1,7 @@
 import className from 'classnames/bind'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { notification as _notification } from '~/staticData'
+import useOverflow from '../../hooks/useOverflow'
 import Button from '../Button'
 import NotificationBlank from './NotificationBlank'
 import NotificationItem from './NotificationItem'
@@ -8,12 +9,7 @@ import styles from './Notifications.module.scss'
 const clsx = className.bind(styles)
 
 function NotificationMenu({ currentNotificationGroup, itemActive, handleOnClickItem, currentUser }) {
-    useEffect(() => {
-        document.body.style.overflow = 'hidden'
-        return () => {
-            document.body.style.overflow = 'visible'
-        }
-    })
+    useOverflow()
     return (
         <div className={clsx('notification-menu')}>
             <div className={clsx('container')} tabIndex='-1'>

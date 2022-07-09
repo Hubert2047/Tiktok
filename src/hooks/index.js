@@ -1,6 +1,7 @@
 export { default as useDebounce } from './useDebounce'
 export { default as useFullScreenContainer } from './useFullScreenContainer'
 export { default as useMessageRoute } from './useMessageRoute'
+export { default as useOverflow } from './useOverflow'
 export { default as usePortalContainer } from './usePortalContainer'
 export { default as useProfileRoute } from './useProfileRoute'
 export { default as useToastAutoClose } from './useToastAutoClose'

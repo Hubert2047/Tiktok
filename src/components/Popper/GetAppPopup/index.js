@@ -7,11 +7,14 @@ import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
 import { XIcon } from '~/components/Icons'
 import Image from '~/components/Image'
+import { useOverflow } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
 import styles from './GetAppPopup.module.scss'
 const clsx = classNames.bind(styles)
 function GetAppPopup({ className }) {
     const dispath = useDispatch()
+    //when show this component we stop body scrolling
+    useOverflow()
     return (
         <div className={clsx('wrapper', `${className}`)}>
             <div className={clsx('header', 'd-flex')}>

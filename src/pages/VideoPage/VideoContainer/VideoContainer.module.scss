@@ -4,19 +4,12 @@
     width: 90%;
     padding: 0 1rem;
     scroll-snap-align: start;
-    @media only screen and (max-width: 900px) {
-        display: flex;
-        min-width: 100vw;
-        justify-content: center;
-        margin: 0 auto;
-        width: 100vw;
-    }
 }
 .video-box {
     position: relative;
     width: 100%;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+    height: 100vh;
+    height: var(--window-height);
     margin: 0 auto;
     @media only screen and (max-width: 425px) {
         height: 100%;
@@ -25,6 +18,7 @@
 .video {
     position: relative;
     height: 100vh;
+    height: var(--window-height);
     width: 100%;
     // padding: 1rem 0;
     // @media only screen and (max-width: 768px) {
@@ -113,6 +107,11 @@
     -moz-border-radius: var(--border-radius-bigest);
     -ms-border-radius: var(--border-radius-bigest);
     -o-border-radius: var(--border-radius-bigest);
+    & > span,
+    svg {
+        color: var(--white-color);
+        fill: var(--white-color);
+    }
 }
 .close-btn,
 .report-btn,
