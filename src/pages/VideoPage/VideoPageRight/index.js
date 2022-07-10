@@ -88,7 +88,7 @@ function VideoPageRight({
                 placement={placement}
                 interactive={true}
                 render={(attrs) => (
-                    <div className={clsx('action-options', 'd-flex')} tabIndex='-1' {...attrs}>
+                    <div className={clsx('action-options', 'd-flex')} {...attrs}>
                         <Button to='.' title='Private Setting' color='color-white' className={clsx('option-btn')} />
                         <Button
                             to='.'

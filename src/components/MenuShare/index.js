@@ -16,7 +16,7 @@ function MenuShare({ menu = [], hideOnClick = false, placement = 'bottom-start',
 
     const renderMenuContainer = function () {
         return (
-            <div className={clsx('menu-list')} tabIndex='-1'>
+            <div className={clsx('menu-list')}>
                 <PopperWrapper className={clsx('menu-container')}>
                     <div className={clsx('menu-body')}>
                         {menu[0]?.data?.map((item, index) => {

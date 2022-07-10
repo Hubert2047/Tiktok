@@ -9,8 +9,7 @@
     align-items: center;
     width: 100%;
     overflow: hidden;
-    // background-color: var(--grey-color);
-    background-color: var(--text-theme);
+    background-color: var(--grey-color);
     -webkit-border-radius: var(--border-radius-sm);
     -moz-border-radius: var(--border-radius-sm);
     -ms-border-radius: var(--border-radius-sm);
@@ -28,4 +27,7 @@
 .input-btn {
     fill: var(--primary-color);
     cursor: pointer;
+}
+.smile-icon {
+    fill: var(--icon-theme);
 }

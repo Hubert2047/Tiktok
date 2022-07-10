@@ -48,7 +48,6 @@ function Input({ placeholder = '', onSubmit, currentUser, currentChat }) {
     return (
         <div
             ref={divRef}
-            tabindex={0}
             suppressContentEditableWarning={true}
             contentEditable={true}
             onKeyUp={handleOnKeyUp}

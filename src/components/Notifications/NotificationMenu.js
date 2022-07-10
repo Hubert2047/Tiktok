@@ -12,7 +12,7 @@ function NotificationMenu({ currentNotificationGroup, itemActive, handleOnClickI
     useOverflow()
     return (
         <div className={clsx('notification-menu')}>
-            <div className={clsx('container')} tabIndex='-1'>
+            <div className={clsx('container')}>
                 <div className={clsx('header')}>Notifications</div>
                 <div className={clsx('group-container', 'd-flex')}>
                     {_notification.GROUP_ITEMS.map((item) => (

@@ -46,6 +46,7 @@
     padding: 0.5rem 1.2rem;
     max-width: 360px;
     border: 1px solid rgba(22, 24, 35, 0.12);
+    color: var(--black-color);
     background-color: var(--grey-color);
     white-space: pre-wrap;
     word-break: break-word;
@@ -63,7 +64,8 @@
     // gap: 0.5rem;
     padding: 0.75rem;
     color: var(--white-color);
-    background-color: rgba(84, 84, 84, 0.92);
+    border: 1px solid var(--border-theme);
+    background-color: var(--bg-theme);
     -webkit-border-radius: var(--border-radius-md);
     -moz-border-radius: var(--border-radius-md);
     -ms-border-radius: var(--border-radius-md);
@@ -76,7 +78,9 @@
     padding: 0.5rem 1.5rem;
     &:hover {
         background-color: var(--grey-color);
-        color: var(--black-color);
+        & > span {
+            color: var(--black-color);
+        }
     }
 }
 .conversation-btn-box {
@@ -89,7 +93,7 @@
     transition: all 0.3s;
 }
 .conversation-btn {
-    fill: var(--grey-color-2);
+    fill: var(--icon-theme);
     cursor: pointer;
 }
 .unsend-msg {

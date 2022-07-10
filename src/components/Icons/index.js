@@ -761,13 +761,7 @@ export function TwitterIcon({ className, width = '24px', height = '24px' }) {
 
 export function SmileIcon({ className, width = '24px', height = '24px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='currentColor'
-            height={height}
-            viewBox='0 0 48 48'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'

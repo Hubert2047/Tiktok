@@ -39,7 +39,7 @@ function ProfileContainer({ user, children, placement }) {
     }
     const renderProfileContainer = function () {
         return (
-            <div className={clsx('wrapper', 'd-flex')} tabIndex='-1'>
+            <div className={clsx('wrapper', 'd-flex')}>
                 <div className={clsx('header', 'd-flex')}>
                     <UserAvatar height={'5.5rem'} user={user} className={clsx('avatar')} showLive />
                     {currentUser.uid !== user?.uid && (

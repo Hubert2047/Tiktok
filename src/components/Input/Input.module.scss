@@ -7,7 +7,7 @@
     padding-left: 1rem;
     color: var(--black-color);
     caret-color: var(--primary-color);
-    background-color: var(--text-theme);
+    background-color: var(--grey-color);
     &:empty::before {
         content: attr(data-placeholder);
         color: var(--grey-color-2);

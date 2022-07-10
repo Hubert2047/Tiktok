@@ -39,7 +39,7 @@ function MessageInput({ currentChat, currentUser }) {
                     currentChat={currentChat}
                     currentUser={currentUser}
                 />
-                <SmileIcon />
+                <SmileIcon className={clsx('smile-icon')} />
             </div>
             {inputValue?.length > 0 && (
                 <div onClick={handleOnSubmit} className={clsx('flex-center')}>
