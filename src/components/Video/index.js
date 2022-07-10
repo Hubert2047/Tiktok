@@ -102,7 +102,7 @@ function Video({ post, isCurrentPlaying, className }) {
                     )}
                 </div>
 
-                {videoRef?.current && <VideoControl video={videoRef.current} />}
+                {videoRef?.current && isCurrentPlaying && <VideoControl video={videoRef.current} />}
             </div>
             <VideoFooter post={post} className={clsx('video-footer')} />
         </div>

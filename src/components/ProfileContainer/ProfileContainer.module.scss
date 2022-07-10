@@ -33,3 +33,8 @@
     font-size: 1.75rem;
     font-weight: 600;
 }
+.unFollowing-btn {
+    & > span {
+        color: var(--white-color);
+    }
+}

@@ -34,10 +34,21 @@ function Sidebar({ className }) {
         }
         const getSunggestFollowingData = async function () {
             if (seeText === 'See less') {
-                const data = await getSuggestFollowing(currentUser, 10)
+                let data = await getSuggestFollowing(currentUser, 20)
+                if (currentUser?.uid) {
+                    data = data.filter((item) => {
+                        return !currentUser.following.includes(item.uid) && currentUser.uid !== item.uid
+                    })
+                    console.log(data)
+                }
                 setSuggestFollowingData((prev) => [...prev, data])
             } else {
-                const data = await getSuggestFollowing(currentUser, 5)
+                let data = await getSuggestFollowing(currentUser, 10)
+                if (currentUser?.uid) {
+                    data = data.filter((item) => {
+                        return !currentUser.following.includes(item.uid) && currentUser.uid !== item.uid
+                    })
+                }
                 setSuggestFollowingData([data])
             }
         }

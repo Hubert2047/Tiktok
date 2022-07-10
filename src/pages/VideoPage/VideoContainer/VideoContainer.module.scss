@@ -4,6 +4,7 @@
     width: 90%;
     padding: 0 1rem;
     scroll-snap-align: start;
+    // cursor: pointer;
     @media only screen and (max-width: 425px) {
         width: 100%;
         padding: 0;
@@ -35,6 +36,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    cursor: pointer;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
@@ -143,4 +145,50 @@
         position: relative;
         margin-left: 2.5rem;
     }
+}
+
+.switch-control {
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    flex-direction: column;
+    gap: 2rem;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+
+    @media screen and (max-width: 900px) {
+        display: none !important;
+    }
+}
+.switch-icon-box {
+    width: 4rem;
+    height: 4rem;
+    background-color: rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.next-icon,
+.prev-icon {
+    fill: var(--white-color);
+}
+.next-icon {
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+}
+.prev-icon {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
 }

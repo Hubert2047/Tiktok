@@ -8,7 +8,7 @@ function EffectApp() {
     const dispath = useDispatch()
     const [loaded, portalId] = usePortalContainer('position:fixed;top:0;left:0;')
     const theme = useSelector((state) => state.theme.theme)
-    console.log(theme.name)
+    // console.log(theme.name)
     useEffect(() => {
         theme?.styles?.forEach((style) => {
             document.documentElement.style.setProperty(style.property, style.value)

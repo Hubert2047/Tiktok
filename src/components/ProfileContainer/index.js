@@ -41,20 +41,38 @@ function ProfileContainer({ user, children, placement }) {
         return (
             <div className={clsx('wrapper', 'd-flex')}>
                 <div className={clsx('header', 'd-flex')}>
-                    <UserAvatar height={'5.5rem'} user={user} className={clsx('avatar')} showLive />
+                    <UserAvatar
+                        height={'5.5rem'}
+                        user={user}
+                        className={clsx('avatar')}
+                        showLive
+                        onClick={handleNavigate}
+                    />
                     {currentUser.uid !== user?.uid && (
-                        <Button
-                            onClick={handleFollowing}
-                            title={isFollowing ? 'Following' : 'Follow'}
-                            border={isFollowing ? 'border-grey' : 'border-primary'}
-                            color={isFollowing ? 'color-grey' : 'color-white'}
-                            size='size-md'
-                            bg={isFollowing ? '' : 'bg-primary'}
-                            className={clsx('btn')}
-                        />
+                        <Fragment>
+                            {isFollowing ? (
+                                <Button
+                                    onClick={handleFollowing}
+                                    title={'Following'}
+                                    border={'border-grey'}
+                                    color={'color-grey'}
+                                    size='size-md'
+                                    className={clsx('btn')}
+                                />
+                            ) : (
+                                <Button
+                                    onClick={handleFollowing}
+                                    title={'Follow'}
+                                    color={'color-white'}
+                                    size='size-md'
+                                    bg={'bg-primary'}
+                                    className={clsx('btn', 'unFollowing-btn')}
+                                />
+                            )}
+                        </Fragment>
                     )}
                 </div>
-                <UserName user={user} />
+                <UserName user={user} onClick={handleNavigate} />
                 <div className={clsx('footer', 'd-flex')}>
                     <div className={clsx('box', 'd-flex')}>
                         <span className={clsx('count-text')}>{formatCountNumber(user?.followers)}</span>

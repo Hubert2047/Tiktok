@@ -25,6 +25,7 @@ function VideoPage() {
     const [posts, setPosts] = useState({})
     const [currentPlayVideoId, setcurrentPlayVideoId] = useState(params.id)
     const [commentCount, setCommentCount] = useState(0)
+    const [postLenght, setPostLenght] = useState()
     const [showCommentBox, setShowCommentBox] = useState(false)
     const videoContainerRef = useRef()
     const scrollCommentRef = useRef()
@@ -40,7 +41,11 @@ function VideoPage() {
         return currentUser?.following?.includes(currentPlayVideo?.postUser?.uid)
     }, [currentUser])
     const isLikedPost = useMemo(() => currentUser?.likes?.includes(currentPlayVideo?.id), [currentUser])
-
+    useEffect(() => {
+        if (posts?.length > 0) {
+            setPostLenght(posts.length)
+        }
+    }, [posts])
     useEffect(() => {
         const getPosts = async function () {
             //open loading
@@ -120,6 +125,7 @@ function VideoPage() {
             })
         })
     }
+    //handle 100view height in mobile
     useEffect(() => {
         windowHeight()
         window.addEventListener('resize', windowHeight)
@@ -135,26 +141,42 @@ function VideoPage() {
     const handleOnObserver = function (videoId) {
         setcurrentPlayVideoId(videoId)
     }
+    const handleChangeVideoOnIndex = function (e, index, type) {
+        //handle next
+        e.stopPropagation()
+        if (type === 'next') {
+            if (index < postLenght - 1) setcurrentPlayVideoId(posts[index + 1].id)
+            return
+        }
+        //handle prev
+        if (type === 'prev') {
+            if (index !== 0) setcurrentPlayVideoId(posts[index - 1].id)
+            return
+        }
+    }
 
     return (
         <div ref={videoPageRef}>
             {posts?.length > 0 && (
                 <div className={clsx('wrapper')}>
                     <div className={clsx('list-video', 'd-flex')}>
-                        {posts?.map((post) => {
+                        {posts?.map((post, index) => {
                             return (
                                 <VideoContainer
                                     key={post.id}
-                                    scrollCommentRef={scrollCommentRef}
+                                    ref={post?.id === currentPlayVideo?.id ? videoContainerRef : null}
                                     post={post}
-                                    ref={videoContainerRef}
-                                    isPlaying={post?.id === currentPlayVideo?.id && isPageActive}
-                                    onObserver={handleOnObserver}
+                                    index={index}
                                     handleWatchComment={handleWatchComment}
+                                    handleChangeVideoOnIndex={handleChangeVideoOnIndex}
+                                    isCurrentVideoPlaying={post?.id === currentPlayVideo?.id && isPageActive}
+                                    onObserver={handleOnObserver}
                                     currentPlayVideo={currentPlayVideo}
+                                    postLenght={postLenght}
                                     commentCount={commentCount}
                                     handleLikePostAction={handleLikePostAction}
                                     isLikedPost={isLikedPost}
+                                    scrollCommentRef={scrollCommentRef}
                                     setPosts={setPosts}
                                     className={clsx('video')}
                                 />

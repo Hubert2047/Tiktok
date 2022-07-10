@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Tippy from '@tippyjs/react/headless'
 import classNames from 'classnames/bind'
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -37,7 +37,7 @@ function VideoPageRight({
     currentUser,
     isFollowing,
     handleLikePostAction,
-    handleStartVideo = () => {},
+    handleStartVideo,
     handleFollowing,
     isLikedPost,
     commentCount,
@@ -111,7 +111,6 @@ function VideoPageRight({
     const handleWatchVideo = function () {
         handleStartVideo(true)
         setShowCommentBox(false)
-        // console.log('run')
     }
     return (
         <div className={clsx('right-container', 'd-flex', className)}>

@@ -257,15 +257,11 @@ const updateUserLikes = async function (uid, updateLike) {
 }
 
 //sidebar
-const getSuggestFollowing = async function (currentUser, limitValue = 5) {
+const getSuggestFollowing = async function (currentUser, limitValue = 10) {
     let q
     // console.log('current', currentUser)
     if (currentUser?.uid) {
-        q = query(
-            collection(db, 'users'),
-            where('uid', 'not-in', [...(currentUser?.following || []), currentUser.uid].slice(0, 10) || []),
-            limit(limitValue)
-        )
+        q = query(collection(db, 'users'), limit(limitValue))
     } else {
         q = query(collection(db, 'users'), limit(limitValue))
     }

@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind'
-import React, { forwardRef, memo, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, memo, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { IoPlay } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
 import Button from '~/components/Button'
-import { ReportIcon, StartIcon, XIcon } from '~/components/Icons'
+import { NextIcon, PrevIcon, ReportIcon, StartIcon, XIcon } from '~/components/Icons'
 import VideoControl from '~/components/VideoControl'
 import MobileSidebar from '~/mobile/components/MobileSidebar'
 import Spiner from '~/mobile/components/MobileVideoFooter/Spiner/Spiner'
@@ -13,16 +13,23 @@ const clsx = classNames.bind(styles)
 let time
 function VideoContainer(
     {
+        //video use
         post,
-        isPlaying,
+        index,
+        handleChangeVideoOnIndex,
+        isCurrentVideoPlaying,
         onObserver,
-        className,
         handleWatchComment,
-        currentPlayVideo,
+        postLenght,
+
+        //mobile sidebar and spiner use
         commentCount,
         isLikedPost,
+        currentPlayVideo,
         setPosts,
         handleLikePostAction,
+
+        className,
     },
     ref
 ) {
@@ -49,8 +56,7 @@ function VideoContainer(
                     // console.log('intersecting', post.id)
                     time = setTimeout(() => {
                         // console.log('setime out run')
-                        setStart(true)
-                        onObserver(post.id)
+                        onObserver(post.id, index)
                     }, 100) //wait 800 then dispath
                 }
             },
@@ -64,22 +70,29 @@ function VideoContainer(
 
     useEffect(() => {
         if (!videoRef.current) return
-        if (isPlaying && start) {
-            videoRef.current.play()
+        if (isCurrentVideoPlaying) {
             setStart(true)
+            videoRef.current.play()
+            videoRef.current.scrollIntoView({ behavior: 'smooth' })
+        } else {
+            setStart(false)
+            videoRef.current.pause()
+        }
+    }, [isCurrentVideoPlaying])
+    const handleOnLoadedData = function (e) {
+        if (!videoRef.current) videoRef.current.pause()
+    }
+    const handleStartVideo = function (startVideo) {
+        if (startVideo) {
+            //handle show start btn
             setShowStartBtn(true)
             setTimeout(() => {
                 setShowStartBtn(false)
             }, 1000)
+            videoRef.current.play()
         } else {
             videoRef.current.pause()
-            setStart(false)
         }
-    }, [isPlaying, start])
-    const handleOnLoadedData = function () {
-        if (!videoRef.current) videoRef.current.pause()
-    }
-    const handleStartVideo = function (startVideo) {
         setStart(startVideo)
     }
 
@@ -115,7 +128,11 @@ function VideoContainer(
                         commentCount={commentCount}
                         handleWatchComment={handleWatchComment}
                     />
-                    <Spiner isPlaying={start} post={{ ...post, user: post.postUser }} className={clsx('spiner')} />
+                    <Spiner
+                        isCurrentVideoPlaying={start}
+                        post={{ ...post, user: post.postUser }}
+                        className={clsx('spiner')}
+                    />
                 </div>
             </div>
             <div className={clsx('top-box', 'd-flex')}>
@@ -133,7 +150,27 @@ function VideoContainer(
                     className={clsx('report-btn')}
                 />
             </div>
-            {videoRef.current && isPlaying && <VideoControl video={videoRef.current} />}
+            <div className={clsx('switch-control', 'd-flex')}>
+                {index !== 0 && (
+                    <div
+                        onClick={(e) => {
+                            handleChangeVideoOnIndex(e, index, 'prev')
+                        }}
+                        className={clsx('switch-icon-box', 'flex-center')}>
+                        <NextIcon className={clsx('next-icon')} />
+                    </div>
+                )}
+                {index < postLenght - 1 && (
+                    <div
+                        onClick={(e) => {
+                            handleChangeVideoOnIndex(e, index, 'next')
+                        }}
+                        className={clsx('switch-icon-box', 'flex-center')}>
+                        <PrevIcon className={clsx('prev-icon')} />
+                    </div>
+                )}
+            </div>
+            {videoRef.current && isCurrentVideoPlaying && <VideoControl video={videoRef.current} />}
         </div>
     )
 }
