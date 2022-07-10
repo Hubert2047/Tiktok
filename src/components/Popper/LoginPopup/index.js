@@ -22,7 +22,8 @@ function LoginPopup() {
         if (typeof handleLoginFeature !== 'function') {
             dispath(
                 toastActions.addToast({
-                    message: 'This feature will be comming soon. Please login with google or others',
+                    message:
+                        'This feature will be comming soon. Please login with google or take a look with admin account',
                     mode: 'success',
                 })
             )
@@ -59,7 +60,7 @@ function LoginPopup() {
                     containerPortalActions.setComponent({
                         component: (
                             <Comfirm
-                                question='You are logging with a mobile device. So you have to login to google first and then log back in, or login with others feauture.'
+                                question='Look like You are logging with a mobile device. So you have to login to google first and then log back in, or login with others feauture.'
                                 subMitTitle='Ok !'
                                 onSubmit={() => {
                                     dispath(containerPortalActions.setComponent(null))

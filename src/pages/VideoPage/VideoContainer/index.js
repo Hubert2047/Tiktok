@@ -12,7 +12,18 @@ import styles from './VideoContainer.module.scss'
 const clsx = classNames.bind(styles)
 let time
 function VideoContainer(
-    { post, isPlaying, onObserver, className, handleWatchComment, currentPlayVideo, commentCount },
+    {
+        post,
+        isPlaying,
+        onObserver,
+        className,
+        handleWatchComment,
+        currentPlayVideo,
+        commentCount,
+        isLikedPost,
+        setPosts,
+        handleLikePostAction,
+    },
     ref
 ) {
     const dispath = useDispatch()
@@ -98,6 +109,9 @@ function VideoContainer(
                 <div className={clsx('video-sidebar')}>
                     <MobileSidebar
                         post={currentPlayVideo}
+                        isLikedPost={isLikedPost}
+                        handleLikePostAction={handleLikePostAction}
+                        setPosts={setPosts}
                         commentCount={commentCount}
                         handleWatchComment={handleWatchComment}
                     />

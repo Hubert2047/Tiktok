@@ -31,6 +31,7 @@
     }
 }
 .content-box {
+    font-size: 1.4rem;
     flex-direction: column;
     justify-content: flex-start;
     max-width: 100%;
@@ -50,7 +51,6 @@
 }
 .content {
     flex-direction: column;
-    // min-height: 70vh;
 }
 .header {
     flex-direction: column;
@@ -59,8 +59,6 @@
 }
 .name {
     font-size: 1.75rem;
-}
-.desc {
 }
 .show-less {
     white-space: nowrap;

@@ -64,9 +64,9 @@ function Search({ className, resultClass }) {
     }
     return (
         <HeadlessTippy
-            content='auto'
+            // content='auto'
             appendTo={() => document.body}
-            placement={'auto-start'}
+            placement={'bottom-start'}
             visible={isShowSearchResult && searchResult?.length > 0}
             interactive={true}
             render={(attrs) => (

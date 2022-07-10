@@ -9,35 +9,35 @@ function NotificationBlank({ currentGroup }) {
     switch (currentGroup) {
         case _notification.constain.LIKES:
             currentComp = {
-                icon: <LikeIcon />,
+                icon: <LikeIcon className={clsx('blank-icon')} />,
                 title: 'Like on your videos',
                 desc: 'When someone likes one of your videos, you will see it here',
             }
             break
         case _notification.constain.COMMENTS:
             currentComp = {
-                icon: <NotificationCommentIcon />,
+                icon: <NotificationCommentIcon className={clsx('blank-icon')} />,
                 title: 'Comments on your videos',
                 desc: 'When someone comments on one of your videos, you will see it here',
             }
             break
         case _notification.constain.MENTIONS:
             currentComp = {
-                icon: <MentionIcon />,
+                icon: <MentionIcon className={clsx('blank-icon')} />,
                 title: 'Mentions of you',
                 desc: 'When someone mentions on you, you will see in here',
             }
             break
         case _notification.constain.FOLLOWERS:
             currentComp = {
-                icon: <NotificationFollowerIcon />,
+                icon: <NotificationFollowerIcon className={clsx('blank-icon')} />,
                 title: 'New followers',
                 desc: 'When someone new follows you, you will see it here',
             }
             break
         default:
             currentComp = {
-                icon: <NotificationFollowerIcon />,
+                icon: <NotificationFollowerIcon className={clsx('blank-icon')} />,
                 title: 'All active',
                 desc: 'Notifications about your account will appear here.',
             }

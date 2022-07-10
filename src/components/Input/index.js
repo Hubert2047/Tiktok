@@ -32,6 +32,11 @@ function Input({ placeholder = '', onSubmit, currentUser, currentChat }) {
             console.log(error)
         }
     }
+    useEffect(() => {
+        if (divRef.current) {
+            divRef.current.focus()
+        }
+    }, [currentChat])
     const handleOnblur = function (e) {
         if (!currentChat.id) return
         try {
@@ -43,6 +48,7 @@ function Input({ placeholder = '', onSubmit, currentUser, currentChat }) {
     return (
         <div
             ref={divRef}
+            tabindex={0}
             suppressContentEditableWarning={true}
             contentEditable={true}
             onKeyUp={handleOnKeyUp}

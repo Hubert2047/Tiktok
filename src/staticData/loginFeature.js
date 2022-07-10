@@ -10,7 +10,7 @@ import {
     TalkIcon,
     TwitterIcon,
 } from '~/components/Icons'
-import { loginWithGoogle } from '~/firebase'
+import { getAdminInfor, loginWithGoogle } from '~/firebase'
 const quickLogin = function () {
     const clientId = 'giO0CmLkFvxUqN_h7ctKT39ewlvVzH1XnoLSZAbkuhA'
     const endpoint = `https://api.unsplash.com/photos/random/?client_id=${clientId}`
@@ -30,7 +30,12 @@ const quickLogin = function () {
             return user
         })
 }
+const handleTakeALookLogin = async function () {
+    const adminInfor = await getAdminInfor()
+    return adminInfor
+}
 export const loginFeatureBtns = [
+    { id: 10, title: 'Take a look with admin account', icon: <ProfileIcon />, onClick: handleTakeALookLogin },
     {
         id: 0,
         title: 'Quick Login',

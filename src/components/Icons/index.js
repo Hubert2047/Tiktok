@@ -623,13 +623,7 @@ export function MobileAddIcon({ className, width = '15px', height = '15px' }) {
 
 export function ReportIcon({ className, width = '16px', height = '14px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='currentColor'
-            height={height}
-            viewBox='0 0 48 48'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
@@ -968,13 +962,7 @@ export function MentionIcon({ className, width = '72px', height = '72px' }) {
 
 export function NotificationCommentIcon({ className, width = '70px', height = '70px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='rgba(22, 24, 35, 0.34)'
-            height={height}
-            viewBox='0 0 72 72'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
@@ -1023,13 +1011,7 @@ export function NotificationActiveIcon({ className, width = '70px', height = '70
 }
 export function LikeIcon({ className, width = '70px', height = '70px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='rgba(22, 24, 35, 0.34)'
-            height={height}
-            viewBox='0 0 72 72'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
@@ -1180,13 +1162,7 @@ export function LockIcon({ className, width = '16px', height = '16px' }) {
 
 export function PlayIcon({ className, width = '18px', height = '18px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='currentColor'
-            height={height}
-            viewBox='0 0 48 48'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'
@@ -1401,13 +1377,7 @@ export function LineIcon({ className, width = '1em', height = '1em' }) {
 
 export function DeleteIcon({ className, width = '24px', height = '24px' }) {
     return (
-        <svg
-            className={className}
-            width={width}
-            fill='currentColor'
-            height={height}
-            viewBox='0 0 48 48'
-            xmlns='http://www.w3.org/2000/svg'>
+        <svg className={className} width={width} height={height} viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
             <path
                 fillRule='evenodd'
                 clipRule='evenodd'

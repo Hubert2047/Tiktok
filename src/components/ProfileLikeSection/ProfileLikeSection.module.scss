@@ -9,4 +9,8 @@
         margin-top: 2rem;
         margin-bottom: 0.5rem;
     }
+    & > svg {
+        margin-top: 1rem;
+        fill: var(--icon-theme);
+    }
 }

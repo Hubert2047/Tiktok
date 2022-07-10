@@ -99,7 +99,8 @@ function VideoPage() {
             console.log(error)
         }
     }
-    const handleLikePostAction = async function () {
+    const handleLikePostAction = async function (e) {
+        e.stopPropagation()
         const result = await handleLikePost(currentUser, currentPlayVideo, isLikedPost)
         if (result?.showLogin) {
             dispath(containerPortalActions.setComponent({ component: <LoginPopup />, onClickOutside: true }))
@@ -152,6 +153,9 @@ function VideoPage() {
                                     handleWatchComment={handleWatchComment}
                                     currentPlayVideo={currentPlayVideo}
                                     commentCount={commentCount}
+                                    handleLikePostAction={handleLikePostAction}
+                                    isLikedPost={isLikedPost}
+                                    setPosts={setPosts}
                                     className={clsx('video')}
                                 />
                             )

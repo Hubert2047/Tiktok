@@ -85,13 +85,12 @@ function Video({ post, isCurrentPlaying, className }) {
                     autoPlay={true}
                     onLoadedData={handleOnloadedData}
                     // muted='muted'
-                    // controlsList='nofullscreen'
                     className={clsx('video')}
                     loop
                     src={post.video}></video>
 
                 <div onClick={handleReport} className={clsx('report-box')}>
-                    <ReportIcon />
+                    <ReportIcon className={clsx('report-icon')} />
                     <span>Report</span>
                 </div>
 

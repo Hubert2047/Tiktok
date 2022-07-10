@@ -27,7 +27,7 @@ function ToastPortal({ className, autoClose = true, autoCloseTime = 2000 }, ref)
     // }, [])
     const toasts = useSelector((state) => state.toast.toasts)
     const [loaded, portalId] = usePortalContainer(
-        'position:fixed;top:1%;right:50%;z-index:9999; transform:translateX(50%);'
+        'position:fixed;top:1%;right:50%;z-index:9999999; transform:translateX(50%);'
     )
     // useImperativeHandle(ref, () => ({
     //     addToast(toast) {

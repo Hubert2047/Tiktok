@@ -5,6 +5,7 @@
     word-wrap: break-word;
     word-break: break-all;
     padding-left: 1rem;
+    color: var(--black-color);
     caret-color: var(--primary-color);
     background-color: var(--text-theme);
     &:empty::before {

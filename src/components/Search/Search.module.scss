@@ -77,10 +77,10 @@
 }
 .search-result {
     width: var(--default-search-width);
-    max-height: min((100vh - 96px) - 60px, 734px);
+    // max-height: min((100vh - 96px) - 60px, 734px);
     background-color: var(--bg-theme-2);
     box-shadow: var(--box-shadow-md);
-    overflow-y: overlay;
+    // overflow-y: overlay;
 }
 .search-result-title {
     font-size: 1.5rem;

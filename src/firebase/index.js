@@ -123,6 +123,18 @@ const getUser = async function (uid) {
         throw new Error(error.message)
     }
 }
+const getAdminInfor = async function () {
+    const q = query(collection(db, 'users'), where('isAdmin', '==', true))
+    try {
+        const querySnapshot = await getDocs(q)
+        if (querySnapshot.docs.length < 1) {
+            return undefined
+        }
+        return { ...querySnapshot.docs[0].data(), id: querySnapshot.docs[0].id }
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
 const isExistUser = async function (uid) {
     try {
         const q = query(collection(db, 'users'), where('uid', '==', uid))
@@ -1015,6 +1027,7 @@ export {
     searchUsers,
     isExistUser,
     getUser,
+    getAdminInfor,
     getUserRealyTime,
     addUser,
     updateUser,

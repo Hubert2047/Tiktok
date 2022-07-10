@@ -59,7 +59,8 @@ function VideoPageRight({
             console.log(error)
         }
     }
-    const handleDeletePost = async function (postId) {
+    const handleDeletePost = async function () {
+        console.log('run')
         dispath(
             containerPortalActions.setComponent({
                 component: (

@@ -40,6 +40,7 @@
 .message {
     font-size: 1.5rem;
     width: fit-content;
+    color: var(--white-color);
     // word-wrap: break-word;
     // word-break: break-all;
 }
@@ -50,7 +51,7 @@
         background-color: var(--white-color);
     }
     .icon {
-        color: var(--white-color);
+        fill: var(--white-color);
     }
 }
 

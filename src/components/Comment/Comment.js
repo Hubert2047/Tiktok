@@ -166,7 +166,13 @@ function Comment({ comment, post, rootCommentId }) {
                                             onClick={handleReportOnClick}
                                             className={clsx('comment-action-btn')}
                                             title='Report'
-                                            icon={<ReportIcon height='24px' width='24px' />}
+                                            icon={
+                                                <ReportIcon
+                                                    className={clsx('report-icon')}
+                                                    height='24px'
+                                                    width='24px'
+                                                />
+                                            }
                                         />
                                     )}
                                 </div>

@@ -63,7 +63,8 @@
     justify-content: center;
     align-items: center;
 }
-.delete-icon {
+.delete-icon,
+.report-icon {
     fill: var(--icon-theme);
 }
 .like-count {
@@ -81,15 +82,17 @@
 }
 .action-box {
     border-radius: var(--border-radius-md);
-    box-shadow: rgb(0 0 0 / 12%) 0px 4px 16px;
-    background-color: rgba(255, 255, 255, 1);
+    // box-shadow: rgb(0 0 0 / 12%) 0px 4px 16px;
+    box-shadow: var(--text-theme) 0px 0px 4px;
+    background-color: var(--bg-theme);
 }
 .comment-action-btn {
     padding: 2rem 10rem 2rem 2rem;
     font-weight: 600;
     justify-content: flex-start;
-    color: var(--icon-theme);
-    fill: var(--icon-theme);
+    & > span {
+        color: var(--icon-theme);
+    }
 }
 // custom heart animation
 .icon {

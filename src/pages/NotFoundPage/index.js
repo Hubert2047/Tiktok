@@ -20,7 +20,7 @@ function NotFoundPage() {
             <Button
                 onClick={handleBackToHome}
                 className={clsx('btn')}
-                icon={<PlayIcon />}
+                icon={<PlayIcon className={clsx('icon')} />}
                 title={clsx('Watch Now')}
                 bg='bg-primary'
                 color='color-white'
