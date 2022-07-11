@@ -12,11 +12,9 @@ import Video from '~/components/Video'
 import { handleFollowingUser } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
-import { homeActions } from '~/redux/homeSlice'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import styles from './PostContainer.module.scss'
-let time
 const clsx = classNames.bind(styles)
 const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
     // console.log('re-render post container', post.id)

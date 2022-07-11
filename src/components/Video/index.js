@@ -19,7 +19,7 @@ import styles from './Video.module.scss'
 
 const clsx = classNames.bind(styles)
 function Video({ post, className }) {
-    console.log('re-render video', post.id)
+    // console.log('re-render video', post.id)
     const dispath = useDispatch()
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const [isPlaying, setIsPlaying] = useState(false)
@@ -133,7 +133,7 @@ function Video({ post, className }) {
                     )}
                 </div>
 
-                {videoRef?.current && <VideoControl video={videoRef.current} post={post} />}
+                {videoRef?.current && <VideoControl video={videoRef.current} />}
             </div>
             <VideoFooter post={post} className={clsx('video-footer')} />
         </div>
