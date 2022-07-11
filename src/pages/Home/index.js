@@ -16,12 +16,11 @@ import MobileMenu from './MobileMenu'
 const clsx = classNames.bind(styles)
 
 function Home() {
-    console.log('re-render home')
+    // console.log('re-render home')
     const dispath = useDispatch()
     const posts = useSelector((state) => state.home.posts)
     const hasMorePost = useSelector((state) => state.home.hasMorePost)
     const lastPost = useSelector((state) => state.home.lastApiPost)
-    const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
     const observer = useRef()
 
     useEffect(() => {
@@ -100,24 +99,9 @@ function Home() {
             {posts?.map((post, index) => {
                 //check the last post to know when have to get new post
                 if (posts.length - 2 === index) {
-                    return (
-                        <PostContainer
-                            className={clsx('post')}
-                            ref={lastPostCallBack}
-                            key={index}
-                            post={post}
-                            isCurrentPlaying={currentPostPlayingId === post.id}
-                        />
-                    )
+                    return <PostContainer className={clsx('post')} ref={lastPostCallBack} key={index} post={post} />
                 } else {
-                    return (
-                        <PostContainer
-                            className={clsx('post')}
-                            key={index}
-                            post={post}
-                            isCurrentPlaying={currentPostPlayingId === post.id}
-                        />
-                    )
+                    return <PostContainer className={clsx('post')} key={index} post={post} />
                 }
             })}
             {/* </SnapScrollContainer> */}

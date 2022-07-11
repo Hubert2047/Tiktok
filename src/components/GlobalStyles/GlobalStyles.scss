@@ -133,6 +133,15 @@ a {
     justify-content: center;
     align-items: center;
 }
+.absolute-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%);
+    -moz-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
+}
 
 .ellipsis {
     white-space: nowrap;

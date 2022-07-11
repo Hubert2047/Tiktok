@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind'
-import React, { memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { VolumIcon, VolumMuteIcon } from '~/components/Icons'
 import { formatVideoTime } from '~/helper'
 import styles from './VideoControl.module.scss'

@@ -26,32 +26,8 @@ const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
     const [showallContent, setShowAllContent] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
     const [isFollowing, setIsFollowing] = useState()
-    // const currentPostPlayingId = useSelector((state) => state.home.currentPostPlayingId)
-
-    const observer = useRef()
     const postRef = useRef()
 
-    useEffect(() => {
-        observer.current = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    if (time) clearTimeout(time)
-                    // console.log('intersecting', post.id)
-                    time = setTimeout(() => {
-                        dispath(homeActions.setCurrentPostPlayingId(post.id))
-                    }, 800) //wait 800 then dispath
-                }
-            },
-            { threshold: 0.75 }
-        )
-        if (postRef.current) {
-            observer.current.observe(postRef.current)
-        }
-        return () => {
-            clearTimeout(time)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
     useEffect(() => {
         setIsFollowing(currentUser?.following?.includes(post.user.uid) || false)
     }, [currentUser])
@@ -120,7 +96,7 @@ const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
                     )}
                 </div>
 
-                <Video post={post} className={clsx('video')} isCurrentPlaying={isCurrentPlaying} />
+                <Video post={post} className={clsx('video')} />
             </div>
             {currentUser?.uid !== post.uid && (
                 <Button
