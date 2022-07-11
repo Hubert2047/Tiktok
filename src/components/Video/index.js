@@ -12,7 +12,6 @@ import Image from '~/components/Image'
 import { updatePost } from '~/firebase'
 import { useShowIconStart, useVideoOnScreen, useVideoPageRoute } from '~/hooks'
 import { toastActions } from '~/redux/toastSlice'
-import Loading from '../Loading'
 import VideoControl from '../VideoControl'
 import VideoFooter from '../VideoFooter'
 import styles from './Video.module.scss'
@@ -23,7 +22,7 @@ function Video({ post, className }) {
     const dispath = useDispatch()
     const isPageActive = useSelector((state) => state.home.isPageActive)
     const [isPlaying, setIsPlaying] = useState(false)
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
     const [loaded, setLoaded] = useState(false)
     const [isShowIconStart, setIsShowIconStart] = useState(false)
 
@@ -37,23 +36,25 @@ function Video({ post, className }) {
     const [isVideoOnScreen] = useVideoOnScreen(videoRef, options, post)
     // console.log(isVideoOnScreen)
     useEffect(() => {
-        if (!videoRef.current) return
-        const videoOnPlaying = function () {
-            setLoading(true)
-            if (videoRef.current.readyState === 4) {
-                setLoading(false)
-                setLoaded(true)
-            }
-        }
-        videoRef.current.addEventListener('playing', videoOnPlaying)
-        return () => {
-            videoRef.current.removeEventListener('playing', videoOnPlaying)
-        }
+        // if (!videoRef.current) return
+        // const videoOnPlaying = function () {
+        //     setLoading(true)
+        //     if (videoRef.current.readyState === 4) {
+        //         setLoading(false)
+        //         setLoaded(true)
+        //     }
+        // }
+        // videoRef.current.addEventListener('playing', videoOnPlaying)
+        // return () => {
+        //     videoRef.current.removeEventListener('playing', videoOnPlaying)
+        // }
     }, [])
     useEffect(() => {
         if (isVideoOnScreen && isPageActive) {
             if (!isPlaying) {
-                videoRef.current.play()
+                videoRef.current.play().catch((error) => {
+                    console.log(error.message)
+                })
                 setIsPlaying(true)
                 useShowIconStart(setIsShowIconStart, 1000)
             }
@@ -72,7 +73,7 @@ function Video({ post, className }) {
     }
     const handleOnloadedData = function () {
         // if (!isCurrentPlaying) videoRef.current.pause()
-        // setLoaded(true)
+        setLoaded(true)
     }
     const handleOnVideoClick = function (start) {
         //handle double click
@@ -103,11 +104,11 @@ function Video({ post, className }) {
                     handleOnVideoClick(!isPlaying)
                 }}
                 className={clsx('video-box')}>
-                {loading && (
+                {/* {loading && (
                     <div className={clsx('loading-box', 'absolute-center')}>
                         <Loading />
                     </div>
-                )}
+                )} */}
                 <Image
                     src={post.poster || ''}
                     className={clsx('poster', { 'display-poster': !isPlaying && !loaded })}
