@@ -4,6 +4,7 @@
     border-radius: var(--border-radius-md);
     border: 1px solid var(--border-theme);
     overflow: hidden;
+    max-height: 90%;
     padding: 3rem 2rem 0 2rem;
     @media only screen and (max-width: 768px) {
         width: 100vw;

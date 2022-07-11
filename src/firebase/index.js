@@ -25,35 +25,38 @@ import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 
 //hubert
-// const firebaseConfig = {
-//     apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
-//     authDomain: 'tiktok-2da3a.firebaseapp.com',
-//     projectId: 'tiktok-2da3a',
-//     storageBucket: 'tiktok-2da3a.appspot.com',
-//     messagingSenderId: '194147259918',
-//     appId: '1:194147259918:web:60fdc3ed843f725b2cce5f',
-//     measurementId: 'G-0N45C1N94Q',
-// }
-
-const firebaseConfig2 = {
-    apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
-    authDomain: 'tiktok-clone-0707.firebaseapp.com',
-    projectId: 'tiktok-clone-0707',
-    storageBucket: 'tiktok-clone-0707.appspot.com',
-    messagingSenderId: '196448174114',
-    appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
-    measurementId: 'G-XPFHRLSLK4',
+const firebaseConfig = {
+    apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
+    authDomain: 'tiktok-2da3a.firebaseapp.com',
+    projectId: 'tiktok-2da3a',
+    storageBucket: 'tiktok-2da3a.appspot.com',
+    messagingSenderId: '194147259918',
+    appId: '1:194147259918:web:60fdc3ed843f725b2cce5f',
+    measurementId: 'G-0N45C1N94Q',
 }
+
+// const firebaseConfig2 = {
+//     apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
+//     authDomain: 'tiktok-clone-0707.firebaseapp.com',
+//     projectId: 'tiktok-clone-0707',
+//     storageBucket: 'tiktok-clone-0707.appspot.com',
+//     messagingSenderId: '196448174114',
+//     appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
+//     measurementId: 'G-XPFHRLSLK4',
+// }
 
 // Initialize Firebase hubert
 //provider
 // doc(database,collection,keyvalue) database =getFireStore(app)
-const firebaseApp = initializeApp(firebaseConfig2)
+let firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
 const storage = getStorage(firebaseApp)
 
+const changeConfig = function () {
+    firebaseApp = initializeApp(firebaseConfig)
+}
 // handle Login
 const loginWithGoogle = async function () {
     return signInWithPopup(auth, googleProvider)
@@ -334,23 +337,26 @@ const getPosts = async function (callback, lastPost = -1) {
     const users = [] //store all getUser Promise
 
     //not realtime
+    try {
+        const querySnapshot = await getDocs(q)
+        const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+        if (querySnapshot.size < 1) return callback({})
 
-    const querySnapshot = await getDocs(q)
-    const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
-    if (querySnapshot.size < 1) return callback({})
-
-    let posts = querySnapshot.docs.map((doc) => {
-        users.push(getUser(doc.data().uid))
-        return { ...doc.data(), id: doc.id }
-    })
-    const allUsers = await Promise.all(users)
-    //get users create post
-    posts = posts.map((post) => {
-        return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
-    })
-    const data = { posts, lastDoc }
-    // console.log(posts)
-    callback(data)
+        let posts = querySnapshot.docs.map((doc) => {
+            users.push(getUser(doc.data().uid))
+            return { ...doc.data(), id: doc.id }
+        })
+        const allUsers = await Promise.all(users)
+        //get users create post
+        posts = posts.map((post) => {
+            return { ...post, user: allUsers?.find((user) => user?.uid === post?.uid) }
+        })
+        const data = { posts, lastDoc }
+        // console.log(posts)
+        callback(data)
+    } catch (error) {
+        console.log(error.message)
+    }
 
     //realtime
     // onSnapshot(
@@ -1017,6 +1023,7 @@ const uploadFileProgress = async function (url, locateRef, loadFunc) {
 }
 
 export {
+    changeConfig,
     db,
     loginWithGoogle,
     logOut,

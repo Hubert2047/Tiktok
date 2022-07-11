@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind'
-import { default as React, useRef } from 'react'
+import { useRef } from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import { IoIosArrowBack } from 'react-icons/io'
 import Button from '~/components/Button'

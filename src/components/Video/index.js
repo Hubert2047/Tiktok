@@ -34,7 +34,9 @@ function Video({ post, isCurrentPlaying, className }) {
             setTimeout(() => {
                 setIsShowIconStart(false)
             }, 1000)
+
             videoRef.current.play()
+
             return
         }
         videoRef.current.pause()

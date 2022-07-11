@@ -193,6 +193,7 @@ function EditProfile() {
                             color={hasUserChangedData ? 'color-white' : 'color-grey'}
                             size='size-md'
                             disabled={!hasUserChangedData}
+                            classNames={clsx('save-btn')}
                         />
                     </div>
                 </Fragment>

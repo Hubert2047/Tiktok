@@ -10,9 +10,11 @@ import { containerPortalActions } from '~/redux/containerPortalSlice'
 import { toastActions } from '~/redux/toastSlice'
 import { userActions } from '~/redux/userSlice'
 import { loginFeatureBtns } from '~/staticData'
+import useOverflow from './../../../hooks/useOverflow'
 import styles from './LoginPopup.module.scss'
 const clsx = classNames.bind(styles)
 function LoginPopup() {
+    useOverflow()
     const dispath = useDispatch()
     const [deviceWidth] = useState(() => {
         return document.documentElement.clientWidth
