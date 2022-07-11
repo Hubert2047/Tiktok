@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'reduxjs-toolkit-persist/integration/react'
 import App from '~/App'
-import store, { persistor } from '~/redux'
+import store, { persistor } from '~/redux/index.tsx'
 import GlobalStyle from './components/GlobalStyles'
 import reportWebVitals from './reportWebVitals'
 

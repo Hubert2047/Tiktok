@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import classNames from 'classnames/bind'
-import { forwardRef, memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, { forwardRef, memo, useCallback, useEffect, useRef, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -12,15 +12,47 @@ import Video from '~/components/Video'
 import { handleFollowingUser } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
+import { selectCurrentUser } from '~/redux/index.tsx'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import styles from './PostContainer.module.scss'
+
 const clsx = classNames.bind(styles)
-const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
+
+interface User {
+    uid: string
+    full_name: string
+    nickname: string
+    avatar: string
+    followers: number
+    following: Array<string>
+    likes: Array<string>
+    isLive: boolean
+    tick: boolean
+}
+interface Post {
+    id: string
+    uid: string
+    createdAt: Date
+    content: string
+    likes: number
+    shares: number
+    played: number
+    poster: string
+    url: string
+    user: User
+}
+interface Props {
+    post: Post
+    className: string
+}
+const PostContainer: React.FC<Props> = forwardRef(({ post, className }, ref) => {
     // console.log('re-render post container', post.id)
+    // console.log(post)
     const dispath = useDispatch()
     const navigate = useNavigate()
-    const currentUser = useSelector((state) => state.user.user)
+    // const currentUser = useSelector((state) => state.user.user)
+    const currentUser = useSelector(selectCurrentUser)
     const [showallContent, setShowAllContent] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
     const [isFollowing, setIsFollowing] = useState()
@@ -50,7 +82,7 @@ const PostContainer = forwardRef(({ post, isCurrentPlaying }, ref) => {
         }
     }
     return (
-        <div ref={ref} className={clsx('wrapper', 'd-flex')}>
+        <div ref={ref} className={clsx('wrapper', 'd-flex', className)}>
             <div className={clsx('pc-avatar')}>
                 <ProfileContainer user={post.user} placement='left-start'>
                     <UserAvatar onClick={handleNavigate} user={post.user} height='5.6rem' className={clsx('avatar')} />

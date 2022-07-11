@@ -41,6 +41,9 @@ const store = configureStore({
             serializableCheck: false,
         }),
 })
+
 export const persistor = persistStore(store)
 
+type RootState = ReturnType<typeof store.getState>
+export const selectCurrentUser = (state: RootState) => state.user.user
 export default store

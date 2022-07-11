@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 import classNames from 'classnames/bind'
-import { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { HiMenuAlt2 } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
 import GetApp from '~/components/GetApp'
 import Loading from '~/components/Loading'
-import PostContainer from '~/components/PostContainter'
+import PostContainer from '~/components/PostContainter/index.tsx'
 import ThemeMode from '~/components/ThemeMode'
 import { getPosts } from '~/firebase'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
@@ -20,7 +20,7 @@ function Home() {
     const dispath = useDispatch()
     const posts = useSelector((state) => state.home.posts)
     const hasMorePost = useSelector((state) => state.home.hasMorePost)
-    const lastPost = useSelector((state) => state.home.lastApiPost)
+    const lastPost = useSelector((state) => state.home.lastPost)
     const observer = useRef()
 
     useEffect(() => {
@@ -89,6 +89,7 @@ function Home() {
     }
     return (
         <div className={clsx('wrapper')}>
+            {/* mobile version */}
             <div onClick={handleOpenSidebar} className={clsx('mobile-sidebar-btn')}>
                 <HiMenuAlt2 className={clsx('mobile-sidebar-icon')} />
             </div>

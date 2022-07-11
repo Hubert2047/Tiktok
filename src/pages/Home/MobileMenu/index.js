@@ -8,7 +8,7 @@ import useOverflow from '../../../hooks/useOverflow'
 import styles from './MobileMenu.module.scss'
 
 const clsx = classNames.bind(styles)
-function MobileMenu() {
+function MobileMenu({ className }) {
     const dispath = useDispatch()
     const handleCloseMenu = function () {
         dispath(containerPortalActions.setComponent(null))
