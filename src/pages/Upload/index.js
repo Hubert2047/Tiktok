@@ -133,7 +133,7 @@ function Upload() {
     }
     const handleInputVideoOnChange = async function (e) {
         setOnloadVideoPriview(true)
-        const limitedSize = 100 * (1024 * 1024) //100MB
+        const limitedSize = 10 * (1024 * 1024) //100MB
         const reader = new FileReader()
         reader.readAsDataURL(e.target.files[0])
         if (e.target.files[0].size > limitedSize) {
