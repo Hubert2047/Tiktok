@@ -35,15 +35,15 @@ import { v4 as uuidv4 } from 'uuid'
 //     measurementId: 'G-0N45C1N94Q',
 // }
 
-const firebaseConfig2 = {
-    apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
-    authDomain: 'tiktok-clone-0707.firebaseapp.com',
-    projectId: 'tiktok-clone-0707',
-    storageBucket: 'tiktok-clone-0707.appspot.com',
-    messagingSenderId: '196448174114',
-    appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
-    measurementId: 'G-XPFHRLSLK4',
-}
+// const firebaseConfig2 = {
+//     apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
+//     authDomain: 'tiktok-clone-0707.firebaseapp.com',
+//     projectId: 'tiktok-clone-0707',
+//     storageBucket: 'tiktok-clone-0707.appspot.com',
+//     messagingSenderId: '196448174114',
+//     appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
+//     measurementId: 'G-XPFHRLSLK4',
+// }
 
 const firebaseConfig3 = {
     apiKey: 'AIzaSyAAUc2gZLCOBfGoAwOl9EKudtLslMw-cGA',
