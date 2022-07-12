@@ -45,10 +45,20 @@ const firebaseConfig2 = {
     measurementId: 'G-XPFHRLSLK4',
 }
 
+const firebaseConfig3 = {
+    apiKey: 'AIzaSyAAUc2gZLCOBfGoAwOl9EKudtLslMw-cGA',
+    authDomain: 'tiktok-8e00f.firebaseapp.com',
+    projectId: 'tiktok-8e00f',
+    storageBucket: 'tiktok-8e00f.appspot.com',
+    messagingSenderId: '531672993541',
+    appId: '1:531672993541:web:d6710c5b3684667e17316c',
+    measurementId: 'G-ZJPDDP418L',
+}
+
 // Initialize Firebase hubert
 //provider
 // doc(database,collection,keyvalue) database =getFireStore(app)
-let firebaseApp = initializeApp(firebaseConfig2)
+let firebaseApp = initializeApp(firebaseConfig3)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
