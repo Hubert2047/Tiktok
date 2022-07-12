@@ -54,9 +54,9 @@ const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
 const storage = getStorage(firebaseApp)
 
-const changeConfig = function () {
-    firebaseApp = initializeApp(firebaseConfig)
-}
+// const changeConfig = function () {
+//     firebaseApp = initializeApp(firebaseConfig)
+// }
 // handle Login
 const loginWithGoogle = async function () {
     return signInWithPopup(auth, googleProvider)
@@ -1023,7 +1023,6 @@ const uploadFileProgress = async function (url, locateRef, loadFunc) {
 }
 
 export {
-    changeConfig,
     db,
     loginWithGoogle,
     logOut,
