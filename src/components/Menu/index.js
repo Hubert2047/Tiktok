@@ -31,7 +31,6 @@ function Menu({ menu = [], hideOnClick = false, children, placement = 'bottom-en
             setMenuList((prev) => [...prev, item.children])
         } else {
             //handle when it doesnt have childrent
-            console.log('run')
             switch (item.type) {
                 case LOG_OUT:
                     logOut(() => {

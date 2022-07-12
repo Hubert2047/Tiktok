@@ -29,6 +29,9 @@ function Home() {
             dispath(containerPortalActions.setComponent({ component: <Loading />, onClickOutside: true }))
             getPosts((data) => {
                 dispath(homeActions.setPost(data.posts))
+                if (!data?.posts?.length || data?.posts?.length < 10) {
+                    dispath(homeActions.setHasMorePost(false))
+                }
                 dispath(homeActions.setLastApiPost(data.lastDoc))
                 setTimeout(() => {
                     dispath(containerPortalActions.setComponent(null))
@@ -44,7 +47,7 @@ function Home() {
             return
         }
         getPosts((data) => {
-            if (!data?.posts?.length) {
+            if (!data?.posts?.length || data?.posts?.length < 10) {
                 dispath(homeActions.setHasMorePost(false))
                 return
             }

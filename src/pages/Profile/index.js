@@ -120,7 +120,7 @@ function Profile() {
 
     return (
         <Fragment>
-            {profileUser.uid && (
+            {profileUser?.uid && (
                 <div className={clsx('wrapper', 'd-flex')}>
                     <div className={clsx('header', 'd-flex')}>
                         <div className={clsx('header-left')}>

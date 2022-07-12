@@ -37,7 +37,7 @@ function Sidebar({ className }) {
                 let data = await getSuggestFollowing(currentUser, 20)
                 if (currentUser?.uid) {
                     data = data.filter((item) => {
-                        return !currentUser.following.includes(item.uid) && currentUser.uid !== item.uid
+                        return !currentUser?.following?.includes(item.uid) && currentUser.uid !== item.uid
                     })
                     console.log(data)
                 }
@@ -46,7 +46,7 @@ function Sidebar({ className }) {
                 let data = await getSuggestFollowing(currentUser, 10)
                 if (currentUser?.uid) {
                     data = data.filter((item) => {
-                        return !currentUser.following.includes(item.uid) && currentUser.uid !== item.uid
+                        return !currentUser?.following?.includes(item.uid) && currentUser.uid !== item?.uid
                     })
                 }
                 setSuggestFollowingData([data])
