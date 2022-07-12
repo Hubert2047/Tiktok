@@ -25,30 +25,30 @@ import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
 
 //hubert
-const firebaseConfig = {
-    apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
-    authDomain: 'tiktok-2da3a.firebaseapp.com',
-    projectId: 'tiktok-2da3a',
-    storageBucket: 'tiktok-2da3a.appspot.com',
-    messagingSenderId: '194147259918',
-    appId: '1:194147259918:web:60fdc3ed843f725b2cce5f',
-    measurementId: 'G-0N45C1N94Q',
-}
-
-// const firebaseConfig2 = {
-//     apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
-//     authDomain: 'tiktok-clone-0707.firebaseapp.com',
-//     projectId: 'tiktok-clone-0707',
-//     storageBucket: 'tiktok-clone-0707.appspot.com',
-//     messagingSenderId: '196448174114',
-//     appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
-//     measurementId: 'G-XPFHRLSLK4',
+// const firebaseConfig = {
+//     apiKey: 'AIzaSyBNkhTkG9qsvJfuGXnTo3c-naS_9L92OYM',
+//     authDomain: 'tiktok-2da3a.firebaseapp.com',
+//     projectId: 'tiktok-2da3a',
+//     storageBucket: 'tiktok-2da3a.appspot.com',
+//     messagingSenderId: '194147259918',
+//     appId: '1:194147259918:web:60fdc3ed843f725b2cce5f',
+//     measurementId: 'G-0N45C1N94Q',
 // }
+
+const firebaseConfig2 = {
+    apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
+    authDomain: 'tiktok-clone-0707.firebaseapp.com',
+    projectId: 'tiktok-clone-0707',
+    storageBucket: 'tiktok-clone-0707.appspot.com',
+    messagingSenderId: '196448174114',
+    appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
+    measurementId: 'G-XPFHRLSLK4',
+}
 
 // Initialize Firebase hubert
 //provider
 // doc(database,collection,keyvalue) database =getFireStore(app)
-let firebaseApp = initializeApp(firebaseConfig)
+let firebaseApp = initializeApp(firebaseConfig2)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
