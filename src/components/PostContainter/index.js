@@ -1,62 +1,49 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
+import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import React, { forwardRef, memo, useCallback, useEffect, useRef, useState } from 'react'
 import LinesEllipsis from 'react-lines-ellipsis'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import ProfileContainer from '~/components/ProfileContainer'
-import UserAvatar from '~/components/UserAvatar'
+import ProfileContainer from '../ProfileContainer'
 import UserName from '~/components/UserName'
 import Video from '~/components/Video'
 import { handleFollowingUser } from '~/helper'
 import { useProfileRoute } from '~/hooks'
 import { containerPortalActions } from '~/redux/containerPortalSlice'
-import { selectCurrentUser } from '~/redux/index.tsx'
 import Button from '../Button'
 import { LoginPopup } from '../Popper'
 import styles from './PostContainer.module.scss'
+import UserAvatar from '../UserAvatar'
 
 const clsx = classNames.bind(styles)
 
-interface User {
-    uid: string
-    full_name: string
-    nickname: string
-    avatar: string
-    followers: number
-    following: Array<string>
-    likes: Array<string>
-    isLive: boolean
-    tick: boolean
-}
-interface Post {
-    id: string
-    uid: string
-    createdAt: Date
-    content: string
-    likes: number
-    shares: number
-    played: number
-    poster: string
-    url: string
-    user: User
-}
-interface Props {
-    post: Post
-    className: string
-}
-const PostContainer: React.FC<Props> = forwardRef(({ post, className }, ref) => {
+// interface Post {
+//     id: string
+//     uid: string
+//     createdAt: Date
+//     content: string
+//     likes: number
+//     shares: number
+//     played: number
+//     poster: string
+//     url: string
+//     user: User
+// }
+// interface Props {
+//     post: Post
+//     className: string
+// }
+const PostContainer = forwardRef(({ post, className }, ref) => {
     // console.log('re-render post container', post.id)
-    // console.log(post)
     const dispath = useDispatch()
     const navigate = useNavigate()
-    // const currentUser = useSelector((state) => state.user.user)
-    const currentUser = useSelector(selectCurrentUser)
+    const currentUser = useSelector((state) => state.user.user)
     const [showallContent, setShowAllContent] = useState(false)
     const [isClamped, setIsClamped] = useState(false)
     const [isFollowing, setIsFollowing] = useState()
-    const postRef = useRef()
+    const postRef = useRef(null)
 
     useEffect(() => {
         setIsFollowing(currentUser?.following?.includes(post.user.uid) || false)
@@ -65,7 +52,7 @@ const PostContainer: React.FC<Props> = forwardRef(({ post, className }, ref) => 
     const handleNavigate = useCallback(() => {
         navigate(useProfileRoute(post.user))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    })
+    }, [])
     const handleReflow = function (rleState) {
         setIsClamped(rleState.clamped)
     }
@@ -142,4 +129,8 @@ const PostContainer: React.FC<Props> = forwardRef(({ post, className }, ref) => 
     )
 })
 
+PostContainer.propTypes = {
+    post: PropTypes.object.isRequired,
+    classes: PropTypes.string,
+}
 export default memo(PostContainer)

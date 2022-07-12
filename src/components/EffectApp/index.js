@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { usePortalContainer } from '~/hooks'
 import { homeActions } from '~/redux/homeSlice'
+import { usePortalContainer } from './../../hooks'
 
 function EffectApp() {
     const dispath = useDispatch()

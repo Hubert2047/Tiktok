@@ -4,6 +4,7 @@ import { containerPortalActions } from '~/redux/containerPortalSlice'
 import Button from '../Button/index'
 import styles from './Comfirm.module.scss'
 const clsx = classNames.bind(styles)
+
 function Comfirm({ question, subMitTitle, onSubmit, className }) {
     const dispath = useDispatch()
     const onCancel = function () {

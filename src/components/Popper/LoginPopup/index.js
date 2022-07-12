@@ -82,7 +82,7 @@ function LoginPopup() {
         dispath(containerPortalActions.setComponent(null))
     }
     return (
-        <div className={clsx('wrapper')}>
+        <div className={clsx('wrapper', 'd-flex')}>
             <div onClick={closePopup} className={clsx('close-btn-box', 'flex-center')}>
                 <XIcon className={clsx('close-btn')} />
             </div>
