@@ -46,6 +46,16 @@ const firebaseConfig2 = {
 }
 
 // const firebaseConfig3 = {
+//     apiKey: 'AIzaSyBL9sXfGFKqPeJy98YHY0IysU1nvu7e7rE',
+//     authDomain: 'tiktok-clone-3f354.firebaseapp.com',
+//     projectId: 'tiktok-clone-3f354',
+//     storageBucket: 'tiktok-clone-3f354.appspot.com',
+//     messagingSenderId: '744590022756',
+//     appId: '1:744590022756:web:4cc6ac0de1e47164212771',
+//     measurementId: 'G-ZBCPE02KJ4',
+// }
+
+// const firebaseConfig4 = {
 //     apiKey: 'AIzaSyAAUc2gZLCOBfGoAwOl9EKudtLslMw-cGA',
 //     authDomain: 'tiktok-8e00f.firebaseapp.com',
 //     projectId: 'tiktok-8e00f',

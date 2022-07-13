@@ -52,7 +52,7 @@ function Video({ post, className }) {
     useEffect(() => {
         if (isVideoOnScreen && isPageActive) {
             if (!isPlaying) {
-                videoRef.current.play().catch((error) => {})
+                videoRef.current.play()
                 setIsPlaying(true)
                 useShowIconStart(setIsShowIconStart, 1000)
             }
