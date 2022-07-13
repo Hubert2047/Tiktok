@@ -46,14 +46,24 @@ import { v4 as uuidv4 } from 'uuid'
 // }
 
 const firebaseConfig3 = {
-    apiKey: 'AIzaSyAAUc2gZLCOBfGoAwOl9EKudtLslMw-cGA',
-    authDomain: 'tiktok-8e00f.firebaseapp.com',
-    projectId: 'tiktok-8e00f',
-    storageBucket: 'tiktok-8e00f.appspot.com',
-    messagingSenderId: '531672993541',
-    appId: '1:531672993541:web:d6710c5b3684667e17316c',
-    measurementId: 'G-ZJPDDP418L',
+    apiKey: 'AIzaSyBL9sXfGFKqPeJy98YHY0IysU1nvu7e7rE',
+    authDomain: 'tiktok-clone-3f354.firebaseapp.com',
+    projectId: 'tiktok-clone-3f354',
+    storageBucket: 'tiktok-clone-3f354.appspot.com',
+    messagingSenderId: '744590022756',
+    appId: '1:744590022756:web:4cc6ac0de1e47164212771',
+    measurementId: 'G-ZBCPE02KJ4',
 }
+
+// const firebaseConfig4 = {
+//     apiKey: 'AIzaSyAAUc2gZLCOBfGoAwOl9EKudtLslMw-cGA',
+//     authDomain: 'tiktok-8e00f.firebaseapp.com',
+//     projectId: 'tiktok-8e00f',
+//     storageBucket: 'tiktok-8e00f.appspot.com',
+//     messagingSenderId: '531672993541',
+//     appId: '1:531672993541:web:d6710c5b3684667e17316c',
+//     measurementId: 'G-ZJPDDP418L',
+// }
 
 // Initialize Firebase hubert
 //provider
