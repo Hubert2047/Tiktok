@@ -135,7 +135,11 @@ function Upload() {
         setOnloadVideoPriview(true)
         const limitedSize = 10 * (1024 * 1024) //100MB
         const reader = new FileReader()
-        reader.readAsDataURL(e.target.files[0])
+        if (!e.target?.files[0]) {
+            handleResetOnChangeVideo()
+            return
+        }
+        reader.readAsDataURL(e?.target?.files[0])
         if (e.target.files[0].size > limitedSize) {
             setOnloadVideoPriview(false)
             dispath(toastActions.addToast({ message: alertConstain.FILE_SIZE_LIMITED, mode: 'success' }))
