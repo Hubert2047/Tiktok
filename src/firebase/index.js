@@ -35,30 +35,30 @@ import { v4 as uuidv4 } from 'uuid'
 //     measurementId: 'G-0N45C1N94Q',
 // }
 
-// const firebaseConfig2 = {
-//     apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
-//     authDomain: 'tiktok-clone-0707.firebaseapp.com',
-//     projectId: 'tiktok-clone-0707',
-//     storageBucket: 'tiktok-clone-0707.appspot.com',
-//     messagingSenderId: '196448174114',
-//     appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
-//     measurementId: 'G-XPFHRLSLK4',
-// }
-
-const firebaseConfig3 = {
-    apiKey: 'AIzaSyAAUc2gZLCOBfGoAwOl9EKudtLslMw-cGA',
-    authDomain: 'tiktok-8e00f.firebaseapp.com',
-    projectId: 'tiktok-8e00f',
-    storageBucket: 'tiktok-8e00f.appspot.com',
-    messagingSenderId: '531672993541',
-    appId: '1:531672993541:web:d6710c5b3684667e17316c',
-    measurementId: 'G-ZJPDDP418L',
+const firebaseConfig2 = {
+    apiKey: 'AIzaSyBCfGW5iCGLfaPtNuR1wLiqP2CPv600Q4I',
+    authDomain: 'tiktok-clone-0707.firebaseapp.com',
+    projectId: 'tiktok-clone-0707',
+    storageBucket: 'tiktok-clone-0707.appspot.com',
+    messagingSenderId: '196448174114',
+    appId: '1:196448174114:web:3a7586dfb8c12582bb4a7b',
+    measurementId: 'G-XPFHRLSLK4',
 }
+
+// const firebaseConfig3 = {
+//     apiKey: 'AIzaSyAAUc2gZLCOBfGoAwOl9EKudtLslMw-cGA',
+//     authDomain: 'tiktok-8e00f.firebaseapp.com',
+//     projectId: 'tiktok-8e00f',
+//     storageBucket: 'tiktok-8e00f.appspot.com',
+//     messagingSenderId: '531672993541',
+//     appId: '1:531672993541:web:d6710c5b3684667e17316c',
+//     measurementId: 'G-ZJPDDP418L',
+// }
 
 // Initialize Firebase hubert
 //provider
 // doc(database,collection,keyvalue) database =getFireStore(app)
-let firebaseApp = initializeApp(firebaseConfig3)
+let firebaseApp = initializeApp(firebaseConfig2)
 const db = getFirestore(firebaseApp)
 const auth = getAuth(firebaseApp)
 const googleProvider = new GoogleAuthProvider()
